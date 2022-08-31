@@ -1,2 +1,2 @@
-# luksocial
-Luksocial is an Decentralised Social Media
+# sociluk
+Sociluk is an Decentralised Social Media Platform
