@@ -83,8 +83,8 @@ public class Helper extends Application {
         //initialization of the scale
         int resizeScale = 1;
 
-        Log.e("qascript orignalWidth", Integer.toString(orignalWidth));
-        Log.e("qascript orignalHeight", Integer.toString(orignalHeight));
+        Log.e("qascript orignalWidth", String.valueOf(orignalWidth));
+        Log.e("qascript orignalHeight", String.valueOf(orignalHeight));
 
         //get the good scale
         if (orignalWidth > maxWidth || orignalHeight > maxHeight) {

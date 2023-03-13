@@ -160,12 +160,12 @@ public class DialogsListAdapter extends RecyclerView.Adapter<DialogsListAdapter.
         if (item.getNewMessagesCount() == 0) {
 
             holder.count.setVisibility(View.GONE);
-            holder.count.setText(Integer.toString(item.getNewMessagesCount()));
+            holder.count.setText(String.valueOf(item.getNewMessagesCount()));
 
         } else {
 
             holder.count.setVisibility(View.VISIBLE);
-            holder.count.setText(Integer.toString(item.getNewMessagesCount()));
+            holder.count.setText(String.valueOf(item.getNewMessagesCount()));
         }
 
         holder.parent.setOnClickListener(new View.OnClickListener() {

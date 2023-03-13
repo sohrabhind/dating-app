@@ -343,7 +343,7 @@ public class GiftsFragment extends Fragment implements Constants, SwipeRefreshLa
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("profileId", Long.toString(profileId));
-                params.put("itemId", Integer.toString(itemId));
+                params.put("itemId", String.valueOf(itemId));
                 params.put("language", "en");
 
                 return params;

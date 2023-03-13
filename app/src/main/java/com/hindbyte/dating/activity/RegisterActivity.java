@@ -748,7 +748,7 @@ public class RegisterActivity extends ActivityBase {
 
         for (int i = 18; i < 101; i++) {
 
-            arrayAdapter.add(Integer.toString(i));
+            arrayAdapter.add(String.valueOf(i));
         }
 
         builderSingle.setTitle(getText(R.string.register_screen_3_title));
@@ -916,7 +916,7 @@ public class RegisterActivity extends ActivityBase {
                                     .addFormDataPart("uploaded_file", file.getName(), RequestBody.create(MediaType.parse("text/csv"), file))
                                     .addFormDataPart("accountId", Long.toString(App.getInstance().getId()))
                                     .addFormDataPart("accessToken", App.getInstance().getAccessToken())
-                                    .addFormDataPart("imgType", Integer.toString(UPLOAD_TYPE_PHOTO))
+                                    .addFormDataPart("imgType", String.valueOf(UPLOAD_TYPE_PHOTO))
                                     .build();
 
                             com.squareup.okhttp.Request request = new com.squareup.okhttp.Request.Builder()
@@ -1037,12 +1037,12 @@ public class RegisterActivity extends ActivityBase {
                 params.put("email", email);
                 params.put("language", language);
                 params.put("uid", uid);
-                params.put("oauth_type", Integer.toString(oauth_type));
-                params.put("sex", Integer.toString(gender));
-                params.put("age", Integer.toString(age));
+                params.put("oauth_type", String.valueOf(oauth_type));
+                params.put("sex", String.valueOf(gender));
+                params.put("age", String.valueOf(age));
                 params.put("clientId", CLIENT_ID);
                 params.put("hash", Helper.md5(Helper.md5(username) + CLIENT_SECRET));
-                params.put("appType", Integer.toString(APP_TYPE_ANDROID));
+                params.put("appType", String.valueOf(APP_TYPE_ANDROID));
                 params.put("fcm_regId", App.getInstance().getGcmToken());
                 return params;
             }

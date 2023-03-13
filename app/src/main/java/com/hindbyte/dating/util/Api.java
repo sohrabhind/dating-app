@@ -89,7 +89,7 @@ public class Api extends Application implements Constants {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("itemId", Integer.toString(0));
+                params.put("itemId", String.valueOf(0));
                 params.put("language", "en");
 
                 return params;
@@ -136,7 +136,7 @@ public class Api extends Application implements Constants {
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("profileId", Long.toString(profileId));
-                params.put("reason", Integer.toString(reason));
+                params.put("reason", String.valueOf(reason));
 
                 return params;
             }
@@ -350,7 +350,7 @@ public class Api extends Application implements Constants {
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("itemId", Long.toString(itemId));
-                params.put("abuseId", Integer.toString(reasonId));
+                params.put("abuseId", String.valueOf(reasonId));
 
                 return params;
             }

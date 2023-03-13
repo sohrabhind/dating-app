@@ -716,8 +716,8 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
                     params.put("lat", Double.toString(App.getInstance().getLat()));
                     params.put("lng", Double.toString(App.getInstance().getLng()));
                     params.put("itemId", Long.toString(itemId));
-                    params.put("distance", Integer.toString(distance));
-                    params.put("sex", Integer.toString(gender));
+                    params.put("distance", String.valueOf(distance));
+                    params.put("sex", String.valueOf(gender));
 
                     return params;
                 }

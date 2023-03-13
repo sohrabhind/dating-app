@@ -421,7 +421,7 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("notifyId", Integer.toString(itemId));
+                params.put("notifyId", String.valueOf(itemId));
 
                 return params;
             }

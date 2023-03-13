@@ -360,7 +360,7 @@ public class HomeActivity extends ActivityBase {
                             params.put("client_id", CLIENT_ID);
                             params.put("uid", uid);
                             params.put("email", email);
-                            params.put("app_type", Integer.toString(APP_TYPE_ANDROID));
+                            params.put("app_type", String.valueOf(APP_TYPE_ANDROID));
                             params.put("fcm_regId", App.getInstance().getGcmToken());
                             return params;
                         }
@@ -424,7 +424,7 @@ public class HomeActivity extends ActivityBase {
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
                     params.put("clientId", CLIENT_ID);
-                    params.put("appType", Integer.toString(APP_TYPE_ANDROID));
+                    params.put("appType", String.valueOf(APP_TYPE_ANDROID));
                     params.put("fcm_regId", App.getInstance().getGcmToken());
                     params.put("accountId", Long.toString(App.getInstance().getId()));
                     params.put("accessToken", App.getInstance().getAccessToken());

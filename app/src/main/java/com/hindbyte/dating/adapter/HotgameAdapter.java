@@ -83,7 +83,7 @@ public class HotgameAdapter extends RecyclerView.Adapter<HotgameAdapter.MyViewHo
 
 			} else {
 
-				holder.distance.setText(Integer.toString((int) p.getDistance()) + "km");
+				holder.distance.setText(String.valueOf((int) p.getDistance()) + "km");
 			}
 		}
 

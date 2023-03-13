@@ -495,12 +495,12 @@ public class HotgameFragment extends Fragment implements Constants, CardStackLis
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("accountId", Long.toString(App.getInstance().getId()));
                     params.put("accessToken", App.getInstance().getAccessToken());
-                    params.put("distance", Integer.toString(distance));
+                    params.put("distance", String.valueOf(distance));
                     params.put("lat", Double.toString(App.getInstance().getLat()));
                     params.put("lng", Double.toString(App.getInstance().getLng()));
                     params.put("itemId", Long.toString(itemId));
-                    params.put("sex", Integer.toString(gender));
-                    params.put("liked", Integer.toString(liked));
+                    params.put("sex", String.valueOf(gender));
+                    params.put("liked", String.valueOf(liked));
                     return params;
                 }
             };

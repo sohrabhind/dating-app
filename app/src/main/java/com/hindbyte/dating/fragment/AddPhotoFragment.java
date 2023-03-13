@@ -421,7 +421,7 @@ initpDialog();
 
                 } else {
 
-                    getActivity().setTitle(Integer.toString(140 - cnt));
+                    getActivity().setTitle(String.valueOf(140 - cnt));
                 }
             }
 
@@ -585,9 +585,9 @@ initpDialog();
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("accessMode", Integer.toString(postMode));
-                params.put("itemType", Integer.toString(itemType));
-                params.put("itemShowInStream", Integer.toString(itemShowInStream));
+                params.put("accessMode", String.valueOf(postMode));
+                params.put("itemType", String.valueOf(itemType));
+                params.put("itemShowInStream", String.valueOf(itemShowInStream));
                 params.put("comment", commentText);
                 params.put("imgUrl", imgUrl);
                 params.put("postArea", postArea);

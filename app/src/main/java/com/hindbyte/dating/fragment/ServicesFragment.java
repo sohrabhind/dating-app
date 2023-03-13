@@ -304,7 +304,7 @@ public class ServicesFragment extends Fragment implements Constants {
                 params.put("client_id", CLIENT_ID);
                 params.put("access_token", App.getInstance().getAccessToken());
                 params.put("account_id", Long.toString(App.getInstance().getId()));
-                params.put("app_type", Integer.toString(APP_TYPE_ANDROID));
+                params.put("app_type", String.valueOf(APP_TYPE_ANDROID));
                 params.put("action", action);
                 params.put("uid", uid);
                 return params;

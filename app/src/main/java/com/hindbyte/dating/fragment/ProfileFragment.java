@@ -901,10 +901,10 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         mProfileUsername.setText("@" + profile.getUsername());
         mProfileLocation.setText(profile.getLocation());
 
-        mProfileItemsCount.setText(Integer.toString(profile.getPhotosCount()));
-        mProfileFriendsCount.setText(Integer.toString(profile.getFriendsCount()));
-        mProfileLikesCount.setText(Integer.toString(profile.getLikesCount()));
-        mProfileGiftsCount.setText(Integer.toString(profile.getGiftsCount()));
+        mProfileItemsCount.setText(String.valueOf(profile.getPhotosCount()));
+        mProfileFriendsCount.setText(String.valueOf(profile.getFriendsCount()));
+        mProfileLikesCount.setText(String.valueOf(profile.getLikesCount()));
+        mProfileGiftsCount.setText(String.valueOf(profile.getGiftsCount()));
 
         // Show settings button is your profile
         if (profile.getId() == App.getInstance().getId()) {
@@ -1325,7 +1325,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("profileId", Long.toString(profile.getId()));
-                params.put("itemId", Integer.toString(itemId));
+                params.put("itemId", String.valueOf(itemId));
 
                 return params;
             }
@@ -1778,7 +1778,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
                     .addFormDataPart("uploaded_file", file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
                     .addFormDataPart("accountId", Long.toString(App.getInstance().getId()))
                     .addFormDataPart("accessToken", App.getInstance().getAccessToken())
-                    .addFormDataPart("imgType", Integer.toString(type))
+                    .addFormDataPart("imgType", String.valueOf(type))
                     .build();
 
             com.squareup.okhttp.Request request = new com.squareup.okhttp.Request.Builder()
@@ -1981,16 +1981,16 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
     }
 
     private void updateFriendsCount() {
-        mProfileFriendsCount.setText(Integer.toString(profile.getFriendsCount()));
+        mProfileFriendsCount.setText(String.valueOf(profile.getFriendsCount()));
     }
 
     private void updateGiftsCount() {
 
-        mProfileGiftsCount.setText(Integer.toString(profile.getGiftsCount()));
+        mProfileGiftsCount.setText(String.valueOf(profile.getGiftsCount()));
     }
 
     private void updateLikesCount() {
-        mProfileLikesCount.setText(Integer.toString(profile.getLikesCount()));
+        mProfileLikesCount.setText(String.valueOf(profile.getLikesCount()));
     }
 
     public void updateActionButton() {

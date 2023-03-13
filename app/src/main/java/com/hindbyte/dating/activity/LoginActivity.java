@@ -213,7 +213,7 @@ public class LoginActivity extends ActivityBase {
                 params.put("password", password);
                 params.put("clientId", CLIENT_ID);
                 params.put("hash", Helper.md5(Helper.md5(email) + CLIENT_SECRET));
-                params.put("appType", Integer.toString(APP_TYPE_ANDROID));
+                params.put("appType", String.valueOf(APP_TYPE_ANDROID));
                 params.put("fcm_regId", App.getInstance().getGcmToken());
                 return params;
             }

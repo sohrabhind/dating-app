@@ -254,14 +254,14 @@ setHasOptionsMenu(true);
 
         if (height > 0) {
 
-            mHeightField.setText(Integer.toString(height));
+            mHeightField.setText(String.valueOf(height));
         }
 
         mWeightField.setHint(getString(R.string.label_weight) + " (" + getString(R.string.label_kg) + ")");
 
         if (weight > 0) {
 
-            mWeightField.setText(Integer.toString(weight));
+            mWeightField.setText(String.valueOf(weight));
         }
 
         getGender(sex);
@@ -1217,26 +1217,26 @@ setHasOptionsMenu(true);
                 params.put("location", location);
                 params.put("instagramPage", instagramPage);
                 params.put("bio", bio);
-                params.put("sex", Integer.toString(sex));
-                params.put("year", Integer.toString(year));
-                params.put("month", Integer.toString(month));
-                params.put("day", Integer.toString(day));
+                params.put("sex", String.valueOf(sex));
+                params.put("year", String.valueOf(year));
+                params.put("month", String.valueOf(month));
+                params.put("day", String.valueOf(day));
 
-                params.put("age", Integer.toString(age));
-                params.put("height", Integer.toString(height));
-                params.put("weight", Integer.toString(weight));
+                params.put("age", String.valueOf(age));
+                params.put("height", String.valueOf(height));
+                params.put("weight", String.valueOf(weight));
 
-                params.put("iStatus", Integer.toString(relationshipStatus));
-                params.put("politicalViews", Integer.toString(politicalViews));
-                params.put("worldViews", Integer.toString(worldView));
-                params.put("personalPriority", Integer.toString(personalPriority));
-                params.put("importantInOthers", Integer.toString(importantInOthers));
-                params.put("smokingViews", Integer.toString(viewsOnSmoking));
-                params.put("alcoholViews", Integer.toString(viewsOnAlcohol));
-                params.put("lookingViews", Integer.toString(youLooking));
-                params.put("interestedViews", Integer.toString(youLike));
+                params.put("iStatus", String.valueOf(relationshipStatus));
+                params.put("politicalViews", String.valueOf(politicalViews));
+                params.put("worldViews", String.valueOf(worldView));
+                params.put("personalPriority", String.valueOf(personalPriority));
+                params.put("importantInOthers", String.valueOf(importantInOthers));
+                params.put("smokingViews", String.valueOf(viewsOnSmoking));
+                params.put("alcoholViews", String.valueOf(viewsOnAlcohol));
+                params.put("lookingViews", String.valueOf(youLooking));
+                params.put("interestedViews", String.valueOf(youLike));
 
-                params.put("allowShowMyBirthday", Integer.toString(allowShowMyBirthday));
+                params.put("allowShowMyBirthday", String.valueOf(allowShowMyBirthday));
 
                 return params;
             }

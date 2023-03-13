@@ -759,8 +759,8 @@ public class ChatFragment extends Fragment implements Constants {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("chatId", Integer.toString(chatId));
-                params.put("notifyId", Integer.toString(notifyId));
+                params.put("chatId", String.valueOf(chatId));
+                params.put("notifyId", String.valueOf(notifyId));
                 params.put("chatFromUserId", Long.toString(fromUserId));
                 params.put("chatToUserId", Long.toString(toUserId));
 
@@ -897,12 +897,12 @@ public class ChatFragment extends Fragment implements Constants {
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
 
-                params.put("chatId", Integer.toString(chatId));
+                params.put("chatId", String.valueOf(chatId));
 
                 params.put("chatFromUserId", Long.toString(fromUserId));
                 params.put("chatToUserId", Long.toString(toUserId));
 
-                params.put("freeMessagesCount", Integer.toString(App.getInstance().getFreeMessagesCount()));
+                params.put("freeMessagesCount", String.valueOf(App.getInstance().getFreeMessagesCount()));
 
                 return params;
             }
@@ -1003,8 +1003,8 @@ public class ChatFragment extends Fragment implements Constants {
 
                 params.put("profileId", Long.toString(profileId));
 
-                params.put("chatId", Integer.toString(chatId));
-                params.put("msgId", Integer.toString(msgId));
+                params.put("chatId", String.valueOf(chatId));
+                params.put("msgId", String.valueOf(msgId));
 
                 params.put("chatFromUserId", Long.toString(fromUserId));
                 params.put("chatToUserId", Long.toString(toUserId));
@@ -1109,8 +1109,8 @@ public class ChatFragment extends Fragment implements Constants {
 
                 params.put("profileId", Long.toString(profileId));
 
-                params.put("chatId", Integer.toString(chatId));
-                params.put("msgId", Integer.toString(msgId));
+                params.put("chatId", String.valueOf(chatId));
+                params.put("msgId", String.valueOf(msgId));
 
                 params.put("chatFromUserId", Long.toString(fromUserId));
                 params.put("chatToUserId", Long.toString(toUserId));
@@ -1219,11 +1219,11 @@ public class ChatFragment extends Fragment implements Constants {
 
                 params.put("profileId", Long.toString(profileId));
 
-                params.put("chatId", Integer.toString(chatId));
+                params.put("chatId", String.valueOf(chatId));
                 params.put("messageText", lMessage);
                 params.put("messageImg", lMessageImage);
 
-                params.put("listId", Integer.toString(listView.getAdapter().getCount()));
+                params.put("listId", String.valueOf(listView.getAdapter().getCount()));
 
                 params.put("chatFromUserId", Long.toString(fromUserId));
                 params.put("chatToUserId", Long.toString(toUserId));
@@ -1353,7 +1353,7 @@ public class ChatFragment extends Fragment implements Constants {
                 params.put("accessToken", App.getInstance().getAccessToken());
 
                 params.put("profileId", Long.toString(profileId));
-                params.put("chatId", Integer.toString(chatId));
+                params.put("chatId", String.valueOf(chatId));
 
                 return params;
             }
@@ -1632,7 +1632,7 @@ public class ChatFragment extends Fragment implements Constants {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("itemId", Integer.toString(0));
+                params.put("itemId", String.valueOf(0));
 
                 return params;
             }
@@ -1903,7 +1903,7 @@ public class ChatFragment extends Fragment implements Constants {
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("accountId", Long.toString(App.getInstance().getId()));
                     params.put("accessToken", App.getInstance().getAccessToken());
-                    params.put("itemId", Integer.toString(0));
+                    params.put("itemId", String.valueOf(0));
 
                     return params;
                 }

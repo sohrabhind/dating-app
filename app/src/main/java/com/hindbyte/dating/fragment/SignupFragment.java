@@ -905,11 +905,11 @@ Intent i = getActivity().getIntent();
                     params.put("referrer", referrerId);
                     params.put("language", language);
                     params.put("facebookId", facebookId);
-                    params.put("sex", Integer.toString(sex));
-                    params.put("age", Integer.toString(age));
-                    params.put("year", Integer.toString(year));
-                    params.put("month", Integer.toString(month));
-                    params.put("day", Integer.toString(day));
+                    params.put("sex", String.valueOf(sex));
+                    params.put("age", String.valueOf(age));
+                    params.put("year", String.valueOf(year));
+                    params.put("month", String.valueOf(month));
+                    params.put("day", String.valueOf(day));
                     params.put("clientId", CLIENT_ID);
                     params.put("gcm_regId", App.getInstance().getGcmToken());
 

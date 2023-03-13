@@ -293,7 +293,7 @@ public class StreamFragment extends Fragment implements Constants, SwipeRefreshL
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("itemId", Integer.toString(itemId));
+                params.put("itemId", String.valueOf(itemId));
 
                 return params;
             }

@@ -490,7 +490,7 @@ initpDialog();
                 params.put("clientId", CLIENT_ID);
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("allowPhotosComments", Integer.toString(mAllowPhotosComments));
+                params.put("allowPhotosComments", String.valueOf(mAllowPhotosComments));
 
                 return params;
             }
@@ -562,7 +562,7 @@ initpDialog();
                 params.put("clientId", CLIENT_ID);
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("allowMessages", Integer.toString(mAllowMessages));
+                params.put("allowMessages", String.valueOf(mAllowMessages));
 
                 return params;
             }

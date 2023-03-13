@@ -266,9 +266,9 @@ public class BalanceActivity extends ActivityBase {
                 params.put("clientId", CLIENT_ID);
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("credits", Integer.toString(cost));
-                params.put("paymentType", Integer.toString(paymentType));
-                params.put("amount", Integer.toString(amount));
+                params.put("credits", String.valueOf(cost));
+                params.put("paymentType", String.valueOf(paymentType));
+                params.put("amount", String.valueOf(amount));
                 return params;
             }
         };

@@ -385,11 +385,11 @@ initpDialog();
                 params.put("clientId", CLIENT_ID);
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("allowShowMyLikes", Integer.toString(allowLikes));
-                params.put("allowShowMyGifts", Integer.toString(allowGifts));
-                params.put("allowShowMyFriends", Integer.toString(allowFriends));
-                params.put("allowShowMyGallery", Integer.toString(allowGallery));
-                params.put("allowShowMyInfo", Integer.toString(allowInfo));
+                params.put("allowShowMyLikes", String.valueOf(allowLikes));
+                params.put("allowShowMyGifts", String.valueOf(allowGifts));
+                params.put("allowShowMyFriends", String.valueOf(allowFriends));
+                params.put("allowShowMyGallery", String.valueOf(allowGallery));
+                params.put("allowShowMyInfo", String.valueOf(allowInfo));
 
                 return params;
             }

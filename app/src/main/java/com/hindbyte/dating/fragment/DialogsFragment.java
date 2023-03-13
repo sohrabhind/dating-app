@@ -334,7 +334,7 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("messageCreateAt", Integer.toString(messageCreateAt));
+                params.put("messageCreateAt", String.valueOf(messageCreateAt));
                 params.put("language", "en");
                 return params;
             }

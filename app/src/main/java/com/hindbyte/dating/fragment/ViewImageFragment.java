@@ -601,7 +601,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
     @SuppressLint("SetTextI18n")
     private void updateCounters() {
 
-        mItemLikesCount.setText(Integer.toString(item.getLikesCount()));
+        mItemLikesCount.setText(String.valueOf(item.getLikesCount()));
 
         if (item.getLikesCount() > 0) {
 
@@ -614,7 +614,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
             mItemLikesCount.setVisibility(View.GONE);
         }
 
-        mItemCommentsCount.setText(Integer.toString(item.getCommentsCount()));
+        mItemCommentsCount.setText(String.valueOf(item.getCommentsCount()));
 
         if (item.getCommentsCount() > 0) {
 
@@ -635,7 +635,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
             }
         }
 
-        mItemLikesCount.setText(Integer.toString(item.getLikesCount()));
+        mItemLikesCount.setText(String.valueOf(item.getLikesCount()));
 
         if (item.getLikesCount() > 0) {
 
@@ -648,7 +648,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
             mItemLikesCount.setVisibility(View.GONE);
         }
 
-        mItemCommentsCount.setText(Integer.toString(item.getCommentsCount()));
+        mItemCommentsCount.setText(String.valueOf(item.getCommentsCount()));
 
         if (item.getCommentsCount() > 0) {
 

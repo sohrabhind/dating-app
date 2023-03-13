@@ -124,7 +124,7 @@ public class SendGiftFragment extends Fragment implements Constants {
 
                 } else {
 
-                    getActivity().setTitle(Integer.toString(140 - cnt));
+                    getActivity().setTitle(String.valueOf(140 - cnt));
                 }
             }
 
@@ -253,7 +253,7 @@ public class SendGiftFragment extends Fragment implements Constants {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("giftAnonymous", Integer.toString(giftAnonymous));
+                params.put("giftAnonymous", String.valueOf(giftAnonymous));
                 params.put("message", messageText);
                 params.put("giftId", Long.toString(giftId));
                 params.put("giftTo", Long.toString(giftTo));

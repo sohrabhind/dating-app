@@ -264,8 +264,8 @@ initpDialog();
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("upgradeType", Integer.toString(upgradeType));
-                params.put("credits", Integer.toString(credits));
+                params.put("upgradeType", String.valueOf(upgradeType));
+                params.put("credits", String.valueOf(credits));
 
                 return params;
             }
