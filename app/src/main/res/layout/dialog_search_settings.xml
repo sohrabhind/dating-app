@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:rsb="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_weight="0"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <EditText
+                        android:id="@+id/search_box"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="@string/label_search_filters_search_placeholder"
+                        android:inputType="textPersonName"
+                        android:lines="1"
+                        android:text="" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_sex"
+                android:layout_marginTop="@dimen/spacing_middle"
+                android:layout_marginStart="6dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/radio_gender_any"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_gender_any"
+                        android:checked="true"
+                        android:layout_weight="1" />
+
+                    <RadioButton
+                        android:id="@+id/radio_gender_male"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_male"
+                        android:layout_weight="1" />
+
+                    <RadioButton
+                        android:id="@+id/radio_gender_female"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_female"
+                        android:layout_weight="1" />
+
+                </RadioGroup>
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_additional"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="6dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/spacing_middle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_online"
+                    android:id="@+id/checkbox_online"
+                    android:layout_gravity="center_horizontal" />
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_medium"
+                    android:text="@string/label_only_with_photo"
+                    android:id="@+id/checkbox_photo"
+                    android:layout_gravity="center_horizontal" />
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_medium"
+                    android:text="@string/label_only_with_pro_mode"
+                    android:id="@+id/checkbox_pro"
+                    android:layout_gravity="center_horizontal" />
+
+            </LinearLayout>
+
+            <com.hindbyte.dating.view.RangeSeekBar
+                android:id="@+id/age_seekbar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                rsb:absoluteMinValue="18"
+                rsb:absoluteMaxValue="115"
+                rsb:valuesAboveThumbs="true"
+                rsb:textAboveThumbsColor="@color/colorPrimary" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/spacing_mxlarge"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_distance"
+                    android:id="@+id/distance_label"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="6dp" />
+
+                <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/choice_distance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:max="12500"
+                    android:thumb="@drawable/seek_thumb_primary_outline" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

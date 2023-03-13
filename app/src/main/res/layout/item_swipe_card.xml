@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/selectableItemBackground"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="false"
+    app:cardCornerRadius="8dp"
+    app:cardBackgroundColor="@android:color/white">
+
+    <ImageView
+        android:id="@+id/item_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:padding="16dp"
+        android:background="@drawable/gradation_black">
+
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder_fullname"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@android:color/white"
+            android:textSize="26sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/item_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="New York"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/item_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="near you"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/top_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+
+</androidx.cardview.widget.CardView>

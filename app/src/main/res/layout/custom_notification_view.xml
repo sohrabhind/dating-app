@@ -1,0 +1,72 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#ffffff">
+
+        <RelativeLayout
+            android:layout_gravity="center"
+            android:layout_width="78dp"
+            android:layout_height="56dp">
+
+            <ImageView
+                android:id="@+id/small_picture"
+                android:layout_width="78dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="4dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/app_logo"
+                android:scaleType="fitCenter"
+                android:contentDescription="@null" />
+
+            <ImageView
+                android:id="@+id/small_icon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/app_logo"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="4dp"
+                android:scaleType="fitXY"
+                android:contentDescription="@null" />
+
+        </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        tools:ignore="UselessParent">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:maxLines="1"
+            android:minLines="1"
+            android:text="@string/placeholder_email"
+            android:layout_gravity="center|start"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:id="@+id/body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="@dimen/button_text_size"
+            android:text="@string/label_location_prompt"
+            android:maxLines="2"
+            android:minLines="2"
+            android:layout_gravity="center|start"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,84 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:background="@drawable/background_login">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="40sp"
+                android:text="Find Your\nLove"
+                android:textColor="@color/overlay_light_90" />
+
+            <EditText
+                android:id="@+id/signInEmail"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="textPersonName"
+                android:hint="@string/placeholder_email"
+                android:textColor="@color/white"
+                android:ems="10"
+                android:layout_marginTop="10dp"
+                android:maxLength="64"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textCursorDrawable="@null"
+                android:background="@drawable/edittext_background" />
+
+            <EditText
+                android:id="@+id/signInPassword"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="textPassword"
+                android:hint="@string/placeholder_password"
+                android:textColor="@color/white"
+                android:ems="10"
+                android:layout_marginTop="10dp"
+                android:maxLength="64"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textCursorDrawable="@null"
+                android:background="@drawable/edittext_background"/>
+
+            <TextView
+                android:id="@+id/signInBtn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:text="@string/action_login"
+                android:background="@drawable/button_radius"
+                android:gravity="center"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/action_forgot_password"
+                android:id="@+id/forgotPassword"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/overlay_light_80"
+                android:gravity="center"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
