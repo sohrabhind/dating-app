@@ -63,7 +63,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.hindbyte.dating.R;
@@ -99,6 +98,7 @@ import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Protocol;
 import com.squareup.okhttp.RequestBody;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -1245,8 +1245,11 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
     public void showPhoto(String photoUrl) {
         if (photoUrl != null && photoUrl.length() > 0 && (App.getInstance().getSettings().isAllowShowNotModeratedProfilePhotos() || App.getInstance().getId() == profile.getId() || profile.getPhotoModerateAt() != 0)) {
-            ImageLoader imageLoader = App.getInstance().getImageLoader();
-            imageLoader.get(photoUrl, ImageLoader.getImageListener(mProfilePhoto, R.drawable.profile_default_photo, R.drawable.profile_default_photo));
+            Picasso.get()
+                    .load(photoUrl)
+                    .placeholder(R.drawable.profile_default_photo)
+                    .error(R.drawable.profile_default_photo)
+                    .into(mProfilePhoto);
         }
     }
 

@@ -13,13 +13,13 @@ import android.widget.TextView;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.hindbyte.dating.activity.ProfileActivity;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.model.Comment;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +30,6 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
     private List<Comment> items = new ArrayList<>();
 
     private Context context;
-
-    ImageLoader imageLoader = App.getInstance().getImageLoader();
 
     private OnItemMenuButtonClickListener onItemMenuButtonClickListener;
 
@@ -76,11 +74,6 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
 
         this.context = ctx;
         this.items = items;
-
-        if (imageLoader == null) {
-
-            imageLoader = App.getInstance().getImageLoader();
-        }
     }
 
     @Override
@@ -114,9 +107,11 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
 
         if (p.getOwner().getLowPhotoUrl().length() != 0 &&
                 (App.getInstance().getSettings().isAllowShowNotModeratedProfilePhotos() || App.getInstance().getId() == p.getOwner().getId() || p.getOwner().getPhotoModerateAt() != 0)) {
-
-            imageLoader.get(p.getOwner().getLowPhotoUrl(), ImageLoader.getImageListener(holder.mItemAuthorPhoto, R.drawable.profile_default_photo, R.drawable.profile_default_photo));
-
+            Picasso.get()
+            .load(p.getOwner().getLowPhotoUrl())
+            .placeholder(R.drawable.profile_default_photo)
+            .error(R.drawable.profile_default_photo)
+            .into(holder.mItemAuthorPhoto);
         } else {
 
             holder.mItemAuthorPhoto.setVisibility(View.VISIBLE);

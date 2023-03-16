@@ -25,7 +25,6 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +36,7 @@ import com.hindbyte.dating.R;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.util.CustomRequest;
+import com.squareup.picasso.Picasso;
 
 public class SendGiftFragment extends Fragment implements Constants {
 
@@ -49,7 +49,6 @@ public class SendGiftFragment extends Fragment implements Constants {
 
     String messageText = "", imgUrl = "";
 
-    ImageLoader imageLoader = App.getInstance().getImageLoader();
 
     private int giftAnonymous = 0, giftCost = 0;
 
@@ -85,11 +84,6 @@ public class SendGiftFragment extends Fragment implements Constants {
         View rootView = inflater.inflate(R.layout.fragment_send_gift, container, false);
 
 
-        if (imageLoader == null) {
-
-            imageLoader = App.getInstance().getImageLoader();
-        }
-
         if (loading) {
 
             showpDialog();
@@ -98,7 +92,12 @@ public class SendGiftFragment extends Fragment implements Constants {
         mMessageEdit = rootView.findViewById(R.id.messageEdit);
         mGiftImg = rootView.findViewById(R.id.profilePhoto);
 
-        imageLoader.get(imgUrl, ImageLoader.getImageListener(mGiftImg, R.drawable.app_logo, R.drawable.app_logo));
+        Picasso.get()
+                    .load(imgUrl)
+                    .placeholder(R.drawable.app_logo)
+                    .error(R.drawable.app_logo)
+                    .into(mGiftImg);
+
 
         mMessageEdit.addTextChangedListener(new TextWatcher() {
 

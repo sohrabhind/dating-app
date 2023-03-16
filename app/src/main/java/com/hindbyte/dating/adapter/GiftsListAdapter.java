@@ -17,7 +17,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.hindbyte.dating.activity.ProfileActivity;
 import com.hindbyte.dating.R;
@@ -39,8 +38,6 @@ public class GiftsListAdapter extends RecyclerView.Adapter<GiftsListAdapter.View
     private List<Gift> items = new ArrayList<>();
 
     private Context context;
-
-    ImageLoader imageLoader = App.getInstance().getImageLoader();
 
     private OnItemMenuButtonClickListener onItemMenuButtonClickListener;
 
@@ -94,11 +91,6 @@ public class GiftsListAdapter extends RecyclerView.Adapter<GiftsListAdapter.View
 
         this.context = ctx;
         this.items = items;
-
-        if (imageLoader == null) {
-
-            imageLoader = App.getInstance().getImageLoader();
-        }
     }
 
     @NonNull
@@ -134,7 +126,12 @@ public class GiftsListAdapter extends RecyclerView.Adapter<GiftsListAdapter.View
 
         if (p.getGiftFromUserPhotoUrl().length() != 0) {
 
-            imageLoader.get(p.getGiftFromUserPhotoUrl(), ImageLoader.getImageListener(holder.mItemAuthorPhoto, R.drawable.profile_default_photo, R.drawable.profile_default_photo));
+            
+            Picasso.get()
+            .load(p.getGiftFromUserPhotoUrl())
+            .placeholder(R.drawable.profile_default_photo)
+            .error(R.drawable.profile_default_photo)
+            .into(holder.mItemAuthorPhoto);
 
         } else {
 

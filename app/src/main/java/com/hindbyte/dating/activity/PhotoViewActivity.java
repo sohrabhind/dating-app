@@ -10,11 +10,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.common.ActivityBase;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
+
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 
@@ -30,7 +34,6 @@ public class PhotoViewActivity extends ActivityBase {
     RelativeLayout mLoadingScreen;
 
     PhotoViewAttacher mAttacher;
-    ImageLoader imageLoader;
 
     String imgUrl;
 
@@ -39,18 +42,10 @@ public class PhotoViewActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_view);
 
-//        toolbar = (Toolbar) findViewById(R.id.toolbar);
-//
-//        if (toolbar != null) {
-//
-//            setSupportActionBar(toolbar);
-//        }
-
         Intent i = getIntent();
-
         imgUrl = i.getStringExtra("imgUrl");
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setElevation(0);
 
@@ -58,30 +53,27 @@ public class PhotoViewActivity extends ActivityBase {
         mLoadingScreen = findViewById(R.id.PhotoViewLoadingScreen);
 
         photoView = findViewById(R.id.photoImageView);
-//
-//        toolbar.getBackground().setAlpha(100);
         getSupportActionBar().setTitle("");
 
         showLoadingScreen();
 
-        imageLoader = App.getInstance().getImageLoader();
+        Picasso.get()
+                .load(imgUrl)
+                .placeholder(R.drawable.img_loading)
+                .error(R.drawable.img_loading)
+                .into(photoView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        mAttacher = new PhotoViewAttacher(photoView);
+                        showContentScreen();
+                    }
 
-        imageLoader.get(imgUrl, new ImageLoader.ImageListener() {
+                    @Override
+                    public void onError(Exception e) {
 
-            @Override
-            public void onResponse(ImageLoader.ImageContainer imageContainer, boolean isImmediate) {
+                    }
+                });
 
-                photoView.setImageBitmap(imageContainer.getBitmap());
-                mAttacher = new PhotoViewAttacher(photoView);
-
-                showContentScreen();
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        });
     }
 
     @Override

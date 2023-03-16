@@ -1,6 +1,5 @@
 package com.hindbyte.dating.app;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -14,26 +13,19 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.security.ProviderInstaller;
 import com.google.firebase.FirebaseApp;
-import com.hindbyte.dating.BuildConfig;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.model.BaseGift;
-import com.hindbyte.dating.model.Profile;
 import com.hindbyte.dating.model.Settings;
 import com.hindbyte.dating.util.CustomRequest;
-import com.hindbyte.dating.util.LruBitmapCache;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,7 +42,6 @@ public class App extends Application implements Constants {
 	public static final String TAG = App.class.getSimpleName();
 
 	private RequestQueue mRequestQueue;
-	private ImageLoader mImageLoader;
 
 	private static App mInstance;
 
@@ -1052,14 +1043,6 @@ public class App extends Application implements Constants {
 		return mRequestQueue;
 	}
 
-	public ImageLoader getImageLoader() {
-		getRequestQueue();
-		if (mImageLoader == null) {
-			mImageLoader = new ImageLoader(this.mRequestQueue,
-					new LruBitmapCache());
-		}
-		return this.mImageLoader;
-	}
 
 	public <T> void addToRequestQueue(Request<T> req, String tag) {
 		// set the default tag if tag is empty

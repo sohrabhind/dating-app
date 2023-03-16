@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentActivity;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.pkmmte.view.CircularImageView;
 import com.hindbyte.dating.activity.ProfileActivity;
 import com.hindbyte.dating.R;
@@ -24,6 +23,7 @@ import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.model.BlacklistItem;
 import com.hindbyte.dating.util.BlacklistItemInterface;
 import com.hindbyte.dating.util.CustomRequest;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,7 +40,6 @@ public class BlackListAdapter extends BaseAdapter implements Constants {
 
     private BlacklistItemInterface responder;
 
-    ImageLoader imageLoader = App.getInstance().getImageLoader();
 
 	public BlackListAdapter(FragmentActivity activity, List<BlacklistItem> blackList, BlacklistItemInterface responder) {
 
@@ -136,10 +135,6 @@ public class BlackListAdapter extends BaseAdapter implements Constants {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-        if (imageLoader == null) {
-
-            imageLoader = App.getInstance().getImageLoader();
-        }
 
         viewHolder.mBlockedTimeAgo.setTag(position);
         viewHolder.mBlockedReason.setTag(position);
@@ -156,7 +151,11 @@ public class BlackListAdapter extends BaseAdapter implements Constants {
 
         if (item.getBlockedUserPhotoUrl().length() > 0) {
 
-            imageLoader.get(item.getBlockedUserPhotoUrl(), ImageLoader.getImageListener(viewHolder.mBlockedUser, R.drawable.profile_default_photo, R.drawable.profile_default_photo));
+            Picasso.get()
+            .load(item.getBlockedUserPhotoUrl())
+            .placeholder(R.drawable.profile_default_photo)
+            .error(R.drawable.profile_default_photo)
+            .into(viewHolder.mBlockedUser);
 
         } else {
 

@@ -120,43 +120,37 @@ public class AppActivity extends ActivityBase {
         if (App.getInstance().isConnected() && App.getInstance().getId() != 0) {
             showLoadingScreen();
             CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_ACCOUNT_AUTHORIZE, null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
+                    response -> {
 
-                            if (App.getInstance().authorize(response)) {
+                        if (App.getInstance().authorize(response)) {
 
-                                if (App.getInstance().getState() == ACCOUNT_STATE_ENABLED) {
+                            if (App.getInstance().getState() == ACCOUNT_STATE_ENABLED) {
 
-                                    App.getInstance().updateGeoLocation();
+                                App.getInstance().updateGeoLocation();
 
-                                    Intent intent = new Intent(AppActivity.this, MainActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(intent);
-
-                                } else {
-
-                                    showContentScreen();
-                                    App.getInstance().logout();
-                                }
+                                Intent intent = new Intent(AppActivity.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
 
                             } else {
 
                                 showContentScreen();
+                                App.getInstance().logout();
                             }
 
-                            Log.e("Auth", response.toString());
+                        } else {
+
+                            showContentScreen();
                         }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Intent intent = new Intent(AppActivity.this, HomeActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
-                    Log.e("Auth", "Error");
-                }
-            }) {
+
+                        Log.e("Auth", response.toString());
+                    }, error -> {
+                        Intent intent = new Intent(AppActivity.this, HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                        Log.e("Auth", "Error");
+                    }) {
 
                 @Override
                 protected Map<String, String> getParams() {

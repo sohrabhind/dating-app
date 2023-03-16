@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.pkmmte.view.CircularImageView;
 import com.hindbyte.dating.activity.PhotoViewActivity;
 import com.hindbyte.dating.activity.ProfileActivity;
@@ -26,6 +25,7 @@ import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.model.ChatItem;
 import com.hindbyte.dating.view.ResizableImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -37,7 +37,6 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
 	private LayoutInflater inflater;
 	private List<ChatItem> dialogList;
 
-    ImageLoader imageLoader = App.getInstance().getImageLoader();
 
 	public ChatListAdapter(FragmentActivity activity, List<ChatItem> dialogList) {
 
@@ -140,10 +139,6 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-        if (imageLoader == null) {
-
-            imageLoader = App.getInstance().getImageLoader();
-        }
 
         viewHolder.mRight_Img.setTag(position);
         viewHolder.mLeft_Img.setTag(position);
@@ -169,7 +164,12 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
 
             if (chatItem.getFromUserPhotoUrl().length() > 0) {
 
-                imageLoader.get(chatItem.getFromUserPhotoUrl(), ImageLoader.getImageListener(viewHolder.mRight_FromUser, R.drawable.profile_default_photo, R.drawable.profile_default_photo));
+                
+            Picasso.get()
+            .load(chatItem.getFromUserPhotoUrl())
+            .placeholder(R.drawable.profile_default_photo)
+            .error(R.drawable.profile_default_photo)
+            .into(viewHolder.mRight_FromUser);
 
             } else {
 
@@ -183,7 +183,13 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
 
                 viewHolder.mRight_Img.setOnClickListener(null);
 
-                imageLoader.get(chatItem.getStickerImgUrl(), ImageLoader.getImageListener(viewHolder.mRight_Img, R.drawable.img_loading, R.drawable.img_loading));
+                                
+            Picasso.get()
+            .load(chatItem.getStickerImgUrl())
+            .placeholder(R.drawable.img_loading)
+            .error(R.drawable.img_loading)
+            .into(viewHolder.mRight_Img);
+
                 viewHolder.mRight_Img.setVisibility(View.VISIBLE);
 
             } else {
@@ -204,7 +210,15 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
                         }
                     });
 
-                    imageLoader.get(chatItem.getImgUrl(), ImageLoader.getImageListener(viewHolder.mRight_Img, R.drawable.img_loading, R.drawable.img_loading));
+                                    
+            Picasso.get()
+            .load(chatItem.getImgUrl())
+            .placeholder(R.drawable.img_loading)
+            .error(R.drawable.img_loading)
+            .into(viewHolder.mRight_Img);
+
+                
+
                     viewHolder.mRight_Img.setVisibility(View.VISIBLE);
 
                 } else {
@@ -260,7 +274,12 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
 
             if (chatItem.getFromUserPhotoUrl().length() > 0) {
 
-                imageLoader.get(chatItem.getFromUserPhotoUrl(), ImageLoader.getImageListener(viewHolder.mLeft_FromUser, R.drawable.profile_default_photo, R.drawable.profile_default_photo));
+                                
+            Picasso.get()
+            .load(chatItem.getFromUserPhotoUrl())
+            .placeholder(R.drawable.profile_default_photo)
+            .error(R.drawable.profile_default_photo)
+            .into(viewHolder.mLeft_FromUser);
 
             } else {
 
@@ -293,8 +312,15 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
                     viewHolder.mLeft_Img.requestLayout();
                 }
 
-                imageLoader.get(chatItem.getImgUrl(), ImageLoader.getImageListener(viewHolder.mLeft_Img, R.drawable.img_loading, R.drawable.img_loading));
-                viewHolder.mLeft_Img.setVisibility(View.VISIBLE);
+                                                
+            Picasso.get()
+            .load(chatItem.getImgUrl())
+            .placeholder(R.drawable.img_loading)
+            .error(R.drawable.img_loading)
+            .into(viewHolder.mLeft_Img);
+
+
+            viewHolder.mLeft_Img.setVisibility(View.VISIBLE);
 
             } else {
 

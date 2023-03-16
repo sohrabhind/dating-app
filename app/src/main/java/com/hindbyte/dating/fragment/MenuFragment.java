@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.activity.BalanceActivity;
@@ -29,11 +28,11 @@ import com.hindbyte.dating.activity.UpgradesActivity;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
+import com.squareup.picasso.Picasso;
 
 
 public class MenuFragment extends Fragment implements Constants {
 
-    ImageLoader imageLoader;
 
     CircularImageView mProfilePhoto, mProfileProIcon;
     ImageView mFriendsIcon;
@@ -47,8 +46,6 @@ public class MenuFragment extends Fragment implements Constants {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-        imageLoader = App.getInstance().getImageLoader();
 
         setHasOptionsMenu(true);
 
@@ -177,11 +174,12 @@ public class MenuFragment extends Fragment implements Constants {
         // Photo
 
         if (App.getInstance().getPhotoUrl() != null && App.getInstance().getPhotoUrl().length() > 0) {
-
-            imageLoader.get(App.getInstance().getPhotoUrl(), ImageLoader.getImageListener(mProfilePhoto, R.drawable.profile_default_photo, R.drawable.profile_default_photo));
-
+            Picasso.get()
+            .load(App.getInstance().getPhotoUrl())
+            .placeholder(R.drawable.profile_default_photo)
+            .error(R.drawable.profile_default_photo)
+            .into(mProfilePhoto);
         } else {
-
             mProfilePhoto.setImageResource(R.drawable.profile_default_photo);
         }
 

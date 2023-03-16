@@ -44,7 +44,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.activity.LikersActivity;
@@ -68,6 +67,7 @@ import com.hindbyte.dating.util.Api;
 import com.hindbyte.dating.util.CommentInterface;
 import com.hindbyte.dating.util.CustomRequest;
 import com.hindbyte.dating.view.ResizableImageView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -109,8 +109,6 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
     CircularImageView mPhotoImage, mProImage, mOnlineIcon;
 
     ImageView mItemPlay;
-
-    ImageLoader imageLoader = App.getInstance().getImageLoader();
 
 
     private ArrayList<Comment> itemsList;
@@ -491,10 +489,6 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
     public void updateItem() {
 
-        if (imageLoader == null) {
-
-            imageLoader = App.getInstance().getImageLoader();
-        }
 
         updateCounters();
         updateStatus();
@@ -517,8 +511,11 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
         if (item.getOwner().getLowPhotoUrl().length() != 0 && (App.getInstance().getSettings().isAllowShowNotModeratedProfilePhotos() || App.getInstance().getId() == item.getId())) {
 
             mPhotoImage.setVisibility(View.VISIBLE);
-
-            imageLoader.get(item.getOwner().getLowPhotoUrl(), ImageLoader.getImageListener(mPhotoImage, R.drawable.profile_default_photo, R.drawable.profile_default_photo));
+            Picasso.get()
+                    .load(item.getOwner().getLowPhotoUrl())
+                    .placeholder(R.drawable.profile_default_photo)
+                    .error(R.drawable.profile_default_photo)
+                    .into(mPhotoImage);
 
         } else {
 
@@ -581,7 +578,12 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
         if (item.getItemType() == Constants.GALLERY_ITEM_TYPE_IMAGE && item.getImgUrl().length() > 0) {
 
-            imageLoader.get(item.getImgUrl(), ImageLoader.getImageListener(mItemImg, R.drawable.img_loading, R.drawable.img_loading));
+            Picasso.get()
+            .load(item.getImgUrl())
+            .placeholder(R.drawable.img_loading)
+            .error(R.drawable.img_loading)
+            .into(mItemImg);
+
             mItemImg.setVisibility(View.VISIBLE);
         }
 
