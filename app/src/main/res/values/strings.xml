@@ -694,6 +694,7 @@
     <string name="action_buy_iap2_google_pay">$6 for 3 months</string>
     <string name="action_buy_iap3_google_pay">$9 for 6 months</string>
     <string name="item_author_fullname">Item Author Fullname</string>
+    <string name="my_profile">My profile</string>
 
 </resources>
 

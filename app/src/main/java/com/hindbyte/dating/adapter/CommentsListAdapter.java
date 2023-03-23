@@ -45,9 +45,9 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public CircularImageView mItemAuthorPhoto, mItemAuthorIcon;
+        public CircularImageView mItemAuthorPhoto;
         public TextView mItemAuthor;
-        public ImageView mItemAuthorOnlineIcon;
+        public ImageView mItemAuthorOnlineIcon, mProfileLevelIcon;
         public ImageView mItemMenuButton;
         public TextView mItemDescription;
         public TextView mItemTimeAgo;
@@ -57,7 +57,7 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
             super(v);
 
             mItemAuthorPhoto = v.findViewById(R.id.itemAuthorPhoto);
-            mItemAuthorIcon = v.findViewById(R.id.itemAuthorIcon);
+            mProfileLevelIcon = v.findViewById(R.id.profileLevelIcon);
 
             mItemAuthor = v.findViewById(R.id.itemAuthor);
             mItemAuthorOnlineIcon = v.findViewById(R.id.itemAuthorOnlineIcon);
@@ -89,7 +89,7 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
 
         final Comment p = items.get(position);
 
-        holder.mItemAuthorIcon.setVisibility(View.GONE);
+        holder.mProfileLevelIcon.setVisibility(View.GONE);
         holder.mItemAuthorOnlineIcon.setVisibility(View.GONE);
 
         holder.mItemAuthorPhoto.setVisibility(View.VISIBLE);

@@ -8,12 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.model.BaseGift;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 
 public class SelectGiftListAdapter extends RecyclerView.Adapter<SelectGiftListAdapter.MyViewHolder> {
@@ -58,7 +58,20 @@ public class SelectGiftListAdapter extends RecyclerView.Adapter<SelectGiftListAd
 		holder.title.setText(u.getCost() + " " + mContext.getString(R.string.label_credits));
 
 		// loading album cover using Glide library
-		Glide.with(mContext).load(u.getImgUrl()).into(holder.thumbnail);
+		Picasso.get()
+				.load(u.getImgUrl())
+				.placeholder(R.drawable.img_loading)
+				.error(R.drawable.img_loading)
+				.into(holder.thumbnail, new Callback() {
+					@Override
+					public void onSuccess() {
+					}
+
+					@Override
+					public void onError(Exception e) {
+					}
+				});
+
 	}
 
 	@Override

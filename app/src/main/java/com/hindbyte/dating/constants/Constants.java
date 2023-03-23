@@ -101,23 +101,18 @@ public interface Constants {
 
 
     // added for version 3.2
-
     String METHOD_GET_STICKERS = API_DOMAIN + "api/" + API_VERSION + "/method/stickers.get" + API_FILE_EXTENSION;
 
     // added for version 3.4
-
     String METHOD_CHAT_NOTIFY = API_DOMAIN + "api/" + API_VERSION + "/method/chat.notify" + API_FILE_EXTENSION;
 
     // added for version 3.6
-
     String METHOD_HOTGAME_GET = API_DOMAIN + "api/" + API_VERSION + "/method/hotgame.get" + API_FILE_EXTENSION;
 
     // added for version 4.1
-
     String TAG_UPDATE_BADGES = "update_badges";
 
     // added dor version 4.3
-
     String METHOD_APP_CHECK_EMAIL = API_DOMAIN + "api/" + API_VERSION + "/method/app.checkEmail" + API_FILE_EXTENSION;
 
     // added dor version 4.5

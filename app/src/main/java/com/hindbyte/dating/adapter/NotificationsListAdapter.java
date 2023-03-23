@@ -15,17 +15,14 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.hindbyte.dating.activity.ProfileActivity;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.model.Chat;
 import com.hindbyte.dating.model.Notify;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Locale;
@@ -48,7 +45,8 @@ public class NotificationsListAdapter extends RecyclerView.Adapter<Notifications
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView title, time;
-        public CircularImageView image, online, verified, icon;
+        public CircularImageView image, online, icon;
+        public ImageView mProfileLevelIcon;
         public LinearLayout parent;
         public TextView message;
 
@@ -61,7 +59,7 @@ public class NotificationsListAdapter extends RecyclerView.Adapter<Notifications
             parent = view.findViewById(R.id.parent);
 
             online = view.findViewById(R.id.online);
-            verified = view.findViewById(R.id.verified);
+            mProfileLevelIcon = view.findViewById(R.id.profileLevelIcon);
             icon = view.findViewById(R.id.icon);
         }
     }
@@ -82,28 +80,28 @@ public class NotificationsListAdapter extends RecyclerView.Adapter<Notifications
         final Notify item = items.get(position);
 
         holder.online.setVisibility(View.GONE);
-        holder.verified.setVisibility(View.GONE);
+        holder.mProfileLevelIcon.setVisibility(View.GONE);
 
         if (item.getFromUserPhotoUrl().length() > 0 && item.getFromUserId() != 0) {
             final ImageView img = holder.image;
             try {
-                Glide.with(ctx)
+                Picasso.get()
                         .load(item.getFromUserPhotoUrl())
-                        .listener(new RequestListener<Drawable>() {
+                        .placeholder(R.drawable.img_loading)
+                        .error(R.drawable.img_loading)
+                        .into(holder.image, new Callback() {
                             @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                img.setImageResource(R.drawable.profile_default_photo);
+                            public void onSuccess() {
                                 img.setVisibility(View.VISIBLE);
-                                return false;
                             }
 
                             @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            public void onError(Exception e) {
+                                img.setImageResource(R.drawable.profile_default_photo);
                                 img.setVisibility(View.VISIBLE);
-                                return false;
                             }
-                        })
-                        .into(holder.image);
+                        });
+
             } catch (Exception e) {
                 Log.e("NotifyListAdapter", e.toString());
             }

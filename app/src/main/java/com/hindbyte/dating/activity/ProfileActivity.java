@@ -16,6 +16,8 @@ import com.hindbyte.dating.common.ActivityBase;
 import com.hindbyte.dating.dialogs.ProfileBlockDialog;
 import com.hindbyte.dating.dialogs.ProfileReportDialog;
 
+import java.util.Objects;
+
 
 public class ProfileActivity extends ActivityBase implements ProfileReportDialog.AlertPositiveListener, ProfileBlockDialog.AlertPositiveListener {
 
@@ -33,7 +35,7 @@ public class ProfileActivity extends ActivityBase implements ProfileReportDialog
         mToolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
         mFabButton = findViewById(R.id.fabButton);

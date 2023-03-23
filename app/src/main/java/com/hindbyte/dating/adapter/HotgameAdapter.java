@@ -14,14 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.activity.ProfileActivity;
 import com.hindbyte.dating.model.Profile;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -100,28 +97,26 @@ public class HotgameAdapter extends RecyclerView.Adapter<HotgameAdapter.MyViewHo
 		final ImageView imgView = holder.thumbnail;
 		final ProgressBar progressView = holder.progress;
 
-		Glide.with(mContext)
-				.load(p.getLowPhotoUrl())
-				.listener(new RequestListener<Drawable>() {
-					@Override
-					public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 
+		Picasso.get()
+				.load(p.getLowPhotoUrl())
+				.placeholder(R.drawable.img_loading)
+				.error(R.drawable.img_loading)
+				.into(imgView, new Callback() {
+					@Override
+					public void onSuccess() {
+						progressView.setVisibility(View.GONE);
+						imgView.setVisibility(View.VISIBLE);
+					}
+
+					@Override
+					public void onError(Exception e) {
 						progressView.setVisibility(View.GONE);
 						imgView.setImageResource(R.drawable.profile_default_photo);
 						imgView.setVisibility(View.VISIBLE);
-
-						return false;
 					}
+				});
 
-					@Override
-					public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-
-						progressView.setVisibility(View.GONE);
-						imgView.setVisibility(View.VISIBLE);
-
-						return false;
-					}
-				}).into(imgView);
 
 		imgView.setOnClickListener(new View.OnClickListener() {
 			@Override

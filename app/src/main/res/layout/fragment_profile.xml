@@ -72,23 +72,20 @@
 
                                 <ImageView
                                     android:id="@+id/profileOnlineIcon"
-                                    android:layout_width="15px"
-                                    android:layout_height="15px"
-                                    android:layout_marginLeft="8dp"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_marginStart="8dp"
                                     app:tint="@color/green"
                                     app:srcCompat="@drawable/ic_online" />
 
-                                <com.mikhaellopez.circularimageview.CircularImageView
-                                    android:id="@+id/profileProIcon"
-                                    android:layout_width="32dp"
-                                    android:layout_height="32dp"
-                                    android:layout_marginTop="-35dp"
-                                    android:src="@drawable/ic_verified"
-                                    app:civ_border="true"
-                                    app:civ_border_color="@color/white"
-                                    app:civ_border_width="1dp"
-                                    app:civ_shadow="false"
-                                    app:civ_shadow_radius="0dp" />
+
+                                <ImageView
+                                    android:id="@+id/profileLevelIcon"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_marginStart="8dp"
+                                    android:src="@drawable/level_gold"
+                                    android:background="@android:color/transparent"/>
 
                             </LinearLayout>
 

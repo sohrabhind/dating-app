@@ -42,21 +42,14 @@
                     app:civ_shadow="false"
                     app:civ_shadow_radius="0dp" />
 
-                <com.mikhaellopez.circularimageview.CircularImageView
-                    android:id="@+id/itemAuthorIcon"
+                <ImageView
+                    android:id="@+id/profileLevelIcon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_marginLeft="-24dp"
+                    android:layout_marginStart="-24dp"
                     android:layout_marginTop="32dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:src="@drawable/ic_verified"
-                    app:civ_border="true"
-                    app:civ_border_color="@color/gray_bg"
-                    app:civ_border_width="1dp"
-                    app:civ_shadow="false"
-                    app:civ_shadow_radius="0dp" />
+                    android:src="@drawable/level_gold"
+                    android:background="@android:color/transparent"/>
 
                 <LinearLayout
                     android:layout_width="0dp"

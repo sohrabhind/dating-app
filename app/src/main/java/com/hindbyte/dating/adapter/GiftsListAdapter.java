@@ -53,9 +53,9 @@ public class GiftsListAdapter extends RecyclerView.Adapter<GiftsListAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public CircularImageView mItemAuthorPhoto, mItemAuthorIcon;
+        public CircularImageView mItemAuthorPhoto;
         public TextView mItemAuthor;
-        public ImageView mItemAuthorOnlineIcon;
+        public ImageView mItemAuthorOnlineIcon, mProfileLevelIcon;
         public ImageView mItemMenuButton;
         public ImageView mItemImg;
         public RelativeLayout mImageLayout;
@@ -68,7 +68,7 @@ public class GiftsListAdapter extends RecyclerView.Adapter<GiftsListAdapter.View
             super(v);
 
             mItemAuthorPhoto = (CircularImageView) v.findViewById(R.id.itemAuthorPhoto);
-            mItemAuthorIcon = (CircularImageView) v.findViewById(R.id.itemAuthorIcon);
+            mProfileLevelIcon = (ImageView) v.findViewById(R.id.profileLevelIcon);
 
             mItemAuthor = (TextView) v.findViewById(R.id.itemAuthor);
             mItemAuthorOnlineIcon = (ImageView) v.findViewById(R.id.itemAuthorOnlineIcon);
@@ -141,11 +141,11 @@ public class GiftsListAdapter extends RecyclerView.Adapter<GiftsListAdapter.View
 
         if (p.getGiftFromUserVerified() == 1) {
 
-            holder.mItemAuthorIcon.setVisibility(View.VISIBLE);
+            holder.mProfileLevelIcon.setVisibility(View.VISIBLE);
 
         } else {
 
-            holder.mItemAuthorIcon.setVisibility(View.GONE);
+            holder.mProfileLevelIcon.setVisibility(View.GONE);
         }
 
         holder.mItemAuthor.setVisibility(View.VISIBLE);

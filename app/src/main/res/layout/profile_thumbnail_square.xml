@@ -56,17 +56,15 @@
                             app:civ_shadow="false"
                             app:civ_shadow_radius="0dp" />
 
-                        <com.mikhaellopez.circularimageview.CircularImageView
-                            android:id="@+id/pro_image"
+
+                        <ImageView
+                            android:id="@+id/profileLevelIcon"
                             android:layout_width="@dimen/square_item_icon_size"
                             android:layout_height="@dimen/square_item_icon_size"
-                            android:layout_marginLeft="4dp"
-                            android:src="@drawable/ic_verified"
-                            app:civ_border="true"
-                            app:civ_border_color="@color/white"
-                            app:civ_border_width="1dp"
-                            app:civ_shadow="false"
-                            app:civ_shadow_radius="0dp" />
+                            android:layout_marginStart="4dp"
+                            android:src="@drawable/level_gold"
+                            android:background="@android:color/transparent"/>
+
 
                         <com.mikhaellopez.circularimageview.CircularImageView
                             android:id="@+id/gender_image"

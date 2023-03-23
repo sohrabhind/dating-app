@@ -93,26 +93,11 @@ public class BalanceActivity extends ActivityBase {
 
         mBuy1Button.setOnClickListener(v -> launchBilling(ITEM_PRODUCT_1));
 
-        mBuy2Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchBilling(ITEM_PRODUCT_2);
-            }
-        });
+        mBuy2Button.setOnClickListener(v -> launchBilling(ITEM_PRODUCT_2));
 
-        mBuy3Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchBilling(ITEM_PRODUCT_3);
-            }
-        });
+        mBuy3Button.setOnClickListener(v -> launchBilling(ITEM_PRODUCT_3));
 
-        mBuy4Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchBilling(ITEM_PRODUCT_4);
-            }
-        });
+        mBuy4Button.setOnClickListener(v -> launchBilling(ITEM_PRODUCT_4));
 
         setupBilling();
     }
@@ -161,34 +146,30 @@ public class BalanceActivity extends ActivityBase {
 
     private void consume(String purchaseToken, String product) {
         ConsumeParams consumeParams = ConsumeParams.newBuilder().setPurchaseToken(purchaseToken).build();
-        ConsumeResponseListener listener = new ConsumeResponseListener() {
-            @Override
-            public void onConsumeResponse(BillingResult billingResult, @NonNull String outToken) {
-                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                    // Handle the success of the consume operation.
-                    // For example, increase the number of coins inside the user's basket.
-                    switch (product) {
-
-                        case ITEM_PRODUCT_1:
-                            App.getInstance().setBalance(App.getInstance().getBalance() + 100);
-                            payment(100, ITEM_PRODUCT_1_AMOUNT, PT_GOOGLE_PURCHASE,true);
-                            break;
-                        case ITEM_PRODUCT_2:
-                            App.getInstance().setBalance(App.getInstance().getBalance() + 300);
-                            payment(300, ITEM_PRODUCT_2_AMOUNT, PT_GOOGLE_PURCHASE,true);
-                            break;
-                        case ITEM_PRODUCT_3:
-                            App.getInstance().setBalance(App.getInstance().getBalance() + 600);
-                            payment(600, ITEM_PRODUCT_3_AMOUNT, PT_GOOGLE_PURCHASE,true);
-                            break;
-                        case ITEM_PRODUCT_4:
-                            Log.e("Payment", "Call");
-                            App.getInstance().setBalance(App.getInstance().getBalance() + 100);
-                            payment(1000, 0, PT_GOOGLE_PURCHASE,true);
-                            break;
-                        default:
-                            break;
-                    }
+        ConsumeResponseListener listener = (billingResult, outToken) -> {
+            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                // Handle the success of the consume operation.
+                // For example, increase the number of coins inside the user's basket.
+                switch (product) {
+                    case ITEM_PRODUCT_1:
+                        App.getInstance().setBalance(App.getInstance().getBalance() + 100);
+                        payment(100, ITEM_PRODUCT_1_AMOUNT, PT_GOOGLE_PURCHASE,true);
+                        break;
+                    case ITEM_PRODUCT_2:
+                        App.getInstance().setBalance(App.getInstance().getBalance() + 300);
+                        payment(300, ITEM_PRODUCT_2_AMOUNT, PT_GOOGLE_PURCHASE,true);
+                        break;
+                    case ITEM_PRODUCT_3:
+                        App.getInstance().setBalance(App.getInstance().getBalance() + 600);
+                        payment(600, ITEM_PRODUCT_3_AMOUNT, PT_GOOGLE_PURCHASE,true);
+                        break;
+                    case ITEM_PRODUCT_4:
+                        Log.e("Payment", "Call");
+                        App.getInstance().setBalance(App.getInstance().getBalance() + 100);
+                        payment(1000, 0, PT_GOOGLE_PURCHASE,true);
+                        break;
+                    default:
+                        break;
                 }
             }
         };
@@ -231,34 +212,28 @@ public class BalanceActivity extends ActivityBase {
         loading = true;
         showpDialog();
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_PAYMENTS_NEW, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            if (!response.getBoolean("error")) {
-                                if (response.has("balance")) {
-                                    App.getInstance().setBalance(response.getInt("balance"));
-                                }
-
-                                if (showSuccess) {
-                                    success();
-                                }
+                response -> {
+                    try {
+                        if (!response.getBoolean("error")) {
+                            if (response.has("balance")) {
+                                App.getInstance().setBalance(response.getInt("balance"));
                             }
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } finally {
-                            loading = false;
-                            hidepDialog();
+                            if (showSuccess) {
+                                success();
+                            }
                         }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } finally {
+                        loading = false;
+                        hidepDialog();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                loading = false;
-                hidepDialog();
-            }
-        }) {
+                }, error -> {
+                    loading = false;
+                    hidepDialog();
+                }) {
 
             @Override
             protected Map<String, String> getParams() {
@@ -282,7 +257,6 @@ public class BalanceActivity extends ActivityBase {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
-
 
     public void success() {
         Toast.makeText(BalanceActivity.this, getString(R.string.msg_success_purchase), Toast.LENGTH_SHORT).show();

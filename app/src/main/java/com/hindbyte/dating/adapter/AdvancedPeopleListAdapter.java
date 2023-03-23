@@ -14,15 +14,12 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.model.Profile;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -46,7 +43,8 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 	public class MyViewHolder extends RecyclerView.ViewHolder {
 
 		public TextView mTitle, mSubtitle;
-		public CircularImageView mOnlineImage, mProImage, mGenderImage;
+		public CircularImageView mOnlineImage, mGenderImage;
+		public ImageView mProfileLevelIcon;
 
         public ImageView mSquarePhotoImage;
 
@@ -60,7 +58,7 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 			mParent = view.findViewById(R.id.parent);
 			mSquarePhotoImage = view.findViewById(R.id.photo_image);
 			mOnlineImage = view.findViewById(R.id.online_image);
-			mProImage = view.findViewById(R.id.pro_image);
+			mProfileLevelIcon = view.findViewById(R.id.profileLevelIcon);
 			mGenderImage = view.findViewById(R.id.gender_image);
 			mTitle = view.findViewById(R.id.title_label);
 			mSubtitle = view.findViewById(R.id.subtitle_label);
@@ -92,7 +90,7 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
         holder.mSubtitle.setVisibility(View.GONE);
 
         holder.mOnlineImage.setVisibility(View.GONE);
-        holder.mProImage.setVisibility(View.GONE);
+        holder.mProfileLevelIcon.setVisibility(View.GONE);
 		holder.mGenderImage.setVisibility(View.GONE);
 
 		holder.mProgressBar.setVisibility(View.VISIBLE);
@@ -106,39 +104,32 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 
 			final ProgressBar progressView = holder.mProgressBar;
 
-			Glide.with(mContext)
-					.load(item.getNormalPhotoUrl())
-					.listener(new RequestListener<Drawable>() {
-						@Override
-						public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 
+			Picasso.get()
+					.load(item.getNormalPhotoUrl())
+					.placeholder(R.drawable.img_loading)
+					.error(R.drawable.img_loading)
+					.into(img, new Callback() {
+						@Override
+						public void onSuccess() {
+							progressView.setVisibility(View.GONE);
+							img.setVisibility(View.VISIBLE);
+							if (item.getSex() < 3) {
+								holder.mGenderImage.setVisibility(View.VISIBLE);
+							}
+						}
+
+						@Override
+						public void onError(Exception e) {
 							progressView.setVisibility(View.GONE);
 							img.setImageResource(R.drawable.profile_default_photo);
 							img.setVisibility(View.VISIBLE);
-
 							if (item.getSex() < 3) {
-
 								holder.mGenderImage.setVisibility(View.VISIBLE);
 							}
-
-							return false;
 						}
+					});
 
-						@Override
-						public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-
-							progressView.setVisibility(View.GONE);
-							img.setVisibility(View.VISIBLE);
-
-							if (item.getSex() < 3) {
-
-								holder.mGenderImage.setVisibility(View.VISIBLE);
-							}
-
-							return false;
-						}
-					})
-					.into(img);
 
 		} else {
 
@@ -221,11 +212,11 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 
 		if (item.isProMode()) {
 
-			holder.mProImage.setVisibility(View.VISIBLE);
+			holder.mProfileLevelIcon.setVisibility(View.VISIBLE);
 
 		} else {
 
-			holder.mProImage.setVisibility(View.GONE);
+			holder.mProfileLevelIcon.setVisibility(View.GONE);
 		}
 
 		holder.mParent.setOnClickListener(new View.OnClickListener() {

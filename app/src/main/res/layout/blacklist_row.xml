@@ -44,12 +44,11 @@
                     android:text="User Fullname"
                     android:textSize="16dp"
                     android:singleLine="true"
-                    android:drawableRight="@drawable/ic_verified"
                     android:drawablePadding="5dp"
                     android:textStyle="bold"
                     android:textColor="@color/colorTitle"
                     android:fontFamily="sans-serif-light"
-                    android:layout_marginRight="8dp" />
+                    android:layout_marginEnd="8dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -68,7 +67,7 @@
                     android:layout_marginTop="5dp"
                     android:textColor="@color/colorSubTitle"
                     android:fontFamily="sans-serif-light"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:singleLine="true" />
             </LinearLayout>
 

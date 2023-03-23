@@ -15,15 +15,12 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.hindbyte.dating.activity.ProfileActivity;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.model.Chat;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -48,14 +45,13 @@ public class DialogsListAdapter extends RecyclerView.Adapter<DialogsListAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView title, subtitle, count, time;
-        public CircularImageView image, online, verified;
+        public CircularImageView image, online;
+        public ImageView profileLevelIcon;
         public LinearLayout parent;
         public TextView message;
 
         public ViewHolder(View view) {
-
             super(view);
-
             title = view.findViewById(R.id.title);
             subtitle = view.findViewById(R.id.subtitle);
             message = view.findViewById(R.id.message);
@@ -65,7 +61,7 @@ public class DialogsListAdapter extends RecyclerView.Adapter<DialogsListAdapter.
             parent = view.findViewById(R.id.parent);
 
             online = view.findViewById(R.id.online);
-            verified = view.findViewById(R.id.verified);
+            profileLevelIcon = view.findViewById(R.id.profileLevelIcon);
         }
     }
 
@@ -93,12 +89,14 @@ public class DialogsListAdapter extends RecyclerView.Adapter<DialogsListAdapter.
         /*
         if (item.getWithUserVerify() != 0) {
 
-            holder.verified.setVisibility(View.VISIBLE);
+            holder.profileLevelIcon.setVisibility(View.VISIBLE);
 
         } else {
 
-            holder.verified.setVisibility(View.GONE);
-        }*/
+            holder.profileLevelIcon.setVisibility(View.GONE);
+        }
+        */
+
 
         if (item.getWithUserPhotoUrl().length() > 0) {
 
@@ -106,25 +104,23 @@ public class DialogsListAdapter extends RecyclerView.Adapter<DialogsListAdapter.
 
             try {
 
-                Glide.with(ctx)
-                        .load(item.getWithUserPhotoUrl())
-                        .listener(new RequestListener<Drawable>() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 
+                Picasso.get()
+                        .load(item.getWithUserPhotoUrl())
+                        .placeholder(R.drawable.img_loading)
+                        .error(R.drawable.img_loading)
+                        .into(holder.image, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                img.setVisibility(View.VISIBLE);
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
                                 img.setImageResource(R.drawable.profile_default_photo);
                                 img.setVisibility(View.VISIBLE);
-                                return false;
                             }
-
-                            @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-
-                                img.setVisibility(View.VISIBLE);
-                                return false;
-                            }
-                        })
-                        .into(holder.image);
+                        });
 
             } catch (Exception e) {
 

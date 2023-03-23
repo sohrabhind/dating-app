@@ -106,9 +106,9 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
     TextView mFullnameTitle, mUsernameTitle, mModeTitle, mItemTimeAgo, mItemLikesCount, mItemCommentsCount;
     ResizableImageView mItemImg;
-    CircularImageView mPhotoImage, mProImage, mOnlineIcon;
+    CircularImageView mPhotoImage, mOnlineIcon;
 
-    ImageView mItemPlay;
+    ImageView mItemPlay, mProfileLevelIcon;
 
 
     private ArrayList<Comment> itemsList;
@@ -362,7 +362,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
         mUsernameTitle = rootView.findViewById(R.id.username_label);
 
         mPhotoImage = rootView.findViewById(R.id.photo_image);
-        mProImage = rootView.findViewById(R.id.pro_image);
+        mProfileLevelIcon = rootView.findViewById(R.id.profileLevelIcon);
         mOnlineIcon = rootView.findViewById(R.id.online_icon);
 
         mModeTitle = rootView.findViewById(R.id.mode_label);
@@ -495,7 +495,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
         mItemPlay.setVisibility(View.GONE);
 
-        mProImage.setVisibility(View.GONE);
+        mProfileLevelIcon.setVisibility(View.GONE);
         mOnlineIcon.setVisibility(View.GONE);
 
         mFullnameTitle.setText(item.getOwner().getFullname());
@@ -505,7 +505,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
         if (item.getOwner().getProMode() == 1) {
 
-            mProImage.setVisibility(View.VISIBLE);
+            mProfileLevelIcon.setVisibility(View.VISIBLE);
         }
 
         if (item.getOwner().getLowPhotoUrl().length() != 0 && (App.getInstance().getSettings().isAllowShowNotModeratedProfilePhotos() || App.getInstance().getId() == item.getId())) {

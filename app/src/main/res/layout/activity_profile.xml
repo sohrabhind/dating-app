@@ -68,7 +68,7 @@
                 android:id="@+id/fabButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/spacing_xlarge"
+                android:layout_marginEnd="@dimen/spacing_xlarge"
                 android:layout_marginBottom="@dimen/spacing_xlarge"
                 android:clickable="true"
                 android:tint="@android:color/white"
@@ -78,7 +78,8 @@
                 app:backgroundTint="@color/colorAccent"
                 app:fabSize="normal"
                 app:layout_anchorGravity="bottom|right|end"
-                app:layout_anchor="@id/container_body" />
+                app:layout_anchor="@id/container_body"
+                android:focusable="true" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

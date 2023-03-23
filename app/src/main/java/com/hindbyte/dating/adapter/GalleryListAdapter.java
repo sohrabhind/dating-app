@@ -17,17 +17,16 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.model.Image;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 
 public class GalleryListAdapter extends RecyclerView.Adapter<GalleryListAdapter.MyViewHolder> {
@@ -82,25 +81,21 @@ public class GalleryListAdapter extends RecyclerView.Adapter<GalleryListAdapter.
 
         if (image.getItemType() == Constants.GALLERY_ITEM_TYPE_IMAGE) {
 
-
-            Glide.with(mContext)
+            Picasso.get()
                     .load(image.getImgUrl())
-                    .listener(new RequestListener<Drawable>() {
+                    .placeholder(R.drawable.img_loading)
+                    .error(R.drawable.img_loading)
+                    .into(holder.thumbnail, new Callback() {
                         @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-
+                        public void onSuccess() {
                             progressBar.setVisibility(View.GONE);
-                            return false;
                         }
 
                         @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-
+                        public void onError(Exception e) {
                             progressBar.setVisibility(View.GONE);
-                            return false;
                         }
-                    })
-                    .into(holder.thumbnail);
+                    });
 
         }
         if (image.getOwner().getId() == App.getInstance().getId()) {

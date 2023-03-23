@@ -1,5 +1,6 @@
 package com.hindbyte.dating.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -12,13 +13,10 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.model.Gift;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -72,7 +70,7 @@ public class GiftsSpotlightListAdapter extends RecyclerView.Adapter<GiftsSpotlig
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
         final Gift item = items.get(position);
 
@@ -80,32 +78,27 @@ public class GiftsSpotlightListAdapter extends RecyclerView.Adapter<GiftsSpotlig
         holder.mProgressBar.setVisibility(View.VISIBLE);
 
         if (item.getImgUrl() != null && item.getImgUrl().length() > 0) {
-
             final ProgressBar progressBar = holder.mProgressBar;
             final ImageView imageView = holder.thumbnail;
 
-            Glide.with(mContext)
-                    .load(item.getImgUrl())
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 
+            Picasso.get()
+                    .load(item.getImgUrl())
+                    .placeholder(R.drawable.img_loading)
+                    .error(R.drawable.img_loading)
+                    .into(holder.thumbnail, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
                             progressBar.setVisibility(View.GONE);
                             imageView.setImageResource(R.drawable.img_loading);
-                            return false;
                         }
-
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-
-                            progressBar.setVisibility(View.GONE);
-                            return false;
-                        }
-                    })
-                    .into(holder.thumbnail);
-
+                    });
         } else {
-
             holder.mProgressBar.setVisibility(View.GONE);
             holder.thumbnail.setImageResource(R.drawable.img_loading);
         }

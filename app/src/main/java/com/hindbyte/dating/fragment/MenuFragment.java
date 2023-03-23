@@ -34,8 +34,8 @@ import com.squareup.picasso.Picasso;
 public class MenuFragment extends Fragment implements Constants {
 
 
-    CircularImageView mProfilePhoto, mProfileProIcon;
-    ImageView mFriendsIcon;
+    CircularImageView mProfilePhoto;
+    ImageView mFriendsIcon, mProfileLevelIcon;
     private TextView mNavProfileFullname, mNavProfileSubhead;
 
     private MaterialRippleLayout mNavProfile, mNavSearch, mNavFriends, mNavLikes, mNavLiked, mNavUpgrades, mNavSettings;
@@ -78,7 +78,7 @@ public class MenuFragment extends Fragment implements Constants {
         //
 
         mProfilePhoto = rootView.findViewById(R.id.profilePhoto);
-        mProfileProIcon = rootView.findViewById(R.id.profileProIcon);
+        mProfileLevelIcon = rootView.findViewById(R.id.profileLevelIcon);
 
         mNavProfile.setOnClickListener(new View.OnClickListener() {
 
@@ -187,11 +187,11 @@ public class MenuFragment extends Fragment implements Constants {
 
         if (App.getInstance().getPro() == 1) {
 
-            mProfileProIcon.setVisibility(View.VISIBLE);
+            mProfileLevelIcon.setVisibility(View.VISIBLE);
 
         } else {
 
-            mProfileProIcon.setVisibility(View.GONE);
+            mProfileLevelIcon.setVisibility(View.GONE);
         }
 
         // Fullname

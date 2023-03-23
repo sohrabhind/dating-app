@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
@@ -31,6 +32,10 @@ import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.common.ActivityBase;
 import com.hindbyte.dating.dialogs.FriendRequestActionDialog;
 import com.hindbyte.dating.fragment.PeopleNearbyFragment;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends ActivityBase implements FriendRequestActionDialog.AlertPositiveListener {
 

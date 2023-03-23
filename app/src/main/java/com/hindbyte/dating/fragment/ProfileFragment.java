@@ -147,7 +147,8 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
     SwipeRefreshLayout mProfileRefreshLayout;
     NestedScrollView mNestedScrollView;
 
-    CircularImageView mProfileProIcon;
+    ImageView mProfileLevelIcon;
+
     ImageView mProfilePhoto, mProfileOnlineIcon;
     TextView mProfileLocation, mProfileFullname, mProfileUsername;
     RecyclerView mRecyclerView;
@@ -526,7 +527,9 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         });
 
         mProfilePhoto = rootView.findViewById(R.id.profilePhoto);
-        mProfileProIcon = rootView.findViewById(R.id.profileProIcon);
+        mProfileLevelIcon = rootView.findViewById(R.id.profileLevelIcon);
+
+
 
         mProfileActionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1076,11 +1079,11 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
         if (profile.isProMode()) {
 
-            mProfileProIcon.setVisibility(View.VISIBLE);
+            mProfileLevelIcon.setVisibility(View.VISIBLE);
 
         } else {
 
-            mProfileProIcon.setVisibility(View.GONE);
+            mProfileLevelIcon.setVisibility(View.GONE);
         }
 
         // Profile Info
