@@ -79,8 +79,6 @@ public class HomeActivity extends ActivityBase {
     private Boolean loading = false;
 
 
-
-
     private EditText mUsername, mFullname, mPassword, mEmail;
     private String username = "";
     private String password = "";
@@ -105,7 +103,6 @@ public class HomeActivity extends ActivityBase {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         // Get Firebase token
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
@@ -152,62 +149,6 @@ public class HomeActivity extends ActivityBase {
             startActivity(i);
         });
 
-        mUsername.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {
-
-                if (App.getInstance().isConnected() && check_username()) {
-
-                    CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_APP_CHECKUSERNAME, null,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    try {
-                                        if (response.getBoolean("error")) {
-                                            mUsername.setError(getString(R.string.error_login_taken));
-                                        }
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e("Username()", error.toString());
-                        }
-                    }) {
-
-                        @Override
-                        protected Map<String, String> getParams() {
-                            Map<String, String> params = new HashMap<String, String>();
-                            params.put("username", username);
-                            return params;
-                        }
-                    };
-
-                    App.getInstance().addToRequestQueue(jsonReq);
-                }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-        });
-
-
-        mPassword.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-                check_password();
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-        });
-
 
         mEmail.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
@@ -216,7 +157,6 @@ public class HomeActivity extends ActivityBase {
                             response -> {
                                 try {
                                     if (response.getBoolean("error")) {
-                                        mEmail.setError(getString(R.string.error_email_taken));
                                         isEmailTaken = true;
                                     } else {
                                         isEmailTaken = false;
@@ -262,8 +202,8 @@ public class HomeActivity extends ActivityBase {
             if (verifyRegForm()) {
                 Intent i = new Intent(HomeActivity.this, RegisterActivity.class);
                 i.putExtra("email", email);
-                i.putExtra("password", password);
                 i.putExtra("username", username);
+                i.putExtra("password", password);
                 startActivity(i);
             }
 
@@ -400,7 +340,7 @@ public class HomeActivity extends ActivityBase {
     }
 
     @Override
-    protected void  onStart() {
+    protected void onStart() {
         super.onStart();
         if (App.getInstance().isConnected() && App.getInstance().getId() != 0) {
             CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_ACCOUNT_AUTHORIZE, null,
@@ -438,47 +378,6 @@ public class HomeActivity extends ActivityBase {
     }
 
 
-    public Boolean check_password() {
-        password = mPassword.getText().toString();
-        Helper helper = new Helper(this);
-
-        if (password.length() == 0) {
-
-            mPassword.setError(getString(R.string.error_field_empty));
-
-            return false;
-        }
-
-        if (password.length() < 6) {
-            mPassword.setError(getString(R.string.error_small_password));
-            return false;
-        }
-
-        if (!helper.isValidPassword(password)) {
-            mPassword.setError(getString(R.string.error_wrong_format));
-            return false;
-        }
-
-        mPassword.setError(null);
-        return true;
-    }
-
-    public Boolean check_email() {
-        email = mEmail.getText().toString();
-        Helper helper = new Helper(this);
-        if (email.length() == 0) {
-            mEmail.setError(getString(R.string.error_field_empty));
-            return false;
-        }
-
-        if (!helper.isValidEmail(email)) {
-            mEmail.setError(getString(R.string.error_wrong_format));
-            return false;
-        }
-        mEmail.setError(null);
-        return true;
-    }
-
     private void hideKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -487,97 +386,75 @@ public class HomeActivity extends ActivityBase {
         }
     }
 
-    public Boolean verifyRegForm() {
-        username = mUsername.getText().toString();
-        password = mPassword.getText().toString();
+    public Boolean check_email() {
         email = mEmail.getText().toString();
-
-
-        mUsername.setError(null);
-        mPassword.setError(null);
-        mEmail.setError(null);
-
         Helper helper = new Helper(this);
-
-        if (username.length() == 0) {
-            mUsername.setError(getString(R.string.error_field_empty));
-            return false;
-        }
-
-        if (username.length() < 5) {
-            mUsername.setError(getString(R.string.error_small_username));
-            return false;
-        }
-
-        if (!helper.isValidLogin(username)) {
-            mUsername.setError(getString(R.string.error_wrong_format));
-            return false;
-        }
-
-
-        if (password.length() == 0) {
-            mPassword.setError(getString(R.string.error_field_empty));
-            return false;
-        }
-
-        if (password.length() < 6) {
-            mPassword.setError(getString(R.string.error_small_password));
-            return false;
-        }
-
-        if (!helper.isValidPassword(password)) {
-            mPassword.setError(getString(R.string.error_wrong_format));
-            return false;
-        }
-
-        if(isEmailTaken) {
-            mEmail.setError(getString(R.string.error_email_taken));
-            return false;
-        }
-
         if (email.length() == 0) {
-            mEmail.setError(getString(R.string.error_field_empty));
             return false;
         }
 
         if (!helper.isValidEmail(email)) {
-            mEmail.setError(getString(R.string.error_wrong_format));
             return false;
         }
-
         return true;
     }
 
-    public Boolean check_username() {
-
+    public Boolean verifyRegForm() {
+        email = mEmail.getText().toString();
         username = mUsername.getText().toString();
+        password = mPassword.getText().toString();
 
         Helper helper = new Helper(this);
 
+        if(isEmailTaken) {
+            Toast.makeText(this, R.string.error_email_taken, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (email.length() == 0) {
+            Toast.makeText(this, R.string.error_field_empty, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!helper.isValidEmail(email)) {
+            Toast.makeText(this, R.string.error_wrong_format, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+
         if (username.length() == 0) {
-
-            mUsername.setError(getString(R.string.error_field_empty));
-
+            Toast.makeText(this, R.string.error_field_empty, Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if (username.length() < 5) {
-
-            mUsername.setError(getString(R.string.error_small_username));
-
+            Toast.makeText(this, R.string.error_small_username, Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if (!helper.isValidLogin(username)) {
-
-            mUsername.setError(getString(R.string.error_wrong_format));
-
+            Toast.makeText(this, R.string.error_wrong_format, Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        mUsername.setError(null);
 
-        return  true;
+
+        if (password.length() == 0) {
+            Toast.makeText(this, R.string.error_field_empty, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (password.length() < 6) {
+            Toast.makeText(this, R.string.error_small_password, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!helper.isValidPassword(password)) {
+            Toast.makeText(this, R.string.error_wrong_format, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
 

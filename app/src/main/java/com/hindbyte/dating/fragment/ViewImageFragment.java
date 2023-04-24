@@ -503,22 +503,33 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
         mModeTitle.setText(getItemModeText(item.getAccessMode()));
 
-        if (item.getOwner().getProMode() == 1) {
 
-            mProfileLevelIcon.setVisibility(View.VISIBLE);
-        }
+        switch (item.getOwner().getLevelMode()) {
+                case 1:
+                    mProfileLevelIcon.setVisibility(View.VISIBLE);
+                    mProfileLevelIcon.setImageResource(R.drawable.level_silver);
+                    break;
+                case 2:
+                    mProfileLevelIcon.setVisibility(View.VISIBLE);
+                    mProfileLevelIcon.setImageResource(R.drawable.level_gold);
+                    break;
+                case 3:
+                    mProfileLevelIcon.setVisibility(View.VISIBLE);
+                    mProfileLevelIcon.setImageResource(R.drawable.level_diamond);
+                    break;
+                default:
+                    mProfileLevelIcon.setVisibility(View.GONE);
+                    break;
+            }
 
         if (item.getOwner().getLowPhotoUrl().length() != 0 && (App.getInstance().getSettings().isAllowShowNotModeratedProfilePhotos() || App.getInstance().getId() == item.getId())) {
-
             mPhotoImage.setVisibility(View.VISIBLE);
             Picasso.get()
                     .load(item.getOwner().getLowPhotoUrl())
                     .placeholder(R.drawable.profile_default_photo)
                     .error(R.drawable.profile_default_photo)
                     .into(mPhotoImage);
-
         } else {
-
             mPhotoImage.setVisibility(View.VISIBLE);
             mPhotoImage.setImageResource(R.drawable.profile_default_photo);
         }

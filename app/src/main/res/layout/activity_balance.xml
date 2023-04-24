@@ -231,18 +231,6 @@
                 android:background="@color/colorSeparator"
                 android:layout_marginTop="8dp" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/iap4_google_btn"
-                android:text="Test Google Pay"
-                android:layout_marginTop="16dp"
-                android:textColor="@color/white"
-                android:background="@drawable/button_primary"
-                android:textStyle="bold"
-                android:layout_gravity="center_horizontal" />
-
-
         </LinearLayout>
 
     </ScrollView>

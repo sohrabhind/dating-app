@@ -29,7 +29,7 @@ public interface Constants {
 
     // Client Secret | Text constant | Must be the same with CLIENT_SECRET from server config: db.inc.php
 
-    String CLIENT_SECRET = "wFt4*KBoNN_kjSdG13m1k3k=";    // Example: "wFt4*KBoNN_kjSdG13m1k3k="
+    String CLIENT_SECRET = "e862f4egfad1d65ef08f1e491690be56b24";    // Example: "wFt4*KBoNN_kjSdG13m1k3k="
 
     String API_DOMAIN = "https://dating.hindbyte.com/";  // url address to which the application sends requests | with back slash "/" at the end | example: https://mysite.com/ | for emulator on localhost: http://10.0.2.2/
 
@@ -80,7 +80,7 @@ public interface Constants {
     String METHOD_NOTIFICATIONS_GET = API_DOMAIN + "api/" + API_VERSION + "/method/notifications.get" + API_FILE_EXTENSION;
 
     String METHOD_APP_CHECKUSERNAME = API_DOMAIN + "api/" + API_VERSION + "/method/app.checkUsername" + API_FILE_EXTENSION;
-    String METHOD_APP_TERMS = API_DOMAIN + "api/" + API_VERSION + "/method/app.terms" + API_FILE_EXTENSION;
+    String METHOD_APP_TERMS = API_DOMAIN + "api/" + API_VERSION + "/method/app.privacy-policy" + API_FILE_EXTENSION;
     String METHOD_APP_THANKS = API_DOMAIN + "api/" + API_VERSION + "/method/app.thanks" + API_FILE_EXTENSION;
     String METHOD_APP_SEARCH = API_DOMAIN + "api/" + API_VERSION + "/method/app.search" + API_FILE_EXTENSION;
 

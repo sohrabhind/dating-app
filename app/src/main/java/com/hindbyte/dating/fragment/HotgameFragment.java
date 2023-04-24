@@ -55,6 +55,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hindbyte.dating.R;
+import com.hindbyte.dating.activity.BalanceActivity;
 import com.hindbyte.dating.activity.ChatActivity;
 import com.hindbyte.dating.activity.ProfileActivity;
 import com.hindbyte.dating.adapter.HotgameAdapter;
@@ -246,7 +247,7 @@ public class HotgameFragment extends Fragment implements Constants, CardStackLis
                 intent.putExtra("profileId", u.getId());
                 startActivity(intent);
                 */
-                if (App.getInstance().isPro() || App.getInstance().getFreeMessagesCount() > 0) {
+                if (App.getInstance().getLevelMode() > 0 || App.getInstance().getFreeMessagesCount() > 0) {
                     if (profile.getAllowMessages() == 0 && !profile.isFriend()) {
                         Toast.makeText(getActivity(), getString(R.string.error_no_friend), Toast.LENGTH_SHORT).show();
                     } else {
@@ -265,7 +266,8 @@ public class HotgameFragment extends Fragment implements Constants, CardStackLis
                         }
                     }
                 } else {
-                    Toast.makeText(getActivity(), getString(R.string.msg_pro_mode_alert), Toast.LENGTH_LONG).show();
+                    initiatePopupWindow();
+                    //Toast.makeText(getActivity(), getString(R.string.msg_pro_mode_alert), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -346,6 +348,66 @@ public class HotgameFragment extends Fragment implements Constants, CardStackLis
                 }
             }
         }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    public void initiatePopupWindow() {
+
+        AlertDialog.Builder builder3 = new AlertDialog.Builder(requireContext());
+        builder3.setCancelable(true);
+        @SuppressLint("InflateParams") LinearLayout signInLayout2 = (LinearLayout) LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_to_home, null, false);
+
+        TextView silverPackageBtn = signInLayout2.findViewById(R.id.silverPackageBtn);
+        TextView goldPackageBtn = signInLayout2.findViewById(R.id.goldPackageBtn);
+        TextView diamondPackageBtn = signInLayout2.findViewById(R.id.diamondPackageBtn);
+        TextView packageDesc = signInLayout2.findViewById(R.id.packageDesc);
+
+        silverPackageBtn.setBackgroundResource(R.color.green_text);
+        packageDesc.setText("Validity 30 Days\n\n₹ 300\n\n1000 Messages\n\nSilver Profile Badge");
+        Intent intentX = new Intent(getActivity(), BalanceActivity.class);
+        intentX.putExtra("package", "silver");
+
+        silverPackageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                silverPackageBtn.setBackgroundResource(R.color.green_text);
+                goldPackageBtn.setBackgroundResource(R.color.white);
+                diamondPackageBtn.setBackgroundResource(R.color.white);
+                packageDesc.setText("Validity 30 Days\n\n₹ 300\n\n1000 Messages\n\nSilver Profile Badge");
+                intentX.putExtra("package", "silver");
+            }
+        });
+
+        goldPackageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                silverPackageBtn.setBackgroundResource(R.color.white);
+                goldPackageBtn.setBackgroundResource(R.color.green_text);
+                diamondPackageBtn.setBackgroundResource(R.color.white);
+                packageDesc.setText("Validity 30 Days\n\n₹ 600\n\n5000 Messages\n\nGold Profile Badge");
+                intentX.putExtra("package", "gold");
+            }
+        });
+
+        diamondPackageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                silverPackageBtn.setBackgroundResource(R.color.white);
+                goldPackageBtn.setBackgroundResource(R.color.white);
+                diamondPackageBtn.setBackgroundResource(R.color.green_text);
+                packageDesc.setText("Validity 30 Days\n\n₹ 900\n\n10000 Messages\n\nDiamond Profile Badge");
+                intentX.putExtra("package", "diamond");
+            }
+        });
+
+
+        builder3.setView(signInLayout2);
+        builder3.setPositiveButton("Continue", (dialog2, which) -> {
+            startActivity(intentX);
+        });
+        builder3.setNegativeButton("Cancel", (dialog2, which) -> dialog2.dismiss());
+        builder3.create().show();
+
     }
 
     private void hotgameButtonAction(Direction direction) {

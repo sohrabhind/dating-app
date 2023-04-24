@@ -991,11 +991,8 @@ public class RegisterActivity extends ActivityBase {
                             }
 
                             case 300: {
-
                                 mViewPager.setCurrentItem(0);
-
                                 Toast.makeText(RegisterActivity.this, getString(R.string.error_login_taken), Toast.LENGTH_SHORT).show();
-
                                 break;
                             }
 

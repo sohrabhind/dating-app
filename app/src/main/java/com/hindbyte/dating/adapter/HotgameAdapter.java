@@ -1,5 +1,6 @@
 package com.hindbyte.dating.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.activity.ProfileActivity;
+import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.model.Profile;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -31,14 +33,13 @@ public class HotgameAdapter extends RecyclerView.Adapter<HotgameAdapter.MyViewHo
 	public static class MyViewHolder extends RecyclerView.ViewHolder {
 
 		public TextView title, location, distance;
-		public ImageView thumbnail;
+		public ImageView thumbnail, mProfileLevelIcon;
 		public ProgressBar progress;
 
 		public MyViewHolder(View view) {
-
 			super(view);
-
 			title = view.findViewById(R.id.item_name);
+			mProfileLevelIcon = view.findViewById(R.id.profileLevelIcon);
 			location = view.findViewById(R.id.item_location);
 			distance = view.findViewById(R.id.item_distance);
 			thumbnail = view.findViewById(R.id.item_image);
@@ -59,50 +60,49 @@ public class HotgameAdapter extends RecyclerView.Adapter<HotgameAdapter.MyViewHo
 		return new MyViewHolder(itemView);
 	}
 
+
+	@SuppressLint("SetTextI18n")
 	@Override
 	public void onBindViewHolder(final MyViewHolder holder, int position) {
 
 		holder.progress.setVisibility(View.GONE);
 
-		Profile p = itemList.get(position);
+		Profile profileItem = itemList.get(position);
 
-		holder.title.setText(p.getFullname() + ", " + p.getAge());
+		holder.title.setText(profileItem.getFullname() + ", " + profileItem.getAge());
 
 		holder.distance.setVisibility(View.GONE);
 
-		if (p.getDistance() != 0) {
+		if (profileItem.getDistance() != 0) {
 
 			holder.distance.setVisibility(View.VISIBLE);
 
-			if (p.getDistance() < 3) {
+			if (profileItem.getDistance() < 3) {
 
 				holder.distance.setText(mContext.getString(R.string.label_nearby));
 
 			} else {
 
-				holder.distance.setText(String.valueOf((int) p.getDistance()) + "km");
+				holder.distance.setText((int) profileItem.getDistance() + "km");
 			}
 		}
 
 		holder.location.setVisibility(View.GONE);
 
-		if (p.getLocation().length() != 0) {
-
+		if (profileItem.getLocation().length() != 0) {
 			holder.location.setVisibility(View.VISIBLE);
-			holder.location.setText(p.getLocation());
-		}
-
-		//
+			holder.location.setText(profileItem.getLocation());
+		}//
 
 		final ImageView imgView = holder.thumbnail;
 		final ProgressBar progressView = holder.progress;
 
-
 		Picasso.get()
-				.load(p.getLowPhotoUrl())
-				.placeholder(R.drawable.img_loading)
-				.error(R.drawable.img_loading)
+				.load(profileItem.getLowPhotoUrl())
+				.placeholder(R.drawable.profile_default_photo)
+				.error(R.drawable.profile_default_photo)
 				.into(imgView, new Callback() {
+
 					@Override
 					public void onSuccess() {
 						progressView.setVisibility(View.GONE);
@@ -112,24 +112,39 @@ public class HotgameAdapter extends RecyclerView.Adapter<HotgameAdapter.MyViewHo
 					@Override
 					public void onError(Exception e) {
 						progressView.setVisibility(View.GONE);
-						imgView.setImageResource(R.drawable.profile_default_photo);
 						imgView.setVisibility(View.VISIBLE);
 					}
 				});
 
+		switch (profileItem.getLevelMode()) {
+			case 1:
+				holder.mProfileLevelIcon.setVisibility(View.VISIBLE);
+				holder.mProfileLevelIcon.setImageResource(R.drawable.level_silver);
+				break;
+			case 2:
+				holder.mProfileLevelIcon.setVisibility(View.VISIBLE);
+				holder.mProfileLevelIcon.setImageResource(R.drawable.level_gold);
+				break;
+			case 3:
+				holder.mProfileLevelIcon.setVisibility(View.VISIBLE);
+				holder.mProfileLevelIcon.setImageResource(R.drawable.level_diamond);
+				break;
+			default:
+				holder.mProfileLevelIcon.setVisibility(View.GONE);
+				break;
+		}
 
-		imgView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(mContext, ProfileActivity.class);
-				intent.putExtra("profileId", p.getId());
-				mContext.startActivity(intent);
-			}
+		imgView.setOnClickListener(v -> {
+			Intent intent = new Intent(mContext, ProfileActivity.class);
+			intent.putExtra("profileId", profileItem.getId());
+			mContext.startActivity(intent);
 		});
 	}
+
 
 	@Override
 	public int getItemCount() {
 		return itemList.size();
 	}
+
 }

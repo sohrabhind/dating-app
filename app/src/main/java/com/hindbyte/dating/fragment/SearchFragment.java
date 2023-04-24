@@ -365,7 +365,7 @@ setHasOptionsMenu(true);
                 params.put("gender", String.valueOf(gender));
                 params.put("online", String.valueOf(online));
                 params.put("photo", String.valueOf(photo));
-                params.put("pro", String.valueOf(pro_mode));
+                params.put("level", String.valueOf(pro_mode));
                 params.put("ageFrom", String.valueOf(age_from));
                 params.put("ageTo", String.valueOf(age_to));
                 params.put("distance", String.valueOf(distance));

@@ -1,14 +1,12 @@
 package com.hindbyte.dating.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,8 +24,6 @@ import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.QueryProductDetailsParams;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.google.common.collect.ImmutableList;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.app.App;
@@ -47,21 +43,21 @@ import java.util.Objects;
 public class BalanceActivity extends ActivityBase {
 
     Toolbar mToolbar;
-    static final String ITEM_PRODUCT_1 = "dating.hindbyte.com.iap1";    // Change to: yourdomain.com.iap1
-    static final String ITEM_PRODUCT_2 = "dating.hindbyte.com.iap2";    // Change to: yourdomain.com.iap2
-    static final String ITEM_PRODUCT_3 = "dating.hindbyte.com.iap3";    // Change to: yourdomain.com.iap3
-    static final String ITEM_PRODUCT_4 = "android.test.purchased";  // Not edit! For testing - free purchases
+    static final String ITEM_PRODUCT_1 = "dating.hindbyte.com.iaps";    // Change to: yourdomain.com.iap1
+    static final String ITEM_PRODUCT_2 = "dating.hindbyte.com.iapg";    // Change to: yourdomain.com.iap2
+    static final String ITEM_PRODUCT_3 = "dating.hindbyte.com.iapd";    // Change to: yourdomain.com.iap3
 
     static final int ITEM_PRODUCT_1_AMOUNT = 300;// in usd cents | 3 usd = 300 cents
     static final int ITEM_PRODUCT_2_AMOUNT = 600;// in usd cents | 6 usd = 600 cents
     static final int ITEM_PRODUCT_3_AMOUNT = 900;// in usd cents | 9 usd = 900 cents
 
-    Button mBuy1Button, mBuy2Button, mBuy3Button, mBuy4Button;
+    Button mBuy1Button, mBuy2Button, mBuy3Button;
 
     private Boolean loading = false;
 
     private BillingClient mBillingClient;
     private final Map<String, ProductDetails> mProductDetailsMap = new HashMap<>();
+    private String packageName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,11 +81,6 @@ public class BalanceActivity extends ActivityBase {
         mBuy1Button = findViewById(R.id.iap1_google_btn);
         mBuy2Button = findViewById(R.id.iap2_google_btn);
         mBuy3Button = findViewById(R.id.iap3_google_btn);
-        mBuy4Button = findViewById(R.id.iap4_google_btn);// For test Google Pay Button
-
-        if (!GOOGLE_PAY_TEST_BUTTON) {
-            mBuy4Button.setVisibility(View.GONE);
-        }
 
         mBuy1Button.setOnClickListener(v -> launchBilling(ITEM_PRODUCT_1));
 
@@ -97,9 +88,39 @@ public class BalanceActivity extends ActivityBase {
 
         mBuy3Button.setOnClickListener(v -> launchBilling(ITEM_PRODUCT_3));
 
-        mBuy4Button.setOnClickListener(v -> launchBilling(ITEM_PRODUCT_4));
-
         setupBilling();
+
+        Intent i = getIntent();
+        packageName = i.getStringExtra("package");
+        if (packageName != null) {
+            if (!loading) {
+                loading = true;
+                showpDialog();
+                launchIntentBilling();
+            }
+        }
+    }
+
+    private void launchIntentBilling() {
+        new Handler().postDelayed(() -> {
+            if (mProductDetailsMap.get(ITEM_PRODUCT_3) != null) {
+                loading = false;
+                hidepDialog();
+                switch (packageName) {
+                    case "silver":
+                        launchBilling(ITEM_PRODUCT_1);
+                        break;
+                    case "gold":
+                        launchBilling(ITEM_PRODUCT_2);
+                        break;
+                    case "diamond":
+                        launchBilling(ITEM_PRODUCT_3);
+                        break;
+                }
+            } else {
+                launchIntentBilling();
+            }
+        }, 1000);
     }
 
     @Override
@@ -129,16 +150,12 @@ public class BalanceActivity extends ActivityBase {
             @Override
             public void onBillingSetupFinished(@NonNull BillingResult billingResult) {
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                    // The BillingClient is ready. You can query purchases here.
                     queryProductDetails();
-                    Log.e("onBillingSetupFinished", "WORKS");
                 }
             }
 
             @Override
             public void onBillingServiceDisconnected() {
-                // Try to restart the connection on the next request to
-                // Google Play by calling the startConnection() method.
                 Log.e("onBillingSetupFinished", "NOT WORKS");
             }
         });
@@ -152,21 +169,16 @@ public class BalanceActivity extends ActivityBase {
                 // For example, increase the number of coins inside the user's basket.
                 switch (product) {
                     case ITEM_PRODUCT_1:
-                        App.getInstance().setBalance(App.getInstance().getBalance() + 100);
-                        payment(100, ITEM_PRODUCT_1_AMOUNT, PT_GOOGLE_PURCHASE,true);
+                        App.getInstance().setBalance(App.getInstance().getBalance() + 300);
+                        payment(300, ITEM_PRODUCT_1_AMOUNT, PT_GOOGLE_PURCHASE,true);
                         break;
                     case ITEM_PRODUCT_2:
-                        App.getInstance().setBalance(App.getInstance().getBalance() + 300);
-                        payment(300, ITEM_PRODUCT_2_AMOUNT, PT_GOOGLE_PURCHASE,true);
+                        App.getInstance().setBalance(App.getInstance().getBalance() + 600);
+                        payment(600, ITEM_PRODUCT_2_AMOUNT, PT_GOOGLE_PURCHASE,true);
                         break;
                     case ITEM_PRODUCT_3:
-                        App.getInstance().setBalance(App.getInstance().getBalance() + 600);
-                        payment(600, ITEM_PRODUCT_3_AMOUNT, PT_GOOGLE_PURCHASE,true);
-                        break;
-                    case ITEM_PRODUCT_4:
-                        Log.e("Payment", "Call");
-                        App.getInstance().setBalance(App.getInstance().getBalance() + 100);
-                        payment(1000, 0, PT_GOOGLE_PURCHASE,true);
+                        App.getInstance().setBalance(App.getInstance().getBalance() + 900);
+                        payment(900, ITEM_PRODUCT_3_AMOUNT, PT_GOOGLE_PURCHASE,true);
                         break;
                     default:
                         break;
@@ -182,9 +194,6 @@ public class BalanceActivity extends ActivityBase {
         productList.add(QueryProductDetailsParams.Product.newBuilder().setProductId(ITEM_PRODUCT_1).setProductType(BillingClient.ProductType.INAPP).build());
         productList.add(QueryProductDetailsParams.Product.newBuilder().setProductId(ITEM_PRODUCT_2).setProductType(BillingClient.ProductType.INAPP).build());
         productList.add(QueryProductDetailsParams.Product.newBuilder().setProductId(ITEM_PRODUCT_3).setProductType(BillingClient.ProductType.INAPP).build());
-        if (GOOGLE_PAY_TEST_BUTTON) {
-            productList.add(QueryProductDetailsParams.Product.newBuilder().setProductId(ITEM_PRODUCT_4).setProductType(BillingClient.ProductType.INAPP).build());
-        }
 
         QueryProductDetailsParams productDetailsParams = QueryProductDetailsParams.newBuilder().setProductList(productList).build();
         mBillingClient.queryProductDetailsAsync(productDetailsParams, (billingResult, list) -> {
@@ -250,8 +259,6 @@ public class BalanceActivity extends ActivityBase {
         App.getInstance().addToRequestQueue(jsonReq);
     }
 
-    //Tumor related glue-code
-    private static final int REQUEST_CODE = 1234; // Can be anything
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

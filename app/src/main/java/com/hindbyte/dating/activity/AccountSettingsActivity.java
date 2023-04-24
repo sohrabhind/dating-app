@@ -23,6 +23,8 @@ import com.hindbyte.dating.dialogs.WorldViewSelectDialog;
 import com.hindbyte.dating.dialogs.YouLikeSelectDialog;
 import com.hindbyte.dating.dialogs.YouLookingSelectDialog;
 
+import java.util.Objects;
+
 public class AccountSettingsActivity extends ActivityBase implements GenderSelectDialog.AlertPositiveListener, RelationshipStatusSelectDialog.AlertPositiveListener, PoliticalViewsSelectDialog.AlertPositiveListener, WorldViewSelectDialog.AlertPositiveListener, PersonalPrioritySelectDialog.AlertPositiveListener, ImportantInOthersSelectDialog.AlertPositiveListener, SmokingViewsSelectDialog.AlertPositiveListener, AlcoholViewsSelectDialog.AlertPositiveListener, YouLookingSelectDialog.AlertPositiveListener, YouLikeSelectDialog.AlertPositiveListener {
 
     Toolbar mToolbar;
@@ -37,7 +39,7 @@ public class AccountSettingsActivity extends ActivityBase implements GenderSelec
         mToolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
         if (savedInstanceState != null) {
@@ -55,17 +57,13 @@ public class AccountSettingsActivity extends ActivityBase implements GenderSelec
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-
         super.onSaveInstanceState(outState);
-
         getSupportFragmentManager().putFragment(outState, "currentFragment", fragment);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
-
         fragment.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -81,18 +79,12 @@ public class AccountSettingsActivity extends ActivityBase implements GenderSelec
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
-
         switch (item.getItemId()) {
-
             case android.R.id.home: {
-
                 finish();
                 return true;
             }
-
             default: {
-
                 return super.onOptionsItemSelected(item);
             }
         }
@@ -100,70 +92,60 @@ public class AccountSettingsActivity extends ActivityBase implements GenderSelec
 
     @Override
     public void onGenderSelect(int position) {
-
         AccountSettingsFragment p = (AccountSettingsFragment) fragment;
         p.getGender(position);
     }
 
     @Override
     public void onRelationshipStatusSelect(int position) {
-
         AccountSettingsFragment p = (AccountSettingsFragment) fragment;
         p.getRelationshipStatus(position);
     }
 
     @Override
     public void onPoliticalViewsSelect(int position) {
-
         AccountSettingsFragment p = (AccountSettingsFragment) fragment;
         p.getPoliticalViews(position);
     }
 
     @Override
     public void onWorldViewSelect(int position) {
-
         AccountSettingsFragment p = (AccountSettingsFragment) fragment;
         p.getWorldView(position);
     }
 
     @Override
     public void onPersonalPrioritySelect(int position) {
-
         AccountSettingsFragment p = (AccountSettingsFragment) fragment;
         p.getPersonalPriority(position);
     }
 
     @Override
     public void onImportantInOthersSelect(int position) {
-
         AccountSettingsFragment p = (AccountSettingsFragment) fragment;
         p.getImportantInOthers(position);
     }
 
     @Override
     public void onSmokingViewsSelect(int position) {
-
         AccountSettingsFragment p = (AccountSettingsFragment) fragment;
         p.getSmokingViews(position);
     }
 
     @Override
     public void onAlcoholViewsSelect(int position) {
-
         AccountSettingsFragment p = (AccountSettingsFragment) fragment;
         p.getAlcoholViews(position);
     }
 
     @Override
     public void onYouLookingSelect(int position) {
-
         AccountSettingsFragment p = (AccountSettingsFragment) fragment;
         p.getYouLooking(position);
     }
 
     @Override
     public void onYouLikeSelect(int position) {
-
         AccountSettingsFragment p = (AccountSettingsFragment) fragment;
         p.getYouLike(position);
     }

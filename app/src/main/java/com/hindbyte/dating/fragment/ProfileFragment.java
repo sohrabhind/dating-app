@@ -581,7 +581,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
             @Override
             public void onClick(View v) {
 
-                if (App.getInstance().isPro() || App.getInstance().getFreeMessagesCount() > 0) {
+                if (App.getInstance().getLevelMode() > 0 || App.getInstance().getFreeMessagesCount() > 0) {
 
                     if (profile.getAllowMessages() == 0 && !profile.isFriend()) {
 
@@ -1077,14 +1077,24 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
             mProfileOnlineIcon.setVisibility(View.GONE);
         }
 
-        if (profile.isProMode()) {
 
-            mProfileLevelIcon.setVisibility(View.VISIBLE);
-
-        } else {
-
-            mProfileLevelIcon.setVisibility(View.GONE);
-        }
+            switch (profile.getLevelMode()) {
+                case 1:
+                    mProfileLevelIcon.setVisibility(View.VISIBLE);
+                    mProfileLevelIcon.setImageResource(R.drawable.level_silver);
+                    break;
+                case 2:
+                    mProfileLevelIcon.setVisibility(View.VISIBLE);
+                    mProfileLevelIcon.setImageResource(R.drawable.level_gold);
+                    break;
+                case 3:
+                    mProfileLevelIcon.setVisibility(View.VISIBLE);
+                    mProfileLevelIcon.setImageResource(R.drawable.level_diamond);
+                    break;
+                default:
+                    mProfileLevelIcon.setVisibility(View.GONE);
+                    break;
+            }    
 
         // Profile Info
 

@@ -113,9 +113,9 @@ public class Profile extends Application implements Constants, Parcelable {
                     this.setDistance(jsonData.getDouble("distance"));
                 }
 
-                if (jsonData.has("pro")) {
+                if (jsonData.has("level")) {
 
-                    this.setProMode(jsonData.getInt("pro"));
+                    this.setLevelMode(jsonData.getInt("level"));
                 }
 
                 if (jsonData.has("age")) {
@@ -309,21 +309,16 @@ public class Profile extends Application implements Constants, Parcelable {
         return this.day;
     }
 
-    public void setProMode(int proMode) {
+    public void setLevelMode(int proMode) {
 
         this.pro = proMode;
     }
 
-    public int getProMode() {
+    public int getLevelMode() {
 
         return this.pro;
     }
 
-    public Boolean isProMode() {
-
-        return this.pro > 0;
-
-    }
 
     public void setAge(int age) {
 

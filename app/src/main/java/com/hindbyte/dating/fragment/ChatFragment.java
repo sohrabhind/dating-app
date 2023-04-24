@@ -3,6 +3,7 @@ package com.hindbyte.dating.fragment;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -49,6 +50,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -69,6 +71,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.hindbyte.dating.R;
+import com.hindbyte.dating.activity.BalanceActivity;
 import com.hindbyte.dating.adapter.ChatListAdapter;
 import com.hindbyte.dating.adapter.StickerListAdapter;
 import com.hindbyte.dating.app.App;
@@ -212,10 +215,12 @@ public class ChatFragment extends Fragment implements Constants {
         chatAdapter = new ChatListAdapter(getActivity(), chatList);
     }
 
+    View rootView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_chat, container, false);
+        rootView = inflater.inflate(R.layout.fragment_chat, container, false);
 
         //
 
@@ -513,14 +518,10 @@ public class ChatFragment extends Fragment implements Constants {
         mSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (App.getInstance().isPro() || App.getInstance().getFreeMessagesCount() > 0) {
-
+                if (App.getInstance().getLevelMode() > 0 && App.getInstance().getFreeMessagesCount() > 0) {
                     newMessage();
-
                 } else {
-
-                    Toast.makeText(getActivity(), getString(R.string.msg_pro_mode_alert), Toast.LENGTH_LONG).show();
+                    initiatePopupWindow();
                 }
             }
         });
@@ -538,15 +539,11 @@ public class ChatFragment extends Fragment implements Constants {
 
         listView.setAdapter(chatAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener((parent, view, position, id) -> {
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (position == 0 && mListViewHeader.getVisibility() == View.VISIBLE) {
 
-                if (position == 0 && mListViewHeader.getVisibility() == View.VISIBLE) {
-
-                    getPreviousMessages();
-                }
+                getPreviousMessages();
             }
         });
 
@@ -608,9 +605,7 @@ public class ChatFragment extends Fragment implements Constants {
                 } else {
 
                     if (!outboxTyping && txt.length() > 0) {
-
                         outboxTyping = true;
-
                         sendNotify(GCM_NOTIFY_TYPING_START);
                     }
                 }
@@ -619,12 +614,10 @@ public class ChatFragment extends Fragment implements Constants {
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
                 //Log.e("", "beforeTextChanged");
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 //Log.e("", "onTextChanged");
             }
         });
@@ -651,26 +644,79 @@ public class ChatFragment extends Fragment implements Constants {
             }
 
         } else {
-
             if (App.getInstance().isConnected()) {
-
                 if (!preload) {
-
                     showContentScreen();
-
                 } else {
-
                     showLoadingScreen();
                 }
-
             } else {
-
                 showErrorScreen();
             }
         }
 
         // Inflate the layout for this fragment
         return rootView;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    public void initiatePopupWindow() {
+
+        AlertDialog.Builder builder3 = new AlertDialog.Builder(requireContext());
+        builder3.setCancelable(true);
+        @SuppressLint("InflateParams") LinearLayout signInLayout2 = (LinearLayout) LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_to_home, null, false);
+
+        TextView silverPackageBtn = signInLayout2.findViewById(R.id.silverPackageBtn);
+        TextView goldPackageBtn = signInLayout2.findViewById(R.id.goldPackageBtn);
+        TextView diamondPackageBtn = signInLayout2.findViewById(R.id.diamondPackageBtn);
+        TextView packageDesc = signInLayout2.findViewById(R.id.packageDesc);
+
+        silverPackageBtn.setBackgroundResource(R.color.green_text);
+        packageDesc.setText("Validity 30 Days\n\n₹ 300\n\n1000 Messages\n\nSilver Profile Badge");
+        Intent intentX = new Intent(getActivity(), BalanceActivity.class);
+        intentX.putExtra("package", "silver");
+
+        silverPackageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                silverPackageBtn.setBackgroundResource(R.color.green_text);
+                goldPackageBtn.setBackgroundResource(R.color.white);
+                diamondPackageBtn.setBackgroundResource(R.color.white);
+                packageDesc.setText("Validity 30 Days\n\n₹ 300\n\n1000 Messages\n\nSilver Profile Badge");
+                intentX.putExtra("package", "silver");
+            }
+        });
+
+        goldPackageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                silverPackageBtn.setBackgroundResource(R.color.white);
+                goldPackageBtn.setBackgroundResource(R.color.green_text);
+                diamondPackageBtn.setBackgroundResource(R.color.white);
+                packageDesc.setText("Validity 30 Days\n\n₹ 600\n\n5000 Messages\n\nGold Profile Badge");
+                intentX.putExtra("package", "gold");
+            }
+        });
+
+        diamondPackageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                silverPackageBtn.setBackgroundResource(R.color.white);
+                goldPackageBtn.setBackgroundResource(R.color.white);
+                diamondPackageBtn.setBackgroundResource(R.color.green_text);
+                packageDesc.setText("Validity 30 Days\n\n₹ 900\n\n10000 Messages\n\nDiamond Profile Badge");
+                intentX.putExtra("package", "diamond");
+            }
+        });
+
+
+        builder3.setView(signInLayout2);
+        builder3.setPositiveButton("Continue", (dialog2, which) -> {
+            startActivity(intentX);
+        });
+        builder3.setNegativeButton("Cancel", (dialog2, which) -> dialog2.dismiss());
+        builder3.create().show();
+
     }
 
     public void typing_start() {
@@ -1123,22 +1169,15 @@ public class ChatFragment extends Fragment implements Constants {
     }
 
     public void newMessage() {
-
         if (App.getInstance().isConnected()) {
-
             messageText = mMessageText.getText().toString();
             messageText = messageText.trim();
 
             if (selectedImagePath.length() != 0) {
-
                 loading = true;
-
                 showpDialog();
-
                 File f = new File(selectedImagePath);
-
                 uploadFile(METHOD_MSG_UPLOAD_IMG, f);
-
             } else {
                 if (messageText.length() > 0) {
                     loading = true;
@@ -1149,9 +1188,7 @@ public class ChatFragment extends Fragment implements Constants {
                     toast.show();
                 }
             }
-
         } else {
-
             Toast toast= Toast.makeText(getActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();

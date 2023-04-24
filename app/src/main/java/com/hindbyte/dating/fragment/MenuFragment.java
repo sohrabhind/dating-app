@@ -183,15 +183,24 @@ public class MenuFragment extends Fragment implements Constants {
             mProfilePhoto.setImageResource(R.drawable.profile_default_photo);
         }
 
-        // Verified
+        // Level
 
-        if (App.getInstance().getPro() == 1) {
-
-            mProfileLevelIcon.setVisibility(View.VISIBLE);
-
-        } else {
-
-            mProfileLevelIcon.setVisibility(View.GONE);
+        switch (App.getInstance().getLevelMode()) {
+            case 1:
+                mProfileLevelIcon.setVisibility(View.VISIBLE);
+                mProfileLevelIcon.setImageResource(R.drawable.level_silver);
+                break;
+            case 2:
+                mProfileLevelIcon.setVisibility(View.VISIBLE);
+                mProfileLevelIcon.setImageResource(R.drawable.level_gold);
+                break;
+            case 3:
+                mProfileLevelIcon.setVisibility(View.VISIBLE);
+                mProfileLevelIcon.setImageResource(R.drawable.level_diamond);
+                break;
+            default:
+                mProfileLevelIcon.setVisibility(View.GONE);
+                break;
         }
 
         // Fullname

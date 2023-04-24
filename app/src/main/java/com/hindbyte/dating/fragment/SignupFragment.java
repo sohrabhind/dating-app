@@ -104,7 +104,7 @@ public class SignupFragment extends Fragment implements Constants {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-Intent i = getActivity().getIntent();
+        Intent i = getActivity().getIntent();
         facebookId = i.getStringExtra("facebookId");
         facebookName = i.getStringExtra("facebookName");
         facebookEmail = i.getStringExtra("facebookEmail");

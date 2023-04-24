@@ -31,3 +31,4 @@ app/src/debug/res/mipmap-xxxhdpi/ic_launcher.png
 app/src/debug/res/mipmap-xxxhdpi/ic_launcher_foreground.png
 app/src/debug/res/mipmap-xxxhdpi/ic_launcher_round.png
 .idea/vcs.xml
+app/release/app-release.aab

@@ -12,6 +12,8 @@ import com.hindbyte.dating.R;
 import com.hindbyte.dating.fragment.SupportFragment;
 import com.hindbyte.dating.common.ActivityBase;
 
+import java.util.Objects;
+
 public class SupportActivity extends ActivityBase {
 
     Toolbar mToolbar;
@@ -26,7 +28,7 @@ public class SupportActivity extends ActivityBase {
         mToolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
         if (savedInstanceState != null) {

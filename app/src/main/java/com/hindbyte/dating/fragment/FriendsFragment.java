@@ -264,7 +264,7 @@ public class FriendsFragment extends Fragment implements Constants, SwipeRefresh
                                             profile.setUsername(friend.getFriendUserUsername());
                                             profile.setLowPhotoUrl(friend.getFriendUserPhotoUrl());
                                             profile.setNormalPhotoUrl(friend.getFriendUserPhotoUrl());
-                                            profile.setProMode(friend.getFriendUserPro());
+                                            profile.setLevelMode(friend.getFriendUserPro());
                                             profile.setOnline(friend.isOnline());
                                             profile.setDistance(0.000000);
                                             profile.setPhotoModerateAt(friend.getPhotoModerateAt());

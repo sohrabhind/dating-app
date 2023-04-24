@@ -1,15 +1,19 @@
 package com.hindbyte.dating.activity;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import androidx.annotation.IdRes;
@@ -67,7 +71,6 @@ public class MainActivity extends ActivityBase implements FriendRequestActionDia
         setContentView(R.layout.activity_main);
 
         // Get intent data
-
         Intent i = getIntent();
 
         pageId = i.getIntExtra("pageId", PAGE_MAIN);
@@ -129,7 +132,6 @@ public class MainActivity extends ActivityBase implements FriendRequestActionDia
 
         mNavMenu = mNavBottomView.getMenu();
 
-
         if (!restore) {
 
             switch (pageId) {
@@ -152,6 +154,7 @@ public class MainActivity extends ActivityBase implements FriendRequestActionDia
             }
         }
     }
+
 
     public void showBadge(Context context, BottomNavigationView bottomNavigationView, @IdRes int itemId, int count) {
         BottomNavigationItemView itemView = bottomNavigationView.findViewById(itemId);

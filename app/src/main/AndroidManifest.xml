@@ -42,7 +42,7 @@
 
         <meta-data
             android:name="android.app.default_searchable"
-            android:value="com.raccoonsquare.dating.SearchActivity" />
+            android:value="com.hindbyte.dating.SearchActivity" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -50,7 +50,7 @@
 
 
         <activity
-            android:exported = "true"
+            android:exported="true"
             android:name="com.hindbyte.dating.activity.AppActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
@@ -61,8 +61,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
 
         <activity
             android:name="com.hindbyte.dating.activity.HomeActivity"
@@ -191,7 +189,7 @@
         <activity
             android:name="com.hindbyte.dating.activity.BalanceActivity"
             android:label="@string/title_activity_balance"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:theme="@style/MyMaterialTheme">
         </activity>
         <activity

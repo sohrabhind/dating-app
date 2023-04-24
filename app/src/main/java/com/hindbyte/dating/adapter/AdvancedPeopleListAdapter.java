@@ -2,7 +2,6 @@ package com.hindbyte.dating.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +9,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.model.Profile;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -36,11 +35,10 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
     }
 
     public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
-
         this.mOnItemClickListener = mItemClickListener;
     }
 
-	public class MyViewHolder extends RecyclerView.ViewHolder {
+	public static class MyViewHolder extends RecyclerView.ViewHolder {
 
 		public TextView mTitle, mSubtitle;
 		public CircularImageView mOnlineImage, mGenderImage;
@@ -52,9 +50,7 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 		public ProgressBar mProgressBar;
 
 		public MyViewHolder(View view) {
-
 			super(view);
-
 			mParent = view.findViewById(R.id.parent);
 			mSquarePhotoImage = view.findViewById(R.id.photo_image);
 			mOnlineImage = view.findViewById(R.id.online_image);
@@ -68,25 +64,22 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 
 
 	public AdvancedPeopleListAdapter(Context mContext, List<Profile> itemList) {
-
 		this.mContext = mContext;
 		this.itemList = itemList;
 	}
 
+	@NonNull
 	@Override
 	public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View itemView;
 		itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.profile_thumbnail_square, parent, false);
-
 		return new MyViewHolder(itemView);
 	}
 
+	@SuppressLint({"DefaultLocale", "SetTextI18n"})
 	@Override
 	public void onBindViewHolder(final MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-
 		final Profile item = itemList.get(position);
-
         holder.mSubtitle.setVisibility(View.GONE);
 
         holder.mOnlineImage.setVisibility(View.GONE);
@@ -110,6 +103,7 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 					.placeholder(R.drawable.img_loading)
 					.error(R.drawable.img_loading)
 					.into(img, new Callback() {
+
 						@Override
 						public void onSuccess() {
 							progressView.setVisibility(View.GONE);
@@ -132,11 +126,8 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 
 
 		} else {
-
             holder.mProgressBar.setVisibility(View.GONE);
-
 			if (item.getSex() < 3) {
-
 				holder.mGenderImage.setVisibility(View.VISIBLE);
 			}
 
@@ -145,96 +136,74 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 		}
 
 		if (item.getAge() != 0) {
-
 			holder.mTitle.setText(item.getFullname() + ", " + item.getAge());
-
 		} else {
-
 			holder.mTitle.setText(item.getFullname());
 		}
 
 		if (item.getSex() < 3) {
-
 			switch (item.getSex()) {
-
 				case 0: {
-
 					holder.mGenderImage.setImageResource(R.drawable.ic_gender_male);
-
 					break;
 				}
-
 				case 1: {
-
 					holder.mGenderImage.setImageResource(R.drawable.ic_gender_female);
-
 					break;
 				}
-
 				default: {
-
 					holder.mGenderImage.setImageResource(R.drawable.ic_gender_secret);
-
 					break;
 				}
 			}
 		}
 
 		if (item.getDistance() > 0.0) {
-
-		    holder.mSubtitle.setVisibility(View.VISIBLE);
+			holder.mSubtitle.setVisibility(View.VISIBLE);
 			holder.mSubtitle.setText(String.format("%.1f km", item.getDistance()));
-
 		} else {
-
 		    // For guests
-
 		    if (item.getLastVisit().length() > 0) {
-
                 holder.mSubtitle.setVisibility(View.VISIBLE);
                 holder.mSubtitle.setText(item.getLastVisit());
-
             } else {
-
                 holder.mSubtitle.setVisibility(View.GONE);
             }
 		}
 
 		if (item.isOnline()) {
-
 			holder.mOnlineImage.setVisibility(View.VISIBLE);
-
 		} else {
-
 			holder.mOnlineImage.setVisibility(View.GONE);
 		}
 
-
-		if (item.isProMode()) {
-
-			holder.mProfileLevelIcon.setVisibility(View.VISIBLE);
-
-		} else {
-
-			holder.mProfileLevelIcon.setVisibility(View.GONE);
+		switch (App.getInstance().getLevelMode()) {
+			case 1:
+				holder.mProfileLevelIcon.setVisibility(View.VISIBLE);
+				holder.mProfileLevelIcon.setImageResource(R.drawable.level_silver);
+				break;
+			case 2:
+				holder.mProfileLevelIcon.setVisibility(View.VISIBLE);
+				holder.mProfileLevelIcon.setImageResource(R.drawable.level_gold);
+				break;
+			case 3:
+				holder.mProfileLevelIcon.setVisibility(View.VISIBLE);
+				holder.mProfileLevelIcon.setImageResource(R.drawable.level_diamond);
+				break;
+			default:
+				holder.mProfileLevelIcon.setVisibility(View.GONE);
+				break;
 		}
 
-		holder.mParent.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View view) {
-
-				if (mOnItemClickListener != null) {
-
-					mOnItemClickListener.onItemClick(view, item, position);
-				}
+		holder.mParent.setOnClickListener(view -> {
+			if (mOnItemClickListener != null) {
+				mOnItemClickListener.onItemClick(view, item, position);
 			}
 		});
 	}
 
 	@Override
 	public int getItemCount() {
-
 		return itemList.size();
 	}
 }

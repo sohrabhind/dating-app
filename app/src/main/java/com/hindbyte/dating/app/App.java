@@ -278,9 +278,9 @@ public class App extends Application implements Constants {
                                         App.getInstance().setFreeMessagesCount(response.getInt("free_messages_count"));
                                     }
 
-                                    if (response.has("pro")) {
+                                    if (response.has("level")) {
 
-                                        App.getInstance().setPro(response.getInt("pro"));
+                                        App.getInstance().setLevelMode(response.getInt("level"));
                                     }
 
                                     if (response.has("balance")) {
@@ -369,13 +369,13 @@ public class App extends Application implements Constants {
 
                 JSONObject accountObj = (JSONObject) accountArray.get(0);
 
-                if (accountObj.has("pro")) {
+                if (accountObj.has("level")) {
 
-                    this.setPro(accountObj.getInt("pro"));
+                    this.setLevelMode(accountObj.getInt("level"));
 
                 } else {
 
-                    this.setPro(0);
+                    this.setLevelMode(0);
                 }
 
                 if (accountObj.has("free_messages_count")) {
@@ -760,21 +760,16 @@ public class App extends Application implements Constants {
         return this.freeMessagesCount;
     }
 
-    public void setPro(int pro) {
+    public void setLevelMode(int pro) {
 
         this.pro = pro;
     }
 
-    public int getPro() {
+    public int getLevelMode() {
 
         return this.pro;
     }
 
-    public Boolean isPro() {
-
-        return this.pro > 0;
-
-    }
 
     public void setBalance(int balance) {
 
@@ -966,7 +961,7 @@ public class App extends Application implements Constants {
         this.setPhotoUrl(sharedPref.getString(getString(R.string.settings_account_photo_url), ""));
 
         this.setFreeMessagesCount(sharedPref.getInt(getString(R.string.settings_account_free_messages_count), 150));
-        this.setPro(sharedPref.getInt(getString(R.string.settings_account_pro_mode), 0));
+        this.setLevelMode(sharedPref.getInt(getString(R.string.settings_account_pro_mode), 0));
 
         this.setAllowLikesGCM(sharedPref.getInt(getString(R.string.settings_account_allow_likes_gcm), 1));
 
@@ -995,7 +990,7 @@ public class App extends Application implements Constants {
         sharedPref.edit().putString(getString(R.string.settings_account_photo_url), this.getPhotoUrl()).apply();
 
         sharedPref.edit().putInt(getString(R.string.settings_account_free_messages_count), this.getFreeMessagesCount()).apply();
-        sharedPref.edit().putInt(getString(R.string.settings_account_pro_mode), this.getPro()).apply();
+        sharedPref.edit().putInt(getString(R.string.settings_account_pro_mode), this.getLevelMode()).apply();
 
         sharedPref.edit().putInt(getString(R.string.settings_account_allow_likes_gcm), this.getAllowLikesGCM()).apply();
 
