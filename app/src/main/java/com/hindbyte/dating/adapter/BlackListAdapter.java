@@ -144,21 +144,17 @@ public class BlackListAdapter extends BaseAdapter implements Constants {
         viewHolder.mBlockedUser.setTag(position);
 		
 		final BlacklistItem item = blackList.get(position);
-
         viewHolder.mBlockedUserFullname.setText(item.getBlockedUserFullname());
         viewHolder.mBlockedUserFullname.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
 
-        if (item.getBlockedUserPhotoUrl().length() > 0) {
-
+        if (item.getBlockedUserPhotoUrl() != null && item.getBlockedUserPhotoUrl().length() > 0) {
             Picasso.get()
             .load(item.getBlockedUserPhotoUrl())
             .placeholder(R.drawable.profile_default_photo)
             .error(R.drawable.profile_default_photo)
             .into(viewHolder.mBlockedUser);
-
         } else {
-
             viewHolder.mBlockedUser.setImageResource(R.drawable.profile_default_photo);
         }
 
@@ -196,13 +192,7 @@ public class BlackListAdapter extends BaseAdapter implements Constants {
                                         notifyDataSetChanged();
                                     }
                                 }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-
-                            Toast.makeText(activity.getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }) {
+                            }, error -> Toast.makeText(activity.getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show()) {
 
                         @Override
                         protected Map<String, String> getParams() {
@@ -210,15 +200,12 @@ public class BlackListAdapter extends BaseAdapter implements Constants {
                             params.put("accountId", Long.toString(App.getInstance().getId()));
                             params.put("accessToken", App.getInstance().getAccessToken());
                             params.put("profileId", Long.toString(item.getBlockedUserId()));
-
                             return params;
                         }
                     };
 
                     App.getInstance().addToRequestQueue(jsonReq);
-
                 } else {
-
                     Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
                 }
             }

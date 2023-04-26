@@ -8,7 +8,6 @@
     <string name="fb_login_protocol_scheme" translatable="false">fb345345345345</string>
 
     <!-- AdMob App Id -->
-
     <!-- DEFAULT Admob APP ID: ca-app-pub-3940256099942544~3347511713 -->
 
     <string name="action_login">Log in</string>
@@ -75,7 +74,7 @@
     <string name="placeholder_password">Password</string>
     <string name="placeholder_login">Username</string>
     <string name="placeholder_fullname">Fullname</string>
-    <string name="placeholder_location">Location</string>
+    <string name="placeholder_location">Country</string>
     <string name="placeholder_instagram_page">Instagram page</string>
     <string name="placeholder_bio">Bio</string>
     <string name="placeholder_email">Email</string>
@@ -425,7 +424,7 @@
     <!-- added for version 3.1 -->
 
     <string name="label_only_with_photo">Profile photo</string>
-    <string name="label_only_with_pro_mode">Pro Mode</string>
+    <string name="label_only_with_level_mode">Level Mode</string>
     <string name="label_additional">Additional</string>
 
     <string name="label_upgrades_pro_mode">Pro Mode</string>
@@ -687,12 +686,12 @@
     <string name="diamond_purchase">Diamond</string>
     <string name="action_buy_plan">Subscribe</string>
 
-    <string name="label_credits">Credits</string>
-    <string name="label_credits_desc">Credits are a virtual currency that you can use to enable upgrades and other functions.</string>
+    <string name="label_level">Level</string>
+    <string name="label_level_desc">Credits are a virtual currency that you can use to enable upgrades and other functions.</string>
     <!-- added for version 1.5 -->
-    <string name="action_buy_iap1_google_pay">$3 for 1 month</string>
-    <string name="action_buy_iap2_google_pay">$6 for 3 months</string>
-    <string name="action_buy_iap3_google_pay">$9 for 6 months</string>
+    <string name="action_buy_iap1_google_pay">₹300</string>
+    <string name="action_buy_iap2_google_pay">₹600</string>
+    <string name="action_buy_iap3_google_pay">₹900</string>
     <string name="item_author_fullname">Item Author Fullname</string>
     <string name="my_profile">My profile</string>
 

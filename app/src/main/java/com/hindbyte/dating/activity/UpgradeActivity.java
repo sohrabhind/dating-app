@@ -40,7 +40,7 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class BalanceActivity extends ActivityBase {
+public class UpgradeActivity extends ActivityBase {
 
     Toolbar mToolbar;
     static final String ITEM_PRODUCT_1 = "dating.hindbyte.com.iaps";    // Change to: yourdomain.com.iap1
@@ -62,7 +62,7 @@ public class BalanceActivity extends ActivityBase {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_balance);
+        setContentView(R.layout.activity_upgrade);
         if (savedInstanceState != null) {
             loading = savedInstanceState.getBoolean("loading");
         } else {
@@ -170,15 +170,15 @@ public class BalanceActivity extends ActivityBase {
                 switch (product) {
                     case ITEM_PRODUCT_1:
                         App.getInstance().setBalance(App.getInstance().getBalance() + 300);
-                        payment(300, ITEM_PRODUCT_1_AMOUNT, PT_GOOGLE_PURCHASE,true);
+                        payment(1, ITEM_PRODUCT_1_AMOUNT, PT_GOOGLE_PURCHASE,true);
                         break;
                     case ITEM_PRODUCT_2:
                         App.getInstance().setBalance(App.getInstance().getBalance() + 600);
-                        payment(600, ITEM_PRODUCT_2_AMOUNT, PT_GOOGLE_PURCHASE,true);
+                        payment(2, ITEM_PRODUCT_2_AMOUNT, PT_GOOGLE_PURCHASE,true);
                         break;
                     case ITEM_PRODUCT_3:
                         App.getInstance().setBalance(App.getInstance().getBalance() + 900);
-                        payment(900, ITEM_PRODUCT_3_AMOUNT, PT_GOOGLE_PURCHASE,true);
+                        payment(3, ITEM_PRODUCT_3_AMOUNT, PT_GOOGLE_PURCHASE,true);
                         break;
                     default:
                         break;
@@ -217,22 +217,20 @@ public class BalanceActivity extends ActivityBase {
     }
 
 
-    public void payment(final int cost, final int amount, final int paymentType, final Boolean showSuccess) {
+    public void payment(final int level, final int amount, final int paymentType, final Boolean showSuccess) {
         loading = true;
         showpDialog();
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_PAYMENTS_NEW, null,
                 response -> {
                     try {
                         if (!response.getBoolean("error")) {
-                            if (response.has("balance")) {
-                                App.getInstance().setBalance(response.getInt("balance"));
+                            if (response.has("level")) {
+                                App.getInstance().setLevelMode(level);
                             }
-
                             if (showSuccess) {
                                 success();
                             }
                         }
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } finally {
@@ -250,7 +248,7 @@ public class BalanceActivity extends ActivityBase {
                 params.put("clientId", CLIENT_ID);
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("credits", String.valueOf(cost));
+                params.put("level", String.valueOf(level));
                 params.put("paymentType", String.valueOf(paymentType));
                 params.put("amount", String.valueOf(amount));
                 return params;
@@ -266,7 +264,7 @@ public class BalanceActivity extends ActivityBase {
     }
 
     public void success() {
-        Toast.makeText(BalanceActivity.this, getString(R.string.msg_success_purchase), Toast.LENGTH_SHORT).show();
+        Toast.makeText(UpgradeActivity.this, getString(R.string.msg_success_purchase), Toast.LENGTH_SHORT).show();
     }
 
     @Override

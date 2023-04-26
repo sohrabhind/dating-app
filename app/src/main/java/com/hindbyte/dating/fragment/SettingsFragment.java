@@ -23,7 +23,6 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.activity.HomeActivity;
-import com.hindbyte.dating.activity.BalanceActivity;
 import com.hindbyte.dating.activity.BalanceHistoryActivity;
 import com.hindbyte.dating.activity.BlackListActivity;
 import com.hindbyte.dating.activity.ChangePasswordActivity;
@@ -47,7 +46,7 @@ import java.util.concurrent.TimeUnit;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements Constants {
 
-    private Preference logoutPreference, itemContactUs, changePassword, itemBalance, itemBalanceHistory, itemServices, itemBlackList, itemNotifications, itemDeactivateAccount, itemPrivacy;
+    private Preference logoutPreference, itemContactUs, changePassword, itemBalanceHistory, itemServices, itemBlackList, itemNotifications, itemDeactivateAccount, itemPrivacy;
     private CheckBoxPreference allowMessages, allowPhotosComments;
     private PreferenceScreen screen;
 
@@ -87,7 +86,6 @@ initpDialog();
         changePassword = findPreference("settings_change_password");
         itemDeactivateAccount = findPreference("settings_deactivate_account");
         itemServices = getPreferenceScreen().findPreference("settings_services");
-        itemBalance = getPreferenceScreen().findPreference("settings_balance");
         itemBalanceHistory = getPreferenceScreen().findPreference("settings_balance_history");
         itemBlackList = findPreference("settings_blocked_list");
         itemNotifications = findPreference("settings_push_notifications");
@@ -100,16 +98,6 @@ initpDialog();
             headerGeneral.removePreference(itemServices);
         }
 
-        itemBalance.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-            public boolean onPreferenceClick(Preference arg0) {
-
-                Intent i = new Intent(getActivity(), BalanceActivity.class);
-                startActivity(i);
-
-                return true;
-            }
-        });
 
         itemBalanceHistory.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 

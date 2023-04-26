@@ -27,7 +27,7 @@ public class BalanceItem extends Application implements Constants, Parcelable {
             this.setFromUserId(jsonData.getLong("fromUserId"));
             this.setPaymentType(jsonData.getInt("paymentType"));
             this.setPaymentAction(jsonData.getInt("paymentAction"));
-            this.setCreditsCount(jsonData.getInt("credits"));
+            this.setLevelCount(jsonData.getInt("level"));
             this.setAmount(jsonData.getInt("amount"));
             this.setCurrency(jsonData.getInt("currency"));
             this.setTimeAgo(jsonData.getString("timeAgo"));
@@ -54,12 +54,12 @@ public class BalanceItem extends Application implements Constants, Parcelable {
         return this.id;
     }
 
-    public void setCreditsCount(int credits) {
+    public void setLevelCount(int credits) {
 
         this.credits = credits;
     }
 
-    public int getCreditsCount() {
+    public int getLevelCount() {
 
         return this.credits;
     }

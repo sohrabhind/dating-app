@@ -187,7 +187,7 @@
             android:label="@string/title_activity_friends"
             android:theme="@style/MyMaterialTheme" />
         <activity
-            android:name="com.hindbyte.dating.activity.BalanceActivity"
+            android:name="com.hindbyte.dating.activity.UpgradeActivity"
             android:label="@string/title_activity_balance"
             android:screenOrientation="fullSensor"
             android:theme="@style/MyMaterialTheme">
@@ -208,11 +208,6 @@
         <activity
             android:name="com.hindbyte.dating.activity.LikersActivity"
             android:label="@string/title_activity_likers" />
-
-        <activity
-            android:name="com.hindbyte.dating.activity.UpgradesActivity"
-            android:label="@string/title_activity_upgrades"
-            android:theme="@style/MyMaterialTheme" />
 
         <activity
             android:name="com.hindbyte.dating.activity.LikedActivity"

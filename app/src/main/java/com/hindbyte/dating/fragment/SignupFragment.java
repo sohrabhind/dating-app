@@ -211,7 +211,7 @@ public class SignupFragment extends Fragment implements Constants {
 
 //                        showpDialog();
 
-                    CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_APP_CHECKUSERNAME, null,
+                    CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_APP_CHECK_USERNAME, null,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {

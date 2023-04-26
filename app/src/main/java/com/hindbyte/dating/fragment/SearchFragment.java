@@ -68,7 +68,7 @@ public class SearchFragment extends Fragment implements Constants, SwipeRefreshL
 
     public String queryText = "";
 
-    private int  gender = 3, online = 0, photo = 0, pro_mode = 0, age_from = 18, age_to = 105, distance = 1000;
+    private int  gender = 3, online = 0, photo = 0, level = 0, age_from = 18, age_to = 105, distance = 1000;
     private int itemId = 0;
     private int arrayLength = 0;
     private Boolean loadingMore = false;
@@ -106,7 +106,7 @@ setHasOptionsMenu(true);
             gender = savedInstanceState.getInt("gender");
             online = savedInstanceState.getInt("online");
             photo = savedInstanceState.getInt("photo");
-            pro_mode = savedInstanceState.getInt("pro_mode");
+            level = savedInstanceState.getInt("level");
             age_from = savedInstanceState.getInt("age_from");
             age_to = savedInstanceState.getInt("age_to");
             distance = savedInstanceState.getInt("distance");
@@ -238,7 +238,7 @@ setHasOptionsMenu(true);
         outState.putInt("gender", gender);
         outState.putInt("online", online);
         outState.putInt("photo", photo);
-        outState.putInt("pro_mode", pro_mode);
+        outState.putInt("level", level);
         outState.putInt("age_from", age_from);
         outState.putInt("age_to", age_to);
 
@@ -365,7 +365,7 @@ setHasOptionsMenu(true);
                 params.put("gender", String.valueOf(gender));
                 params.put("online", String.valueOf(online));
                 params.put("photo", String.valueOf(photo));
-                params.put("level", String.valueOf(pro_mode));
+                params.put("level", String.valueOf(level));
                 params.put("ageFrom", String.valueOf(age_from));
                 params.put("ageTo", String.valueOf(age_to));
                 params.put("distance", String.valueOf(distance));
@@ -442,7 +442,7 @@ setHasOptionsMenu(true);
 
         final CheckBox mOnlineCheckBox = view.findViewById(R.id.checkbox_online);
         final CheckBox mPhotoCheckBox = view.findViewById(R.id.checkbox_photo);
-        final CheckBox mProCheckBox = view.findViewById(R.id.checkbox_pro);
+        final CheckBox mLevelCheckBox = view.findViewById(R.id.checkbox_level);
 
         final RangeSeekBar<Integer> mAgeSeekBar = view.findViewById(R.id.age_seekbar);
 
@@ -482,7 +482,7 @@ setHasOptionsMenu(true);
 
         mOnlineCheckBox.setChecked(false);
         mPhotoCheckBox.setChecked(false);
-        mProCheckBox.setChecked(false);
+        mLevelCheckBox.setChecked(false);
 
         if (online > 0) {
 
@@ -494,9 +494,9 @@ setHasOptionsMenu(true);
             mPhotoCheckBox.setChecked(true);
         }
 
-        if (pro_mode > 0) {
+        if (level > 0) {
 
-            mProCheckBox.setChecked(true);
+            mLevelCheckBox.setChecked(true);
         }
 
         mAgeSeekBar.setSelectedMinValue(age_from);
@@ -576,13 +576,13 @@ setHasOptionsMenu(true);
                     photo = 0;
                 }
 
-                if (mProCheckBox.isChecked()) {
+                if (mLevelCheckBox.isChecked()) {
 
-                    pro_mode = 1;
+                    level = 1;
 
                 } else {
 
-                    pro_mode = 0;
+                    level = 0;
                 }
 
                 // Save filters settings
@@ -619,7 +619,7 @@ setHasOptionsMenu(true);
         gender = App.getInstance().getSharedPref().getInt(getString(R.string.settings_search_gender), 3); // 3 = all
         online = App.getInstance().getSharedPref().getInt(getString(R.string.settings_search_online), 0);
         photo = App.getInstance().getSharedPref().getInt(getString(R.string.settings_search_photo), 0);
-        pro_mode = App.getInstance().getSharedPref().getInt(getString(R.string.settings_search_pro), 0);
+        level = App.getInstance().getSharedPref().getInt(getString(R.string.settings_search_pro), 0);
         age_from = App.getInstance().getSharedPref().getInt(getString(R.string.settings_search_age_from), 18);
         age_to = App.getInstance().getSharedPref().getInt(getString(R.string.settings_search_age_to), 105);
         distance = App.getInstance().getSharedPref().getInt(getString(R.string.settings_search_distance), 1000);
@@ -630,7 +630,7 @@ setHasOptionsMenu(true);
         App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_search_gender), gender).apply();
         App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_search_online), online).apply();
         App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_search_photo), photo).apply();
-        App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_search_pro), pro_mode).apply();
+        App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_search_pro), level).apply();
         App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_search_age_from), age_from).apply();
         App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_search_age_to), age_to).apply();
         App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_search_distance), distance).apply();

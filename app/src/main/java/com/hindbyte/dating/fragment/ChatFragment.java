@@ -26,7 +26,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,13 +33,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -71,7 +67,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.hindbyte.dating.R;
-import com.hindbyte.dating.activity.BalanceActivity;
+import com.hindbyte.dating.activity.UpgradeActivity;
 import com.hindbyte.dating.adapter.ChatListAdapter;
 import com.hindbyte.dating.adapter.StickerListAdapter;
 import com.hindbyte.dating.app.App;
@@ -673,7 +669,7 @@ public class ChatFragment extends Fragment implements Constants {
 
         silverPackageBtn.setBackgroundResource(R.color.green_text);
         packageDesc.setText("Validity 30 Days\n\n₹ 300\n\n1000 Messages\n\nSilver Profile Badge");
-        Intent intentX = new Intent(getActivity(), BalanceActivity.class);
+        Intent intentX = new Intent(getActivity(), UpgradeActivity.class);
         intentX.putExtra("package", "silver");
 
         silverPackageBtn.setOnClickListener(new View.OnClickListener() {

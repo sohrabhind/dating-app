@@ -65,14 +65,14 @@ public class BalanceHistoryListAdapter extends RecyclerView.Adapter<BalanceHisto
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final BalanceItem item = items.get(position);
-        if (item.getPaymentAction() == PA_BUY_CREDITS || item.getPaymentAction() == PA_BUY_REGISTRATION_BONUS) {
-            holder.credits.setText("+" + item.getCreditsCount() + " " + ctx.getString(R.string.label_credits));
+        if (item.getPaymentAction() == PA_BUY_LEVEL || item.getPaymentAction() == PA_BUY_REGISTRATION_BONUS) {
+            holder.credits.setText("+" + item.getLevelCount() + " " + ctx.getString(R.string.label_level));
         } else {
-            holder.credits.setText("-" + item.getCreditsCount() + " " + ctx.getString(R.string.label_credits));
+            holder.credits.setText("-" + item.getLevelCount() + " " + ctx.getString(R.string.label_level));
         }
 
         switch (item.getPaymentAction()) {
-            case PA_BUY_CREDITS: {
+            case PA_BUY_LEVEL: {
                 switch (item.getPaymentType()) {
                     case PT_CARD: {
                         holder.message.setText(ctx.getString(R.string.label_payments_credits_stripe));

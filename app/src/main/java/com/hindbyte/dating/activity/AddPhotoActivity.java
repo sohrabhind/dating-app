@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -12,6 +13,8 @@ import androidx.fragment.app.FragmentManager;
 import com.hindbyte.dating.fragment.AddPhotoFragment;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.common.ActivityBase;
+
+import java.util.Objects;
 
 
 public class AddPhotoActivity extends ActivityBase {
@@ -28,15 +31,12 @@ public class AddPhotoActivity extends ActivityBase {
         mToolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
         if (savedInstanceState != null) {
-
             fragment = getSupportFragmentManager().getFragment(savedInstanceState, "currentFragment");
-
         } else {
-
             fragment = new AddPhotoFragment();
         }
 
@@ -45,10 +45,8 @@ public class AddPhotoActivity extends ActivityBase {
     }
 
     @Override
-    protected void onSaveInstanceState (Bundle outState) {
-
+    protected void onSaveInstanceState (@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
         getSupportFragmentManager().putFragment(outState, "currentFragment", fragment);
     }
 

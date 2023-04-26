@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -21,7 +20,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
@@ -55,9 +53,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hindbyte.dating.R;
-import com.hindbyte.dating.activity.BalanceActivity;
+import com.hindbyte.dating.activity.UpgradeActivity;
 import com.hindbyte.dating.activity.ChatActivity;
-import com.hindbyte.dating.activity.ProfileActivity;
 import com.hindbyte.dating.adapter.HotgameAdapter;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
@@ -80,7 +77,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class HotgameFragment extends Fragment implements Constants, CardStackListener{
@@ -364,7 +360,7 @@ public class HotgameFragment extends Fragment implements Constants, CardStackLis
 
         silverPackageBtn.setBackgroundResource(R.color.green_text);
         packageDesc.setText("Validity 30 Days\n\n₹ 300\n\n1000 Messages\n\nSilver Profile Badge");
-        Intent intentX = new Intent(getActivity(), BalanceActivity.class);
+        Intent intentX = new Intent(getActivity(), UpgradeActivity.class);
         intentX.putExtra("package", "silver");
 
         silverPackageBtn.setOnClickListener(new View.OnClickListener() {

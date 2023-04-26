@@ -55,7 +55,7 @@ public class SelectGiftListAdapter extends RecyclerView.Adapter<SelectGiftListAd
 	public void onBindViewHolder(final MyViewHolder holder, int position) {
 
 		BaseGift u = itemList.get(position);
-		holder.title.setText(u.getCost() + " " + mContext.getString(R.string.label_credits));
+		holder.title.setText(u.getCost() + " " + mContext.getString(R.string.label_level));
 
 		// loading album cover using Glide library
 		Picasso.get()

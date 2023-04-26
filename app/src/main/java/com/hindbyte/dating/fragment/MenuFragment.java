@@ -16,15 +16,13 @@ import androidx.fragment.app.Fragment;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.hindbyte.dating.R;
-import com.hindbyte.dating.activity.BalanceActivity;
+import com.hindbyte.dating.activity.UpgradeActivity;
 import com.hindbyte.dating.activity.FriendsActivity;
 import com.hindbyte.dating.activity.LikedActivity;
 import com.hindbyte.dating.activity.LikesActivity;
-import com.hindbyte.dating.activity.PeopleNearbyActivity;
 import com.hindbyte.dating.activity.ProfileActivity;
 import com.hindbyte.dating.activity.SearchActivity;
 import com.hindbyte.dating.activity.SettingsActivity;
-import com.hindbyte.dating.activity.UpgradesActivity;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
@@ -139,7 +137,7 @@ public class MenuFragment extends Fragment implements Constants {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(getActivity(), BalanceActivity.class);
+                Intent i = new Intent(getActivity(), UpgradeActivity.class);
                 startActivity(i);
             }
         });

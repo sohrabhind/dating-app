@@ -65,6 +65,7 @@
                         android:id="@+id/radio_gender_any"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_medium"
                         android:text="@string/label_gender_any"
                         android:checked="true"
                         android:layout_weight="1" />
@@ -73,6 +74,7 @@
                         android:id="@+id/radio_gender_male"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_medium"
                         android:text="@string/label_male"
                         android:layout_weight="1" />
 
@@ -80,6 +82,7 @@
                         android:id="@+id/radio_gender_female"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_medium"
                         android:text="@string/label_female"
                         android:layout_weight="1" />
 
@@ -95,9 +98,9 @@
                 android:layout_marginLeft="6dp" />
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_marginTop="@dimen/spacing_middle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <CheckBox
@@ -105,6 +108,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/label_online"
                     android:id="@+id/checkbox_online"
+                    android:layout_marginStart="@dimen/spacing_medium"
                     android:layout_gravity="center_horizontal" />
 
                 <CheckBox
@@ -119,8 +123,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_medium"
-                    android:text="@string/label_only_with_pro_mode"
-                    android:id="@+id/checkbox_pro"
+                    android:text="@string/label_only_with_level_mode"
+                    android:id="@+id/checkbox_level"
                     android:layout_gravity="center_horizontal" />
 
             </LinearLayout>

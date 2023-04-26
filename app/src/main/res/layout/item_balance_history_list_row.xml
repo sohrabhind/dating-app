@@ -40,7 +40,7 @@
                     android:layout_marginTop="@dimen/spacing_small"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:text="@string/label_credits"
+                    android:text="@string/label_level"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/colorTitle"
                     android:textStyle="bold" />

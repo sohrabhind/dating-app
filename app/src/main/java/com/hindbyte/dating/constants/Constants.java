@@ -13,7 +13,7 @@ public interface Constants {
 
     int VOLLEY_REQUEST_SECONDS = 15; //SECONDS TO REQUEST
 
-    public static final Boolean GOOGLE_AUTHORIZATION = true; // Allow login, signup with Google and "Services" section in Settings
+    Boolean GOOGLE_AUTHORIZATION = true; // Allow login, signup with Google and "Services" section in Settings
 
     Boolean WEB_SITE_AVAILABLE = true; // false = Do not show menu items (Open in browser, Copy profile link) in profile page | true = show menu items (Open in browser, Copy profile link) in profile page
 
@@ -46,7 +46,7 @@ public interface Constants {
     String METHOD_ACCOUNT_SIGNUP = API_DOMAIN + "api/" + API_VERSION + "/method/account.signUp" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_AUTHORIZE = API_DOMAIN + "api/" + API_VERSION + "/method/account.authorize" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_SET_GCM_TOKEN = API_DOMAIN + "api/" + API_VERSION + "/method/account.setGcmToken" + API_FILE_EXTENSION;
-   String METHOD_ACCOUNT_RECOVERY = API_DOMAIN + "api/" + API_VERSION + "/method/account.recovery" + API_FILE_EXTENSION;
+    String METHOD_ACCOUNT_RECOVERY = API_DOMAIN + "api/" + API_VERSION + "/method/account.recovery" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_SETPASSWORD = API_DOMAIN + "api/" + API_VERSION + "/method/account.setPassword" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_DEACTIVATE = API_DOMAIN + "api/" + API_VERSION + "/method/account.deactivate" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_SAVE_SETTINGS = API_DOMAIN + "api/" + API_VERSION + "/method/account.saveSettings" + API_FILE_EXTENSION;
@@ -79,18 +79,14 @@ public interface Constants {
 
     String METHOD_NOTIFICATIONS_GET = API_DOMAIN + "api/" + API_VERSION + "/method/notifications.get" + API_FILE_EXTENSION;
 
-    String METHOD_APP_CHECKUSERNAME = API_DOMAIN + "api/" + API_VERSION + "/method/app.checkUsername" + API_FILE_EXTENSION;
+    String METHOD_APP_CHECK_USERNAME = API_DOMAIN + "api/" + API_VERSION + "/method/app.checkUsername" + API_FILE_EXTENSION;
     String METHOD_APP_TERMS = API_DOMAIN + "api/" + API_VERSION + "/method/app.privacy-policy" + API_FILE_EXTENSION;
     String METHOD_APP_THANKS = API_DOMAIN + "api/" + API_VERSION + "/method/app.thanks" + API_FILE_EXTENSION;
-    String METHOD_APP_SEARCH = API_DOMAIN + "api/" + API_VERSION + "/method/app.search" + API_FILE_EXTENSION;
-
-    String METHOD_APP_SEARCH_PRELOAD = API_DOMAIN + "api/" + API_VERSION + "/method/app.searchPreload" + API_FILE_EXTENSION;
 
     String METHOD_GIFTS_REMOVE = API_DOMAIN + "api/" + API_VERSION + "/method/gifts.remove" + API_FILE_EXTENSION;
     String METHOD_GIFTS_GET = API_DOMAIN + "api/" + API_VERSION + "/method/gifts.get" + API_FILE_EXTENSION;
     String METHOD_GIFTS_SELECT = API_DOMAIN + "api/" + API_VERSION + "/method/gifts.select" + API_FILE_EXTENSION;
     String METHOD_GIFTS_SEND = API_DOMAIN + "api/" + API_VERSION + "/method/gifts.send" + API_FILE_EXTENSION;
-
 
     String METHOD_CHAT_GET = API_DOMAIN + "api/" + API_VERSION + "/method/chat.get" + API_FILE_EXTENSION;
     String METHOD_CHAT_REMOVE = API_DOMAIN + "api/" + API_VERSION + "/method/chat.remove" + API_FILE_EXTENSION;
@@ -119,12 +115,9 @@ public interface Constants {
 
     String METHOD_ACCOUNT_UPLOAD_IMAGE = API_DOMAIN + "api/" + API_VERSION + "/method/profile.uploadImg" + API_FILE_EXTENSION;
 
-    //
 
-    public static final String METHOD_ACCOUNT_UPGRADE = API_DOMAIN + "api/" + API_VERSION + "/method/account.upgrade" + API_FILE_EXTENSION;
-
-    public static final String METHOD_PAYMENTS_NEW = API_DOMAIN + "api/" + API_VERSION + "/method/payments.new" + API_FILE_EXTENSION;
-    public static final String METHOD_PAYMENTS_GET = API_DOMAIN + "api/" + API_VERSION + "/method/payments.get" + API_FILE_EXTENSION;
+    String METHOD_PAYMENTS_NEW = API_DOMAIN + "api/" + API_VERSION + "/method/payments.new" + API_FILE_EXTENSION;
+    String METHOD_PAYMENTS_GET = API_DOMAIN + "api/" + API_VERSION + "/method/payments.get" + API_FILE_EXTENSION;
 
     //
 
@@ -260,9 +253,6 @@ public interface Constants {
     int ACCOUNT_STATE_BLOCKED = 2;
     int ACCOUNT_STATE_DEACTIVATED = 3;
 
-    int ACCOUNT_TYPE_USER = 0;
-    int ACCOUNT_TYPE_GROUP = 1;
-
     int GALLERY_ITEM_TYPE_IMAGE = 0;
 
     int ERROR_UNKNOWN = 100;
@@ -311,7 +301,7 @@ public interface Constants {
 
     //
 
-    public static final int PA_BUY_CREDITS = 0;
+    public static final int PA_BUY_LEVEL = 0;
     public static final int PA_BUY_GIFT = 1;
     public static final int PA_BUY_VERIFIED_BADGE = 2;
     public static final int PA_BUY_REGISTRATION_BONUS = 5;
@@ -323,13 +313,11 @@ public interface Constants {
     public static final int PA_RECEIVE_TRANSFER = 12;
 
     public static final int PT_UNKNOWN = 0;
-    public static final int PT_CREDITS = 1;
-    public static final int PT_CARD = 2;
-    public static final int PT_GOOGLE_PURCHASE = 3;
-    public static final int PT_APPLE_PURCHASE = 4;
-    public static final int PT_BONUS = 6;
+    public static final int PT_CARD = 1;
+    public static final int PT_GOOGLE_PURCHASE = 2;
+    public static final int PT_APPLE_PURCHASE = 3;
+    public static final int PT_BONUS = 4;
 
     String TAG = "TAG";
-
     String HASHTAGS_COLOR = "#5BCFF2";
 }

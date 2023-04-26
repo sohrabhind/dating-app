@@ -52,12 +52,6 @@
 
         <Preference
             app:iconSpaceReserved="false"
-            app:key="settings_balance"
-            app:title="@string/settings_balance"
-            app:summary="@string/settings_balance_summary" />
-
-        <Preference
-            app:iconSpaceReserved="false"
             app:key="settings_balance_history"
             app:title="@string/settings_view_balance_history" />
 

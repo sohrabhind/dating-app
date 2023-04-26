@@ -6,8 +6,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -68,7 +66,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.activity.AccountSettingsActivity;
 import com.hindbyte.dating.activity.AddPhotoActivity;
-import com.hindbyte.dating.activity.BalanceActivity;
+import com.hindbyte.dating.activity.UpgradeActivity;
 import com.hindbyte.dating.activity.ChatActivity;
 import com.hindbyte.dating.activity.FriendsActivity;
 import com.hindbyte.dating.activity.GiftsActivity;
@@ -77,7 +75,6 @@ import com.hindbyte.dating.activity.PhotoViewActivity;
 import com.hindbyte.dating.activity.ProfileActivity;
 import com.hindbyte.dating.activity.SendGiftActivity;
 import com.hindbyte.dating.activity.ViewImageActivity;
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.hindbyte.dating.adapter.GalleryListAdapter;
 import com.hindbyte.dating.adapter.GiftsSelectListAdapter;
 import com.hindbyte.dating.app.App;
@@ -85,8 +82,6 @@ import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.dialogs.ProfileBlockDialog;
 import com.hindbyte.dating.dialogs.ProfileReportDialog;
 import com.hindbyte.dating.model.BaseGift;
-import com.hindbyte.dating.model.Friend;
-import com.hindbyte.dating.model.Gift;
 import com.hindbyte.dating.model.Image;
 import com.hindbyte.dating.model.Profile;
 import com.hindbyte.dating.util.Api;
@@ -108,12 +103,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class ProfileFragment extends Fragment implements Constants, SwipeRefreshLayout.OnRefreshListener {
@@ -2215,7 +2208,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(getActivity(), BalanceActivity.class);
+                Intent i = new Intent(getActivity(), UpgradeActivity.class);
                 startActivityForResult(i, 1945);
 
                 dialog.dismiss();
