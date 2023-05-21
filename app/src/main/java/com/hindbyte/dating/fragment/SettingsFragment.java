@@ -72,16 +72,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
         initpDialog();
 
         screen = this.getPreferenceScreen();
-
-        Preference pref = findPreference("settings_logout");
-
-        pref.setSummary(App.getInstance().getUsername());
-
-//        pref = findPreference("settings_copyright_info");
-//
-//        pref.setSummary(APP_COPYRIGHT + " © " + APP_YEAR);
-
-
+        
         logoutPreference = findPreference("settings_logout");
         changePassword = findPreference("settings_change_password");
         itemDeactivateAccount = findPreference("settings_deactivate_account");
@@ -93,7 +84,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
         itemContactUs = findPreference("settings_contact_us");
 
         if (!GOOGLE_AUTHORIZATION) {
-            PreferenceCategory headerGeneral = (PreferenceCategory) findPreference("header_general");
+            PreferenceCategory headerGeneral = findPreference("header_general");
             assert headerGeneral != null;
             headerGeneral.removePreference(itemServices);
         }
@@ -156,115 +147,112 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
         });
 
 
-        logoutPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        logoutPreference.setOnPreferenceClickListener(arg0 -> {
 
-            public boolean onPreferenceClick(Preference arg0) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireActivity());
+            alertDialog.setTitle(getText(R.string.action_logout));
 
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireActivity());
-                alertDialog.setTitle(getText(R.string.action_logout));
+            alertDialog.setMessage(getText(R.string.msg_action_logout));
+            alertDialog.setCancelable(true);
 
-                alertDialog.setMessage(getText(R.string.msg_action_logout));
-                alertDialog.setCancelable(true);
+            alertDialog.setNegativeButton(getText(R.string.action_no), new DialogInterface.OnClickListener() {
 
-                alertDialog.setNegativeButton(getText(R.string.action_no), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
 
-                        dialog.cancel();
-                    }
-                });
+            alertDialog.setPositiveButton(getText(R.string.action_yes), new DialogInterface.OnClickListener() {
 
-                alertDialog.setPositiveButton(getText(R.string.action_yes), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
 
-                    public void onClick(DialogInterface dialog, int which) {
+                    loading = true;
 
-                        loading = true;
+                    showpDialog();
 
-                        showpDialog();
+                    CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_ACCOUNT_LOGOUT, null,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
 
-                        CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_ACCOUNT_LOGOUT, null,
-                                new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
+                                    try {
 
-                                        try {
+                                        if (!response.getBoolean("error")) {
 
-                                            if (!response.getBoolean("error")) {
-
-                                                Log.d("Logout", "Logout success");
-                                            }
-
-                                        } catch (JSONException e) {
-
-                                            e.printStackTrace();
-
-                                        } finally {
-
-                                            loading = false;
-
-                                            hidepDialog();
-
-                                            App.getInstance().removeData();
-                                            App.getInstance().readData();
-
-                                            App.getInstance().setNotificationsCount(0);
-                                            App.getInstance().setMessagesCount(0);
-                                            App.getInstance().setId(0);
-                                            App.getInstance().setUsername("");
-                                            App.getInstance().setFullname("");
-
-                                            Intent intent = new Intent(requireActivity(), HomeActivity.class);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                            startActivity(intent);
+                                            Log.d("Logout", "Logout success");
                                         }
+
+                                    } catch (JSONException e) {
+
+                                        e.printStackTrace();
+
+                                    } finally {
+
+                                        loading = false;
+
+                                        hidepDialog();
+
+                                        App.getInstance().removeData();
+                                        App.getInstance().readData();
+
+                                        App.getInstance().setNotificationsCount(0);
+                                        App.getInstance().setMessagesCount(0);
+                                        App.getInstance().setId(0);
+                                        App.getInstance().setUsername("");
+                                        App.getInstance().setFullname("");
+
+                                        Intent intent = new Intent(requireActivity(), HomeActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
                                     }
-                                }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
 
-                                loading = false;
+                            loading = false;
 
-                                App.getInstance().removeData();
-                                App.getInstance().readData();
+                            App.getInstance().removeData();
+                            App.getInstance().readData();
 
-                                App.getInstance().setNotificationsCount(0);
-                                App.getInstance().setMessagesCount(0);
-                                App.getInstance().setId(0);
-                                App.getInstance().setUsername("");
-                                App.getInstance().setFullname("");
+                            App.getInstance().setNotificationsCount(0);
+                            App.getInstance().setMessagesCount(0);
+                            App.getInstance().setId(0);
+                            App.getInstance().setUsername("");
+                            App.getInstance().setFullname("");
 
-                                Intent intent = new Intent(requireActivity(), HomeActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
+                            Intent intent = new Intent(requireActivity(), HomeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
 
-                                hidepDialog();
-                            }
-                        }) {
+                            hidepDialog();
+                        }
+                    }) {
 
-                            @Override
-                            protected Map<String, String> getParams() {
-                                Map<String, String> params = new HashMap<String, String>();
-                                params.put("clientId", CLIENT_ID);
-                                params.put("accountId", Long.toString(App.getInstance().getId()));
-                                params.put("accessToken", App.getInstance().getAccessToken());
+                        @Override
+                        protected Map<String, String> getParams() {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("clientId", CLIENT_ID);
+                            params.put("accountId", Long.toString(App.getInstance().getId()));
+                            params.put("accessToken", App.getInstance().getAccessToken());
 
-                                return params;
-                            }
-                        };
+                            return params;
+                        }
+                    };
 
-                        RetryPolicy policy = new DefaultRetryPolicy((int) TimeUnit.SECONDS.toMillis(VOLLEY_REQUEST_SECONDS), DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                    RetryPolicy policy = new DefaultRetryPolicy((int) TimeUnit.SECONDS.toMillis(VOLLEY_REQUEST_SECONDS), DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
 
-                        jsonReq.setRetryPolicy(policy);
+                    jsonReq.setRetryPolicy(policy);
 
-                        App.getInstance().addToRequestQueue(jsonReq);
-                    }
-                });
+                    App.getInstance().addToRequestQueue(jsonReq);
+                }
+            });
 
-                alertDialog.show();
+            alertDialog.show();
 
-                return true;
-            }
+            return true;
         });
 
         changePassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
