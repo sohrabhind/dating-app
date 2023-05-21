@@ -26,8 +26,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/white"
-                android:background="@drawable/edittext_color"
+                android:textSize="16sp"
+                android:textColor="@color/overlay_dark_70"
+                android:background="@drawable/edittext_dark_border"
                 android:ems="10"
                 android:hint="@string/placeholder_current_password"
                 android:inputType="textPassword"
@@ -44,8 +45,9 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:text="@string/action_deactivate"
-                android:background="@drawable/edittext_color"
+                android:background="@drawable/app_profile_button"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"/>
 

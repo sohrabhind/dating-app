@@ -35,6 +35,7 @@ initpDialog();
 
         mAllowCommentsGCM = (CheckBoxPreference) getPreferenceManager().findPreference("allowCommentsGCM");
 
+        assert mAllowCommentsGCM != null;
         mAllowCommentsGCM.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 
             @Override

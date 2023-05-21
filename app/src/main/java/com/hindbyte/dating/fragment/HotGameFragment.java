@@ -42,6 +42,7 @@ import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -60,14 +61,6 @@ import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.model.Profile;
 import com.hindbyte.dating.util.CustomRequest;
-import com.hindbyte.dating.cardstackview.CardStackLayoutManager;
-import com.hindbyte.dating.cardstackview.CardStackListener;
-import com.hindbyte.dating.cardstackview.CardStackView;
-import com.hindbyte.dating.cardstackview.Direction;
-import com.hindbyte.dating.cardstackview.Duration;
-import com.hindbyte.dating.cardstackview.StackFrom;
-import com.hindbyte.dating.cardstackview.SwipeAnimationSetting;
-import com.hindbyte.dating.cardstackview.SwipeableMethod;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -77,35 +70,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public class HotGameFragment extends Fragment implements Constants, CardStackListener{
+public class HotGameFragment extends Fragment implements Constants {
 
 
     private Location mLastLocation;
     Menu MainMenu;
 
-    TextView mHotgameUsername, mHotgameStatus;
-    LinearLayout mSpotLight, mPermissionSpotlight;
-    RelativeLayout mHotgameLayout;
 
-    Button mGrantPermissionButton, mShowFiltersButton;
-    TextView mDetailsButton;
+    TextView mGrantPermissionButton, mShowFiltersButton;
 
-    CardStackView mCardStackView;
-    RelativeLayout mCardsContainer;
-    LinearLayout mPermissionPromptContainer, mPermissionDeniedContainer, mHotgameEmptyContainer;
+    ViewPager2 mViewPager2;
+    LinearLayout mCardsContainer;
+    LinearLayout mPermissionPromptContainer, mHotgameEmptyContainer;
 
     private ArrayList<Profile> itemsList;
     private HotgameAdapter itemsAdapter;
 
-    private CardStackLayoutManager manager;
-
-    public FloatingActionButton mHotGameLike, mHotGameBack, mHotGameProfile;
+    public FloatingActionButton mHotGameLike, mHotGameBack, mHotGameProfile, mHotGameNext;
     public ProgressBar mHotGameProgressBar;
 
     private ActivityResultLauncher<String[]> multiplePermissionLauncher;
-    private ActivityResultLauncher<Intent> appSettingsActivityResultLauncher;
     LocationManager lm;
 
     private int gender = 3, liked = 1, distance = 1000;
@@ -155,68 +142,78 @@ public class HotGameFragment extends Fragment implements Constants, CardStackLis
         lm = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
         mHotGameProgressBar = rootView.findViewById(R.id.hotgame_progressbar);
         mCardsContainer = rootView.findViewById(R.id.swipe_cards_container);
-        mCardStackView = rootView.findViewById(R.id.card_stack_view);
+        mViewPager2 = rootView.findViewById(R.id.viewPager2);
 
-        manager = new CardStackLayoutManager(requireActivity(), this);
-        manager.setStackFrom(StackFrom.None);
-        manager.setVisibleCount(3);
-        manager.setTranslationInterval(8.0f);
-        manager.setScaleInterval(0.95f);
-        manager.setSwipeThreshold(0.3f);
-        manager.setMaxDegree(20.0f);
-        manager.setDirections(Direction.HORIZONTAL);
-        manager.setCanScrollHorizontal(true);
-        manager.setCanScrollVertical(true);
-        manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual);
-        manager.setOverlayInterpolator(new LinearInterpolator());
+        mViewPager2.setAdapter(itemsAdapter);
 
-        mCardStackView.setLayoutManager(manager);
-        mCardStackView.setAdapter(itemsAdapter);
+        mViewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                if (itemsList.size() <= mViewPager2.getCurrentItem()+3) {
+                    loading = true;
+                    getItems();
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                Profile u = itemsList.get(position);
+                if (u.isMyLike()) {
+                    mHotGameLike.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFloatActionButton)));
+                }
+                if (!u.isMyLike()) {
+                    mHotGameLike.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryDark)));
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+        });
+
 
         mHotgameEmptyContainer = rootView.findViewById(R.id.hotgame_empty_container);
         mShowFiltersButton = rootView.findViewById(R.id.show_filters_button);
         mPermissionPromptContainer = rootView.findViewById(R.id.permission_prompt_container);
         mGrantPermissionButton = rootView.findViewById(R.id.permission_grant_button);
-        mPermissionDeniedContainer = rootView.findViewById(R.id.permission_denied_container);
-        mDetailsButton = rootView.findViewById(R.id.open_location_settings_button);
         mHotGameLike = rootView.findViewById(R.id.fab_like_button);
         mHotGameBack = rootView.findViewById(R.id.fab_back_button);
         mHotGameProfile = rootView.findViewById(R.id.fab_profile_button);
-
+        mHotGameNext = rootView.findViewById(R.id.fab_next_button);
 
         mHotGameProfile.setOnClickListener(v -> {
-            Profile profile = itemsList.get(manager.getTopPosition());
-            if (App.getInstance().getLevelMode() > 0 || App.getInstance().getLevelMessagesCount() > 0) {
-                if (profile.getAllowMessages() == 0 && !profile.isFriend()) {
-                    Toast.makeText(requireActivity(), getString(R.string.error_no_friend), Toast.LENGTH_SHORT).show();
-                } else {
-                    if (!profile.isInBlackList()) {
-                        Intent i = new Intent(requireActivity(), ChatActivity.class);
-                        i.putExtra("chatId", 0);
-                        i.putExtra("profileId", profile.getId());
-                        i.putExtra("withProfile", profile.getFullname());
-                        i.putExtra("with_user_username", profile.getUsername());
-                        i.putExtra("with_user_fullname", profile.getFullname());
-                        i.putExtra("with_user_photo_url", profile.getBigPhotoUrl());
-                        i.putExtra("with_user_state", profile.getState());
-                        startActivity(i);
-                    } else {
-                        Toast.makeText(requireActivity(), getString(R.string.error_action), Toast.LENGTH_SHORT).show();
-                    }
-                }
+            Profile profile = itemsList.get(mViewPager2.getCurrentItem());
+            if (profile.getAllowMessages() == 0 && !profile.isFriend()) {
+                Toast.makeText(requireActivity(), getString(R.string.error_no_friend), Toast.LENGTH_SHORT).show();
             } else {
-                initiatePopupWindow();
+                if (!profile.isInBlackList()) {
+                    Intent i = new Intent(requireActivity(), ChatActivity.class);
+                    i.putExtra("chatId", 0);
+                    i.putExtra("profileId", profile.getId());
+                    i.putExtra("withProfile", profile.getFullname());
+                    i.putExtra("with_user_username", profile.getUsername());
+                    i.putExtra("with_user_fullname", profile.getFullname());
+                    i.putExtra("with_user_photo_url", profile.getBigPhotoUrl());
+                    i.putExtra("with_user_state", profile.getState());
+                    startActivity(i);
+                } else {
+                    Toast.makeText(requireActivity(), getString(R.string.error_action), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         mHotGameLike.setOnClickListener(v -> {
-            Profile p = itemsList.get(manager.getTopPosition());
+            Profile p = itemsList.get(mViewPager2.getCurrentItem());
             like(p.getId());
         });
 
-        mHotGameBack.setOnClickListener(v -> hotGameButtonAction(Direction.Left));
 
-        mDetailsButton.setOnClickListener(v -> openApplicationSettings());
+        mHotGameNext.setOnClickListener(v -> onCardSwiped("Right"));
+
+        mHotGameBack.setOnClickListener(v -> onCardSwiped("Left"));
 
         mShowFiltersButton.setOnClickListener(v -> getHotGameSettings());
 
@@ -240,14 +237,12 @@ public class HotGameFragment extends Fragment implements Constants, CardStackLis
     private void updateView() {
         if (loading) {
             mHotgameEmptyContainer.setVisibility(View.GONE);
-            mPermissionDeniedContainer.setVisibility(View.GONE);
             mPermissionPromptContainer.setVisibility(View.GONE);
             mCardsContainer.setVisibility(View.GONE);
             mHotGameProgressBar.setVisibility(View.VISIBLE);
         } else {
             mHotGameProgressBar.setVisibility(View.GONE);
             mHotgameEmptyContainer.setVisibility(View.GONE);
-            mPermissionDeniedContainer.setVisibility(View.GONE);
             mPermissionPromptContainer.setVisibility(View.GONE);
             mCardsContainer.setVisibility(View.GONE);
             if (App.getInstance().getLat() != 0.0 && App.getInstance().getLng() != 0.0) {
@@ -258,9 +253,7 @@ public class HotGameFragment extends Fragment implements Constants, CardStackLis
                 }
             } else {
                 if (ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    if (permission_denied) {
-                        mPermissionDeniedContainer.setVisibility(View.VISIBLE);
-                    } else {
+                    if (!permission_denied) {
                         mPermissionPromptContainer.setVisibility(View.VISIBLE);
                     }
                 }
@@ -268,75 +261,13 @@ public class HotGameFragment extends Fragment implements Constants, CardStackLis
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    public void initiatePopupWindow() {
 
-        AlertDialog.Builder builder3 = new AlertDialog.Builder(requireContext());
-        builder3.setCancelable(true);
-        @SuppressLint("InflateParams") LinearLayout signInLayout2 = (LinearLayout) LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_to_home, null, false);
-
-        TextView silverPackageBtn = signInLayout2.findViewById(R.id.silverPackageBtn);
-        TextView goldPackageBtn = signInLayout2.findViewById(R.id.goldPackageBtn);
-        TextView diamondPackageBtn = signInLayout2.findViewById(R.id.diamondPackageBtn);
-        TextView packageDesc = signInLayout2.findViewById(R.id.packageDesc);
-
-        silverPackageBtn.setBackgroundResource(R.color.green_text);
-        packageDesc.setText("Validity 30 Days\n\n₹ 300\n\n1000 Messages\n\nSilver Profile Badge");
-        Intent intentX = new Intent(requireActivity(), UpgradeActivity.class);
-        intentX.putExtra("package", "silver");
-
-        silverPackageBtn.setOnClickListener(v -> {
-            silverPackageBtn.setBackgroundResource(R.color.green_text);
-            goldPackageBtn.setBackgroundResource(R.color.white);
-            diamondPackageBtn.setBackgroundResource(R.color.white);
-            packageDesc.setText("Validity 30 Days\n\n₹ 300\n\n1000 Messages\n\nSilver Profile Badge");
-            intentX.putExtra("package", "silver");
-        });
-
-        goldPackageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                silverPackageBtn.setBackgroundResource(R.color.white);
-                goldPackageBtn.setBackgroundResource(R.color.green_text);
-                diamondPackageBtn.setBackgroundResource(R.color.white);
-                packageDesc.setText("Validity 30 Days\n\n₹ 600\n\n5000 Messages\n\nGold Profile Badge");
-                intentX.putExtra("package", "gold");
-            }
-        });
-
-        diamondPackageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                silverPackageBtn.setBackgroundResource(R.color.white);
-                goldPackageBtn.setBackgroundResource(R.color.white);
-                diamondPackageBtn.setBackgroundResource(R.color.green_text);
-                packageDesc.setText("Validity 30 Days\n\n₹ 900\n\n10000 Messages\n\nDiamond Profile Badge");
-                intentX.putExtra("package", "diamond");
-            }
-        });
-
-
-        builder3.setView(signInLayout2);
-        builder3.setPositiveButton("Continue", (dialog2, which) -> {
-            startActivity(intentX);
-        });
-        builder3.setNegativeButton("Cancel", (dialog2, which) -> dialog2.dismiss());
-        builder3.create().show();
-
-    }
-
-    private void hotGameButtonAction(Direction direction) {
-        SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
-                .setDirection(direction)
-                .setDuration(Duration.Normal.duration)
-                .setInterpolator(new AccelerateInterpolator())
-                .build();
-        //manager.setSwipeAnimationSetting(setting);
-        if (direction == Direction.Right) {
-            mCardStackView.swipe();
+    private void onCardSwiped(String direction) {
+        if (Objects.equals(direction, "Right")) {
+            mViewPager2.setCurrentItem( mViewPager2.getCurrentItem()+1, true);
         }
-        if (direction == Direction.Left) {
-            mCardStackView.rewind();
+        if (Objects.equals(direction, "Left")) {
+            mViewPager2.setCurrentItem( mViewPager2.getCurrentItem()-1, true);
         }
     }
 
@@ -393,11 +324,6 @@ public class HotGameFragment extends Fragment implements Constants, CardStackLis
         }
     }
 
-    public void openApplicationSettings() {
-        Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + requireActivity().getPackageName()));
-        appSettingsActivityResultLauncher.launch(appSettingsIntent);
-    }
-
 
     public void getItems() {
         loading = true;
@@ -407,9 +333,11 @@ public class HotGameFragment extends Fragment implements Constants, CardStackLis
                         @SuppressLint("NotifyDataSetChanged")
                         @Override
                         public void onResponse(JSONObject response) {
-                            if (!isAdded() || requireActivity() == null) {
+                            if (!isAdded()) {
                                 Log.e("ERROR", "HotGame Fragment Not Added to Activity");
                                 return;
+                            } else {
+                                requireActivity();
                             }
                             try {
                                 arrayLength = 0;
@@ -441,11 +369,13 @@ public class HotGameFragment extends Fragment implements Constants, CardStackLis
                             }
                         }
                     }, error -> {
-                        if (!isAdded() || requireActivity() == null) {
+                        if (!isAdded()) {
                             Log.e("ERROR", "HotGame Fragment Not Added to Activity");
                             return;
+                        } else {
+                            requireActivity();
                         }
-                        loadingComplete();
+                loadingComplete();
                     }) {
 
                 @Override
@@ -603,13 +533,15 @@ public class HotGameFragment extends Fragment implements Constants, CardStackLis
         loading = true;
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_PROFILE_LIKE, null,
                 response -> {
-                    if (!isAdded() || requireActivity() == null) {
+                    if (!isAdded()) {
                         Log.e("ERROR", "HotgameFragment Not Added to Activity");
                         return;
+                    } else {
+                        requireActivity();
                     }
                     try {
                         if (!response.getBoolean("error")) {
-                            Profile u = itemsList.get(manager.getTopPosition());
+                            Profile u = itemsList.get(mViewPager2.getCurrentItem());
                             u.setMyLike(response.getBoolean("myLike"));
                             if (u.isMyLike()) {
                                 mHotGameLike.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFloatActionButton)));
@@ -622,10 +554,12 @@ public class HotGameFragment extends Fragment implements Constants, CardStackLis
                         e.printStackTrace();
                     }
                 }, error -> {
-                    if (!isAdded() || requireActivity() == null) {
+                    if (!isAdded()) {
                         Log.e("ERROR", "HotGame Fragment Not Added to Activity");
+                    } else {
+                        requireActivity();
                     }
-                }) {
+        }) {
 
             @Override
             protected Map<String, String> getParams() {
@@ -655,51 +589,6 @@ public class HotGameFragment extends Fragment implements Constants, CardStackLis
         App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_hotgame_gender), gender).apply();
         App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_hotgame_liked), liked).apply();
         App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_hotgame_distance), distance).apply();
-    }
-    //
-
-    @Override
-    public void onCardDragging(Direction direction, float ratio) {
-
-    }
-
-    @Override
-    public void onCardSwiped(Direction direction) {
-        if (direction == Direction.Right) {
-        }
-        if (direction == Direction.Left) {
-        }
-        if (itemsList.size() <= manager.getTopPosition()+3) {
-            loading = true;
-            getItems();
-        }
-    }
-
-    @Override
-    public void onCardRewound() {
-        //Log.e("Swipe", "onCardRewound");
-    }
-
-    @Override
-    public void onCardCanceled() {
-
-    }
-
-    @SuppressLint("UseCompatLoadingForColorStateLists")
-    @Override
-    public void onCardAppeared(View view, int position) {
-        Profile u = itemsList.get(manager.getTopPosition());
-        if (u.isMyLike()) {
-            mHotGameLike.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFloatActionButton)));
-        }
-        if (!u.isMyLike()) {
-            mHotGameLike.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryDark)));
-        }
-    }
-
-    @Override
-    public void onCardDisappeared(View view, int position) {
-        //Log.e("Swipe", "onCardDisappeared");
     }
 
 }

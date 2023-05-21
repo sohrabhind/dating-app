@@ -39,13 +39,15 @@
                 android:textStyle="bold"
                 android:textSize="16sp" />
 
-            <Button
+            <TextView
                 android:id="@+id/show_filters_button"
                 android:text="@string/action_show_filters"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_primary"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:textStyle="bold"
+                android:textSize="16sp"
+                android:background="@drawable/app_profile_button"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:layout_weight="1"
                 android:layout_margin="16dp" />
@@ -76,13 +78,15 @@
                 android:textStyle="bold"
                 android:textSize="16sp" />
 
-            <Button
+            <TextView
                 android:id="@+id/permission_grant_button"
                 android:text="@string/action_grant"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_primary"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:textStyle="bold"
+                android:textSize="16sp"
+                android:background="@drawable/app_profile_button"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:layout_weight="1"
                 android:layout_margin="16dp" />
@@ -95,64 +99,34 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/permission_denied_container"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:gravity="center_vertical"
-                android:layout_marginEnd="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_no_location_permission"
-                    android:textColor="#757575" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_grant_location_permission"
-                    android:textColor="#757575" />
-
-                <TextView
-                    android:id="@+id/open_location_settings_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_detail"
-                    android:textColor="@color/colorAccent"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorSeparator" />
-
-        </LinearLayout>
-
     </LinearLayout>
 
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/swipe_cards_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/button_container"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager2"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:padding="4dp"
+            android:layout_weight="1">
+
+        </androidx.viewpager2.widget.ViewPager2>
+
+
+        <LinearLayout
+            android:id="@+id/button_container"
+            android:layout_width="wrap_content"
             android:layout_height="80dp"
-            android:layout_alignParentBottom="true"
             android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:clipChildren="false"
             android:orientation="horizontal">
 
@@ -160,8 +134,7 @@
                 android:id="@+id/fab_back_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/fab_profile_button"
+                android:layout_marginEnd="25dp"
                 android:src="@drawable/ic_action_back"
                 app:backgroundTint="@color/colorPrimaryDark"
                 app:fabSize="auto"
@@ -172,11 +145,7 @@
                 android:id="@+id/fab_profile_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="32dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginRight="32dp"
+                android:layout_marginEnd="25dp"
                 android:src="@drawable/ic_baseline_message_24"
                 app:backgroundTint="@color/colorPrimaryDark"
                 app:fabSize="auto"
@@ -187,27 +156,25 @@
                 android:id="@+id/fab_like_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/fab_profile_button"
+                android:layout_marginEnd="25dp"
                 android:src="@drawable/ic_action_like"
                 app:backgroundTint="@color/colorPrimaryDark"
                 app:fabSize="auto"
                 app:rippleColor="@color/statusBarColor"
                 android:contentDescription="@null"  />
 
-        </RelativeLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_next_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_next"
+                app:backgroundTint="@color/colorPrimaryDark"
+                app:fabSize="auto"
+                app:rippleColor="@color/statusBarColor"
+                android:contentDescription="@null"  />
 
-        <com.hindbyte.dating.cardstackview.CardStackView
-            android:id="@+id/card_stack_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/button_container"
-            android:clipToPadding="false"
-            android:padding="4dp">
+        </LinearLayout>
 
-        </com.hindbyte.dating.cardstackview.CardStackView>
-
-
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -29,7 +29,7 @@
     <string name="action_remove">Delete</string>
     <string name="action_remove_chat">Delete chat</string>
     <string name="action_deactivate">Deactivate</string>
-    <string name="action_create">Create</string>
+    <string name="action_create">Upload</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_more">Load more</string>
     <string name="action_search">Search</string>
@@ -216,7 +216,7 @@
     <string name="relationship_status_7">Actively searching</string>
 
 
-    <string name="religious_view_0">None selected</string>
+    <string name="religious_view_0">None</string>
     <string name="religious_view_1">Christianity</string>
     <string name="religious_view_2">Islam</string>
     <string name="religious_view_3">Hinduism</string>
@@ -261,7 +261,7 @@
     <string name="title_activity_web_view">Web View</string>
     <string name="title_activity_change_password">Change Password</string>
     <string name="title_activity_services">Services</string>
-    <string name="title_activity_new_item">New Item</string>
+    <string name="title_activity_new_item">Add Photo</string>
     <string name="title_activity_new_photo">New Photo</string>
     <string name="title_activity_profile">Profile</string>
 
@@ -290,7 +290,7 @@
     <!-- for version 1.2 -->
 
     <string name="label_profile_birth">Birth Date</string>
-    <string name="label_profile_allow_show_birth">Show date birth in the profile</string>
+    <string name="label_profile_allow_show_birth">Show date of birth in the profile</string>
     <string name="action_detail">More details</string>
     <string name="msg_location_error">We could not get your location.</string>
 
@@ -446,10 +446,6 @@
     <string name="label_hotgame_liked_checkbox">Show liked</string>
 
     <string name="settings_account_allow_likes_gcm" translatable="false">allow_likes_gcm</string>
-
-    <!-- added for version 3.9 -->
-
-    <string name="settings_account_balance" translatable="false">account_balance</string>
 
     <!-- added for version 4.0 -->
 

@@ -71,7 +71,7 @@ public class BlackListAdapter extends BaseAdapter implements Constants {
         public TextView mBlockedUserFullname;
         public TextView mBlockedTimeAgo;
         public TextView mBlockedReason;
-        public Button mBlockedAction;
+        public TextView mBlockedAction;
 		public CircularImageView mBlockedUser;
 	        
 	}

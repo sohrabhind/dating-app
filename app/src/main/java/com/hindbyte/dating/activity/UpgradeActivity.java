@@ -169,15 +169,12 @@ public class UpgradeActivity extends ActivityBase {
                 // For example, increase the number of coins inside the user's basket.
                 switch (product) {
                     case ITEM_PRODUCT_1:
-                        App.getInstance().setBalance(App.getInstance().getBalance() + 300);
                         payment(1, ITEM_PRODUCT_1_AMOUNT, PT_GOOGLE_PURCHASE,true);
                         break;
                     case ITEM_PRODUCT_2:
-                        App.getInstance().setBalance(App.getInstance().getBalance() + 600);
                         payment(2, ITEM_PRODUCT_2_AMOUNT, PT_GOOGLE_PURCHASE,true);
                         break;
                     case ITEM_PRODUCT_3:
-                        App.getInstance().setBalance(App.getInstance().getBalance() + 900);
                         payment(3, ITEM_PRODUCT_3_AMOUNT, PT_GOOGLE_PURCHASE,true);
                         break;
                     default:

@@ -27,10 +27,12 @@
                 android:hint="@string/placeholder_email"
                 android:ems="10"
                 android:id="@+id/email"
+                android:textSize="16sp"
+                android:textColor="@color/overlay_dark_70"
                 android:maxLength="64"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:background="@drawable/edittext_color"
+                android:background="@drawable/edittext_dark_border"
                 android:layout_gravity="center_horizontal" />
 
             <EditText
@@ -38,10 +40,12 @@
                 android:layout_height="50dp"
                 android:id="@+id/subject"
                 android:hint="@string/placeholder_subject"
+                android:textSize="16sp"
+                android:textColor="@color/overlay_dark_70"
                 android:maxLength="255"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:background="@drawable/edittext_color"
+                android:background="@drawable/edittext_dark_border"
                 android:layout_marginTop="10dp" />
 
             <EditText
@@ -52,10 +56,12 @@
                 android:ems="10"
                 android:lines="3"
                 android:maxLength="455"
+                android:textSize="16sp"
+                android:textColor="@color/overlay_dark_70"
                 android:id="@+id/detail"
                 android:padding="10dp"
                 android:gravity="start"
-                android:background="@drawable/edittext_color"
+                android:background="@drawable/edittext_dark_border"
                 android:layout_marginTop="10dp" />
 
         </LinearLayout>

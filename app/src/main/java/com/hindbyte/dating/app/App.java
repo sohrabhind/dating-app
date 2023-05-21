@@ -259,16 +259,6 @@ public class App extends Application implements Constants {
                                         }
                                     }
 
-                                    if (response.has("defaultProModeCost")) {
-
-                                        App.getInstance().getSettings().setProModeCost(response.getInt("defaultProModeCost"));
-                                    }
-
-                                    if (response.has("defaultMessagesPackageCost")) {
-
-                                        App.getInstance().getSettings().setMessagePackageCost(response.getInt("defaultMessagesPackageCost"));
-                                    }
-
                                     //
 
                                     if (response.has("free_messages_count")) {
@@ -286,10 +276,6 @@ public class App extends Application implements Constants {
                                         App.getInstance().setLevelMode(response.getInt("level"));
                                     }
 
-                                    if (response.has("balance")) {
-
-                                        App.getInstance().setBalance(response.getInt("balance"));
-                                    }
                                 }
 
                             } catch (JSONException e) {
@@ -300,7 +286,6 @@ public class App extends Application implements Constants {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
                     Log.e("loadSettings()", error.toString());
                 }
             }) {
@@ -311,7 +296,6 @@ public class App extends Application implements Constants {
                     params.put("clientId", CLIENT_ID);
                     params.put("accountId", Long.toString(App.getInstance().getId()));
                     params.put("accessToken", App.getInstance().getAccessToken());
-
                     return params;
                 }
             };
@@ -393,7 +377,6 @@ public class App extends Application implements Constants {
                 this.setUsername(accountObj.getString("username"));
                 this.setFullname(accountObj.getString("fullname"));
                 this.setState(accountObj.getInt("state"));
-                this.setBalance(accountObj.getInt("balance"));
                 this.setAllowPhotosComments(accountObj.getInt("allowPhotosComments"));
                 this.setAllowComments(accountObj.getInt("allowComments"));
                 this.setAllowMessages(accountObj.getInt("allowMessages"));
@@ -769,16 +752,6 @@ public class App extends Application implements Constants {
     }
 
 
-    public void setBalance(int balance) {
-
-        this.balance = balance;
-    }
-
-    public int getBalance() {
-
-        return this.balance;
-    }
-
     public void setCurrentChatId(int currentChatId) {
 
         this.currentChatId = currentChatId;
@@ -966,8 +939,6 @@ public class App extends Application implements Constants {
         this.setAllowComments(sharedPref.getInt(getString(R.string.settings_account_allow_comments_gcm), 1));
         this.setAllowFollowersGCM(sharedPref.getInt(getString(R.string.settings_account_allow_friends_requests_gcm), 1));
 
-        this.setBalance(sharedPref.getInt(getString(R.string.settings_account_balance), 0));
-
         if (App.getInstance().getLat() == 0.000000 && App.getInstance().getLng() == 0.000000) {
 
             this.setLat(Double.parseDouble(sharedPref.getString(getString(R.string.settings_account_lat), "0.000000")));
@@ -994,8 +965,6 @@ public class App extends Application implements Constants {
         sharedPref.edit().putInt(getString(R.string.settings_account_allow_comments_gcm), this.getAllowCommentsGCM()).apply();
         sharedPref.edit().putInt(getString(R.string.settings_account_allow_friends_requests_gcm), this.getAllowFollowersGCM()).apply();
 
-
-        sharedPref.edit().putInt(getString(R.string.settings_account_balance), this.getBalance()).apply();
         
         sharedPref.edit().putString(getString(R.string.settings_account_lat), Double.toString(this.getLat())).apply();
         sharedPref.edit().putString(getString(R.string.settings_account_lng), Double.toString(this.getLng())).apply();

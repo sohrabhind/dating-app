@@ -20,6 +20,14 @@
             android:layout_gravity="center_horizontal"
             android:padding="20dp">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textColor="@color/grey_40"
+                android:layout_marginTop="10dp">
+            </TextView>
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -27,11 +35,22 @@
                 android:hint="@string/placeholder_fullname"
                 android:id="@+id/fullname"
                 android:maxLength="55"
-                android:background="@drawable/edittext_color"
+                android:textSize="16sp"
+                android:textColor="@color/overlay_dark_70"
+                android:background="@drawable/edittext_dark_border"
                 android:layout_gravity="center_horizontal"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/placeholder_location"
+                android:visibility="gone"
+                android:textColor="@color/grey_40"
+                android:layout_marginTop="10dp">
+            </TextView>
 
             <EditText
                 android:layout_width="match_parent"
@@ -39,12 +58,23 @@
                 android:inputType="textPersonName"
                 android:hint="@string/placeholder_location"
                 android:id="@+id/location"
+                android:visibility="gone"
                 android:maxLength="255"
-                android:background="@drawable/edittext_color"
+                android:textSize="16sp"
+                android:textColor="@color/overlay_dark_70"
+                android:background="@drawable/edittext_dark_border"
                 android:layout_gravity="center_horizontal"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/placeholder_instagram_page"
+                android:textColor="@color/grey_40"
+                android:layout_marginTop="10dp">
+            </TextView>
 
             <EditText
                 android:layout_width="match_parent"
@@ -53,11 +83,22 @@
                 android:id="@+id/instagramPage"
                 android:maxLength="255"
                 android:maxLines="1"
-                android:background="@drawable/edittext_color"
+                android:textSize="16sp"
+                android:textColor="@color/overlay_dark_70"
+                android:background="@drawable/edittext_dark_border"
                 android:layout_gravity="center_horizontal"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="5dp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/placeholder_bio"
+                android:textColor="@color/grey_40"
+                android:layout_marginTop="10dp">
+            </TextView>
 
             <EditText
                 android:layout_width="match_parent"
@@ -66,18 +107,30 @@
                 android:hint="@string/placeholder_bio"
                 android:inputType="textMultiLine"
                 android:maxLength="255"
+                android:textSize="16sp"
+                android:textColor="@color/overlay_dark_70"
                 android:id="@+id/bio"
-                android:background="@drawable/edittext_color"
+                android:background="@drawable/edittext_dark_border"
                 android:padding="10dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="5dp" />
 
             <CheckBox
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/label_profile_allow_show_birth"
                 android:id="@+id/allowShowDateBirth"
+                android:textColor="@color/grey_40"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_age"
+                android:textColor="@color/grey_40"
+                android:layout_marginTop="10dp">
+            </TextView>
 
             <EditText
                 android:layout_width="match_parent"
@@ -85,12 +138,23 @@
                 android:hint="@string/label_age"
                 android:id="@+id/ageField"
                 android:maxLength="3"
+                android:textSize="16sp"
+                android:textColor="@color/overlay_dark_70"
                 android:inputType="number"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/edittext_color"
+                android:background="@drawable/edittext_dark_border"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="5dp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_height"
+                android:textColor="@color/grey_40"
+                android:layout_marginTop="10dp">
+            </TextView>
 
             <EditText
                 android:layout_width="match_parent"
@@ -98,12 +162,23 @@
                 android:hint="@string/label_height"
                 android:id="@+id/heightField"
                 android:maxLength="3"
+                android:textSize="16sp"
+                android:textColor="@color/overlay_dark_70"
                 android:inputType="number"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/edittext_color"
+                android:background="@drawable/edittext_dark_border"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="5dp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_weight"
+                android:textColor="@color/grey_40"
+                android:layout_marginTop="10dp">
+            </TextView>
 
             <EditText
                 android:layout_width="match_parent"
@@ -111,33 +186,36 @@
                 android:hint="@string/label_weight"
                 android:id="@+id/weightField"
                 android:maxLength="3"
+                android:textSize="16sp"
+                android:textColor="@color/overlay_dark_70"
                 android:inputType="number"
-                android:background="@drawable/edittext_color"
+                android:background="@drawable/edittext_dark_border"
                 android:layout_gravity="center_horizontal"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="5dp" />
 
-            <Button
+            <TextView
+                android:id="@+id/selectGender"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:textSize="16sp"
                 android:text="Gender"
-                android:id="@+id/selectGender"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edittext_color"
+                android:textColor="@color/overlay_dark_60"
+                android:background="@drawable/edit_profile_button"
+                android:gravity="center"
                 android:visibility="gone"
-                android:textColor="@color/overlay_dark_60" />
+                android:layout_marginTop="10dp" />
 
 
             <TextView
                 android:id="@+id/selectBirth"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textStyle="bold"
                 android:textSize="16sp"
                 android:text="Date of Birth"
                 android:textColor="@color/overlay_dark_60"
-                android:background="@drawable/edittext_color"
+                android:background="@drawable/edit_profile_button"
                 android:gravity="center"
                 android:layout_marginTop="10dp" />
 
@@ -146,11 +224,10 @@
                 android:id="@+id/selectRelationshipStatus"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textStyle="bold"
                 android:textSize="16sp"
-                android:text="Relationship status"
+                android:text="Relationship Status"
                 android:textColor="@color/overlay_dark_60"
-                android:background="@drawable/edittext_color"
+                android:background="@drawable/edit_profile_button"
                 android:gravity="center"
                 android:layout_marginTop="10dp" />
 
@@ -158,11 +235,10 @@
                 android:id="@+id/selectReligiousView"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textStyle="bold"
                 android:textSize="16sp"
                 android:text="Religious View"
                 android:textColor="@color/overlay_dark_60"
-                android:background="@drawable/edittext_color"
+                android:background="@drawable/edit_profile_button"
                 android:gravity="center"
                 android:layout_marginTop="10dp" />
 
@@ -170,11 +246,10 @@
                 android:id="@+id/selectSmokingViews"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textStyle="bold"
                 android:textSize="16sp"
                 android:text="Smoking Views"
                 android:textColor="@color/overlay_dark_60"
-                android:background="@drawable/edittext_color"
+                android:background="@drawable/edit_profile_button"
                 android:gravity="center"
                 android:layout_marginTop="10dp" />
 
@@ -183,11 +258,10 @@
                 android:id="@+id/selectAlcoholViews"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textStyle="bold"
                 android:textSize="16sp"
                 android:text="Alcohol Views"
                 android:textColor="@color/overlay_dark_60"
-                android:background="@drawable/edittext_color"
+                android:background="@drawable/edit_profile_button"
                 android:gravity="center"
                 android:layout_marginTop="10dp" />
 
@@ -196,11 +270,10 @@
                 android:id="@+id/selectYouLooking"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textStyle="bold"
                 android:textSize="16sp"
                 android:text="You Looking"
                 android:textColor="@color/overlay_dark_60"
-                android:background="@drawable/edittext_color"
+                android:background="@drawable/edit_profile_button"
                 android:gravity="center"
                 android:layout_marginTop="10dp" />
 
@@ -210,11 +283,10 @@
                 android:id="@+id/selectYouLike"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textStyle="bold"
                 android:textSize="16sp"
                 android:text="You Like"
                 android:textColor="@color/overlay_dark_60"
-                android:background="@drawable/edittext_color"
+                android:background="@drawable/edit_profile_button"
                 android:gravity="center"
                 android:layout_marginTop="10dp" />
 

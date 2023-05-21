@@ -1969,7 +1969,7 @@ public class ChatFragment extends Fragment implements Constants {
 
         mActionContainerImg.setVisibility(View.VISIBLE);
 
-        mActionContainerImg.setBackgroundResource(R.drawable.ic_plus);
+        mActionContainerImg.setBackgroundResource(R.drawable.ic_action_new);
     }
 
     private boolean checkPermission(String permission) {

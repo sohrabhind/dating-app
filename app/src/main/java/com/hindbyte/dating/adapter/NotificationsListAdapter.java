@@ -155,7 +155,7 @@ public class NotificationsListAdapter extends RecyclerView.Adapter<Notifications
             holder.icon.setImageResource(R.drawable.notify_rejected);
         } else {
             holder.message.setText(item.getFromUserFullname() + " " + ctx.getText(R.string.label_friend_request_added));
-            holder.icon.setImageResource(R.drawable.notify_follower);
+            holder.icon.setImageResource(R.drawable.notify_approved);
         }
 
         holder.time.setText(item.getTimeAgo());

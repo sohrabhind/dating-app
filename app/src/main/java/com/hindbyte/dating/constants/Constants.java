@@ -63,7 +63,6 @@ public interface Constants {
     String METHOD_PROFILE_GET = API_DOMAIN + "api/" + API_VERSION + "/method/profile.get" + API_FILE_EXTENSION;
     String METHOD_PROFILE_REPORT = API_DOMAIN + "api/" + API_VERSION + "/method/profile.report" + API_FILE_EXTENSION;
     String METHOD_PROFILE_FANS_GET = API_DOMAIN + "api/" + API_VERSION + "/method/profile.getFans" + API_FILE_EXTENSION;
-    String METHOD_PROFILE_PEOPLE_NEARBY_GET = API_DOMAIN + "api/" + API_VERSION + "/method/profile.getPeopleNearby" + API_FILE_EXTENSION;
     String METHOD_PROFILE_ILIKED_GET = API_DOMAIN + "api/" + API_VERSION + "/method/profile.getILiked" + API_FILE_EXTENSION;
     String METHOD_PROFILE_LIKE = API_DOMAIN + "api/" + API_VERSION + "/method/profile.like" + API_FILE_EXTENSION;
 
@@ -122,8 +121,6 @@ public interface Constants {
     String METHOD_GALLERY_LIKE = API_DOMAIN + "api/" + API_VERSION + "/method/gallery.like" + API_FILE_EXTENSION;
     String METHOD_GALLERY_LIKES = API_DOMAIN + "api/" + API_VERSION + "/method/gallery.likes" + API_FILE_EXTENSION;
     String METHOD_GALLERY_GET_ITEM = API_DOMAIN + "api/" + API_VERSION + "/method/gallery.getItem" + API_FILE_EXTENSION;
-    String METHOD_GALLERY_STREAM = API_DOMAIN + "api/" + API_VERSION + "/method/gallery.stream" + API_FILE_EXTENSION;
-    String METHOD_GALLERY_FEED = API_DOMAIN + "api/" + API_VERSION + "/method/gallery.feed" + API_FILE_EXTENSION;
 
     String METHOD_GALLERY_UPLOAD_IMG = API_DOMAIN + "api/" + API_VERSION + "/method/gallery.uploadImg" + API_FILE_EXTENSION;
 

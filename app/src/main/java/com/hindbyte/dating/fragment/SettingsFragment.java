@@ -69,7 +69,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-initpDialog();
+        initpDialog();
 
         screen = this.getPreferenceScreen();
 
@@ -155,8 +155,6 @@ initpDialog();
             }
         });
 
-
-        logoutPreference.setSummary(App.getInstance().getUsername());
 
         logoutPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 

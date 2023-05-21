@@ -30,8 +30,8 @@
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowDisablePreview">true</item>
         <item name="fontFamily">@font/gotham_medium</item>
-        <item name="android:textColor">@color/overlay_dark_70</item>
-        <item name="android:textColorHint">@color/overlay_light_30</item>
+        <item name="android:textColor">@color/overlay_dark_60</item>
+        <item name="android:textColorHint">@color/grey_20</item>
     </style>
 
     <!-- Spinner text color -->

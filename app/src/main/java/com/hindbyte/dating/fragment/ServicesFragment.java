@@ -49,10 +49,11 @@ public class ServicesFragment extends Fragment implements Constants {
     private ProgressDialog pDialog;
 
     CardView mGoogleCard;
-    Button mGoogleDisconnectBtn;
     TextView mGooglePrompt;
 
-    Button mGoogleSignInButton;
+    TextView mGoogleDisconnectBtn;
+    TextView mGoogleSignInButton;
+
     private GoogleSignInClient mGoogleSignInClient;
     private ActivityResultLauncher<Intent> googleSigninActivityResultLauncher;
 
@@ -125,8 +126,8 @@ public class ServicesFragment extends Fragment implements Constants {
 
         mGoogleCard = rootView.findViewById(R.id.google_card);
 
-        mGooglePrompt = (TextView) rootView.findViewById(R.id.google_sub_label);
-        mGoogleDisconnectBtn = (Button) rootView.findViewById(R.id.google_disconnect_button);
+        mGooglePrompt = rootView.findViewById(R.id.google_sub_label);
+        mGoogleDisconnectBtn = rootView.findViewById(R.id.google_disconnect_button);
 
         mGoogleDisconnectBtn.setOnClickListener(new View.OnClickListener() {
             @Override

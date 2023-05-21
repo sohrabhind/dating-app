@@ -27,6 +27,7 @@
                 android:layout_height="50dp"
                 android:inputType="textEmailAddress"
                 android:hint="@string/placeholder_email"
+                android:textColorHint="@color/overlay_light_30"
                 android:ems="10"
                 android:layout_marginTop="10dp"
                 android:maxLength="64"

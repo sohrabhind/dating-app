@@ -112,7 +112,7 @@
                             android:layout_gravity="center"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp"
-                            android:background="@drawable/ic_plus"
+                            android:src="@drawable/ic_action_new"
                             app:tint="@color/colorIconTint" />
 
                     </LinearLayout>

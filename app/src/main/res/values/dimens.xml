@@ -30,8 +30,7 @@
     <dimen name="spacing_xxlarge">50dp</dimen>
 
     <!-- added for version 3.0 -->
-
-    <dimen name="img_dim">200dp</dimen>
+    <dimen name="img_dim">300dp</dimen>
 
     <!-- added for version 4.2 -->
 

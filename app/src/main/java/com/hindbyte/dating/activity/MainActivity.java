@@ -1,47 +1,26 @@
 package com.hindbyte.dating.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.lifecycle.Lifecycle;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
-import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.tabs.TabLayout;
 import com.hindbyte.dating.R;
-import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.common.ActivityBase;
-import com.hindbyte.dating.dialogs.FriendRequestActionDialog;
 import com.hindbyte.dating.fragment.DialogsFragment;
 import com.hindbyte.dating.fragment.HotGameFragment;
 import com.hindbyte.dating.fragment.MenuFragment;
 import com.hindbyte.dating.fragment.NotificationsFragment;
 import com.hindbyte.dating.util.CustomViewPager;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends ActivityBase {

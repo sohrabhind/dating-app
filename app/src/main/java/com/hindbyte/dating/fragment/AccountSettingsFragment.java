@@ -68,7 +68,7 @@ public class AccountSettingsFragment extends Fragment implements Constants {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
 
         initpDialog();
 

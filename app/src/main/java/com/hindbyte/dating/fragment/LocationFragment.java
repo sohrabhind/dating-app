@@ -30,7 +30,7 @@ import com.hindbyte.dating.constants.Constants;
 public class LocationFragment extends Fragment implements Constants {
 
     TextView mPrompt;
-    Button mOpenSettings;
+    TextView mOpenSettings;
 
     private FusedLocationProviderClient mFusedLocationClient;
     private Location mLastLocation;

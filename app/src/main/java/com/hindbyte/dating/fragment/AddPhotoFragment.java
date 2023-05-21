@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -78,7 +79,7 @@ public class AddPhotoFragment extends Fragment implements Constants {
     private ImageView mThumbnail, mActionIcon;
     private ProgressBar mProgressView;
     private ImageButton mDeleteButton;
-    private Button mPublishButton;
+    private TextView mPublishButton;
 
     String commentText = "", imgUrl = "",  postArea = "", postCountry = "", postCity = "", postLat = "", postLng = "";
 
@@ -177,7 +178,7 @@ initpDialog();
 
                 Log.e("Permissions", "denied");
 
-                Snackbar.make(getView(), getString(R.string.label_no_camera_permission) , Snackbar.LENGTH_LONG).setAction(getString(R.string.action_settings), new View.OnClickListener() {
+                Snackbar.make(requireView(), getString(R.string.label_no_camera_permission) , Snackbar.LENGTH_LONG).setAction(getString(R.string.action_settings), new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
@@ -214,38 +215,26 @@ initpDialog();
                 choiceImage();
 
             } else {
-
                 Log.e("Permissions", "denied");
-
-                Snackbar.make(getView(), getString(R.string.label_no_storage_permission) , Snackbar.LENGTH_LONG).setAction(getString(R.string.action_settings), new View.OnClickListener() {
-
+                Snackbar.make(requireView(), getString(R.string.label_no_storage_permission) , Snackbar.LENGTH_LONG).setAction(getString(R.string.action_settings), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
-
                         Toast.makeText(requireActivity(), getString(R.string.label_grant_storage_permission), Toast.LENGTH_SHORT).show();
                     }
 
                 }).show();
             }
-
         });
 
-        //
 
         if (loading) {
-
             showpDialog();
         }
 
         mTextEditor = rootView.findViewById(R.id.text_editor);
         mActionIcon = rootView.findViewById(R.id.action_add);
-
-        //
-
-
         mThumbnail = rootView.findViewById(R.id.thumbnail);
 
         mThumbnail.setOnClickListener(new View.OnClickListener() {
@@ -404,7 +393,7 @@ initpDialog();
 
         mDeleteButton.setVisibility(View.GONE);
         mActionIcon.setVisibility(View.VISIBLE);
-        mActionIcon.setImageResource(R.drawable.ic_plus);
+        mActionIcon.setImageResource(R.drawable.ic_action_add_photo);
 
 
         if (selectedImagePath != null && selectedImagePath.length() > 0) {
@@ -413,16 +402,13 @@ initpDialog();
             mDeleteButton.setVisibility(View.VISIBLE);
 
             if (itemType == GALLERY_ITEM_TYPE_IMAGE) {
-
                 mThumbnail.setImageURI(FileProvider.getUriForFile(requireActivity(), App.getInstance().getPackageName() + ".provider", new File(selectedImagePath)));
 
             } else{
-
                 mThumbnail.setImageURI(FileProvider.getUriForFile(App.getInstance().getApplicationContext(), App.getInstance().getPackageName() + ".provider", new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), newThumbFileName)));
             }
 
             if (newThumbFileName.length() != 0) {
-
                 mActionIcon.setImageResource(R.drawable.ic_play);
                 mActionIcon.setVisibility(View.VISIBLE);
             }

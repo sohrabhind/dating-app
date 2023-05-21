@@ -95,7 +95,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
     private RecyclerView mRecyclerView;
     private NestedScrollView mNestedView;
 
-    Button mRetryBtn;
+    TextView mRetryBtn;
 
     private LinearLayout mSendComment;
 

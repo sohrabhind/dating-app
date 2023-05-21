@@ -143,7 +143,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
     TextView mProfileItemsCount, mProfileFriendsCount, mProfileLikesCount;
     MaterialRippleLayout mProfileItemsBtn, mProfileFriendsBtn, mProfileLikesBtn;
 
-    Button mProfileMessageBtn, mProfileActionBtn;
+    TextView mProfileMessageBtn, mProfileActionBtn;
 
     Profile profile;
 
@@ -558,39 +558,25 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         mProfileMessageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (App.getInstance().getLevelMode() > 0 || App.getInstance().getLevelMessagesCount() > 0) {
-
-                    if (profile.getAllowMessages() == 0 && !profile.isFriend()) {
-
-                        Toast.makeText(requireActivity(), getString(R.string.error_no_friend), Toast.LENGTH_SHORT).show();
-
-                    } else {
-
-                        if (!profile.isInBlackList()) {
-
-                            Intent i = new Intent(requireActivity(), ChatActivity.class);
-                            i.putExtra("chatId", 0);
-                            i.putExtra("profileId", profile.getId());
-                            i.putExtra("withProfile", profile.getFullname());
-
-                            i.putExtra("with_user_username", profile.getUsername());
-                            i.putExtra("with_user_fullname", profile.getFullname());
-                            i.putExtra("with_user_photo_url", profile.getBigPhotoUrl());
-
-                            i.putExtra("with_user_state", profile.getState());
-
-                            startActivity(i);
-
-                        } else {
-
-                            Toast.makeText(requireActivity(), getString(R.string.error_action), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
+                if (profile.getAllowMessages() == 0 && !profile.isFriend()) {
+                    Toast.makeText(requireActivity(), getString(R.string.error_no_friend), Toast.LENGTH_SHORT).show();
                 } else {
+                    if (!profile.isInBlackList()) {
+                        Intent i = new Intent(requireActivity(), ChatActivity.class);
+                        i.putExtra("chatId", 0);
+                        i.putExtra("profileId", profile.getId());
+                        i.putExtra("withProfile", profile.getFullname());
 
-                    Toast.makeText(requireActivity(), getString(R.string.msg_pro_mode_alert), Toast.LENGTH_LONG).show();
+                        i.putExtra("with_user_username", profile.getUsername());
+                        i.putExtra("with_user_fullname", profile.getFullname());
+                        i.putExtra("with_user_photo_url", profile.getBigPhotoUrl());
+
+                        i.putExtra("with_user_state", profile.getState());
+
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(requireActivity(), getString(R.string.error_action), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

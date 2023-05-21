@@ -76,12 +76,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/button_white"
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/app_profile_button"
                     android:text="@string/action_unblock"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     android:id="@+id/blockedAction" />
+
             </LinearLayout>
 
         </LinearLayout>

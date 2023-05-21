@@ -93,11 +93,6 @@
         </service>
 
         <activity
-            android:name="com.hindbyte.dating.activity.SignupActivity"
-            android:label="@string/title_activity_signup"
-            android:windowSoftInputMode="stateHidden" />
-
-        <activity
             android:name="com.hindbyte.dating.activity.MainActivity"
             android:label="@string/title_activity_feeds"
             android:exported="true">
@@ -180,12 +175,6 @@
             android:screenOrientation="fullSensor"
             android:theme="@style/MyMaterialTheme">
         </activity>
-        <activity
-            android:name="com.hindbyte.dating.activity.PeopleNearbyActivity"
-            android:label="@string/title_activity_nearby"
-            android:theme="@style/MyMaterialTheme">
-
-        </activity>
 
         <activity
             android:name="com.hindbyte.dating.activity.ViewImageActivity"
@@ -207,17 +196,12 @@
 
         <activity
             android:name=".activity.BalanceHistoryActivity"
-            android:label="@string/title_activity_balance_history"/>
+            android:label="@string/title_activity_balance_history"
+            android:theme="@style/MyMaterialTheme"/>
 
         <activity
             android:name=".activity.SearchActivity"
             android:label="@string/title_activity_search"
-            android:theme="@style/MyMaterialTheme">
-        </activity>
-
-        <activity
-            android:name=".activity.StreamActivity"
-            android:label="@string/title_activity_stream"
             android:theme="@style/MyMaterialTheme">
         </activity>
 

@@ -22,20 +22,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorSeparator"/>
-
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/img_dim" >
+                    android:layout_height="@dimen/img_dim">
 
                     <ImageView
                         android:id="@+id/thumbnail"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:foreground="@color/overlay_dark_10"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/background_dashed"
                         android:scaleType="centerCrop" />
 
                     <ProgressBar
@@ -47,11 +46,11 @@
 
                     <ImageView
                         android:id="@+id/action_add"
-                        android:layout_width="?attr/actionBarSize"
-                        android:layout_height="?attr/actionBarSize"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/ic_plus"
-                        app:tint="@color/colorIconTint" />
+                        android:src="@drawable/ic_action_add_photo"
+                        app:tint="@color/gray" />
 
                     <ImageButton
                         android:id="@+id/delete_button"
@@ -65,61 +64,48 @@
 
                 </RelativeLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorSeparator"/>
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorSeparator"/>
+                android:background="@color/colorSeparator"
+                android:visibility="gone"/>
 
             <EditText
                 android:id="@+id/text_editor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:minHeight="150dp"
+                android:visibility="gone"
+                android:minHeight="200dp"
                 android:hint="@string/placeholder_comment"
                 android:scrollbarStyle="outsideInset"
                 android:scrollbars="none"
                 android:overScrollMode="never"
                 android:gravity="start|top"
-                android:background="@null"
+                android:background="@drawable/edittext_dark_border"
                 android:maxLength="1000"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:padding="@dimen/spacing_xmedium" />
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
-    <LinearLayout
-        android:layout_gravity="bottom"
-        android:orientation="vertical"
+
+    <TextView
+        android:id="@+id/publish_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.balysv.materialripple.MaterialRippleLayout
-            style="@style/RippleStyleBlack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/publish_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/action_create"
-                android:background="@color/colorPrimaryButton"
-                android:textColor="@color/white"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:textStyle="bold" />
-
-        </com.balysv.materialripple.MaterialRippleLayout>
-
-    </LinearLayout>
+        android:layout_height="50dp"
+        android:text="@string/action_create"
+        android:background="@drawable/app_profile_button"
+        android:layout_margin="10dp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textStyle="bold"
+        android:layout_gravity="bottom" />
 
 </LinearLayout>

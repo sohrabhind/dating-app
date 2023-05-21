@@ -51,6 +51,7 @@
             android:background="@drawable/edittext_transparent"
             android:ems="10"
             android:hint="@string/placeholder_fullname"
+            android:textColorHint="@color/overlay_light_30"
             android:inputType="textPersonName"
             android:maxLength="64"
             android:paddingStart="10dp"
