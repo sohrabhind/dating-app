@@ -35,7 +35,6 @@
     </style>
 
     <!-- Spinner text color -->
-
     <style name="MooSpinnerItem" parent="android:Widget.TextView.SpinnerItem">
         <item name="android:textAppearance">@style/MooTextAppearanceSpinnerItem</item>
         <item name="android:windowAnimationStyle">@null</item>

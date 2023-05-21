@@ -66,8 +66,10 @@
     <string name="label_sex">Gender</string>
     <string name="label_male">Male</string>
     <string name="label_female">Female</string>
-    <string name="label_sex_male">Gender Male</string>
-    <string name="label_sex_female">Gender Female</string>
+    <string name="label_other">Other</string>
+    <string name="label_sex_male">Gender: Male</string>
+    <string name="label_sex_female">Gender: Female</string>
+    <string name="label_sex_other">Gender: Other</string>
 
     <string name="label_profile_join">Join Date</string>
 
@@ -82,7 +84,6 @@
     <string name="placeholder_support_detail">What are you contacting us about?</string>
     <string name="placeholder_current_password">Current password</string>
     <string name="placeholder_new_password">New password</string>
-    <string name="placeholder_gift">Add a comment for gift&#8230;</string>
     <string name="placeholder_comment">Type a comment&#8230;</string>
     <string name="placeholder_message">Type a message&#8230;</string>
 
@@ -93,7 +94,6 @@
     <string name="msg_copied_to_clipboard">Copied to clipboard.</string>
     <string name="msg_enter_msg">Please write something or attach photo.</string>
     <string name="msg_send_msg_error">You can not send a message to the user.</string>
-    <string name="msg_gift_sent">Gift has been successfully sent.</string>
     <string name="msg_password_changed">Password successfully changed</string>
     <string name="msg_settings_saved">Settings successfully saved.</string>
     <string name="msg_ticket_send_success">Your request is accepted! You will receive a response to the email, which is indicated in the request.</string>
@@ -129,7 +129,6 @@
     <string name="label_gcm_friend_request">You have a new friend request.</string>
     <string name="label_gcm_friend_request_accepted">Friend Request accepted.</string>
     <string name="label_gcm_message">You have a new message.</string>
-    <string name="label_gcm_gift">You have a new gift.</string>
     <string name="label_gcm_comment_reply">You have a new reply to comment.</string>
 
     <string name="label_authorization_via_facebook">Authorized via Facebook.</string>
@@ -139,7 +138,7 @@
     <string name="label_nearby">Near you</string>
 
     <string name="label_block">Block</string>
-    <string name="label_block_msg">will not be able send gifts to your and send your messages, and you will not see notifications from</string>
+    <string name="label_block_msg">will not be able send your messages, and you will not see notifications from</string>
     <string name="label_delete">Delete</string>
     <string name="label_delete_msg">Do you want to delete this Item?</string>
     <string name="label_delete_comment">Are you sure you want to delete this comment?</string>
@@ -155,11 +154,9 @@
     <string name="label_comment_added">added a new comment.</string>
     <string name="label_comment_reply_added">replied to your comment.</string>
     <string name="label_friend_request_added">sent you a request to friends.</string>
-    <string name="label_gift_added">made a gift.</string>
     <string name="label_friend_request_dialog_title">Friend Request</string>
 
     <string name="label_photos">photos</string>
-    <string name="label_gifts">gifts</string>
     <string name="label_friends">friends</string>
     <string name="label_likes">likes</string>
     <string name="label_online">Online</string>
@@ -176,7 +173,6 @@
     <string name="settings_notifications_comments">Comments</string>
     <string name="settings_notifications_friends">Friend Requests</string>
     <string name="settings_notifications_messages">Private messages</string>
-    <string name="settings_notifications_gifts">Gifts</string>
 
     <string name="settings_version">Version</string>
     <string name="settings_logout">Log Out</string>
@@ -198,10 +194,7 @@
     <string name="settings_account_access_token" translatable="false">access_token</string>
 
     <string name="account_relationship_status">Relationship status</string>
-    <string name="account_political_views">Political views</string>
-    <string name="account_world_view">World view</string>
-    <string name="account_personal_priority">Personal priority</string>
-    <string name="account_important_in_others">Important in others</string>
+    <string name="account_religious_view">Religious view</string>
     <string name="account_smoking_views">Views on smoking</string>
     <string name="account_alcohol_views">Views on alcohol</string>
     <string name="account_you_looking">What are you looking for?</string>
@@ -211,7 +204,7 @@
     <string name="account_profile_like">Gender like</string>
 
     <string name="account_you_looking_dialog">You looking for</string>
-    <string name="account_you_like_dialog">Gender do you like</string>
+    <string name="account_you_like_dialog">I\'m interested in</string>
 
     <string name="relationship_status_0">Not specified</string>
     <string name="relationship_status_1">Single</string>
@@ -222,45 +215,17 @@
     <string name="relationship_status_6">It\'s complicated</string>
     <string name="relationship_status_7">Actively searching</string>
 
-    <string name="political_views_0">None selected</string>
-    <string name="political_views_1">Apathetic</string>
-    <string name="political_views_2">Communist</string>
-    <string name="political_views_3">Socialist</string>
-    <string name="political_views_4">Moderate</string>
-    <string name="political_views_5">Liberal</string>
-    <string name="political_views_6">Conservative</string>
-    <string name="political_views_7">Monarchist</string>
-    <string name="political_views_8">Ultraconservative</string>
-    <string name="political_views_9">Libertarian</string>
 
-    <string name="world_view_0">None selected</string>
-    <string name="world_view_1">Judaism</string>
-    <string name="world_view_2">Orthodoxy</string>
-    <string name="world_view_3">Catholicism</string>
-    <string name="world_view_4">Protestantism</string>
-    <string name="world_view_5">Islam</string>
-    <string name="world_view_6">Buddhism</string>
-    <string name="world_view_7">Confucianism</string>
-    <string name="world_view_8">Secular Humanism</string>
-    <string name="world_view_9">Pastafarianism</string>
-
-    <string name="personal_priority_0">Not specified</string>
-    <string name="personal_priority_1">Family and children</string>
-    <string name="personal_priority_2">Career and money</string>
-    <string name="personal_priority_3">Entertainment and leisure</string>
-    <string name="personal_priority_4">Science and research</string>
-    <string name="personal_priority_5">Improving the world</string>
-    <string name="personal_priority_6">Personal development</string>
-    <string name="personal_priority_7">Beauty and art</string>
-    <string name="personal_priority_8">Fame and influence</string>
-
-    <string name="important_in_others_0">Not specified</string>
-    <string name="important_in_others_1">Intellect and creativity</string>
-    <string name="important_in_others_2">Kindness and honesty</string>
-    <string name="important_in_others_3">Health and beauty</string>
-    <string name="important_in_others_4">Wealth and power</string>
-    <string name="important_in_others_5">Courage and persistence</string>
-    <string name="important_in_others_6">Humor and love for life</string>
+    <string name="religious_view_0">None selected</string>
+    <string name="religious_view_1">Christianity</string>
+    <string name="religious_view_2">Islam</string>
+    <string name="religious_view_3">Hinduism</string>
+    <string name="religious_view_4">Buddhism</string>
+    <string name="religious_view_5">Shinto</string>
+    <string name="religious_view_6">Sikhism</string>
+    <string name="religious_view_7">Judaism</string>
+    <string name="religious_view_8">Jainism</string>
+    
 
     <string name="smoking_views_0">Not specified</string>
     <string name="smoking_views_1">Very negative</string>
@@ -282,8 +247,8 @@
     <string name="you_looking_3">Flirting</string>
 
     <string name="you_like_0">Not specified</string>
-    <string name="you_like_1">I\'m interested in women</string>
-    <string name="you_like_2">I\'m interested in men</string>
+    <string name="you_like_1">Women</string>
+    <string name="you_like_2">Men</string>
 
     <string name="profile_like_1">Interested in women</string>
     <string name="profile_like_2">Interested in men</string>
@@ -315,9 +280,6 @@
     <string name="title_activity_support">Contact us</string>
     <string name="title_activity_location">Location</string>
     <string name="title_activity_deactivate">Deactivate Account</string>
-    <string name="title_activity_select_gift">Choose a Gift</string>
-    <string name="title_activity_send_gift">Send Gift</string>
-    <string name="title_activity_gifts">Profile Gifts</string>
     <string name="title_activity_friends">Profile Friends</string>
     <string name="title_activity_balance">Upgrade</string>
     <string name="title_activity_nearby">People Nearby</string>
@@ -385,7 +347,6 @@
     <!-- added for version 2.6 -->
 
     <string name="action_message">Message</string>
-    <string name="action_gift">Gift</string>
 
     <!-- added for version 2.8 -->
 
@@ -396,7 +357,6 @@
     <string name="settings_privacy_galley">Show my gallery only for friends</string>
     <string name="settings_privacy_friends">Show my friends only for friends</string>
     <string name="settings_privacy_likes">Show profile likes only for friends</string>
-    <string name="settings_privacy_gifts">Show gifts only for friends</string>
 
     <!-- added for version 2.9 -->
 
@@ -443,7 +403,7 @@
 
     <!-- added for version 3.3 -->
 
-    <string name="settings_account_free_messages_count" translatable="false">free_messages_count</string>
+    <string name="settings_account_level_messages_count" translatable="false">level_messages_count</string>
     <string name="settings_account_pro_mode" translatable="false">pro_mode</string>
     <string name="settings_account_photo_url" translatable="false">account_photo_url</string>
     <string name="settings_account_fullname" translatable="false">account_fullname</string>
@@ -508,7 +468,7 @@
     <string name="nav_media_feed">Feed</string>
     <string name="nav_menu">Menu</string>
 
-    <string name="label_photo_privacy">Show in Media Stream</string>
+    <string name="label_photo_privacy">Private</string>
 
     <!-- added for version 4.2 -->
 
@@ -542,7 +502,6 @@
     <string name="register_screen_3_subtitle">Please specify your age.</string>
 
 
-    <string name="register_screen_4_msg">Please specify your gender.</string>
     <string name="register_screen_4_title">Name &amp; Gender</string>
     <string name="register_screen_4_subtitle">Enter your name and select gender</string>
 
@@ -578,7 +537,6 @@
 
     <!-- For version 4.7 -->
 
-    <string name="settings_account_allow_gifts_gcm" translatable="false">allow_gifts_gcm</string>
     <string name="settings_account_allow_friends_requests_gcm" translatable="false">allow_friends_requests_gcm</string>
     <string name="settings_account_allow_comments_gcm" translatable="false">allow_comments_gcm</string>
 
@@ -592,7 +550,6 @@
     <string name="label_payments_credits_stripe">Buying credits with Stripe</string>
     <string name="label_payments_credits_android">Buying credits with Android in-app purchases</string>
     <string name="label_payments_credits_ios">Buying credits with iOS in-app purchases</string>
-    <string name="label_payments_send_gift">Gift Sending</string>
     <string name="label_payments_pro_mode">Activate Pro Mode</string>
     <string name="label_payments_message_package">Activate Message Package</string>
     <string name="label_payments_registration_bonus">Sign Up Bonus</string>
@@ -601,12 +558,11 @@
     <string name="label_upgrades_message_package_desc">Buy a message pack to send private messages to users. You can also activate Pro Mode to send unlimited messages.</string>
 
     <string name="action_get_balance">Buy credits</string>
-    <string name="dlg_choice_gift_title">Gifts</string>
     <string name="account_balance_label">You balance %d credits</string>
 
     <string name="price_of">%d credits</string>
 
-    <string name="free_messages_of">%d free messages</string>
+    <string name="level_messages_of">%d level messages</string>
     <string name="msg_success_buy_message_package">Increased the number of messages!</string>
 
     <!--  For version 5.1  -->
@@ -694,6 +650,7 @@
     <string name="action_buy_iap3_google_pay">₹900</string>
     <string name="item_author_fullname">Item Author Fullname</string>
     <string name="my_profile">My profile</string>
+    <string name="poppi">poppi</string>
 
 </resources>
 

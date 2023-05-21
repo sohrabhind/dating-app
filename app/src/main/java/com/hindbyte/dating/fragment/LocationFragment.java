@@ -61,7 +61,7 @@ public class LocationFragment extends Fragment implements Constants {
             public void onClick(View v) {
 
                 Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivityForResult(viewIntent, 1);
+                startActivity(viewIntent);
             }
         });
 
@@ -81,13 +81,13 @@ public class LocationFragment extends Fragment implements Constants {
 
         if (requestCode == 1) {
 
-            LocationManager lm = (LocationManager) getActivity().getSystemService(getActivity().LOCATION_SERVICE);
+            LocationManager lm = (LocationManager) requireActivity().getSystemService(requireActivity().LOCATION_SERVICE);
 
-            if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER) && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER) && ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-                mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+                mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
-                mFusedLocationClient.getLastLocation().addOnCompleteListener(getActivity(), new OnCompleteListener<Location>() {
+                mFusedLocationClient.getLastLocation().addOnCompleteListener(requireActivity(), new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
 
@@ -107,9 +107,9 @@ public class LocationFragment extends Fragment implements Constants {
             }
 
             Intent i = new Intent();
-            getActivity().setResult(getActivity().RESULT_OK, i);
+            requireActivity().setResult(requireActivity().RESULT_OK, i);
 
-            getActivity().finish();
+            requireActivity().finish();
         }
     }
 

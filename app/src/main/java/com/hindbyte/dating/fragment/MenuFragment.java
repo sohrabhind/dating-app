@@ -52,10 +52,7 @@ public class MenuFragment extends Fragment implements Constants {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
-
-        getActivity().setTitle(R.string.nav_menu);
 
         mNavProfile = rootView.findViewById(R.id.nav_profile);
         mNavProfileFullname = rootView.findViewById(R.id.nav_profile_fullname);
@@ -83,9 +80,9 @@ public class MenuFragment extends Fragment implements Constants {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(getActivity(), ProfileActivity.class);
+                Intent i = new Intent(requireActivity(), ProfileActivity.class);
                 i.putExtra("profileId", App.getInstance().getId());
-                getActivity().startActivity(i);
+                requireActivity().startActivity(i);
             }
         });
 
@@ -94,7 +91,7 @@ public class MenuFragment extends Fragment implements Constants {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                Intent intent = new Intent(requireActivity(), SearchActivity.class);
                 startActivity(intent);
             }
         });
@@ -104,7 +101,7 @@ public class MenuFragment extends Fragment implements Constants {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(getActivity(), FriendsActivity.class);
+                Intent i = new Intent(requireActivity(), FriendsActivity.class);
                 i.putExtra("profileId", App.getInstance().getId());
                 startActivity(i);
             }
@@ -115,7 +112,7 @@ public class MenuFragment extends Fragment implements Constants {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(getActivity(), LikesActivity.class);
+                Intent i = new Intent(requireActivity(), LikesActivity.class);
                 i.putExtra("profileId", App.getInstance().getId());
                 startActivity(i);
             }
@@ -126,7 +123,7 @@ public class MenuFragment extends Fragment implements Constants {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(getActivity(), LikedActivity.class);
+                Intent i = new Intent(requireActivity(), LikedActivity.class);
                 i.putExtra("itemId", App.getInstance().getId());
                 startActivity(i);
             }
@@ -137,7 +134,7 @@ public class MenuFragment extends Fragment implements Constants {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(getActivity(), UpgradeActivity.class);
+                Intent i = new Intent(requireActivity(), UpgradeActivity.class);
                 startActivity(i);
             }
         });
@@ -147,7 +144,7 @@ public class MenuFragment extends Fragment implements Constants {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(getActivity(), SettingsActivity.class);
+                Intent i = new Intent(requireActivity(), SettingsActivity.class);
                 startActivity(i);
             }
         });
@@ -159,13 +156,9 @@ public class MenuFragment extends Fragment implements Constants {
     }
 
     public void updateView() {
-
         // Counters
-
         mFriendsIcon.setVisibility(View.GONE);
-
         if (App.getInstance().getNewFriendsCount() != 0) {
-
             mFriendsIcon.setVisibility(View.VISIBLE);
         }
 
@@ -209,9 +202,7 @@ public class MenuFragment extends Fragment implements Constants {
 
     @Override
     public void onResume() {
-
         super.onResume();
-
         updateView();
     }
 

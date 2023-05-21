@@ -3,6 +3,7 @@ package com.hindbyte.dating.activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceFragmentCompat;
@@ -11,11 +12,12 @@ import com.hindbyte.dating.fragment.NotificationsSettingsFragment;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.common.ActivityBase;
 
+import java.util.Objects;
+
 
 public class NotificationsSettingsActivity extends ActivityBase {
 
     Toolbar mToolbar;
-
     PreferenceFragmentCompat fragment;
 
     @Override
@@ -26,15 +28,12 @@ public class NotificationsSettingsActivity extends ActivityBase {
         mToolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
         if (savedInstanceState != null) {
-
             fragment = (PreferenceFragmentCompat) getSupportFragmentManager().getFragment(savedInstanceState, "currentFragment");
-
         } else {
-
             fragment = new NotificationsSettingsFragment();
         }
 
@@ -43,10 +42,8 @@ public class NotificationsSettingsActivity extends ActivityBase {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
         getSupportFragmentManager().putFragment(outState, "currentFragment", fragment);
     }
 
@@ -56,18 +53,10 @@ public class NotificationsSettingsActivity extends ActivityBase {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.\
 
-        switch (item.getItemId()) {
-
-            case android.R.id.home: {
-
-                finish();
-                return true;
-            }
-
-            default: {
-
-                return super.onOptionsItemSelected(item);
-            }
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }

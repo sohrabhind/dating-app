@@ -13,11 +13,11 @@ import com.hindbyte.dating.constants.Constants;
 
 public class NotificationsSettingsFragment extends PreferenceFragmentCompat implements Constants {
 
-    private CheckBoxPreference mAllowLikesGCM, mAllowFollowersGCM, mAllowMessagesGCM, mAllowGiftsGCM, mAllowCommentsGCM;
+    private CheckBoxPreference mAllowLikesGCM, mAllowFollowersGCM, mAllowMessagesGCM, mAllowCommentsGCM;
 
     private ProgressDialog pDialog;
 
-    int mAllowLikes, mAllowFollowers, mAllowMessages, mAllowGifts, mAllowComments;
+    int mAllowLikes, mAllowFollowers, mAllowMessages, mAllowComments;
 
     private Boolean loading = false;
 
@@ -140,37 +140,10 @@ mAllowLikesGCM = (CheckBoxPreference) getPreferenceManager().findPreference("all
             }
         });
 
-        mAllowGiftsGCM = (CheckBoxPreference) getPreferenceManager().findPreference("allowGiftsGCM");
-
-        mAllowGiftsGCM.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-
-                if (newValue instanceof Boolean) {
-
-                    Boolean value = (Boolean) newValue;
-
-                    if (value) {
-
-                        mAllowGifts = 1;
-
-                    } else {
-
-                        mAllowGifts = 0;
-                    }
-
-                    saveSettings();
-                }
-
-                return true;
-            }
-        });
 
         checkAllowLikes(App.getInstance().getAllowLikesGCM());
         checkAllowFollowers(App.getInstance().getAllowFollowersGCM());
         checkAllowMessages(App.getInstance().getAllowMessagesGCM());
-        checkAllowGifts(App.getInstance().getAllowGiftsGCM());
         checkAllowComments(App.getInstance().getAllowCommentsGCM());
     }
 
@@ -265,24 +238,10 @@ mAllowLikesGCM = (CheckBoxPreference) getPreferenceManager().findPreference("all
         }
     }
 
-    public void checkAllowGifts(int value) {
-
-        if (value == 1) {
-
-            mAllowGiftsGCM.setChecked(true);
-            mAllowGifts = 1;
-
-        } else {
-
-            mAllowGiftsGCM.setChecked(false);
-            mAllowGifts = 0;
-        }
-    }
 
     public void saveSettings() {
 
         App.getInstance().setAllowLikesGCM(mAllowLikes);
-        App.getInstance().setAllowGiftsGCM(mAllowGifts);
         App.getInstance().setAllowMessagesGCM(mAllowMessages);
         App.getInstance().setAllowCommentsGCM(mAllowComments);
         App.getInstance().setAllowFollowersGCM(mAllowFollowers);
@@ -292,7 +251,7 @@ mAllowLikesGCM = (CheckBoxPreference) getPreferenceManager().findPreference("all
 
     protected void initpDialog() {
 
-        pDialog = new ProgressDialog(getActivity());
+        pDialog = new ProgressDialog(requireActivity());
         pDialog.setMessage(getString(R.string.msg_loading));
         pDialog.setCancelable(false);
     }

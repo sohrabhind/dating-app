@@ -19,8 +19,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
-import uk.co.senab.photoview.PhotoViewAttacher;
-
 
 public class PhotoViewActivity extends ActivityBase {
 
@@ -33,7 +31,6 @@ public class PhotoViewActivity extends ActivityBase {
     LinearLayout mContentScreen;
     RelativeLayout mLoadingScreen;
 
-    PhotoViewAttacher mAttacher;
 
     String imgUrl;
 
@@ -59,12 +56,11 @@ public class PhotoViewActivity extends ActivityBase {
 
         Picasso.get()
                 .load(imgUrl)
-                .placeholder(R.drawable.img_loading)
-                .error(R.drawable.img_loading)
+                .placeholder(R.drawable.profile_default_photo)
+                .error(R.drawable.profile_default_photo)
                 .into(photoView, new Callback() {
                     @Override
                     public void onSuccess() {
-                        mAttacher = new PhotoViewAttacher(photoView);
                         showContentScreen();
                     }
 

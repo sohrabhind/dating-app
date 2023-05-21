@@ -87,8 +87,8 @@ public class NotificationsListAdapter extends RecyclerView.Adapter<Notifications
             try {
                 Picasso.get()
                         .load(item.getFromUserPhotoUrl())
-                        .placeholder(R.drawable.img_loading)
-                        .error(R.drawable.img_loading)
+                        .placeholder(R.drawable.profile_default_photo)
+                        .error(R.drawable.profile_default_photo)
                         .into(holder.image, new Callback() {
                             @Override
                             public void onSuccess() {
@@ -126,9 +126,6 @@ public class NotificationsListAdapter extends RecyclerView.Adapter<Notifications
         } else if (item.getType() == NOTIFY_TYPE_COMMENT_REPLY) {
             holder.message.setText(item.getFromUserFullname() + " " + ctx.getText(R.string.label_comment_reply_added));
             holder.icon.setImageResource(R.drawable.notify_reply);
-        } else if (item.getType() == NOTIFY_TYPE_GIFT) {
-            holder.message.setText(item.getFromUserFullname() + " " + ctx.getText(R.string.label_gift_added));
-            holder.icon.setImageResource(R.drawable.notify_gift);
         } else if (item.getType() == NOTIFY_TYPE_IMAGE_COMMENT) {
             holder.message.setText(item.getFromUserFullname() + " " + ctx.getText(R.string.label_comment_added));
             holder.icon.setImageResource(R.drawable.notify_comment);

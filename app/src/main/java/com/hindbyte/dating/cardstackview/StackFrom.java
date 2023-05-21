@@ -1,6 +1,7 @@
 package com.hindbyte.dating.cardstackview;
 
 public enum StackFrom {
+
     None,
     Top,
     TopAndLeft,
@@ -10,4 +11,5 @@ public enum StackFrom {
     BottomAndRight,
     Left,
     Right,
+
 }

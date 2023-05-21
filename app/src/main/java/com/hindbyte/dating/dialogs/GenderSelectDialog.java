@@ -62,19 +62,19 @@ public class GenderSelectDialog extends DialogFragment implements Constants {
      */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
         String[] gender_strings = new String[] {
                 getText(R.string.label_male).toString(),
                 getText(R.string.label_female).toString(),
+                getText(R.string.label_other).toString(),
         };
 
         /** Getting the arguments passed to this fragment */
         Bundle bundle = getArguments();
-
+        assert bundle != null;
         position = bundle.getInt("position");
 
         /** Creating a builder for the alert dialog window */
-        AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder b = new AlertDialog.Builder(requireActivity());
 
         /** Setting a title for the window */
         b.setTitle(getText(R.string.label_gender_select_title));

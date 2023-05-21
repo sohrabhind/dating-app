@@ -67,7 +67,7 @@ public class ProfileBlockDialog extends DialogFragment implements Constants {
         blockUsername = bundle.getString("blockUsername");
 
         /** Creating a builder for the alert dialog window */
-        AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder b = new AlertDialog.Builder(requireActivity());
 
         /** Setting a title for the window */
         b.setTitle(getText(R.string.label_block) + " @" + blockUsername + "?");

@@ -186,8 +186,8 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
                                 
             Picasso.get()
             .load(chatItem.getStickerImgUrl())
-            .placeholder(R.drawable.img_loading)
-            .error(R.drawable.img_loading)
+            .placeholder(R.drawable.profile_default_photo)
+            .error(R.drawable.profile_default_photo)
             .into(viewHolder.mRight_Img);
 
                 viewHolder.mRight_Img.setVisibility(View.VISIBLE);
@@ -213,8 +213,8 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
                                     
             Picasso.get()
             .load(chatItem.getImgUrl())
-            .placeholder(R.drawable.img_loading)
-            .error(R.drawable.img_loading)
+            .placeholder(R.drawable.profile_default_photo)
+            .error(R.drawable.profile_default_photo)
             .into(viewHolder.mRight_Img);
 
                 
@@ -315,8 +315,8 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
                                                 
             Picasso.get()
             .load(chatItem.getImgUrl())
-            .placeholder(R.drawable.img_loading)
-            .error(R.drawable.img_loading)
+            .placeholder(R.drawable.profile_default_photo)
+            .error(R.drawable.profile_default_photo)
             .into(viewHolder.mLeft_Img);
 
 

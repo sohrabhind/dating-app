@@ -80,8 +80,6 @@ public class AddPhotoFragment extends Fragment implements Constants {
     private ImageButton mDeleteButton;
     private Button mPublishButton;
 
-    private SwitchCompat mModeSwitch;
-
     String commentText = "", imgUrl = "",  postArea = "", postCountry = "", postCity = "", postLat = "", postLng = "";
 
     private Uri selectedImage;
@@ -90,7 +88,6 @@ public class AddPhotoFragment extends Fragment implements Constants {
 
     private int postMode = 0;
     private int itemType = 0;
-    private int itemShowInStream = 1;
 
     private Boolean loading = false;
 
@@ -156,7 +153,7 @@ initpDialog();
 
                     selectedImagePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + newImageFileName;
 
-                    mThumbnail.setImageURI(FileProvider.getUriForFile(getActivity(), App.getInstance().getPackageName() + ".provider", new File(selectedImagePath)));
+                    mThumbnail.setImageURI(FileProvider.getUriForFile(requireActivity(), App.getInstance().getPackageName() + ".provider", new File(selectedImagePath)));
 
                     itemType = GALLERY_ITEM_TYPE_IMAGE;
 
@@ -188,7 +185,7 @@ initpDialog();
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
 
-                        Toast.makeText(getActivity(), getString(R.string.label_grant_camera_permission), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity(), getString(R.string.label_grant_camera_permission), Toast.LENGTH_SHORT).show();
                     }
 
                 }).show();
@@ -228,7 +225,7 @@ initpDialog();
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
 
-                        Toast.makeText(getActivity(), getString(R.string.label_grant_storage_permission), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity(), getString(R.string.label_grant_storage_permission), Toast.LENGTH_SHORT).show();
                     }
 
                 }).show();
@@ -285,7 +282,7 @@ initpDialog();
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireActivity());
                 alertDialog.setTitle(getText(R.string.action_remove));
 
                 alertDialog.setMessage(getText(R.string.label_delete_item));
@@ -340,12 +337,6 @@ initpDialog();
                     commentText = mTextEditor.getText().toString();
                     commentText = commentText.trim();
 
-                    itemShowInStream = 1;
-
-                    if (!mModeSwitch.isChecked()) {
-
-                        itemShowInStream = 0;
-                    }
 
                     if (selectedImagePath != null && selectedImagePath.length() > 0) {
 
@@ -359,43 +350,19 @@ initpDialog();
                         }
                     } else {
 
-                        Toast toast= Toast.makeText(getActivity(), getText(R.string.msg_enter_photo), Toast.LENGTH_SHORT);
+                        Toast toast= Toast.makeText(requireActivity(), getText(R.string.msg_enter_photo), Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
                     }
 
                 } else {
 
-                    Toast toast= Toast.makeText(getActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT);
+                    Toast toast= Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 }
             }
         });
-
-        //
-
-        mModeSwitch = rootView.findViewById(R.id.mode_switch);
-
-        mModeSwitch.setOnCheckedChangeListener(null);
-
-        mModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                if (isChecked) {
-
-                    itemShowInStream = 1;
-
-                } else {
-
-                    itemShowInStream = 0;
-                }
-            }
-        });
-
-        //
 
         mTextEditor.addTextChangedListener(new TextWatcher() {
 
@@ -417,11 +384,11 @@ initpDialog();
 
                 if (cnt == 0) {
 
-                    getActivity().setTitle(getText(R.string.title_activity_new_photo));
+                    requireActivity().setTitle(getText(R.string.title_activity_new_photo));
 
                 } else {
 
-                    getActivity().setTitle(String.valueOf(140 - cnt));
+                    requireActivity().setTitle(String.valueOf(140 - cnt));
                 }
             }
 
@@ -439,14 +406,6 @@ initpDialog();
         mActionIcon.setVisibility(View.VISIBLE);
         mActionIcon.setImageResource(R.drawable.ic_plus);
 
-        if (itemShowInStream == 1) {
-
-            mModeSwitch.setChecked(true);
-
-        } else {
-
-            mModeSwitch.setChecked(false);
-        }
 
         if (selectedImagePath != null && selectedImagePath.length() > 0) {
 
@@ -455,7 +414,7 @@ initpDialog();
 
             if (itemType == GALLERY_ITEM_TYPE_IMAGE) {
 
-                mThumbnail.setImageURI(FileProvider.getUriForFile(getActivity(), App.getInstance().getPackageName() + ".provider", new File(selectedImagePath)));
+                mThumbnail.setImageURI(FileProvider.getUriForFile(requireActivity(), App.getInstance().getPackageName() + ".provider", new File(selectedImagePath)));
 
             } else{
 
@@ -480,7 +439,7 @@ initpDialog();
 
     protected void initpDialog() {
 
-        pDialog = new ProgressDialog(getActivity());
+        pDialog = new ProgressDialog(requireActivity());
         pDialog.setMessage(getString(R.string.msg_loading));
         pDialog.setCancelable(false);
     }
@@ -502,8 +461,8 @@ initpDialog();
     }
 
     public void choiceImage() {
-        AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(requireActivity());
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_list_item_1);
         arrayAdapter.add(getString(R.string.action_gallery));
         arrayAdapter.add(getString(R.string.action_camera));
         builderSingle.setAdapter(arrayAdapter, (dialog, which) -> {
@@ -525,7 +484,7 @@ initpDialog();
                             cameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                             imgFromCameraActivityResultLauncher.launch(cameraIntent);
                         } catch (Exception e) {
-                            Toast.makeText(getActivity(), "Error occured. Please try again later.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireActivity(), "Error occured. Please try again later.", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         requestCameraPermission();
@@ -587,7 +546,6 @@ initpDialog();
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("accessMode", String.valueOf(postMode));
                 params.put("itemType", String.valueOf(itemType));
-                params.put("itemShowInStream", String.valueOf(itemShowInStream));
                 params.put("comment", commentText);
                 params.put("imgUrl", imgUrl);
                 params.put("postArea", postArea);
@@ -693,7 +651,7 @@ initpDialog();
 
     private boolean checkPermission(String permission) {
 
-        if (ContextCompat.checkSelfPermission(getActivity(), permission) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(requireActivity(), permission) == PackageManager.PERMISSION_GRANTED) {
 
             return true;
         }

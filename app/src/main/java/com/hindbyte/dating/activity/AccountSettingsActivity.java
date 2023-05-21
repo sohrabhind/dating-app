@@ -15,18 +15,15 @@ import com.hindbyte.dating.R;
 import com.hindbyte.dating.common.ActivityBase;
 import com.hindbyte.dating.dialogs.AlcoholViewsSelectDialog;
 import com.hindbyte.dating.dialogs.GenderSelectDialog;
-import com.hindbyte.dating.dialogs.ImportantInOthersSelectDialog;
-import com.hindbyte.dating.dialogs.PersonalPrioritySelectDialog;
-import com.hindbyte.dating.dialogs.PoliticalViewsSelectDialog;
 import com.hindbyte.dating.dialogs.RelationshipStatusSelectDialog;
 import com.hindbyte.dating.dialogs.SmokingViewsSelectDialog;
-import com.hindbyte.dating.dialogs.WorldViewSelectDialog;
+import com.hindbyte.dating.dialogs.ReligiousViewSelectDialog;
 import com.hindbyte.dating.dialogs.YouLikeSelectDialog;
 import com.hindbyte.dating.dialogs.YouLookingSelectDialog;
 
 import java.util.Objects;
 
-public class AccountSettingsActivity extends ActivityBase implements GenderSelectDialog.AlertPositiveListener, RelationshipStatusSelectDialog.AlertPositiveListener, PoliticalViewsSelectDialog.AlertPositiveListener, WorldViewSelectDialog.AlertPositiveListener, PersonalPrioritySelectDialog.AlertPositiveListener, ImportantInOthersSelectDialog.AlertPositiveListener, SmokingViewsSelectDialog.AlertPositiveListener, AlcoholViewsSelectDialog.AlertPositiveListener, YouLookingSelectDialog.AlertPositiveListener, YouLikeSelectDialog.AlertPositiveListener {
+public class AccountSettingsActivity extends ActivityBase implements GenderSelectDialog.AlertPositiveListener, RelationshipStatusSelectDialog.AlertPositiveListener, ReligiousViewSelectDialog.AlertPositiveListener, SmokingViewsSelectDialog.AlertPositiveListener, AlcoholViewsSelectDialog.AlertPositiveListener, YouLookingSelectDialog.AlertPositiveListener, YouLikeSelectDialog.AlertPositiveListener {
 
     Toolbar mToolbar;
     Fragment fragment;
@@ -91,28 +88,11 @@ public class AccountSettingsActivity extends ActivityBase implements GenderSelec
         p.getRelationshipStatus(position);
     }
 
-    @Override
-    public void onPoliticalViewsSelect(int position) {
-        AccountSettingsFragment p = (AccountSettingsFragment) fragment;
-        p.getPoliticalViews(position);
-    }
 
     @Override
-    public void onWorldViewSelect(int position) {
+    public void onReligiousViewSelect(int position) {
         AccountSettingsFragment p = (AccountSettingsFragment) fragment;
-        p.getWorldView(position);
-    }
-
-    @Override
-    public void onPersonalPrioritySelect(int position) {
-        AccountSettingsFragment p = (AccountSettingsFragment) fragment;
-        p.getPersonalPriority(position);
-    }
-
-    @Override
-    public void onImportantInOthersSelect(int position) {
-        AccountSettingsFragment p = (AccountSettingsFragment) fragment;
-        p.getImportantInOthers(position);
+        p.getReligiousView(position);
     }
 
     @Override

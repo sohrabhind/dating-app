@@ -53,9 +53,9 @@ public class MixedCommentActionDialog extends DialogFragment implements Constant
 
         position = bundle.getInt("position");
 
-        AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(requireActivity());
 
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_list_item_1);
         arrayAdapter.add(getString(R.string.action_reply));
         arrayAdapter.add(getString(R.string.action_remove));
 

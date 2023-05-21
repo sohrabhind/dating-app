@@ -1,5 +1,6 @@
 package com.hindbyte.dating.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -30,7 +31,6 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.hindbyte.dating.R;
-import com.hindbyte.dating.activity.GiftsActivity;
 import com.hindbyte.dating.activity.LikesActivity;
 import com.hindbyte.dating.activity.ProfileActivity;
 import com.hindbyte.dating.activity.ViewImageActivity;
@@ -53,8 +53,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class NotificationsFragment extends Fragment implements Constants, SwipeRefreshLayout.OnRefreshListener {
-
-    private static final String STATE_LIST = "State Adapter Data";
 
     private ProgressDialog pDialog;
 
@@ -83,39 +81,21 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
-
         initpDialog();
 
-        if (savedInstanceState != null) {
+        itemsList = new ArrayList<Notify>();
+        itemsAdapter = new NotificationsListAdapter(requireActivity(), itemsList);
 
-            itemsList = savedInstanceState.getParcelableArrayList(STATE_LIST);
-            itemsAdapter = new NotificationsListAdapter(getActivity(), itemsList);
-
-            restore = savedInstanceState.getBoolean("restore");
-            itemId = savedInstanceState.getInt("itemId");
-            loadingComplete = savedInstanceState.getBoolean("loadingComplete");
-
-        } else {
-
-            itemsList = new ArrayList<Notify>();
-            itemsAdapter = new NotificationsListAdapter(getActivity(), itemsList);
-
-            restore = false;
-            itemId = 0;
-            loadingComplete = false;
-        }
+        restore = false;
+        itemId = 0;
+        loadingComplete = false;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_notifications, container, false);
-
-        getActivity().setTitle(R.string.nav_notifications);
 
         mItemsContainer = rootView.findViewById(R.id.container_items);
         mItemsContainer.setOnRefreshListener(this);
@@ -127,8 +107,8 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
 
         mRecyclerView = rootView.findViewById(R.id.recycler_view);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.addItemDecoration(new LineItemDecoration(getActivity(), LinearLayout.VERTICAL));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        mRecyclerView.addItemDecoration(new LineItemDecoration(requireActivity(), LinearLayout.VERTICAL));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mRecyclerView.setAdapter(itemsAdapter);
@@ -143,7 +123,7 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
                     case NOTIFY_TYPE_FOLLOWER: {
 
                         /** Getting the fragment manager */
-                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                        FragmentManager fm = requireActivity().getSupportFragmentManager();
 
                         /** Instantiating the DialogFragment class */
                         FriendRequestActionDialog alert = new FriendRequestActionDialog();
@@ -166,93 +146,40 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
 
                     case NOTIFY_TYPE_LIKE: {
                         if (item.getFromUserId() != 0) {
-                            Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                            Intent intent = new Intent(requireActivity(), ProfileActivity.class);
                             intent.putExtra("profileId", item.getFromUserId());
                             startActivity(intent);
                         }
                         break;
                     }
 
-                    case NOTIFY_TYPE_GIFT: {
 
-                        Intent intent = new Intent(getActivity(), GiftsActivity.class);
-                        startActivity(intent);
+                    case NOTIFY_TYPE_IMAGE_COMMENT:
 
-                        break;
-                    }
+                    case NOTIFY_TYPE_IMAGE_COMMENT_REPLY:
 
-                    case NOTIFY_TYPE_IMAGE_COMMENT: {
+                    case NOTIFY_TYPE_IMAGE_LIKE:
 
-                        Intent intent = new Intent(getActivity(), ViewImageActivity.class);
-                        intent.putExtra("itemId", item.getItemId());
-                        startActivity(intent);
-
-                        break;
-                    }
-
-                    case NOTIFY_TYPE_IMAGE_COMMENT_REPLY: {
-
-                        Intent intent = new Intent(getActivity(), ViewImageActivity.class);
-                        intent.putExtra("itemId", item.getItemId());
-                        startActivity(intent);
-
-                        break;
-                    }
-
-                    case NOTIFY_TYPE_IMAGE_LIKE: {
-
-                        Intent intent = new Intent(getActivity(), ViewImageActivity.class);
-                        intent.putExtra("itemId", item.getItemId());
-                        startActivity(intent);
-
-                        break;
-                    }
-
-                    case NOTIFY_TYPE_MEDIA_APPROVE: {
-
-                        Intent intent = new Intent(getActivity(), ViewImageActivity.class);
-                        intent.putExtra("itemId", item.getItemId());
-                        startActivity(intent);
-
-                        break;
-                    }
+                    case NOTIFY_TYPE_MEDIA_APPROVE:
 
                     case NOTIFY_TYPE_MEDIA_REJECT: {
 
-//                        Intent intent = new Intent(getActivity(), ViewImageActivity.class);
-//                        intent.putExtra("itemId", item.getItemId());
-//                        startActivity(intent);
-
-                        break;
-                    }
-
-                    case NOTIFY_TYPE_ACCOUNT_APPROVE: {
-
-                        Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                        Intent intent = new Intent(requireActivity(), ViewImageActivity.class);
+                        intent.putExtra("itemId", item.getItemId());
                         startActivity(intent);
 
                         break;
                     }
 
-                    case NOTIFY_TYPE_ACCOUNT_REJECT: {
+                    case NOTIFY_TYPE_ACCOUNT_APPROVE:
 
-                        Intent intent = new Intent(getActivity(), ProfileActivity.class);
-                        startActivity(intent);
+                    case NOTIFY_TYPE_ACCOUNT_REJECT:
 
-                        break;
-                    }
-
-                    case NOTIFY_TYPE_PROFILE_PHOTO_APPROVE: {
-
-                        Intent intent = new Intent(getActivity(), ProfileActivity.class);
-                        startActivity(intent);
-
-                        break;
-                    }
+                    case NOTIFY_TYPE_PROFILE_PHOTO_APPROVE:
 
                     case NOTIFY_TYPE_PROFILE_PHOTO_REJECT: {
 
-                        Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                        Intent intent = new Intent(requireActivity(), ProfileActivity.class);
                         startActivity(intent);
 
                         break;
@@ -319,30 +246,22 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
         return rootView;
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     @Override
     public void onRefresh() {
-
         if (App.getInstance().isConnected()) {
-
             itemId = 0;
             getItems();
-
         } else {
-
             mItemsContainer.setRefreshing(false);
         }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-
-        super.onSaveInstanceState(outState);
-
-        outState.putBoolean("loadingComplete", true);
-        outState.putBoolean("restore", true);
-        outState.putInt("itemId", itemId);
-        outState.putParcelableArrayList(STATE_LIST, itemsList);
-    }
 
     public void getItems() {
 
@@ -353,7 +272,7 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        if (!isAdded() || getActivity() == null) {
+                        if (!isAdded() || requireActivity() == null) {
 
                             Log.e("ERROR", "NotificationsFragment Not Added to Activity");
 
@@ -405,7 +324,7 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || getActivity() == null) {
+                if (!isAdded() || requireActivity() == null) {
 
                     Log.e("ERROR", "NotificationsFragment Not Added to Activity");
 
@@ -434,6 +353,7 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
         App.getInstance().addToRequestQueue(jsonReq);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void loadingComplete() {
 
         viewMore = arrayLength == LIST_ITEMS;
@@ -453,7 +373,7 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
         loadingComplete = true;
         mItemsContainer.setRefreshing(false);
 
-        getActivity().invalidateOptionsMenu();
+        requireActivity().invalidateOptionsMenu();
     }
 
     public void showMessage(String message) {
@@ -480,7 +400,7 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        if (!isAdded() || getActivity() == null) {
+                        if (!isAdded() || requireActivity() == null) {
 
                             Log.e("ERROR", "NotificationsFragment Not Added to Activity");
 
@@ -515,7 +435,7 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || getActivity() == null) {
+                if (!isAdded() || requireActivity() == null) {
 
                     Log.e("ERROR", "NotificationsFragment Not Added to Activity");
 
@@ -550,18 +470,14 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
     }
 
     private void hideMenuItems(Menu menu, boolean visible) {
-
         for (int i = 0; i < menu.size(); i++){
-
             menu.getItem(i).setVisible(visible);
         }
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-
         super.onPrepareOptionsMenu(menu);
-
         if (loadingComplete) {
             if (itemsAdapter.getItemCount() == 0) {
                 //hide menu
@@ -579,30 +495,18 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case R.id.action_remove_all: {
-
-                // remove all notifications
-
-                clear();
-
-                return true;
-            }
-
-            default: {
-
-                return super.onOptionsItemSelected(item);
-            }
+        if (item.getItemId() == R.id.action_remove_all) {
+            clear();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     protected void initpDialog() {
-
-        pDialog = new ProgressDialog(getActivity());
+        pDialog = new ProgressDialog(requireActivity());
         pDialog.setMessage(getString(R.string.msg_loading));
         pDialog.setCancelable(false);
     }
@@ -635,13 +539,13 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
 
         if (App.getInstance().isConnected()) {
 
-            Api api = new Api(getActivity());
+            Api api = new Api(requireActivity());
 
             api.acceptFriendRequest(item.getFromUserId());
 
         } else {
 
-            Toast.makeText(getActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -663,13 +567,13 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
 
         if (App.getInstance().isConnected()) {
 
-            Api api = new Api(getActivity());
+            Api api = new Api(requireActivity());
 
             api.rejectFriendRequest(item.getFromUserId());
 
         } else {
 
-            Toast.makeText(getActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
         }
     }
 

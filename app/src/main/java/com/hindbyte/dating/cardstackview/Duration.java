@@ -1,6 +1,7 @@
 package com.hindbyte.dating.cardstackview;
 
 public enum Duration {
+
     Fast(100),
     Normal(200),
     Slow(500);

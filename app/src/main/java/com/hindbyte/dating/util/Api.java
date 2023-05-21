@@ -10,10 +10,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.hindbyte.dating.R;
-import com.hindbyte.dating.adapter.GiftsSelectListAdapter;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
-import com.hindbyte.dating.model.BaseGift;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,73 +29,6 @@ public class Api extends Application implements Constants {
         this.context = context;
     }
 
-    public void getGifts(final GiftsSelectListAdapter adapter) {
-
-        CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_GIFTS_SELECT, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        try {
-
-                            if (!response.getBoolean("error")) {
-
-                                if (response.has("items")) {
-
-                                    JSONArray itemsArray = response.getJSONArray("items");
-
-                                    if (itemsArray.length() > 0) {
-
-                                        for (int i = 0; i < itemsArray.length(); i++) {
-
-                                            JSONObject itemObj = (JSONObject) itemsArray.get(i);
-
-                                            BaseGift gift = new BaseGift(itemObj);
-
-                                            App.getInstance().getGiftsList().add(gift);
-                                        }
-                                    }
-                                }
-                            }
-
-                        } catch (JSONException e) {
-
-                            e.printStackTrace();
-
-                        } finally {
-
-                            Log.e("Load gifts", response.toString());
-
-                            if (adapter != null) {
-
-                                adapter.notifyDataSetChanged();
-                            }
-                        }
-                    }
-                }, error -> {
-
-                    Log.e("Load gifts error", error.toString());
-
-                    if (adapter != null) {
-
-                        adapter.notifyDataSetChanged();
-                    }
-                }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("accountId", Long.toString(App.getInstance().getId()));
-                params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("itemId", String.valueOf(0));
-                params.put("language", "en");
-
-                return params;
-            }
-        };
-
-        App.getInstance().addToRequestQueue(jsonReq);
-    }
 
     public void profileReport(final long profileId, final int reason) {
 
@@ -229,47 +160,6 @@ public class Api extends Application implements Constants {
         App.getInstance().addToRequestQueue(jsonReq);
     }
 
-    public void giftDelete(final long giftId) {
-
-        CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_GIFTS_REMOVE, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        try {
-
-                            if (!response.getBoolean("error")) {
-
-
-                            }
-
-                        } catch (JSONException e) {
-
-                            e.printStackTrace();
-
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                Toast.makeText(context, context.getString(R.string.error_data_loading), Toast.LENGTH_LONG).show();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("accountId", Long.toString(App.getInstance().getId()));
-                params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("itemId", Long.toString(giftId));
-
-                return params;
-            }
-        };
-
-        App.getInstance().addToRequestQueue(jsonReq);
-    }
 
     public void photoDelete(final long itemId) {
 

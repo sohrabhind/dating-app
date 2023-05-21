@@ -98,7 +98,7 @@ public class HotgameAdapter extends RecyclerView.Adapter<HotgameAdapter.MyViewHo
 		final ProgressBar progressView = holder.progress;
 
 		Picasso.get()
-				.load(profileItem.getLowPhotoUrl())
+				.load(profileItem.getBigPhotoUrl())
 				.placeholder(R.drawable.profile_default_photo)
 				.error(R.drawable.profile_default_photo)
 				.into(imgView, new Callback() {

@@ -80,7 +80,7 @@ public class AlcoholViewsSelectDialog extends DialogFragment implements Constant
         position = bundle.getInt("position");
 
         /** Creating a builder for the alert dialog window */
-        AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder b = new AlertDialog.Builder(requireActivity());
 
         /** Setting a title for the window */
         b.setTitle(getText(R.string.account_alcohol_views));

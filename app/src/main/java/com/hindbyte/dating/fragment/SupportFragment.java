@@ -79,7 +79,7 @@ setHasOptionsMenu(true);
 
     protected void initpDialog() {
 
-        pDialog = new ProgressDialog(getActivity());
+        pDialog = new ProgressDialog(requireActivity());
         pDialog.setMessage(getString(R.string.msg_loading));
         pDialog.setCancelable(false);
     }
@@ -130,7 +130,7 @@ setHasOptionsMenu(true);
 
                 } else {
 
-                    Toast.makeText(getActivity(), getString(R.string.error_field_empty), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity(), getString(R.string.error_field_empty), Toast.LENGTH_SHORT).show();
                 }
 
                 return true;
@@ -176,9 +176,9 @@ setHasOptionsMenu(true);
 
                             hidepDialog();
 
-                            Toast.makeText(getActivity(), getText(R.string.msg_ticket_send_success), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireActivity(), getText(R.string.msg_ticket_send_success), Toast.LENGTH_SHORT).show();
 
-                            getActivity().finish();
+                            requireActivity().finish();
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -189,7 +189,7 @@ setHasOptionsMenu(true);
 
                 hidepDialog();
 
-                Toast.makeText(getActivity(), getText(R.string.error_data_loading), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), getText(R.string.error_data_loading), Toast.LENGTH_SHORT).show();
             }
         }) {
 

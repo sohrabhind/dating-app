@@ -42,7 +42,7 @@ public class FlowFragment extends Fragment implements Constants {
 
         View rootView = inflater.inflate(R.layout.fragment_flow, container, false);
 
-        getActivity().setTitle(R.string.title_activity_media);
+        requireActivity().setTitle(R.string.title_activity_media);
 
         mViewPager = rootView.findViewById(R.id.view_pager);
 
@@ -61,7 +61,7 @@ public class FlowFragment extends Fragment implements Constants {
             @Override
             public void onPageSelected(int position) {
 
-                getActivity().setTitle(mViewPager.getAdapter().getPageTitle(position));
+                requireActivity().setTitle(mViewPager.getAdapter().getPageTitle(position));
             }
 
             @Override

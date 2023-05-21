@@ -26,8 +26,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import uk.co.senab.photoview.PhotoViewAttacher;
-
 
 public class GalleryListAdapter extends RecyclerView.Adapter<GalleryListAdapter.MyViewHolder> {
 
@@ -83,8 +81,8 @@ public class GalleryListAdapter extends RecyclerView.Adapter<GalleryListAdapter.
 
             Picasso.get()
                     .load(image.getImgUrl())
-                    .placeholder(R.drawable.img_loading)
-                    .error(R.drawable.img_loading)
+                    .placeholder(R.drawable.profile_default_photo)
+                    .error(R.drawable.profile_default_photo)
                     .into(holder.thumbnail, new Callback() {
                         @Override
                         public void onSuccess() {

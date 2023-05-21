@@ -112,6 +112,11 @@ public class RegisterActivity extends ActivityBase {
 
     private EditText mFullname;
 
+
+    private TextView mButtonGenderMale;
+    private TextView mButtonGenderFemale;
+    private TextView mButtonGenderOther;
+
     private TextView mButtonContinue;
 
     // Screen 1
@@ -125,12 +130,12 @@ public class RegisterActivity extends ActivityBase {
 
     // Screen 3
 
-    private TextView mButtonChooseGender;
 
 
     // Screen 3, 4 and 5
 
-    private ImageView mImage;
+    private TextView mTextViewChooseAge;
+    ImageView image_location;
 
     // Screen 4
 
@@ -138,7 +143,7 @@ public class RegisterActivity extends ActivityBase {
 
     //
 
-    private int age = 0, gender = 2; // gender: 0 - male; 1 = female; 2 = secret
+    private int age = 18, gender = 0; // gender: 0 = male; 1 = female; 2 = other
     private String username = "";
     private String password = "";
     private String email = "";
@@ -234,7 +239,7 @@ public class RegisterActivity extends ActivityBase {
                     });
                 }
 
-                animateIcon(mImage);
+                animateIcon(image_location);
 
                 mButtonGrantLocationPermission.setEnabled(false);
                 mButtonGrantLocationPermission.setText(R.string.action_grant_access_success);
@@ -396,9 +401,7 @@ public class RegisterActivity extends ActivityBase {
                             mViewPager.setCurrentItem(current + 1);
                         } else {
                             Toast.makeText(RegisterActivity.this, getString(R.string.register_screen_3_msg), Toast.LENGTH_SHORT).show();
-                            animateIcon(mImage);
                         }
-
                         break;
                     }
                     case 2: {
@@ -423,21 +426,6 @@ public class RegisterActivity extends ActivityBase {
     }
 
 
-
-    private void exitSignUp(){
-        new AlertDialog.Builder(this)
-                .setTitle("Signup")
-                .setMessage("Are you sure you want to exit?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                })
-                .setNegativeButton("No", null)
-                .show();
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -461,20 +449,32 @@ public class RegisterActivity extends ActivityBase {
                 if (mFullname != null && fullname.length() != 0) {
                     mFullname.setText(fullname);
                 }
-                if (mButtonChooseGender != null) {
-                    mButtonChooseGender.setText(Helper.getGenderTitle(this, gender));
+                if (mButtonGenderMale != null && mButtonGenderFemale != null && mButtonGenderOther != null) {
+                    if (gender == 0) {
+                        mButtonGenderMale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.gray));
+                        mButtonGenderFemale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.overlay_light_90));
+                        mButtonGenderOther.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.overlay_light_90));
+                    } else if (gender == 1) {
+                        mButtonGenderMale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.overlay_light_90));
+                        mButtonGenderFemale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.gray));
+                        mButtonGenderOther.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.overlay_light_90));
+                    } else {
+                        mButtonGenderMale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.overlay_light_90));
+                        mButtonGenderFemale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.overlay_light_90));
+                        mButtonGenderOther.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.gray));
+                    }
                 }
                 break;
             }
             case 1: {
                 if (age != 0) {
+                    mTextViewChooseAge.setText(String.valueOf(age));
                     mButtonChooseAge.setText(getString(R.string.action_choose_age) + ": " + age);
                 } else {
                     mButtonChooseAge.setText(getString(R.string.action_choose_age));
                 }
                 break;
             }
-
 
             case 3: {
                 if (ContextCompat.checkSelfPermission(RegisterActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(RegisterActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -562,37 +562,42 @@ public class RegisterActivity extends ActivityBase {
             switch (position) {
                 case 0: {
                     mFullname = view.findViewById(R.id.fullname_edit);
-                    ImageView genderImage = view.findViewById(R.id.gender_image);
-                    mButtonChooseGender = view.findViewById(R.id.button_choose_gender);
-                    genderImage.setOnClickListener(v -> {
-                        choiceGender();
-                    });
-                    mButtonChooseGender.setOnClickListener(new View.OnClickListener() {
+                    mButtonGenderMale = view.findViewById(R.id.button_gender_male);
+                    mButtonGenderFemale = view.findViewById(R.id.button_gender_female);
+                    mButtonGenderOther = view.findViewById(R.id.button_gender_other);
+
+                    mButtonGenderMale.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            choiceGender();
+                            gender = 0;
+                            updateView();
                         }
                     });
 
-                    mFullname.addTextChangedListener(new TextWatcher() {
-                        public void afterTextChanged(Editable s) {
-                            check_fullname();
+                    mButtonGenderFemale.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            gender = 1;
+                            updateView();
                         }
+                    });
 
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+                    mButtonGenderOther.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            gender = 2;
+                            updateView();
+                        }
                     });
 
                     break;
                 }
 
-
                 case 1: {
-                    mImage = view.findViewById(R.id.age_image);
+                    mTextViewChooseAge = view.findViewById(R.id.textview_age);
                     mButtonChooseAge = view.findViewById(R.id.button_choose_age);
 
-                    mImage.setOnClickListener(v -> {
+                    mTextViewChooseAge.setOnClickListener(v -> {
                         choiceAge();
                     });
                     mButtonChooseAge.setOnClickListener(v -> choiceAge());
@@ -624,8 +629,7 @@ public class RegisterActivity extends ActivityBase {
 
 
                 case 3: {
-
-                    mImage = view.findViewById(R.id.image);
+                    image_location = view.findViewById(R.id.image_location);
                     mButtonGrantLocationPermission = view.findViewById(R.id.button_grant_location_permission);
 
                     mButtonGrantLocationPermission.setOnClickListener(new View.OnClickListener() {
@@ -777,26 +781,6 @@ public class RegisterActivity extends ActivityBase {
         d.show();
     }
 
-    private void choiceGender() {
-        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
-
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        arrayAdapter.add(getString(R.string.label_male));
-        arrayAdapter.add(getString(R.string.label_female));
-
-        builderSingle.setTitle(getText(R.string.action_choose_gender));
-
-        builderSingle.setAdapter(arrayAdapter, (dialog, which) -> {
-            gender = which;
-            updateView();
-        });
-
-        builderSingle.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
-
-        AlertDialog d = builderSingle.create();
-        d.show();
-    }
-
 
     private void grantLocationPermission() {
         if (ContextCompat.checkSelfPermission(RegisterActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(RegisterActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -813,12 +797,8 @@ public class RegisterActivity extends ActivityBase {
             mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
             updateView();
         } else if (mViewPager.getCurrentItem() == 0 && check_fullname()) {
-            if (gender == 2) {
-                Toast.makeText(RegisterActivity.this, getString(R.string.register_screen_4_msg), Toast.LENGTH_SHORT).show();
-            } else {
-                mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
-                updateView();
-            }
+            mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
+            updateView();
         }
     }
 
@@ -871,25 +851,16 @@ public class RegisterActivity extends ActivityBase {
 
 
     public Boolean check_fullname() {
-
         fullname = mFullname.getText().toString();
-
         if (fullname.length() == 0) {
-
-            mFullname.setError(getString(R.string.error_field_empty));
-
+            Toast.makeText(RegisterActivity.this, getString(R.string.error_field_empty), Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if (fullname.length() < 2) {
-
-            mFullname.setError(getString(R.string.error_small_fullname));
-
+            Toast.makeText(RegisterActivity.this, getString(R.string.error_small_fullname), Toast.LENGTH_SHORT).show();
             return false;
         }
-
-        mFullname.setError(null);
-
         return  true;
     }
 
@@ -899,18 +870,14 @@ public class RegisterActivity extends ActivityBase {
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_ACCOUNT_SIGNUP, null, response -> {
             Log.e("Profile", "Malformed JSON: \"" + response.toString() + "\"");
             if (App.getInstance().authorize(response)) {
-                Log.e("Profile", "Malformed JSON: \"" + response.toString() + "\"");
+                Log.e("Profile", "Malformed JSON: \"" + response + "\"");
 
                 // Upload profile photo
-
                         File file = new File(selectedImagePath);
-
                         final OkHttpClient client = new OkHttpClient();
-
                         client.setProtocols(Arrays.asList(Protocol.HTTP_1_1));
-
+                        
                         try {
-
                             RequestBody requestBody = new MultipartBuilder()
                                     .type(MultipartBuilder.FORM)
                                     .addFormDataPart("uploaded_file", file.getName(), RequestBody.create(MediaType.parse("text/csv"), file))
@@ -948,9 +915,9 @@ public class RegisterActivity extends ActivityBase {
 
                                         if (!result.getBoolean("error")) {
 
-                                            if (result.has("lowPhotoUrl")) {
+                                            if (result.has("bigPhotoUrl")) {
 
-                                                App.getInstance().setPhotoUrl(result.getString("lowPhotoUrl"));
+                                                App.getInstance().setPhotoUrl(result.getString("bigPhotoUrl"));
                                             }
 
                                         }
@@ -1035,7 +1002,7 @@ public class RegisterActivity extends ActivityBase {
                 params.put("language", language);
                 params.put("uid", uid);
                 params.put("oauth_type", String.valueOf(oauth_type));
-                params.put("sex", String.valueOf(gender));
+                params.put("gender", String.valueOf(gender));
                 params.put("age", String.valueOf(age));
                 params.put("clientId", CLIENT_ID);
                 params.put("hash", Helper.md5(Helper.md5(username) + CLIENT_SECRET));

@@ -91,7 +91,7 @@ public class SignupFragment extends Fragment implements Constants {
 
     private String username, password, email, language, fullname, photo = "", referrerId;
     String facebookId = "", facebookName = "", facebookEmail = "";
-    private int sex = 0, year = 2000, month = 1, day = 1, age = 0;
+    private int gender = 0, year = 2000, month = 1, day = 1, age = 0;
 
     private Boolean restore = false;
     private Boolean loading = false;
@@ -104,7 +104,7 @@ public class SignupFragment extends Fragment implements Constants {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        Intent i = getActivity().getIntent();
+        Intent i = requireActivity().getIntent();
         facebookId = i.getStringExtra("facebookId");
         facebookName = i.getStringExtra("facebookName");
         facebookEmail = i.getStringExtra("facebookEmail");
@@ -143,7 +143,7 @@ public class SignupFragment extends Fragment implements Constants {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(getActivity(), WebViewActivity.class);
+                Intent i = new Intent(requireActivity(), WebViewActivity.class);
                 i.putExtra("url", METHOD_APP_TERMS);
                 i.putExtra("title", getText(R.string.signup_label_terms_and_policies));
                 startActivity(i);
@@ -154,15 +154,15 @@ public class SignupFragment extends Fragment implements Constants {
             @Override
             public void onClick(View v) {
 
-                if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_PHOTO);
+                        ActivityCompat.requestPermissions(requireActivity(), new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_PHOTO);
 
                     } else {
 
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_PHOTO);
+                        ActivityCompat.requestPermissions(requireActivity(), new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_PHOTO);
                     }
 
                 } else {
@@ -309,7 +309,7 @@ public class SignupFragment extends Fragment implements Constants {
             @Override
             public void onClick(View v) {
 
-                selectGender(sex);
+                selectGender(gender);
             }
         });
 
@@ -319,7 +319,7 @@ public class SignupFragment extends Fragment implements Constants {
             @Override
             public void onClick(View v) {
 
-                DatePickerDialog dpd = new DatePickerDialog(getActivity(), mDateSetListener, year, month, day);
+                DatePickerDialog dpd = new DatePickerDialog(requireActivity(), mDateSetListener, year, month, day);
                 dpd.getDatePicker().setMaxDate(new Date().getTime());
 
                 dpd.show();
@@ -330,11 +330,11 @@ public class SignupFragment extends Fragment implements Constants {
 
         mSelectBirth.setText(getString(R.string.action_select_birth) + ": " + new StringBuilder().append(day).append("/").append(mMonth1).append("/").append(year));
 
-        getGender(sex);
+        getGender(gender);
 
         if (selectedPhotoImg != null && selectedPhotoImg.length() > 0) {
 
-            mAddPhoto.setImageURI(FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".provider", new File(selectedPhotoImg)));
+            mAddPhoto.setImageURI(FileProvider.getUriForFile(requireActivity(), BuildConfig.APPLICATION_ID + ".provider", new File(selectedPhotoImg)));
         }
 
         if (!restore) {
@@ -356,7 +356,7 @@ public class SignupFragment extends Fragment implements Constants {
 
     protected void initpDialog() {
 
-        pDialog = new ProgressDialog(getActivity());
+        pDialog = new ProgressDialog(requireActivity());
         pDialog.setMessage(getString(R.string.msg_loading));
         pDialog.setCancelable(false);
     }
@@ -379,8 +379,8 @@ public class SignupFragment extends Fragment implements Constants {
 
     public void openApplicationSettings() {
 
-        Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getActivity().getPackageName()));
-        startActivityForResult(appSettingsIntent, 10001);
+        Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + requireActivity().getPackageName()));
+        startActivity(appSettingsIntent);
     }
 
     public void showNoStoragePermissionSnackbar() {
@@ -392,7 +392,7 @@ public class SignupFragment extends Fragment implements Constants {
 
                 openApplicationSettings();
 
-                Toast.makeText(getActivity(), getString(R.string.label_grant_storage_permission), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), getString(R.string.label_grant_storage_permission), Toast.LENGTH_SHORT).show();
             }
 
         }).show();
@@ -415,7 +415,7 @@ public class SignupFragment extends Fragment implements Constants {
 
                 } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
 
-                    if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
                         showNoStoragePermissionSnackbar();
                     }
@@ -481,13 +481,13 @@ public class SignupFragment extends Fragment implements Constants {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if (requestCode == SELECT_PHOTO_IMG && resultCode == getActivity().RESULT_OK && null != data) {
+        if (requestCode == SELECT_PHOTO_IMG && resultCode == requireActivity().RESULT_OK && null != data) {
 
             selectedImage = data.getData();
 
-//            selectedPhotoImg = ImageFilePath.getPath(getActivity(), data.getData());
+//            selectedPhotoImg = ImageFilePath.getPath(requireActivity(), data.getData());
 
-            selectedPhotoImg = getImageUrlWithAuthority(getActivity(), selectedImage, "photo.jpg");
+            selectedPhotoImg = getImageUrlWithAuthority(requireActivity(), selectedImage, "photo.jpg");
 
             try {
 
@@ -496,7 +496,7 @@ public class SignupFragment extends Fragment implements Constants {
                     selectedPhotoImg = Environment.getExternalStorageDirectory() + File.separator + APP_TEMP_FOLDER + File.separator + "photo.jpg";
 
                     mAddPhoto.setImageURI(null);
-                    mAddPhoto.setImageURI(FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".provider", new File(selectedPhotoImg)));
+                    mAddPhoto.setImageURI(FileProvider.getUriForFile(requireActivity(), BuildConfig.APPLICATION_ID + ".provider", new File(selectedPhotoImg)));
 
                 } else {
 
@@ -514,7 +514,7 @@ public class SignupFragment extends Fragment implements Constants {
                 Log.e("OnSelectPhotoImage", e.getMessage());
             }
 
-        } else if (requestCode == CREATE_PHOTO_IMG && resultCode == getActivity().RESULT_OK) {
+        } else if (requestCode == CREATE_PHOTO_IMG && resultCode == requireActivity().RESULT_OK) {
 
             try {
 
@@ -523,7 +523,7 @@ public class SignupFragment extends Fragment implements Constants {
                 save(selectedPhotoImg, "photo.jpg");
 
                 mAddPhoto.setImageURI(null);
-                mAddPhoto.setImageURI(FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".provider", new File(selectedPhotoImg)));
+                mAddPhoto.setImageURI(FileProvider.getUriForFile(requireActivity(), BuildConfig.APPLICATION_ID + ".provider", new File(selectedPhotoImg)));
 
 //                mContainerImg.setVisibility(View.VISIBLE);
 
@@ -606,7 +606,7 @@ public class SignupFragment extends Fragment implements Constants {
 
     public void choiceImage() {
 
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
 
         MsgImageChooseDialog alert = new MsgImageChooseDialog();
 
@@ -616,7 +616,7 @@ public class SignupFragment extends Fragment implements Constants {
     public void imageFromGallery() {
 
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(Intent.createChooser(intent, getText(R.string.label_select_img)), SELECT_PHOTO_IMG);
+        startActivity(Intent.createChooser(intent, getText(R.string.label_select_img)));
     }
 
     public void imageFromCamera() {
@@ -631,22 +631,22 @@ public class SignupFragment extends Fragment implements Constants {
             }
 
             File sdImageMainDirectory = new File(root, "photo.jpg");
-            outputFileUri = FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".provider", sdImageMainDirectory);
+            outputFileUri = FileProvider.getUriForFile(requireActivity(), BuildConfig.APPLICATION_ID + ".provider", sdImageMainDirectory);
 
             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
             cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivityForResult(cameraIntent, CREATE_PHOTO_IMG);
+            startActivity(cameraIntent);
 
         } catch (Exception e) {
 
-            Toast.makeText(getActivity(), "Error occured. Please try again later.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), "Error occured. Please try again later.", Toast.LENGTH_SHORT).show();
         }
     }
 
     public void selectGender(int position) {
 
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
 
         GenderSelectDialog alert = new GenderSelectDialog();
 
@@ -657,11 +657,11 @@ public class SignupFragment extends Fragment implements Constants {
         alert.show(fm, "alert_dialog_select_gender");
     }
 
-    public void getGender(int mSex) {
+    public void getGender(int mGender) {
 
-        sex = mSex;
+        gender = mGender;
 
-        if (mSex == 0) {
+        if (mGender == 0) {
 
             mSelectGender.setText(getString(R.string.label_sex_male));
 
@@ -691,7 +691,7 @@ public class SignupFragment extends Fragment implements Constants {
 
         username = signupUsername.getText().toString();
 
-        Helper helper = new Helper(getActivity());
+        Helper helper = new Helper(requireActivity());
 
         if (username.length() == 0) {
 
@@ -746,7 +746,7 @@ public class SignupFragment extends Fragment implements Constants {
 
         password = signupPassword.getText().toString();
 
-        Helper helper = new Helper(getActivity());
+        Helper helper = new Helper(requireActivity());
 
         if (password.length() == 0) {
 
@@ -778,7 +778,7 @@ public class SignupFragment extends Fragment implements Constants {
 
         email = signupEmail.getText().toString();
 
-        Helper helper = new Helper(getActivity());
+        Helper helper = new Helper(requireActivity());
 
         if (email.length() == 0) {
 
@@ -841,7 +841,7 @@ public class SignupFragment extends Fragment implements Constants {
 
                                 App.getInstance().updateGeoLocation();
 
-                                Intent intent = new Intent(getActivity(), MainActivity.class);
+                                Intent intent = new Intent(requireActivity(), MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
 
@@ -863,7 +863,7 @@ public class SignupFragment extends Fragment implements Constants {
 
                                     case 500 : {
 
-                                        Toast.makeText(getActivity(), getText(R.string.label_multi_account_msg), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(requireActivity(), getText(R.string.label_multi_account_msg), Toast.LENGTH_SHORT).show();
                                         break;
                                     }
 
@@ -885,7 +885,7 @@ public class SignupFragment extends Fragment implements Constants {
 
                     if (isAdded()) {
 
-                        Toast.makeText(getActivity(), getText(R.string.error_data_loading), Toast.LENGTH_LONG).show();
+                        Toast.makeText(requireActivity(), getText(R.string.error_data_loading), Toast.LENGTH_LONG).show();
                     }
 
                     loading = false;
@@ -905,7 +905,7 @@ public class SignupFragment extends Fragment implements Constants {
                     params.put("referrer", referrerId);
                     params.put("language", language);
                     params.put("facebookId", facebookId);
-                    params.put("sex", String.valueOf(sex));
+                    params.put("gender", String.valueOf(gender));
                     params.put("age", String.valueOf(age));
                     params.put("year", String.valueOf(year));
                     params.put("month", String.valueOf(month));
@@ -925,7 +925,7 @@ public class SignupFragment extends Fragment implements Constants {
 
         } else {
 
-            Toast.makeText(getActivity(), R.string.msg_network_error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), R.string.msg_network_error, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -975,7 +975,7 @@ public class SignupFragment extends Fragment implements Constants {
 
                         if (!result.getBoolean("error")) {
 
-                            photo = result.getString("lowPhotoUrl");
+                            photo = result.getString("bigPhotoUrl");
                         }
 
                         Log.d("My App", response.toString());

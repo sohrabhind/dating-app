@@ -583,52 +583,6 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                 break;
             }
 
-            case GCM_NOTIFY_GIFT: {
-
-                if (App.getInstance().getId() != 0 && Long.toString(App.getInstance().getId()).equals(accountId)) {
-
-                    App.getInstance().setNotificationsCount(App.getInstance().getNotificationsCount() + 1);
-
-                    if (App.getInstance().getAllowGiftsGCM() == 1) {
-
-                        message = context.getString(R.string.label_gcm_gift);
-
-                        NotificationCompat.Builder mBuilder =
-                                new NotificationCompat.Builder(context, CHANNEL_ID)
-                                        .setSmallIcon(R.drawable.ic_action_push_notification)
-                                        .setContentTitle(title)
-                                        .setContentText(message);
-
-                        Intent resultIntent = new Intent(context, MainActivity.class);
-                        resultIntent.putExtra("pageId", PAGE_NOTIFICATIONS);
-                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-                        stackBuilder.addParentStack(MainActivity.class);
-                        stackBuilder.addNextIntent(resultIntent);
-                        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, flag);
-                        mBuilder.setContentIntent(resultPendingIntent);
-
-                        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-                            int importance = NotificationManager.IMPORTANCE_HIGH;
-
-                            mChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
-
-                            mNotificationManager.createNotificationChannel(mChannel);
-                        }
-
-                        mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
-                        mBuilder.setAutoCancel(true);
-                        mNotificationManager.notify(0, mBuilder.build());
-                    }
-                }
-
-                break;
-            }
-
             case GCM_FRIEND_REQUEST_ACCEPTED: {
 
                 if (App.getInstance().getId() != 0 && Long.toString(App.getInstance().getId()).equals(accountId)) {
@@ -988,9 +942,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
             case GCM_NOTIFY_PROFILE_PHOTO_APPROVE:
 
                 if (App.getInstance().getId() != 0 && Long.toString(App.getInstance().getId()).equals(accountId)) {
-
                     App.getInstance().setNotificationsCount(App.getInstance().getNotificationsCount() + 1);
-
                     message = context.getString(R.string.label_gcm_profile_photo_approve);
 
                     NotificationCompat.Builder mBuilder =
@@ -1010,13 +962,9 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                     mBuilder.setContentIntent(resultPendingIntent);
 
                     NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
                         int importance = NotificationManager.IMPORTANCE_HIGH;
-
                         mChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
-
                         mNotificationManager.createNotificationChannel(mChannel);
                     }
 
@@ -1028,14 +976,11 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                 break;
 
             case GCM_NOTIFY_PROFILE_PHOTO_REJECT:
-
                 if (App.getInstance().getId() != 0 && Long.toString(App.getInstance().getId()).equals(accountId)) {
-
                     App.getInstance().setNotificationsCount(App.getInstance().getNotificationsCount() + 1);
                     App.getInstance().setPhotoUrl("");
 
                     message = context.getString(R.string.label_gcm_profile_photo_reject);
-
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(context, CHANNEL_ID)
                                     .setSmallIcon(R.drawable.ic_action_push_notification)
@@ -1055,11 +1000,8 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                     NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
                         int importance = NotificationManager.IMPORTANCE_HIGH;
-
                         mChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
-
                         mNotificationManager.createNotificationChannel(mChannel);
                     }
 
@@ -1071,71 +1013,51 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                 break;
 
             case GCM_NOTIFY_SEEN: {
-
-                if (App.getInstance().getId() != 0 && Long.valueOf(accountId) == App.getInstance().getId()) {
-
+                if (App.getInstance().getId() != 0 && Long.parseLong(accountId) == App.getInstance().getId()) {
                     Log.e("SEEN", "IN LISTENER");
-
-                    if (App.getInstance().getCurrentChatId() == Integer.valueOf(actionId)) {
-
+                    if (App.getInstance().getCurrentChatId() == Integer.parseInt(actionId)) {
                         Intent i = new Intent(ChatFragment.BROADCAST_ACTION_SEEN);
                         i.putExtra(ChatFragment.PARAM_TASK, 0);
                         i.putExtra(ChatFragment.PARAM_STATUS, ChatFragment.STATUS_START);
                         context.sendBroadcast(i);
                     }
-
                     break;
                 }
-
                 break;
             }
 
             case GCM_NOTIFY_TYPING_START: {
-
-                if (App.getInstance().getId() != 0 && Long.valueOf(accountId) == App.getInstance().getId()) {
-
-                    if (App.getInstance().getCurrentChatId() == Integer.valueOf(actionId)) {
-
+                if (App.getInstance().getId() != 0 && Long.parseLong(accountId) == App.getInstance().getId()) {
+                    if (App.getInstance().getCurrentChatId() == Integer.parseInt(actionId)) {
                         Intent i = new Intent(ChatFragment.BROADCAST_ACTION_TYPING_START);
                         i.putExtra(ChatFragment.PARAM_TASK, 0);
                         i.putExtra(ChatFragment.PARAM_STATUS, ChatFragment.STATUS_START);
                         context.sendBroadcast(i);
                     }
-
                     break;
                 }
             }
 
             case GCM_NOTIFY_TYPING_END: {
-
-                if (App.getInstance().getId() != 0 && Long.valueOf(accountId) == App.getInstance().getId()) {
-
-                    if (App.getInstance().getCurrentChatId() == Integer.valueOf(actionId)) {
-
+                if (App.getInstance().getId() != 0 && Long.parseLong(accountId) == App.getInstance().getId()) {
+                    if (App.getInstance().getCurrentChatId() == Integer.parseInt(actionId)) {
                         Intent i = new Intent(ChatFragment.BROADCAST_ACTION_TYPING_END);
                         i.putExtra(ChatFragment.PARAM_TASK, 0);
                         i.putExtra(ChatFragment.PARAM_STATUS, ChatFragment.STATUS_START);
                         context.sendBroadcast(i);
                     }
-
                     break;
                 }
             }
 
             case GCM_NOTIFY_CHANGE_ACCOUNT_SETTINGS: {
-
                 if (App.getInstance().getId() != 0 && Long.toString(App.getInstance().getId()).equals(accountId)) {
-
                     Log.e("CHANGE_ACCOUNT_SETTINGS", "GCM_NOTIFY_CHANGE_ACCOUNT_SETTINGS");
-
                     App.getInstance().loadSettings();
                 }
-
                 break;
             }
-
             default: {
-
                 break;
             }
         }

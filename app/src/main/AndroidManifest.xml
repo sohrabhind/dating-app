@@ -171,18 +171,6 @@
             android:theme="@style/MyMaterialTheme"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.hindbyte.dating.activity.SelectGiftActivity"
-            android:label="@string/title_activity_select_gift"
-            android:theme="@style/MyMaterialTheme" />
-        <activity
-            android:name="com.hindbyte.dating.activity.SendGiftActivity"
-            android:label="@string/title_activity_send_gift"
-            android:theme="@style/MyMaterialTheme" />
-        <activity
-            android:name="com.hindbyte.dating.activity.GiftsActivity"
-            android:label="@string/title_activity_gifts"
-            android:theme="@style/MyMaterialTheme" />
-        <activity
             android:name="com.hindbyte.dating.activity.FriendsActivity"
             android:label="@string/title_activity_friends"
             android:theme="@style/MyMaterialTheme" />
@@ -201,8 +189,7 @@
 
         <activity
             android:name="com.hindbyte.dating.activity.ViewImageActivity"
-            android:label="@string/title_activity_view_gallery_item"
-            android:theme="@style/MyMaterialTheme">
+            android:label="@string/title_activity_view_gallery_item">
         </activity>
 
         <activity

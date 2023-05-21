@@ -22,11 +22,8 @@ public class BalanceHistoryActivity extends ActivityBase {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_balance_history);
-
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
@@ -34,16 +31,11 @@ public class BalanceHistoryActivity extends ActivityBase {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         if (savedInstanceState != null) {
-
             fragment = getSupportFragmentManager().getFragment(savedInstanceState, "currentFragment");
-
             restore = savedInstanceState.getBoolean("restore");
-
         } else {
-
             fragment = new BalanceHistoryFragment();
             getSupportActionBar().setTitle(R.string.title_activity_balance_history);
-
             restore = false;
         }
 
@@ -55,9 +47,7 @@ public class BalanceHistoryActivity extends ActivityBase {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-
         super.onSaveInstanceState(outState);
-
         outState.putBoolean("restore", true);
         getSupportFragmentManager().putFragment(outState, "currentFragment", fragment);
     }
@@ -67,27 +57,17 @@ public class BalanceHistoryActivity extends ActivityBase {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
-        switch (item.getItemId()) {
-
-            case android.R.id.home: {
-
-                finish();
-
-                return true;
-            }
-
-            default: {
-
-                return super.onOptionsItemSelected(item);
-            }
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
         // your code.
-
         finish();
     }
+
 }

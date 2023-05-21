@@ -34,7 +34,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/image_location"
             android:layout_width="172dp"
             android:layout_height="172dp"
             android:layout_margin="@dimen/spacing_middle"

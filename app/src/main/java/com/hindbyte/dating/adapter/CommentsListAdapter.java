@@ -105,10 +105,10 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
             }
         });
 
-        if (p.getOwner().getLowPhotoUrl().length() != 0 &&
+        if (p.getOwner().getBigPhotoUrl().length() != 0 &&
                 (App.getInstance().getSettings().isAllowShowNotModeratedProfilePhotos() || App.getInstance().getId() == p.getOwner().getId() || p.getOwner().getPhotoModerateAt() != 0)) {
             Picasso.get()
-            .load(p.getOwner().getLowPhotoUrl())
+            .load(p.getOwner().getBigPhotoUrl())
             .placeholder(R.drawable.profile_default_photo)
             .error(R.drawable.profile_default_photo)
             .into(holder.mItemAuthorPhoto);

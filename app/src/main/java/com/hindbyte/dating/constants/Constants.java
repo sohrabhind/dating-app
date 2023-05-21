@@ -47,13 +47,13 @@ public interface Constants {
     String METHOD_ACCOUNT_AUTHORIZE = API_DOMAIN + "api/" + API_VERSION + "/method/account.authorize" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_SET_GCM_TOKEN = API_DOMAIN + "api/" + API_VERSION + "/method/account.setGcmToken" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_RECOVERY = API_DOMAIN + "api/" + API_VERSION + "/method/account.recovery" + API_FILE_EXTENSION;
-    String METHOD_ACCOUNT_SETPASSWORD = API_DOMAIN + "api/" + API_VERSION + "/method/account.setPassword" + API_FILE_EXTENSION;
+    String METHOD_ACCOUNT_SET_PASSWORD = API_DOMAIN + "api/" + API_VERSION + "/method/account.setPassword" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_DEACTIVATE = API_DOMAIN + "api/" + API_VERSION + "/method/account.deactivate" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_SAVE_SETTINGS = API_DOMAIN + "api/" + API_VERSION + "/method/account.saveSettings" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_LOGOUT = API_DOMAIN + "api/" + API_VERSION + "/method/account.logOut" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_SET_ALLOW_MESSAGES = API_DOMAIN + "api/" + API_VERSION + "/method/account.setAllowMessages" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_SET_GEO_LOCATION = API_DOMAIN + "api/" + API_VERSION + "/method/account.setGeoLocation" + API_FILE_EXTENSION;
-    String METHOD_ACCOUNT_UPLOADPHOTO = API_DOMAIN + "api/" + API_VERSION + "/method/account.uploadPhoto" + API_FILE_EXTENSION;
+    String METHOD_ACCOUNT_UPLOAD_PHOTO = API_DOMAIN + "api/" + API_VERSION + "/method/account.uploadPhoto" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_SET_ALLOW_PHOTOS_COMMENTS = API_DOMAIN + "api/" + API_VERSION + "/method/account.setAllowPhotosComments" + API_FILE_EXTENSION;
 
     String METHOD_SUPPORT_SEND_TICKET = API_DOMAIN + "api/" + API_VERSION + "/method/support.sendTicket" + API_FILE_EXTENSION;
@@ -83,11 +83,6 @@ public interface Constants {
     String METHOD_APP_TERMS = API_DOMAIN + "api/" + API_VERSION + "/method/app.privacy-policy" + API_FILE_EXTENSION;
     String METHOD_APP_THANKS = API_DOMAIN + "api/" + API_VERSION + "/method/app.thanks" + API_FILE_EXTENSION;
 
-    String METHOD_GIFTS_REMOVE = API_DOMAIN + "api/" + API_VERSION + "/method/gifts.remove" + API_FILE_EXTENSION;
-    String METHOD_GIFTS_GET = API_DOMAIN + "api/" + API_VERSION + "/method/gifts.get" + API_FILE_EXTENSION;
-    String METHOD_GIFTS_SELECT = API_DOMAIN + "api/" + API_VERSION + "/method/gifts.select" + API_FILE_EXTENSION;
-    String METHOD_GIFTS_SEND = API_DOMAIN + "api/" + API_VERSION + "/method/gifts.send" + API_FILE_EXTENSION;
-
     String METHOD_CHAT_GET = API_DOMAIN + "api/" + API_VERSION + "/method/chat.get" + API_FILE_EXTENSION;
     String METHOD_CHAT_REMOVE = API_DOMAIN + "api/" + API_VERSION + "/method/chat.remove" + API_FILE_EXTENSION;
     String METHOD_CHAT_GET_PREVIOUS = API_DOMAIN + "api/" + API_VERSION + "/method/chat.getPrevious" + API_FILE_EXTENSION;
@@ -112,7 +107,6 @@ public interface Constants {
     String METHOD_APP_CHECK_EMAIL = API_DOMAIN + "api/" + API_VERSION + "/method/app.checkEmail" + API_FILE_EXTENSION;
 
     // added dor version 4.5
-
     String METHOD_ACCOUNT_UPLOAD_IMAGE = API_DOMAIN + "api/" + API_VERSION + "/method/profile.uploadImg" + API_FILE_EXTENSION;
 
 
@@ -178,9 +172,9 @@ public interface Constants {
 
     int ERROR_SUCCESS = 0;
 
-    int SEX_MALE = 0;
-    int SEX_FEMALE = 1;
-    int SEX_UNKNOWN = 2;
+    int GENDER_MALE = 0;
+    int GENDER_FEMALE = 1;
+    int GENDER_UNKNOWN = 2;
 
     int NOTIFY_TYPE_LIKE = 0;
     int NOTIFY_TYPE_FOLLOWER = 1;
@@ -188,7 +182,6 @@ public interface Constants {
     int NOTIFY_TYPE_COMMENT = 3;
     int NOTIFY_TYPE_COMMENT_REPLY = 4;
     int NOTIFY_TYPE_FRIEND_REQUEST_ACCEPTED = 5;
-    int NOTIFY_TYPE_GIFT = 6;
 
     int NOTIFY_TYPE_IMAGE_COMMENT = 7;
     int NOTIFY_TYPE_IMAGE_COMMENT_REPLY = 8;
@@ -216,7 +209,6 @@ public interface Constants {
     int GCM_NOTIFY_COMMENT_REPLY = 10;
     int GCM_FRIEND_REQUEST_INBOX = 11;
     int GCM_FRIEND_REQUEST_ACCEPTED = 12;
-    int GCM_NOTIFY_GIFT = 14;
     int GCM_NOTIFY_SEEN = 15;
     int GCM_NOTIFY_TYPING = 16;
     int GCM_NOTIFY_URL = 17;
@@ -302,7 +294,6 @@ public interface Constants {
     //
 
     public static final int PA_BUY_LEVEL = 0;
-    public static final int PA_BUY_GIFT = 1;
     public static final int PA_BUY_VERIFIED_BADGE = 2;
     public static final int PA_BUY_REGISTRATION_BONUS = 5;
     public static final int PA_BUY_REFERRAL_BONUS = 6;

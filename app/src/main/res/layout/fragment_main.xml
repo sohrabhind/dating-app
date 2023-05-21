@@ -22,8 +22,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-
-
                 <androidx.cardview.widget.CardView
                     android:id="@+id/media_feed_card"
                     android:layout_width="match_parent"

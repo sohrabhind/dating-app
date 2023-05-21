@@ -91,14 +91,14 @@ public class MainFragment extends Fragment implements Constants, SwipeRefreshLay
 
         setHasOptionsMenu(true);
 
-        Intent i = getActivity().getIntent();
+        Intent i = requireActivity().getIntent();
 
         //itemId = i.getLongExtra("itemId", 0);
 
         if (savedInstanceState != null) {
 
             itemsList = savedInstanceState.getParcelableArrayList(STATE_LIST);
-            itemsAdapter = new GalleryListAdapter(getActivity(), itemsList);
+            itemsAdapter = new GalleryListAdapter(requireActivity(), itemsList);
 
             restore = savedInstanceState.getBoolean("restore");
             itemId = savedInstanceState.getLong("itemId");
@@ -106,7 +106,7 @@ public class MainFragment extends Fragment implements Constants, SwipeRefreshLay
         } else {
 
             itemsList = new ArrayList<Image>();
-            itemsAdapter = new GalleryListAdapter(getActivity(), itemsList);
+            itemsAdapter = new GalleryListAdapter(requireActivity(), itemsList);
 
             restore = false;
         }
@@ -117,7 +117,7 @@ public class MainFragment extends Fragment implements Constants, SwipeRefreshLay
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        getActivity().setTitle(R.string.nav_media_feed);
+        requireActivity().setTitle(R.string.nav_media_feed);
 
         mItemsContainer = rootView.findViewById(R.id.container_items);
         mItemsContainer.setOnRefreshListener(this);
@@ -135,21 +135,21 @@ public class MainFragment extends Fragment implements Constants, SwipeRefreshLay
 
         int columns = 3;
 
-        final GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(), columns);
+        final GridLayoutManager mLayoutManager = new GridLayoutManager(requireActivity(), columns);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new SpacingItemDecoration(columns, Helper.dpToPx(getActivity(), 4), true));
+        mRecyclerView.addItemDecoration(new SpacingItemDecoration(columns, Helper.dpToPx(requireActivity(), 4), true));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mRecyclerView.setAdapter(itemsAdapter);
 
-        mRecyclerView.addOnItemTouchListener(new GalleryListAdapter.RecyclerTouchListener(getActivity(), mRecyclerView, new GalleryListAdapter.ClickListener() {
+        mRecyclerView.addOnItemTouchListener(new GalleryListAdapter.RecyclerTouchListener(requireActivity(), mRecyclerView, new GalleryListAdapter.ClickListener() {
 
             @Override
             public void onClick(View view, int position) {
 
                 Image img = itemsList.get(position);
 
-                Intent intent = new Intent(getActivity(), ViewImageActivity.class);
+                Intent intent = new Intent(requireActivity(), ViewImageActivity.class);
                 intent.putExtra("itemId", img.getId());
                 startActivity(intent);
             }
@@ -297,7 +297,7 @@ public class MainFragment extends Fragment implements Constants, SwipeRefreshLay
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        if (!isAdded() || getActivity() == null) {
+                        if (!isAdded() || requireActivity() == null) {
 
                             Log.e("ERROR", "MainFragment Not Added to Activity");
 
@@ -350,7 +350,7 @@ public class MainFragment extends Fragment implements Constants, SwipeRefreshLay
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || getActivity() == null) {
+                if (!isAdded() || requireActivity() == null) {
 
                     Log.e("ERROR", "MainFragment Not Added to Activity");
 

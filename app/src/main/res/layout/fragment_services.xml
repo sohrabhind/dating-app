@@ -19,9 +19,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!--            -->
+            android:layout_height="wrap_content">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/google_card"
@@ -115,15 +113,20 @@
                         android:gravity=""
                         android:orientation="vertical">
 
-                        <com.google.android.gms.common.SignInButton
+
+                        <Button
                             android:id="@+id/google_sign_in_button"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:text="@string/action_connect_with_google" />
+                            android:text="@string/action_connect_with_google"
+                            android:textColor="@color/white"
+                            android:background="@color/colorPrimaryDark"
+                            android:minHeight="0dp"
+                            android:minWidth="0dp"
+                            android:padding="12dp"
+                            android:textSize="12sp"
+                            android:stateListAnimator="@null"
+                            android:layout_margin="10dp" />
 
                         <Button
                             android:id="@+id/google_disconnect_button"
@@ -131,7 +134,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/action_remove_connection"
                             android:textColor="@color/white"
-                            android:background="@drawable/button_primary"
+                            android:background="@color/colorPrimaryDark"
                             android:minHeight="0dp"
                             android:minWidth="0dp"
                             android:padding="12dp"

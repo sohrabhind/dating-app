@@ -92,8 +92,8 @@ public class FriendsSpotlightListAdapter extends RecyclerView.Adapter<FriendsSpo
 
             Picasso.get()
                     .load(item.getFriendUserPhotoUrl())
-                    .placeholder(R.drawable.img_loading)
-                    .error(R.drawable.img_loading)
+                    .placeholder(R.drawable.profile_default_photo)
+                    .error(R.drawable.profile_default_photo)
                     .into(holder.thumbnail, new Callback() {
                         @Override
                         public void onSuccess() {

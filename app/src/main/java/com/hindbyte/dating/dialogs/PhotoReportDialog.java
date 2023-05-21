@@ -80,7 +80,7 @@ public class PhotoReportDialog extends DialogFragment implements Constants {
         reason = bundle.getInt("reason", 0);
 
         /** Creating a builder for the alert dialog window */
-        AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder b = new AlertDialog.Builder(requireActivity());
 
         /** Setting a title for the window */
         b.setTitle(getText(R.string.label_report_dialog_title));

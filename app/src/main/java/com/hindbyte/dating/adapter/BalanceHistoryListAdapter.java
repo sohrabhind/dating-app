@@ -90,10 +90,6 @@ public class BalanceHistoryListAdapter extends RecyclerView.Adapter<BalanceHisto
                 break;
             }
 
-            case PA_BUY_GIFT: {
-                holder.message.setText(ctx.getString(R.string.label_payments_send_gift));
-                break;
-            }
             case PA_BUY_PRO_MODE: {
                 holder.message.setText(ctx.getString(R.string.label_payments_pro_mode));
                 break;

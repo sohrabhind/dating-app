@@ -31,7 +31,7 @@
                 android:id="@+id/signInEmail"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:inputType="textPersonName"
+                android:inputType="textEmailAddress"
                 android:hint="@string/placeholder_email"
                 android:textColor="@color/white"
                 android:ems="10"
@@ -40,7 +40,7 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:textCursorDrawable="@null"
-                android:background="@drawable/edittext_background" />
+                android:background="@drawable/edittext_transparent" />
 
             <EditText
                 android:id="@+id/signInPassword"
@@ -55,7 +55,7 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:textCursorDrawable="@null"
-                android:background="@drawable/edittext_background"/>
+                android:background="@drawable/edittext_transparent"/>
 
             <TextView
                 android:id="@+id/signInBtn"

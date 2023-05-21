@@ -107,8 +107,8 @@ public class DialogsListAdapter extends RecyclerView.Adapter<DialogsListAdapter.
 
                 Picasso.get()
                         .load(item.getWithUserPhotoUrl())
-                        .placeholder(R.drawable.img_loading)
-                        .error(R.drawable.img_loading)
+                        .placeholder(R.drawable.profile_default_photo)
+                        .error(R.drawable.profile_default_photo)
                         .into(holder.image, new Callback() {
                             @Override
                             public void onSuccess() {

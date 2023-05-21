@@ -86,6 +86,14 @@
                         android:text="@string/label_female"
                         android:layout_weight="1" />
 
+                    <RadioButton
+                        android:id="@+id/radio_gender_other"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:text="@string/label_other"
+                        android:layout_weight="1" />
+
                 </RadioGroup>
             </LinearLayout>
 

@@ -22,13 +22,8 @@
 
     <CheckBoxPreference
         app:iconSpaceReserved="false"
-        android:key="allowGiftsGCM"
-        android:title="@string/settings_notifications_gifts">
-    </CheckBoxPreference>
-
-    <CheckBoxPreference
-        app:iconSpaceReserved="false"
         android:key="allowCommentsGCM"
+        app:isPreferenceVisible="false"
         android:title="@string/settings_notifications_comments">
     </CheckBoxPreference>
 

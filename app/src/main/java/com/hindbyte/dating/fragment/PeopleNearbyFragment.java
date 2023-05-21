@@ -118,7 +118,7 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
         if (savedInstanceState != null) {
 
             itemsList = savedInstanceState.getParcelableArrayList(STATE_LIST);
-            itemsAdapter = new AdvancedPeopleListAdapter(getActivity(), itemsList);
+            itemsAdapter = new AdvancedPeopleListAdapter(requireActivity(), itemsList);
 
             viewMore = savedInstanceState.getBoolean("viewMore");
             restore = savedInstanceState.getBoolean("restore");
@@ -131,7 +131,7 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
         } else {
 
             itemsList = new ArrayList<Profile>();
-            itemsAdapter = new AdvancedPeopleListAdapter(getActivity(), itemsList);
+            itemsAdapter = new AdvancedPeopleListAdapter(requireActivity(), itemsList);
 
             restore = false;
             spotlight = true;
@@ -142,13 +142,13 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
 
         // Get Location
 
-        LocationManager lm = (LocationManager) getActivity().getSystemService(getActivity().LOCATION_SERVICE);
+        LocationManager lm = (LocationManager) requireActivity().getSystemService(requireActivity().LOCATION_SERVICE);
 
-        if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER) && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER) && ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
-            mFusedLocationClient.getLastLocation().addOnCompleteListener(getActivity(), new OnCompleteListener<Location>() {
+            mFusedLocationClient.getLastLocation().addOnCompleteListener(requireActivity(), new OnCompleteListener<Location>() {
                 @Override
                 public void onComplete(@NonNull Task<Location> task) {
 
@@ -192,7 +192,7 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
 
         mRecyclerView = rootView.findViewById(R.id.recycler_view);
 
-        final LinearLayoutManager mLayoutManager = new GridLayoutManager(getActivity(), Helper.getGridSpanCount(getActivity()));
+        final LinearLayoutManager mLayoutManager = new GridLayoutManager(requireActivity(), Helper.getGridSpanCount(requireActivity()));
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -204,7 +204,7 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
             @Override
             public void onItemClick(View view, Profile item, int position) {
 
-                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                Intent intent = new Intent(requireActivity(), ProfileActivity.class);
                 intent.putExtra("profileId", item.getId());
                 startActivity(intent);
             }
@@ -255,8 +255,8 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(getActivity(), LocationActivity.class);
-                startActivityForResult(i, 101);
+                Intent i = new Intent(requireActivity(), LocationActivity.class);
+                startActivity(i);
             }
         });
 
@@ -266,15 +266,15 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
             @Override
             public void onClick(View v) {
 
-                if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)){
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)){
 
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
+                        ActivityCompat.requestPermissions(requireActivity(), new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
 
                     } else {
 
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
+                        ActivityCompat.requestPermissions(requireActivity(), new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
                     }
                 }
             }
@@ -284,7 +284,7 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
 
         if (!restore && App.getInstance().getLat() != 0.000000 && App.getInstance().getLng() != 0.000000) {
 
-            if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
                 updateSpotLight();
 
@@ -303,9 +303,9 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
 
     public void updateSpotLight() {
 
-        if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)){
+            if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)){
 
                 showPermissionSpotlight();
                 hideNoLocationSpotlight();
@@ -338,7 +338,7 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
             }
         }
 
-        getActivity().invalidateOptionsMenu();
+        requireActivity().invalidateOptionsMenu();
     }
 
     public void showItemsContainer() {
@@ -411,13 +411,13 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 101 && resultCode == getActivity().RESULT_OK) {
+        if (requestCode == 101 && resultCode == requireActivity().RESULT_OK) {
 
             updateSpotLight();
 
             updateItems();
 
-        } else if (requestCode == 10001 && resultCode == getActivity().RESULT_OK) {
+        } else if (requestCode == 10001 && resultCode == requireActivity().RESULT_OK) {
 
             updateSpotLight();
 
@@ -438,13 +438,13 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
 
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    LocationManager lm = (LocationManager) getActivity().getSystemService(getActivity().LOCATION_SERVICE);
+                    LocationManager lm = (LocationManager) requireActivity().getSystemService(requireActivity().LOCATION_SERVICE);
 
-                    if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER) && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER) && ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-                        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+                        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
-                        mFusedLocationClient.getLastLocation().addOnCompleteListener(getActivity(), new OnCompleteListener<Location>() {
+                        mFusedLocationClient.getLastLocation().addOnCompleteListener(requireActivity(), new OnCompleteListener<Location>() {
                             @Override
                             public void onComplete(@NonNull Task<Location> task) {
 
@@ -474,7 +474,7 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
 
                 } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
 
-                    if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) || !ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) || !ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)) {
 
                         showNoLocationPermissionSnackbar();
                     }
@@ -494,7 +494,7 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
 
                 openApplicationSettings();
 
-                Toast.makeText(getActivity(), getString(R.string.label_grant_location_permission), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), getString(R.string.label_grant_location_permission), Toast.LENGTH_SHORT).show();
 
             }
 
@@ -503,8 +503,8 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
 
     public void openApplicationSettings() {
 
-        Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getActivity().getPackageName()));
-        startActivityForResult(appSettingsIntent, 10001);
+        Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + requireActivity().getPackageName()));
+        startActivity(appSettingsIntent);
     }
 
     @Override
@@ -523,10 +523,10 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
 
     public void getNearbySettings() {
 
-        AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder b = new AlertDialog.Builder(requireActivity());
         b.setTitle(getText(R.string.label_nearby_settings_dialog_title));
 
-        LinearLayout view = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.dialog_nearby_settings, null);
+        LinearLayout view = (LinearLayout) requireActivity().getLayoutInflater().inflate(R.layout.dialog_nearby_settings, null);
 
         b.setView(view);
 
@@ -641,7 +641,7 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
                         @Override
                         public void onResponse(JSONObject response) {
 
-                            if (!isAdded() || getActivity() == null) {
+                            if (!isAdded() || requireActivity() == null) {
 
                                 Log.e("ERROR", "PeopleNearbyFragment Not Added to Activity");
 
@@ -697,7 +697,7 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    if (!isAdded() || getActivity() == null) {
+                    if (!isAdded() || requireActivity() == null) {
 
                         Log.e("ERROR", "PeopleNearbyFragment Not Added to Activity");
 
@@ -717,7 +717,7 @@ public class PeopleNearbyFragment extends Fragment implements Constants, SwipeRe
                     params.put("lng", Double.toString(App.getInstance().getLng()));
                     params.put("itemId", Long.toString(itemId));
                     params.put("distance", String.valueOf(distance));
-                    params.put("sex", String.valueOf(gender));
+                    params.put("gender", String.valueOf(gender));
 
                     return params;
                 }

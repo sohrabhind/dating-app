@@ -46,8 +46,8 @@ public class RecoveryActivity extends ActivityBase {
             showpDialog();
         }
 
-        mEmail = findViewById(R.id.PasswordRecoveryEmail);
-        mContinueBtn = findViewById(R.id.PasswordRecoveryBtn);
+        mEmail = findViewById(R.id.recoveryEmail);
+        mContinueBtn = findViewById(R.id.recoveryBtn);
         mContinueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

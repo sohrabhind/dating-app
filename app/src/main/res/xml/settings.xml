@@ -18,6 +18,7 @@
         <CheckBoxPreference
             app:iconSpaceReserved="false"
             app:key="allowPhotosComments"
+            app:isPreferenceVisible="false"
             app:title="@string/settings_allow_comments_to_photos">
         </CheckBoxPreference>
 

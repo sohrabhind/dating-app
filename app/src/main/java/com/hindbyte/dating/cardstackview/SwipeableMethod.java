@@ -1,6 +1,7 @@
 package com.hindbyte.dating.cardstackview;
 
 public enum SwipeableMethod {
+
     AutomaticAndManual,
     Automatic,
     Manual,
@@ -17,4 +18,5 @@ public enum SwipeableMethod {
     boolean canSwipeManually() {
         return this == AutomaticAndManual || this == Manual;
     }
+
 }

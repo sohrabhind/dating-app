@@ -80,7 +80,7 @@ setHasOptionsMenu(true);
 
     protected void initpDialog() {
 
-        pDialog = new ProgressDialog(getActivity());
+        pDialog = new ProgressDialog(requireActivity());
         pDialog.setMessage(getString(R.string.msg_loading));
         pDialog.setCancelable(false);
     }
@@ -134,7 +134,7 @@ setHasOptionsMenu(true);
 
                         } else {
 
-                            Toast.makeText(getActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -158,36 +158,33 @@ setHasOptionsMenu(true);
 
         showpDialog();
 
-        CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_ACCOUNT_SETPASSWORD, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
+        CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_ACCOUNT_SET_PASSWORD, null,
+                response -> {
 
-                        try {
+                    try {
 
-                            if (response.has("error")) {
+                        if (response.has("error")) {
 
-                                if (!response.getBoolean("error")) {
+                            if (!response.getBoolean("error")) {
 
-                                    Toast.makeText(getActivity(), getText(R.string.msg_password_changed), Toast.LENGTH_SHORT).show();
-                                    getActivity().finish();
+                                Toast.makeText(requireActivity(), getText(R.string.msg_password_changed), Toast.LENGTH_SHORT).show();
+                                requireActivity().finish();
 
-                                } else {
+                            } else {
 
-                                    Toast.makeText(getActivity(), getText(R.string.error_password), Toast.LENGTH_SHORT).show();
-                                }
+                                Toast.makeText(requireActivity(), getText(R.string.error_password), Toast.LENGTH_SHORT).show();
                             }
-
-                        } catch (JSONException e) {
-
-                            e.printStackTrace();
-
-                        } finally {
-
-                            loading = false;
-
-                            hidepDialog();
                         }
+
+                    } catch (JSONException e) {
+
+                        e.printStackTrace();
+
+                    } finally {
+
+                        loading = false;
+
+                        hidepDialog();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -216,7 +213,7 @@ setHasOptionsMenu(true);
 
     public Boolean checkCurrentPassword(String password) {
 
-        Helper helper = new Helper(getActivity());
+        Helper helper = new Helper(requireActivity());
 
         if (password.length() == 0) {
 
@@ -246,7 +243,7 @@ setHasOptionsMenu(true);
 
     public Boolean checkNewPassword(String password) {
 
-        Helper helper = new Helper(getActivity());
+        Helper helper = new Helper(requireActivity());
 
         if (password.length() == 0) {
 

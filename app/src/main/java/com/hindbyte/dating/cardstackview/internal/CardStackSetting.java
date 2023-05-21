@@ -12,6 +12,7 @@ import com.hindbyte.dating.cardstackview.SwipeableMethod;
 import java.util.List;
 
 public class CardStackSetting {
+
     public StackFrom stackFrom = StackFrom.None;
     public int visibleCount = 3;
     public float translationInterval = 8.0f;
@@ -25,4 +26,5 @@ public class CardStackSetting {
     public SwipeAnimationSetting swipeAnimationSetting = new SwipeAnimationSetting.Builder().build();
     public RewindAnimationSetting rewindAnimationSetting = new RewindAnimationSetting.Builder().build();
     public Interpolator overlayInterpolator = new LinearInterpolator();
+
 }

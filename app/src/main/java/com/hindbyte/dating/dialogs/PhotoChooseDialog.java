@@ -46,7 +46,6 @@ public class PhotoChooseDialog extends DialogFragment implements Constants {
      */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);

@@ -9,7 +9,6 @@
     <color name="answer_text">#ff222222</color>
     <color name="gray_bg">#E5E5E5</color>
     <color name="signup_button_text">#3D678C</color>
-    <color name="gray_text">#757575</color>
     <color name="light_gray">#ffd9d9d9</color>
     <color name="dark_blue">#204062</color>
     <color name="light_blue">#34B5E5</color>
@@ -20,6 +19,7 @@
     <color name="toolBar">#204062</color>
     <color name="hashTag">#5BCFF2</color>
     <color name="green_text">#108E3A</color>
+    <color name="transparent">#00FFFFFF</color>
 
     <color name="item_list_divider">#d9d9d9</color>
     <color name="item_row_start_color">#ffffff</color>
@@ -55,11 +55,6 @@
     <color name="overlay_dark">#18191A</color>
     <color name="overlay_dark_2">#252628</color>
     <color name="overlay_white">#656668</color>
-
-    <color name="bg_welcome_screen_1">#527DAD</color>
-    <color name="bg_welcome_screen_2">#C24537</color>
-    <color name="bg_welcome_screen_3">#FFAF40</color>
-    <color name="bg_welcome_screen_4">#68BF60</color>
 
     <!-- added for version 3.6 -->
     <color name="nav_drawer_item_text_color">#37474F</color>
@@ -101,26 +96,15 @@
     <color name="overlay_light_80">#CCFFFFFF</color>
     <color name="overlay_light_90">#E6FFFFFF</color>
 
-    <!--    -->
-    <color name="register_screen_2">#527DAD</color>
-    <color name="register_screen_3">#B9665B</color>
-    <color name="register_screen_4">#FFAF40</color>
-    <color name="register_screen_5">#68BF60</color>
-
-    <!--    -->
-    <color name="colorBlueButton">#DD7264</color>
-    <color name="colorBlueButtonPressed">#DD7264</color>
-
     <color name="colorLangButton">#DD7264</color>
     <color name="colorLangButtonPressed">#E37A6C</color>
 
     <!-- -->
-    <color name="colorPrimary">#F2786A</color>
-    <color name="colorPrimaryDark">#FF3C8E</color>
+    <color name="colorPrimary">#FF8960</color>
+    <color name="colorPrimaryDark">#FF679B</color>
     <color name="colorAccent">#F2786A</color>
-    <color name="colorRipple">#E15948</color>
 
-    <color name="statusBarColor">#F46D70</color>
+    <color name="statusBarColor">#FF8960</color>
 
     //
     <color name="colorLikeIconTint">#606770</color>

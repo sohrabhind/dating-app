@@ -74,7 +74,7 @@ public class FeedFragment extends Fragment implements Constants, SwipeRefreshLay
         if (savedInstanceState != null) {
 
             itemsList = savedInstanceState.getParcelableArrayList(STATE_LIST);
-            itemsAdapter = new GalleryListAdapter(getActivity(), itemsList);
+            itemsAdapter = new GalleryListAdapter(requireActivity(), itemsList);
 
             viewMore = savedInstanceState.getBoolean("viewMore");
             restore = savedInstanceState.getBoolean("restore");
@@ -83,7 +83,7 @@ public class FeedFragment extends Fragment implements Constants, SwipeRefreshLay
         } else {
 
             itemsList = new ArrayList<>();
-            itemsAdapter = new GalleryListAdapter(getActivity(), itemsList);
+            itemsAdapter = new GalleryListAdapter(requireActivity(), itemsList);
 
             restore = false;
             itemId = 0;
@@ -103,7 +103,7 @@ public class FeedFragment extends Fragment implements Constants, SwipeRefreshLay
 
         mRecyclerView = rootView.findViewById(R.id.recycler_view);
 
-        final GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 3);
+        final GridLayoutManager mLayoutManager = new GridLayoutManager(requireActivity(), 3);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(itemsAdapter);
@@ -133,13 +133,13 @@ public class FeedFragment extends Fragment implements Constants, SwipeRefreshLay
             }
         });
 
-        mRecyclerView.addOnItemTouchListener(new GalleryListAdapter.RecyclerTouchListener(getActivity(), mRecyclerView, new GalleryListAdapter.ClickListener() {
+        mRecyclerView.addOnItemTouchListener(new GalleryListAdapter.RecyclerTouchListener(requireActivity(), mRecyclerView, new GalleryListAdapter.ClickListener() {
             @Override
             public void onClick(View view, int position) {
 
                 Image img = itemsList.get(position);
 
-                Intent intent = new Intent(getActivity(), ViewImageActivity.class);
+                Intent intent = new Intent(requireActivity(), ViewImageActivity.class);
                 intent.putExtra("itemId", img.getId());
                 startActivity(intent);
             }
@@ -235,7 +235,7 @@ public class FeedFragment extends Fragment implements Constants, SwipeRefreshLay
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        if (!isAdded() || getActivity() == null) {
+                        if (!isAdded() || requireActivity() == null) {
 
                             Log.e("ERROR", "FeedFragment Not Added to Activity");
 
@@ -288,7 +288,7 @@ public class FeedFragment extends Fragment implements Constants, SwipeRefreshLay
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || getActivity() == null) {
+                if (!isAdded() || requireActivity() == null) {
 
                     Log.e("ERROR", "FeedFragment Not Added to Activity");
 

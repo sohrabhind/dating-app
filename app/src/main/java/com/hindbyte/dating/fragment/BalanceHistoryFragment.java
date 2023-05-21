@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -92,7 +93,7 @@ public class BalanceHistoryFragment extends Fragment implements Constants, Swipe
         if (savedInstanceState != null) {
 
             itemsList = savedInstanceState.getParcelableArrayList(STATE_LIST);
-            itemsAdapter = new BalanceHistoryListAdapter(getActivity(), itemsList);
+            itemsAdapter = new BalanceHistoryListAdapter(requireActivity(), itemsList);
 
             restore = savedInstanceState.getBoolean("restore");
             itemId = savedInstanceState.getInt("itemId");
@@ -101,7 +102,7 @@ public class BalanceHistoryFragment extends Fragment implements Constants, Swipe
         } else {
 
             itemsList = new ArrayList<BalanceItem>();
-            itemsAdapter = new BalanceHistoryListAdapter(getActivity(), itemsList);
+            itemsAdapter = new BalanceHistoryListAdapter(requireActivity(), itemsList);
 
             restore = false;
             itemId = 0;
@@ -111,16 +112,13 @@ public class BalanceHistoryFragment extends Fragment implements Constants, Swipe
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_balance_history, container, false);
-
-        getActivity().setTitle(R.string.title_activity_balance_history);
-
-        mItemsContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.container_items);
+        requireActivity().setTitle(R.string.title_activity_balance_history);
+        mItemsContainer = rootView.findViewById(R.id.container_items);
         mItemsContainer.setOnRefreshListener(this);
 
-        mMessage = (TextView) rootView.findViewById(R.id.message);
-        mSplash = (ImageView) rootView.findViewById(R.id.splash);
+        mMessage = rootView.findViewById(R.id.message);
+        mSplash = rootView.findViewById(R.id.splash);
 
         // Prepare bottom sheet
 
@@ -129,12 +127,12 @@ public class BalanceHistoryFragment extends Fragment implements Constants, Swipe
 
         //
 
-        mNestedView = (NestedScrollView) rootView.findViewById(R.id.nested_view);
+        mNestedView = rootView.findViewById(R.id.nested_view);
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        mRecyclerView = rootView.findViewById(R.id.recycler_view);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.addItemDecoration(new LineItemDecoration(getActivity(), LinearLayout.VERTICAL));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        mRecyclerView.addItemDecoration(new LineItemDecoration(requireActivity(), LinearLayout.VERTICAL));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mRecyclerView.setAdapter(itemsAdapter);
@@ -142,31 +140,27 @@ public class BalanceHistoryFragment extends Fragment implements Constants, Swipe
         mRecyclerView.setNestedScrollingEnabled(false);
 
 
-        mNestedView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+        mNestedView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
 
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-
-                if (scrollY < oldScrollY) { // up
+            if (scrollY < oldScrollY) { // up
 
 
-                }
+            }
 
-                if (scrollY > oldScrollY) { // down
+            if (scrollY > oldScrollY) { // down
 
 
-                }
+            }
 
-                if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
+            if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
 
-                    if (!loadingMore && (viewMore) && !(mItemsContainer.isRefreshing())) {
+                if (!loadingMore && (viewMore) && !(mItemsContainer.isRefreshing())) {
 
-                        mItemsContainer.setRefreshing(true);
+                    mItemsContainer.setRefreshing(true);
 
-                        loadingMore = true;
+                    loadingMore = true;
 
-                        getItems();
-                    }
+                    getItems();
                 }
             }
         });
@@ -206,7 +200,7 @@ public class BalanceHistoryFragment extends Fragment implements Constants, Swipe
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
 
         super.onSaveInstanceState(outState);
 
@@ -225,7 +219,7 @@ public class BalanceHistoryFragment extends Fragment implements Constants, Swipe
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        if (!isAdded() || getActivity() == null) {
+                        if (!isAdded() || requireActivity() == null) {
 
                             Log.e("ERROR", "BalanceHistoryFragment Not Added to Activity");
 
@@ -275,7 +269,7 @@ public class BalanceHistoryFragment extends Fragment implements Constants, Swipe
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || getActivity() == null) {
+                if (!isAdded() || requireActivity() == null) {
 
                     Log.e("ERROR", "BalanceHistoryFragment Not Added to Activity");
 
@@ -330,7 +324,7 @@ public class BalanceHistoryFragment extends Fragment implements Constants, Swipe
         loadingMore = false;
         mItemsContainer.setRefreshing(false);
 
-        getActivity().invalidateOptionsMenu();
+        requireActivity().invalidateOptionsMenu();
     }
 
     public void showMessage(String message) {
@@ -375,7 +369,7 @@ public class BalanceHistoryFragment extends Fragment implements Constants, Swipe
 
     protected void initpDialog() {
 
-        pDialog = new ProgressDialog(getActivity());
+        pDialog = new ProgressDialog(requireActivity());
         pDialog.setMessage(getString(R.string.msg_loading));
         pDialog.setCancelable(false);
     }

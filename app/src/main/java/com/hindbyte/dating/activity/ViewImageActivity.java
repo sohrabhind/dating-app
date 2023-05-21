@@ -2,6 +2,8 @@ package com.hindbyte.dating.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -24,6 +26,8 @@ import com.hindbyte.dating.dialogs.PhotoReportDialog;
 public class ViewImageActivity extends ActivityBase implements CommentDeleteDialog.AlertPositiveListener, CommentActionDialog.AlertPositiveListener, MyCommentActionDialog.AlertPositiveListener, PhotoDeleteDialog.AlertPositiveListener, PhotoReportDialog.AlertPositiveListener, MyPhotoActionDialog.AlertPositiveListener, PhotoActionDialog.AlertPositiveListener, MixedCommentActionDialog.AlertPositiveListener {
 
     Fragment fragment;
+    Toolbar mToolbar;
+    Boolean restore = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,19 +36,27 @@ public class ViewImageActivity extends ActivityBase implements CommentDeleteDial
 
         setContentView(R.layout.activity_view_image);
 
+        mToolbar = findViewById(R.id.toolbar);
+
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
 
         if (savedInstanceState != null) {
 
             fragment = getSupportFragmentManager().getFragment(savedInstanceState, "currentFragment");
 
+            restore = savedInstanceState.getBoolean("restore");
         } else {
 
             fragment = new ViewImageFragment();
+            getSupportActionBar().setTitle(R.string.title_activity_view_gallery_item);
+            restore = false;
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.container_body, fragment).commit();
-
 
     }
 
@@ -53,6 +65,7 @@ public class ViewImageActivity extends ActivityBase implements CommentDeleteDial
 
         super.onSaveInstanceState(outState);
 
+        outState.putBoolean("restore", true);
         getSupportFragmentManager().putFragment(outState, "currentFragment", fragment);
     }
 
@@ -135,6 +148,7 @@ public class ViewImageActivity extends ActivityBase implements CommentDeleteDial
             case android.R.id.home: {
 
                 finish();
+
                 return true;
             }
 

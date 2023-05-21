@@ -23,7 +23,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.firebase.FirebaseApp;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.constants.Constants;
-import com.hindbyte.dating.model.BaseGift;
 import com.hindbyte.dating.model.Settings;
 import com.hindbyte.dating.util.CustomRequest;
 
@@ -53,12 +52,11 @@ public class App extends Application implements Constants {
     private String username, fullname, accessToken, gcmToken = "", google_id = "", photoUrl, area = "", country = "", city = "";
     private Double lat = 0.0, lng = 0.0;
     private long id;
-    private int state, balance = 0, pro, freeMessagesCount, allowShowMyAge, allowShowOnline, allowShowMyInfo, allowShowMyGallery, allowShowMyFriends, allowShowMyLikes, allowShowMyGifts, allowPhotosComments, allowComments, allowMessages, allowLikesGCM, allowCommentsGCM, allowFollowersGCM, allowMessagesGCM, allowGiftsGCM, allowCommentReplyGCM, errorCode, currentChatId = 0, notificationsCount = 0, messagesCount = 0, newFriendsCount = 0, seenTyping = 1;
+    private int state, balance = 0, level, freeMessagesCount, levelMessagesCount, allowShowMyAge, allowShowOnline, allowShowMyInfo, allowShowMyGallery, allowShowMyFriends, allowShowMyLikes, allowPhotosComments, allowComments, allowMessages, allowLikesGCM, allowCommentsGCM, allowFollowersGCM, allowMessagesGCM, allowCommentReplyGCM, errorCode, currentChatId = 0, notificationsCount = 0, messagesCount = 0, newFriendsCount = 0, seenTyping = 1;
     
     private Settings settings;
     private int feedMode = 0;
 
-    private ArrayList<BaseGift> giftsList;
 
 	@Override
 	public void onCreate() {
@@ -278,6 +276,11 @@ public class App extends Application implements Constants {
                                         App.getInstance().setFreeMessagesCount(response.getInt("free_messages_count"));
                                     }
 
+                                    if (response.has("level_messages_count")) {
+
+                                        App.getInstance().setLevelMessagesCount(response.getInt("level_messages_count"));
+                                    }
+
                                     if (response.has("level")) {
 
                                         App.getInstance().setLevelMode(response.getInt("level"));
@@ -322,15 +325,6 @@ public class App extends Application implements Constants {
 	    return this.settings;
     }
 
-    public ArrayList<BaseGift> getGiftsList() {
-
-        if (this.giftsList == null) {
-
-            giftsList = new ArrayList<BaseGift>();
-        }
-
-        return this.giftsList;
-    }
 
 
     public void updateGeoLocation() {
@@ -378,6 +372,15 @@ public class App extends Application implements Constants {
                     this.setLevelMode(0);
                 }
 
+                if (accountObj.has("level_messages_count")) {
+
+                    this.setLevelMessagesCount(accountObj.getInt("level_messages_count"));
+
+                } else {
+
+                    this.setLevelMessagesCount(0);
+                }
+
                 if (accountObj.has("free_messages_count")) {
 
                     this.setFreeMessagesCount(accountObj.getInt("free_messages_count"));
@@ -399,7 +402,6 @@ public class App extends Application implements Constants {
                 this.setAllowShowMyGallery(accountObj.getInt("allowShowMyGallery"));
                 this.setAllowShowMyFriends(accountObj.getInt("allowShowMyFriends"));
                 this.setAllowShowMyLikes(accountObj.getInt("allowShowMyLikes"));
-                this.setAllowShowMyGifts(accountObj.getInt("allowShowMyGifts"));
 
                 if (accountObj.has("gl_id")) {
 
@@ -416,7 +418,7 @@ public class App extends Application implements Constants {
                     this.setAllowShowOnline(accountObj.getInt("allowShowOnline"));
                 }
 
-                this.setPhotoUrl(accountObj.getString("lowPhotoUrl"));
+                this.setPhotoUrl(accountObj.getString("bigPhotoUrl"));
 
                 if (App.getInstance().getLat() == 0.000000 && App.getInstance().getLng() == 0.000000) {
 
@@ -596,15 +598,6 @@ public class App extends Application implements Constants {
         return this.allowMessagesGCM;
     }
 
-    public void setAllowGiftsGCM(int allowGiftsGCM) {
-
-        this.allowGiftsGCM = allowGiftsGCM;
-    }
-
-    public int getAllowGiftsGCM() {
-
-        return this.allowGiftsGCM;
-    }
 
     public void setAllowCommentReplyGCM(int allowCommentReplyGCM) {
 
@@ -718,15 +711,6 @@ public class App extends Application implements Constants {
         return this.allowShowMyLikes;
     }
 
-    public void setAllowShowMyGifts(int allowShowMyGifts) {
-
-        this.allowShowMyGifts = allowShowMyGifts;
-    }
-
-    public int getAllowShowMyGifts() {
-
-        return this.allowShowMyGifts;
-    }
 
     public void setAllowShowMyAge(int allowShowMyAge) {
 
@@ -750,6 +734,7 @@ public class App extends Application implements Constants {
 
     //
 
+
     public void setFreeMessagesCount(int freeMessagesCount) {
 
         this.freeMessagesCount = freeMessagesCount;
@@ -760,14 +745,27 @@ public class App extends Application implements Constants {
         return this.freeMessagesCount;
     }
 
-    public void setLevelMode(int pro) {
 
-        this.pro = pro;
+
+    public void setLevelMessagesCount(int levelMessagesCount) {
+
+        this.levelMessagesCount = levelMessagesCount;
+    }
+
+    public int getLevelMessagesCount() {
+
+        return this.levelMessagesCount;
+    }
+
+
+    public void setLevelMode(int level) {
+
+        this.level = level;
     }
 
     public int getLevelMode() {
 
-        return this.pro;
+        return this.level;
     }
 
 
@@ -960,13 +958,12 @@ public class App extends Application implements Constants {
         this.setFullname(sharedPref.getString(getString(R.string.settings_account_fullname), ""));
         this.setPhotoUrl(sharedPref.getString(getString(R.string.settings_account_photo_url), ""));
 
-        this.setFreeMessagesCount(sharedPref.getInt(getString(R.string.settings_account_free_messages_count), 150));
+        this.setLevelMessagesCount(sharedPref.getInt(getString(R.string.settings_account_level_messages_count), 150));
         this.setLevelMode(sharedPref.getInt(getString(R.string.settings_account_pro_mode), 0));
 
         this.setAllowLikesGCM(sharedPref.getInt(getString(R.string.settings_account_allow_likes_gcm), 1));
 
         this.setAllowComments(sharedPref.getInt(getString(R.string.settings_account_allow_comments_gcm), 1));
-        this.setAllowGiftsGCM(sharedPref.getInt(getString(R.string.settings_account_allow_gifts_gcm), 1));
         this.setAllowFollowersGCM(sharedPref.getInt(getString(R.string.settings_account_allow_friends_requests_gcm), 1));
 
         this.setBalance(sharedPref.getInt(getString(R.string.settings_account_balance), 0));
@@ -989,13 +986,12 @@ public class App extends Application implements Constants {
         sharedPref.edit().putString(getString(R.string.settings_account_fullname), this.getFullname()).apply();
         sharedPref.edit().putString(getString(R.string.settings_account_photo_url), this.getPhotoUrl()).apply();
 
-        sharedPref.edit().putInt(getString(R.string.settings_account_free_messages_count), this.getFreeMessagesCount()).apply();
+        sharedPref.edit().putInt(getString(R.string.settings_account_level_messages_count), this.getLevelMessagesCount()).apply();
         sharedPref.edit().putInt(getString(R.string.settings_account_pro_mode), this.getLevelMode()).apply();
 
         sharedPref.edit().putInt(getString(R.string.settings_account_allow_likes_gcm), this.getAllowLikesGCM()).apply();
 
         sharedPref.edit().putInt(getString(R.string.settings_account_allow_comments_gcm), this.getAllowCommentsGCM()).apply();
-        sharedPref.edit().putInt(getString(R.string.settings_account_allow_gifts_gcm), this.getAllowGiftsGCM()).apply();
         sharedPref.edit().putInt(getString(R.string.settings_account_allow_friends_requests_gcm), this.getAllowFollowersGCM()).apply();
 
 

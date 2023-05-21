@@ -80,7 +80,7 @@ public class FriendsFragment extends Fragment implements Constants, SwipeRefresh
         if (savedInstanceState != null) {
 
             itemsList = savedInstanceState.getParcelableArrayList(STATE_LIST);
-            itemsAdapter = new AdvancedPeopleListAdapter(getActivity(), itemsList);
+            itemsAdapter = new AdvancedPeopleListAdapter(requireActivity(), itemsList);
 
             viewMore = savedInstanceState.getBoolean("viewMore");
             restore = savedInstanceState.getBoolean("restore");
@@ -89,13 +89,13 @@ public class FriendsFragment extends Fragment implements Constants, SwipeRefresh
         } else {
 
             itemsList = new ArrayList<Profile>();
-            itemsAdapter = new AdvancedPeopleListAdapter(getActivity(), itemsList);
+            itemsAdapter = new AdvancedPeopleListAdapter(requireActivity(), itemsList);
 
             restore = false;
             itemId = 0;
         }
 
-        Intent i = getActivity().getIntent();
+        Intent i = requireActivity().getIntent();
 
         profileId = i.getLongExtra("profileId", 0);
 
@@ -115,7 +115,7 @@ public class FriendsFragment extends Fragment implements Constants, SwipeRefresh
 
         mRecyclerView = rootView.findViewById(R.id.recycler_view);
 
-        final LinearLayoutManager mLayoutManager = new GridLayoutManager(getActivity(), Helper.getGridSpanCount(getActivity()));
+        final LinearLayoutManager mLayoutManager = new GridLayoutManager(requireActivity(), Helper.getGridSpanCount(requireActivity()));
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -152,7 +152,7 @@ public class FriendsFragment extends Fragment implements Constants, SwipeRefresh
             @Override
             public void onItemClick(View view, Profile item, int position) {
 
-                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                Intent intent = new Intent(requireActivity(), ProfileActivity.class);
                 intent.putExtra("profileId", item.getId());
                 startActivity(intent);
             }
@@ -217,16 +217,14 @@ public class FriendsFragment extends Fragment implements Constants, SwipeRefresh
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
-                        if (!isAdded() || getActivity() == null) {
-
+                        if (!isAdded()) {
                             Log.e("ERROR", "Friends Fragment Not Added to Activity");
-
                             return;
+                        } else {
+                            requireActivity();
                         }
 
                         if (!loadingMore) {
-
                             itemsList.clear();
                         }
 
@@ -252,7 +250,6 @@ public class FriendsFragment extends Fragment implements Constants, SwipeRefresh
                                     if (arrayLength > 0) {
 
                                         for (int i = 0; i < usersArray.length(); i++) {
-
                                             JSONObject userObj = (JSONObject) usersArray.get(i);
 
                                             Friend friend = new Friend(userObj);
@@ -262,8 +259,8 @@ public class FriendsFragment extends Fragment implements Constants, SwipeRefresh
                                             profile.setId(friend.getFriendUserId());
                                             profile.setFullname(friend.getFriendUserFullname());
                                             profile.setUsername(friend.getFriendUserUsername());
-                                            profile.setLowPhotoUrl(friend.getFriendUserPhotoUrl());
-                                            profile.setNormalPhotoUrl(friend.getFriendUserPhotoUrl());
+                                            profile.setGender(friend.getFriendUserGender());
+                                            profile.setBigPhotoUrl(friend.getFriendUserPhotoUrl());
                                             profile.setLevelMode(friend.getFriendUserPro());
                                             profile.setOnline(friend.isOnline());
                                             profile.setDistance(0.000000);
@@ -289,7 +286,7 @@ public class FriendsFragment extends Fragment implements Constants, SwipeRefresh
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || getActivity() == null) {
+                if (!isAdded() || requireActivity() == null) {
 
                     Log.e("ERROR", "Friends Fragment Not Added to Activity");
 

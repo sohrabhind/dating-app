@@ -189,7 +189,7 @@ public class ChatFragment extends Fragment implements Constants {
 
         initpDialog();
 
-        Intent i = getActivity().getIntent();
+        Intent i = requireActivity().getIntent();
         position = i.getIntExtra("position", 0);
         chatId = i.getIntExtra("chatId", 0);
         profileId = i.getLongExtra("profileId", 0);
@@ -208,7 +208,7 @@ public class ChatFragment extends Fragment implements Constants {
         toUserId = i.getLongExtra("toUserId", 0);
 
         chatList = new ArrayList<ChatItem>();
-        chatAdapter = new ChatListAdapter(getActivity(), chatList);
+        chatAdapter = new ChatListAdapter(requireActivity(), chatList);
     }
 
     View rootView;
@@ -245,7 +245,7 @@ public class ChatFragment extends Fragment implements Constants {
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
 
-                        Toast.makeText(getActivity(), getString(R.string.label_grant_camera_permission), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity(), getString(R.string.label_grant_camera_permission), Toast.LENGTH_SHORT).show();
                     }
 
                 }).show();
@@ -335,7 +335,7 @@ public class ChatFragment extends Fragment implements Constants {
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
 
-                        Toast.makeText(getActivity(), getString(R.string.label_grant_storage_permission), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity(), getString(R.string.label_grant_storage_permission), Toast.LENGTH_SHORT).show();
                     }
 
                 }).show();
@@ -353,12 +353,12 @@ public class ChatFragment extends Fragment implements Constants {
             img_container_visible = savedInstanceState.getBoolean("img_container_visible");
 
             stickersList = savedInstanceState.getParcelableArrayList(STATE_LIST);
-            stickersAdapter = new StickerListAdapter(getActivity(), stickersList);
+            stickersAdapter = new StickerListAdapter(requireActivity(), stickersList);
 
         } else {
 
-            stickersList = new ArrayList<Sticker>();
-            stickersAdapter = new StickerListAdapter(getActivity(), stickersList);
+            stickersList = new ArrayList<>();
+            stickersAdapter = new StickerListAdapter(requireActivity(), stickersList);
 
             App.getInstance().setCurrentChatId(chatId);
 
@@ -381,7 +381,7 @@ public class ChatFragment extends Fragment implements Constants {
         };
 
         IntentFilter intFilt4 = new IntentFilter(BROADCAST_ACTION_TYPING_START);
-        getActivity().registerReceiver(br_typing_start, intFilt4);
+        requireActivity().registerReceiver(br_typing_start, intFilt4);
 
         br_typing_end = new BroadcastReceiver() {
 
@@ -395,7 +395,7 @@ public class ChatFragment extends Fragment implements Constants {
         };
 
         IntentFilter intFilt3 = new IntentFilter(BROADCAST_ACTION_TYPING_END);
-        getActivity().registerReceiver(br_typing_end, intFilt3);
+        requireActivity().registerReceiver(br_typing_end, intFilt3);
 
         br_seen = new BroadcastReceiver() {
 
@@ -409,7 +409,7 @@ public class ChatFragment extends Fragment implements Constants {
         };
 
         IntentFilter intFilt2 = new IntentFilter(BROADCAST_ACTION_SEEN);
-        getActivity().registerReceiver(br_seen, intFilt2);
+        requireActivity().registerReceiver(br_seen, intFilt2);
 
         br = new BroadcastReceiver() {
 
@@ -474,7 +474,7 @@ public class ChatFragment extends Fragment implements Constants {
                     try {
 
                         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                        Ringtone r = RingtoneManager.getRingtone(getActivity(), notification);
+                        Ringtone r = RingtoneManager.getRingtone(requireActivity(), notification);
                         r.play();
 
                     } catch (Exception e) {
@@ -496,7 +496,7 @@ public class ChatFragment extends Fragment implements Constants {
         };
 
         IntentFilter intFilt = new IntentFilter(BROADCAST_ACTION);
-        getActivity().registerReceiver(br, intFilt);
+        requireActivity().registerReceiver(br, intFilt);
 
         if (loading) {
 
@@ -514,11 +514,7 @@ public class ChatFragment extends Fragment implements Constants {
         mSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (App.getInstance().getLevelMode() > 0 && App.getInstance().getFreeMessagesCount() > 0) {
-                    newMessage();
-                } else {
-                    initiatePopupWindow();
-                }
+                newMessage();
             }
         });
 
@@ -526,7 +522,7 @@ public class ChatFragment extends Fragment implements Constants {
 
         listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
 
-        mListViewHeader = getActivity().getLayoutInflater().inflate(R.layout.chat_listview_header, null);
+        mListViewHeader = requireActivity().getLayoutInflater().inflate(R.layout.chat_listview_header, null);
         mChatListViewHeaderContainer = mListViewHeader.findViewById(R.id.chatListViewHeaderContainer);
 
         listView.addHeaderView(mListViewHeader);
@@ -669,7 +665,7 @@ public class ChatFragment extends Fragment implements Constants {
 
         silverPackageBtn.setBackgroundResource(R.color.green_text);
         packageDesc.setText("Validity 30 Days\n\n₹ 300\n\n1000 Messages\n\nSilver Profile Badge");
-        Intent intentX = new Intent(getActivity(), UpgradeActivity.class);
+        Intent intentX = new Intent(requireActivity(), UpgradeActivity.class);
         intentX.putExtra("package", "silver");
 
         silverPackageBtn.setOnClickListener(new View.OnClickListener() {
@@ -759,7 +755,7 @@ public class ChatFragment extends Fragment implements Constants {
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        if (!isAdded() || getActivity() == null) {
+                        if (!isAdded() || requireActivity() == null) {
 
                             Log.e("ERROR", "ChatFragment Not Added to Activity");
 
@@ -785,11 +781,13 @@ public class ChatFragment extends Fragment implements Constants {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || getActivity() == null) {
+                if (!isAdded()) {
 
                     Log.e("ERROR", "ChatFragment Not Added to Activity");
 
                     return;
+                } else {
+                    requireActivity();
                 }
 
                 Log.e("send fcm error", error.toString());
@@ -798,14 +796,13 @@ public class ChatFragment extends Fragment implements Constants {
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("chatId", String.valueOf(chatId));
                 params.put("notifyId", String.valueOf(notifyId));
                 params.put("chatFromUserId", Long.toString(fromUserId));
                 params.put("chatToUserId", Long.toString(toUserId));
-
                 return params;
             }
         };
@@ -818,13 +815,13 @@ public class ChatFragment extends Fragment implements Constants {
 
         super.onDestroyView();
 
-        getActivity().unregisterReceiver(br);
+        requireActivity().unregisterReceiver(br);
 
-        getActivity().unregisterReceiver(br_seen);
+        requireActivity().unregisterReceiver(br_seen);
 
-        getActivity().unregisterReceiver(br_typing_start);
+        requireActivity().unregisterReceiver(br_typing_start);
 
-        getActivity().unregisterReceiver(br_typing_end);
+        requireActivity().unregisterReceiver(br_typing_end);
 
         hidepDialog();
     }
@@ -847,7 +844,7 @@ public class ChatFragment extends Fragment implements Constants {
 
     protected void initpDialog() {
 
-        pDialog = new ProgressDialog(getActivity());
+        pDialog = new ProgressDialog(requireActivity());
         pDialog.setMessage(getString(R.string.msg_loading));
         pDialog.setCancelable(false);
     }
@@ -896,7 +893,7 @@ public class ChatFragment extends Fragment implements Constants {
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        if (!isAdded() || getActivity() == null) {
+                        if (!isAdded() || requireActivity() == null) {
 
                             Log.e("ERROR", "ChatFragment Not Added to Activity");
 
@@ -922,11 +919,13 @@ public class ChatFragment extends Fragment implements Constants {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || getActivity() == null) {
+                if (!isAdded()) {
 
                     Log.e("ERROR", "ChatFragment Not Added to Activity");
 
                     return;
+                } else {
+                    requireActivity();
                 }
 
                 preload = false;
@@ -938,14 +937,9 @@ public class ChatFragment extends Fragment implements Constants {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-
                 params.put("chatId", String.valueOf(chatId));
-
                 params.put("chatFromUserId", Long.toString(fromUserId));
                 params.put("chatToUserId", Long.toString(toUserId));
-
-                params.put("freeMessagesCount", String.valueOf(App.getInstance().getFreeMessagesCount()));
-
                 return params;
             }
         };
@@ -958,84 +952,80 @@ public class ChatFragment extends Fragment implements Constants {
         preload = true;
 
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_CHAT_GET, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
+                response -> {
 
-                        if (!isAdded() || getActivity() == null) {
+                    if (!isAdded()) {
 
-                            Log.e("ERROR", "ChatFragment Not Added to Activity");
+                        Log.e("ERROR", "ChatFragment Not Added to Activity");
 
-                            return;
-                        }
+                        return;
+                    } else {
+                        requireActivity();
+                    }
 
-                        try {
+                    try {
 
-                            if (!response.getBoolean("error")) {
+                        if (!response.getBoolean("error")) {
 
-                                msgId = response.getInt("msgId");
-                                chatId = response.getInt("chatId");
-                                messagesCount = response.getInt("messagesCount");
+                            msgId = response.getInt("msgId");
+                            chatId = response.getInt("chatId");
+                            messagesCount = response.getInt("messagesCount");
 
-                                App.getInstance().setCurrentChatId(chatId);
+                            App.getInstance().setCurrentChatId(chatId);
 
-                                fromUserId = response.getLong("chatFromUserId");
-                                toUserId = response.getLong("chatToUserId");
+                            fromUserId = response.getLong("chatFromUserId");
+                            toUserId = response.getLong("chatToUserId");
 
-                                if (messagesCount > 20) {
+                            if (messagesCount > 20) {
 
-                                    mListViewHeader.setVisibility(View.VISIBLE);
-                                }
+                                mListViewHeader.setVisibility(View.VISIBLE);
+                            }
 
-                                if (response.has("messages")) {
+                            if (response.has("messages")) {
 
-                                    JSONArray messagesArray = response.getJSONArray("messages");
+                                JSONArray messagesArray = response.getJSONArray("messages");
 
-                                    arrayLength = messagesArray.length();
+                                arrayLength = messagesArray.length();
 
-                                    if (arrayLength > 0) {
+                                if (arrayLength > 0) {
 
-                                        for (int i = messagesArray.length() - 1; i > -1; i--) {
+                                    for (int i = messagesArray.length() - 1; i > -1; i--) {
 
-                                            JSONObject msgObj = (JSONObject) messagesArray.get(i);
+                                        JSONObject msgObj = (JSONObject) messagesArray.get(i);
 
-                                            ChatItem item = new ChatItem(msgObj);
+                                        ChatItem item = new ChatItem(msgObj);
 
-                                            chatList.add(item);
-                                        }
+                                        chatList.add(item);
                                     }
                                 }
                             }
-
-                        } catch (JSONException e) {
-
-                            e.printStackTrace();
-
-                        } finally {
-
-                            showContentScreen();
-
-                            chatAdapter.notifyDataSetChanged();
-
-                            scrollListViewToBottom();
-
-                            updateChat();
                         }
+
+                    } catch (JSONException e) {
+
+                        e.printStackTrace();
+
+                    } finally {
+
+                        showContentScreen();
+
+                        chatAdapter.notifyDataSetChanged();
+
+                        scrollListViewToBottom();
+
+                        updateChat();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+                }, error -> {
 
-                if (!isAdded() || getActivity() == null) {
+                    if (!isAdded() || requireActivity() == null) {
 
-                    Log.e("ERROR", "ChatFragment Not Added to Activity");
+                        Log.e("ERROR", "ChatFragment Not Added to Activity");
 
-                    return;
-                }
+                        return;
+                    }
 
-                preload = false;
-            }
-        }) {
+                    preload = false;
+                }) {
 
             @Override
             protected Map<String, String> getParams() {
@@ -1071,7 +1061,7 @@ public class ChatFragment extends Fragment implements Constants {
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_CHAT_GET_PREVIOUS, null,
                 response -> {
 
-                    if (!isAdded() || getActivity() == null) {
+                    if (!isAdded() || requireActivity() == null) {
 
                         Log.e("ERROR", "ChatFragment Not Added to Activity");
 
@@ -1130,7 +1120,7 @@ public class ChatFragment extends Fragment implements Constants {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || getActivity() == null) {
+                if (!isAdded() || requireActivity() == null) {
 
                     Log.e("ERROR", "ChatFragment Not Added to Activity");
 
@@ -1179,13 +1169,13 @@ public class ChatFragment extends Fragment implements Constants {
                     loading = true;
                     send();
                 } else {
-                    Toast toast= Toast.makeText(getActivity(), getText(R.string.msg_enter_msg), Toast.LENGTH_SHORT);
+                    Toast toast= Toast.makeText(requireActivity(), getText(R.string.msg_enter_msg), Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 }
             }
         } else {
-            Toast toast= Toast.makeText(getActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT);
+            Toast toast= Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
@@ -1194,33 +1184,43 @@ public class ChatFragment extends Fragment implements Constants {
     public void send() {
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_MSG_NEW, null,
                 response -> {
-                    App.getInstance().setFreeMessagesCount(App.getInstance().getFreeMessagesCount() - 1);
-                    if (!isAdded() || getActivity() == null) {
-                        Log.e("ERROR", "ChatFragment Not Added to Activity");
-                        return;
-                    }
-
                     try {
                         if (!response.getBoolean("error")) {
                             chatId = response.getInt("chatId");
                             App.getInstance().setCurrentChatId(chatId);
-
                             if (response.has("chatFromUserId")) {
                                 fromUserId = response.getLong("chatFromUserId");
                             }
-
                             if (response.has("chatToUserId")) {
                                 toUserId = response.getLong("chatToUserId");
                             }
-
                             if (response.has("message")) {
                                 JSONObject msgObj = response.getJSONObject("message");
                                 ChatItem item = new ChatItem(msgObj);
                                 item.setListId(response.getInt("listId"));
                             }
 
+                            ChatItem cItem = new ChatItem();
+                            cItem.setListId(listView.getAdapter().getCount());
+                            cItem.setId(0);
+                            cItem.setFromUserId(App.getInstance().getId());
+                            cItem.setFromUserState(ACCOUNT_STATE_ENABLED);
+                            cItem.setFromUserUsername(App.getInstance().getUsername());
+                            cItem.setFromUserFullname(App.getInstance().getFullname());
+                            cItem.setFromUserPhotoUrl(App.getInstance().getPhotoUrl());
+                            cItem.setMessage(messageText);
+                            cItem.setStickerId(stickerId);
+                            cItem.setStickerImgUrl(stickerImg);
+                            cItem.setImgUrl(messageImg);
+                            cItem.setTimeAgo(requireActivity().getString(R.string.label_just_now));
+
+                            chatList.add(cItem);
+                            chatAdapter.notifyDataSetChanged();
+                            scrollListViewToBottom();
                         } else {
-                            Toast.makeText(getActivity(), response.getString("messageText"), Toast.LENGTH_SHORT).show();
+                            if (response.getInt("error_code") == 402) {
+                                initiatePopupWindow();
+                            }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -1232,12 +1232,6 @@ public class ChatFragment extends Fragment implements Constants {
                         Log.e("Chat", response.toString());
                     }
                 }, error -> {
-                    if (!isAdded() || getActivity() == null) {
-                        Log.e("ERROR", "ChatFragment Not Added to Activity");
-                        return;
-                    }
-
-                    App.getInstance().setFreeMessagesCount(App.getInstance().getFreeMessagesCount() + 1);
                     messageText = "";
                     messageImg = "";
                     loading = false;
@@ -1249,21 +1243,15 @@ public class ChatFragment extends Fragment implements Constants {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-
                 params.put("profileId", Long.toString(profileId));
-
                 params.put("chatId", String.valueOf(chatId));
                 params.put("messageText", lMessage);
                 params.put("messageImg", lMessageImage);
-
                 params.put("listId", String.valueOf(listView.getAdapter().getCount()));
-
                 params.put("chatFromUserId", Long.toString(fromUserId));
                 params.put("chatToUserId", Long.toString(toUserId));
-
                 params.put("stickerImgUrl", lStickerImg);
                 params.put("stickerId", Long.toString(lStickerId));
-
                 return params;
             }
         };
@@ -1280,23 +1268,6 @@ public class ChatFragment extends Fragment implements Constants {
             messageText = "";
         }
 
-        ChatItem cItem = new ChatItem();
-        cItem.setListId(listView.getAdapter().getCount());
-        cItem.setId(0);
-        cItem.setFromUserId(App.getInstance().getId());
-        cItem.setFromUserState(ACCOUNT_STATE_ENABLED);
-        cItem.setFromUserUsername(App.getInstance().getUsername());
-        cItem.setFromUserFullname(App.getInstance().getFullname());
-        cItem.setFromUserPhotoUrl(App.getInstance().getPhotoUrl());
-        cItem.setMessage(messageText);
-        cItem.setStickerId(stickerId);
-        cItem.setStickerImgUrl(stickerImg);
-        cItem.setImgUrl(messageImg);
-        cItem.setTimeAgo(getActivity().getString(R.string.label_just_now));
-
-        chatList.add(cItem);
-        chatAdapter.notifyDataSetChanged();
-        scrollListViewToBottom();
 
         int socketTimeout = 0;//0 seconds - change to what you want
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
@@ -1314,7 +1285,6 @@ public class ChatFragment extends Fragment implements Constants {
 
         stickerImg = "";
         stickerId = 0;
-
         hideImageContainer();
     }
 
@@ -1325,15 +1295,17 @@ public class ChatFragment extends Fragment implements Constants {
         showpDialog();
 
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_CHAT_REMOVE, null,
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<>() {
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        if (!isAdded() || getActivity() == null) {
+                        if (!isAdded()) {
 
                             Log.e("ERROR", "ChatFragment Not Added to Activity");
 
                             return;
+                        } else {
+                            requireActivity();
                         }
 
                         try {
@@ -1344,11 +1316,11 @@ public class ChatFragment extends Fragment implements Constants {
                                 i.putExtra("action", "Delete");
                                 i.putExtra("position", position);
                                 i.putExtra("chatId", chatId);
-                                getActivity().setResult(RESULT_OK, i);
+                                requireActivity().setResult(RESULT_OK, i);
 
-                                getActivity().finish();
+                                requireActivity().finish();
 
-//                                Toast.makeText(getActivity(), getString(R.string.msg_send_msg_error), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(requireActivity(), getString(R.string.msg_send_msg_error), Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (JSONException e) {
@@ -1366,7 +1338,7 @@ public class ChatFragment extends Fragment implements Constants {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || getActivity() == null) {
+                if (!isAdded() || requireActivity() == null) {
 
                     Log.e("ERROR", "ChatFragment Not Added to Activity");
 
@@ -1420,7 +1392,7 @@ public class ChatFragment extends Fragment implements Constants {
 
         preload = false;
 
-        getActivity().invalidateOptionsMenu();
+        requireActivity().invalidateOptionsMenu();
     }
 
     private void showMenuItems(Menu menu, boolean visible) {
@@ -1440,7 +1412,7 @@ public class ChatFragment extends Fragment implements Constants {
 
             if (!preload) {
 
-                getActivity().setTitle(withProfile);
+                requireActivity().setTitle(withProfile);
 
                 showMenuItems(menu, true);
 
@@ -1562,7 +1534,7 @@ public class ChatFragment extends Fragment implements Constants {
 
                     } finally {
 
-                        getActivity().runOnUiThread(new Runnable() {
+                        requireActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
@@ -1596,7 +1568,7 @@ public class ChatFragment extends Fragment implements Constants {
 
                         try {
 
-                            if (!isAdded() || getActivity() == null) {
+                            if (!isAdded() || requireActivity() == null) {
 
                                 Log.e("ERROR", "ChatFragment Not Added to Activity");
 
@@ -1649,7 +1621,7 @@ public class ChatFragment extends Fragment implements Constants {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || getActivity() == null) {
+                if (!isAdded() || requireActivity() == null) {
 
                     Log.e("ERROR", "ChatFragment Not Added to Activity");
 
@@ -1766,7 +1738,7 @@ public class ChatFragment extends Fragment implements Constants {
 
                         } catch (Exception e) {
 
-                            Toast.makeText(getActivity(), "Error occured. Please try again later.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireActivity(), "Error occured. Please try again later.", Toast.LENGTH_SHORT).show();
                         }
 
                     } else {
@@ -1778,7 +1750,7 @@ public class ChatFragment extends Fragment implements Constants {
         });
 
 
-        mBottomSheetDialog = new BottomSheetDialog(getActivity());
+        mBottomSheetDialog = new BottomSheetDialog(requireActivity());
 
         mBottomSheetDialog.setContentView(view);
 
@@ -1803,7 +1775,7 @@ public class ChatFragment extends Fragment implements Constants {
 
     private void choiceStickerDialog() {
 
-        final Dialog dialog = new Dialog(getActivity());
+        final Dialog dialog = new Dialog(requireActivity());
         dialog.setContentView(R.layout.dialog_stickers);
         dialog.setCancelable(true);
 
@@ -1826,7 +1798,7 @@ public class ChatFragment extends Fragment implements Constants {
         NestedScrollView mDlgNestedView = (NestedScrollView) dialog.findViewById(R.id.nested_view);
         final RecyclerView mDlgRecyclerView = (RecyclerView) dialog.findViewById(R.id.recycler_view);
 
-        final LinearLayoutManager mLayoutManager = new GridLayoutManager(getActivity(), Helper.getStickersGridSpanCount(getActivity()));
+        final LinearLayoutManager mLayoutManager = new GridLayoutManager(requireActivity(), Helper.getStickersGridSpanCount(requireActivity()));
         mDlgRecyclerView.setLayoutManager(mLayoutManager);
         mDlgRecyclerView.setHasFixedSize(true);
         mDlgRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -1861,7 +1833,7 @@ public class ChatFragment extends Fragment implements Constants {
 
                             try {
 
-                                if (!isAdded() || getActivity() == null) {
+                                if (!isAdded() || requireActivity() == null) {
 
                                     Log.e("ERROR", "ChatFragment Not Added to Activity");
 
@@ -1920,7 +1892,7 @@ public class ChatFragment extends Fragment implements Constants {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    if (!isAdded() || getActivity() == null) {
+                    if (!isAdded() || requireActivity() == null) {
 
                         Log.e("ERROR", "ChatFragment Not Added to Activity");
 
@@ -2002,7 +1974,7 @@ public class ChatFragment extends Fragment implements Constants {
 
     private boolean checkPermission(String permission) {
 
-        if (ContextCompat.checkSelfPermission(getActivity(), permission) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(requireActivity(), permission) == PackageManager.PERMISSION_GRANTED) {
 
             return true;
         }

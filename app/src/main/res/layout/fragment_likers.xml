@@ -55,7 +55,7 @@
         android:id="@+id/splash"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/ic_like"
+        app:srcCompat="@drawable/ic_action_like"
         app:tint="@color/colorIconTint" />
 
     <TextView

@@ -11,7 +11,7 @@ import androidx.fragment.app.DialogFragment;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.constants.Constants;
 
-public class PoliticalViewsSelectDialog extends DialogFragment implements Constants {
+public class ReligiousViewSelectDialog extends DialogFragment implements Constants {
 
     private int position = 0;
 
@@ -21,7 +21,7 @@ public class PoliticalViewsSelectDialog extends DialogFragment implements Consta
     /** An interface to be implemented in the hosting activity for "OK" button click listener */
     public interface AlertPositiveListener {
 
-        void onPoliticalViewsSelect(int position);
+        void onReligiousViewSelect(int position);
     }
 
     /** This is a callback method executed when this fragment is attached to an activity.
@@ -53,7 +53,7 @@ public class PoliticalViewsSelectDialog extends DialogFragment implements Consta
             AlertDialog alert = (AlertDialog)dialog;
             int position = alert.getListView().getCheckedItemPosition();
 
-            alertPositiveListener.onPoliticalViewsSelect(position);
+            alertPositiveListener.onReligiousViewSelect(position);
         }
     };
 
@@ -63,18 +63,17 @@ public class PoliticalViewsSelectDialog extends DialogFragment implements Consta
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        String[] political_views_strings = new String[] {
+        String[] religious_view_strings = new String[] {
 
-                getText(R.string.political_views_0).toString(),
-                getText(R.string.political_views_1).toString(),
-                getText(R.string.political_views_2).toString(),
-                getText(R.string.political_views_3).toString(),
-                getText(R.string.political_views_4).toString(),
-                getText(R.string.political_views_5).toString(),
-                getText(R.string.political_views_6).toString(),
-                getText(R.string.political_views_7).toString(),
-                getText(R.string.political_views_8).toString(),
-                getText(R.string.political_views_9).toString(),
+                getText(R.string.religious_view_0).toString(),
+                getText(R.string.religious_view_1).toString(),
+                getText(R.string.religious_view_2).toString(),
+                getText(R.string.religious_view_3).toString(),
+                getText(R.string.religious_view_4).toString(),
+                getText(R.string.religious_view_5).toString(),
+                getText(R.string.religious_view_6).toString(),
+                getText(R.string.religious_view_7).toString(),
+                getText(R.string.religious_view_8).toString(),
 
         };
 
@@ -84,13 +83,13 @@ public class PoliticalViewsSelectDialog extends DialogFragment implements Consta
         position = bundle.getInt("position");
 
         /** Creating a builder for the alert dialog window */
-        AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder b = new AlertDialog.Builder(requireActivity());
 
         /** Setting a title for the window */
-        b.setTitle(getText(R.string.account_political_views));
+        b.setTitle(getText(R.string.account_religious_view));
 
         /** Setting items to the alert dialog */
-        b.setSingleChoiceItems(political_views_strings, position, null);
+        b.setSingleChoiceItems(religious_view_strings, position, null);
 
         /** Setting a positive button and its listener */
         b.setPositiveButton(getText(R.string.action_ok), positiveListener);

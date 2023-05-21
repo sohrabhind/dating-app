@@ -77,7 +77,7 @@ public class YouLikeSelectDialog extends DialogFragment implements Constants {
         position = bundle.getInt("position");
 
         /** Creating a builder for the alert dialog window */
-        AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder b = new AlertDialog.Builder(requireActivity());
 
         /** Setting a title for the window */
         b.setTitle(getText(R.string.account_you_like));

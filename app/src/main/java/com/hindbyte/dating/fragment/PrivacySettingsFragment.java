@@ -25,11 +25,11 @@ import java.util.Map;
 
 public class PrivacySettingsFragment extends PreferenceFragmentCompat implements Constants {
 
-    private CheckBoxPreference mAllowInfo, mAllowGallery, mAllowFriends, mAllowLikes, mAllowGifts;
+    private CheckBoxPreference mAllowInfo, mAllowGallery, mAllowFriends, mAllowLikes;
 
     private ProgressDialog pDialog;
 
-    int allowLikes, allowFriends, allowInfo, allowGifts, allowGallery;
+    int allowLikes, allowFriends, allowInfo, allowGallery;
 
     private Boolean loading = false;
 
@@ -71,7 +71,7 @@ initpDialog();
 
                     } else {
 
-                        Toast.makeText(getActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -105,7 +105,7 @@ initpDialog();
 
                     } else {
 
-                        Toast.makeText(getActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -139,7 +139,7 @@ initpDialog();
 
                     } else {
 
-                        Toast.makeText(getActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -147,39 +147,6 @@ initpDialog();
             }
         });
 
-        mAllowGifts = (CheckBoxPreference) getPreferenceManager().findPreference("allowGifts");
-
-        mAllowGifts.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-
-                if (newValue instanceof Boolean) {
-
-                    Boolean value = (Boolean) newValue;
-
-                    if (value) {
-
-                        allowGifts = 1;
-
-                    } else {
-
-                        allowGifts = 0;
-                    }
-
-                    if (App.getInstance().isConnected()) {
-
-                        saveSettings();
-
-                    } else {
-
-                        Toast.makeText(getActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                return true;
-            }
-        });
 
         mAllowInfo = (CheckBoxPreference) getPreferenceManager().findPreference("allowInfo");
 
@@ -207,7 +174,7 @@ initpDialog();
 
                     } else {
 
-                        Toast.makeText(getActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -218,7 +185,6 @@ initpDialog();
         checkAllowLikes(App.getInstance().getAllowShowMyLikes());
         checkAllowFriends(App.getInstance().getAllowShowMyFriends());
         checkAllowGallery(App.getInstance().getAllowShowMyGallery());
-        checkAllowGifts(App.getInstance().getAllowShowMyGifts());
         checkAllowInfo(App.getInstance().getAllowShowMyInfo());
     }
 
@@ -298,19 +264,6 @@ initpDialog();
         }
     }
 
-    public void checkAllowGifts(int value) {
-
-        if (value == 1) {
-
-            mAllowGifts.setChecked(true);
-            allowGifts = 1;
-
-        } else {
-
-            mAllowGifts.setChecked(false);
-            allowGifts = 0;
-        }
-    }
 
     public void checkAllowInfo(int value) {
 
@@ -342,13 +295,11 @@ initpDialog();
                             if (!response.getBoolean("error")) {
 
                                 App.getInstance().setAllowShowMyLikes(response.getInt("allowShowMyLikes"));
-                                App.getInstance().setAllowShowMyGifts(response.getInt("allowShowMyGifts"));
                                 App.getInstance().setAllowShowMyFriends(response.getInt("allowShowMyFriends"));
                                 App.getInstance().setAllowShowMyGallery(response.getInt("allowShowMyGallery"));
                                 App.getInstance().setAllowShowMyInfo(response.getInt("allowShowMyInfo"));
 
                                 checkAllowLikes(App.getInstance().getAllowShowMyLikes());
-                                checkAllowGifts(App.getInstance().getAllowShowMyGifts());
                                 checkAllowFriends(App.getInstance().getAllowShowMyFriends());
                                 checkAllowGallery(App.getInstance().getAllowShowMyGallery());
                                 checkAllowInfo(App.getInstance().getAllowShowMyInfo());
@@ -386,7 +337,6 @@ initpDialog();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("allowShowMyLikes", String.valueOf(allowLikes));
-                params.put("allowShowMyGifts", String.valueOf(allowGifts));
                 params.put("allowShowMyFriends", String.valueOf(allowFriends));
                 params.put("allowShowMyGallery", String.valueOf(allowGallery));
                 params.put("allowShowMyInfo", String.valueOf(allowInfo));
@@ -400,7 +350,7 @@ initpDialog();
 
     protected void initpDialog() {
 
-        pDialog = new ProgressDialog(getActivity());
+        pDialog = new ProgressDialog(requireActivity());
         pDialog.setMessage(getString(R.string.msg_loading));
         pDialog.setCancelable(false);
     }

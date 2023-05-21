@@ -30,8 +30,7 @@
                         android:id="@+id/profilePhoto"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        app:srcCompat="@drawable/profile_default_cover" />
+                        android:scaleType="centerCrop"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -154,7 +153,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="1dp"
                         android:layout_weight="1"
-                        android:background="@drawable/button_primary"
+                        android:background="@color/colorPrimaryDark"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:text="@string/action_message"
@@ -167,7 +166,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="1dp"
                         android:layout_weight="1"
-                        android:background="@drawable/button_primary"
+                        android:background="@color/colorPrimaryDark"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:text="@string/action_add_to_friends"
@@ -365,8 +364,9 @@
 
                     </LinearLayout>
 
+
                     <LinearLayout
-                        android:id="@+id/profilePoliticalViewsContainer"
+                        android:id="@+id/profileReligiousViewContainer"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -381,90 +381,11 @@
                             app:tint="@color/colorIconTint" />
 
                         <TextView
-                            android:id="@+id/profilePoliticalViews"
+                            android:id="@+id/profileReligiousView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/spacing_medium"
-                            android:text="PoliticalViews"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/colorSubTitle" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/profileWorldViewContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="5dp">
-
-                        <ImageView
-                            android:layout_width="@dimen/spacing_mlarge"
-                            android:layout_height="@dimen/spacing_mlarge"
-                            android:layout_margin="@dimen/spacing_middle"
-                            app:srcCompat="@drawable/ic_feature"
-                            app:tint="@color/colorIconTint" />
-
-                        <TextView
-                            android:id="@+id/profileWorldView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/spacing_medium"
-                            android:text="WorldView"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/colorSubTitle" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/profilePersonalPriorityContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="5dp">
-
-                        <ImageView
-                            android:layout_width="@dimen/spacing_mlarge"
-                            android:layout_height="@dimen/spacing_mlarge"
-                            android:layout_margin="@dimen/spacing_middle"
-                            app:srcCompat="@drawable/ic_feature"
-                            app:tint="@color/colorIconTint" />
-
-                        <TextView
-                            android:id="@+id/profilePersonalPriority"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/spacing_medium"
-                            android:text="PersonalPriority"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/colorSubTitle" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/profileImportantInOthersContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="5dp"
-                        tools:ignore="UseCompoundDrawables">
-
-                        <ImageView
-                            android:layout_width="@dimen/spacing_mlarge"
-                            android:layout_height="@dimen/spacing_mlarge"
-                            android:layout_margin="@dimen/spacing_middle"
-                            app:srcCompat="@drawable/ic_feature"
-                            app:tint="@color/colorIconTint" />
-
-                        <TextView
-                            android:id="@+id/profileImportantInOthers"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/spacing_medium"
-                            android:text="ImportantInOthers"
+                            android:text="ReligiousView"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             android:textColor="@color/colorSubTitle" />
 
@@ -560,7 +481,7 @@
                             android:layout_width="@dimen/spacing_mlarge"
                             android:layout_height="@dimen/spacing_mlarge"
                             android:layout_margin="@dimen/spacing_middle"
-                            app:srcCompat="@drawable/ic_gender_like"
+                            app:srcCompat="@drawable/ic_action_like"
                             app:tint="@color/colorIconTint" />
 
                         <TextView
@@ -732,38 +653,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/label_likes"
-                                android:textAllCaps="true"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                android:textColor="@color/colorSubTitle" />
-                        </LinearLayout>
-
-                    </com.balysv.materialripple.MaterialRippleLayout>
-
-                    <com.balysv.materialripple.MaterialRippleLayout
-                        android:id="@+id/profileGiftsBtn"
-                        style="@style/MyRippleStyleDark"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/profileGiftsCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="57"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                                android:textColor="@color/colorTitle" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/label_gifts"
                                 android:textAllCaps="true"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                 android:textColor="@color/colorSubTitle" />

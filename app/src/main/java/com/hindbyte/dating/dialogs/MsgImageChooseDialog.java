@@ -47,9 +47,9 @@ public class MsgImageChooseDialog extends DialogFragment implements Constants {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(requireActivity());
 
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_list_item_1);
         arrayAdapter.add(getString(R.string.action_gallery));
         arrayAdapter.add(getString(R.string.action_camera));
 

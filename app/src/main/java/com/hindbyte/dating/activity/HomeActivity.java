@@ -116,6 +116,7 @@ public class HomeActivity extends ActivityBase {
             Log.d("FCM Token", token);
         });
 
+
         // Check GPS is enabled
         LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER) && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {

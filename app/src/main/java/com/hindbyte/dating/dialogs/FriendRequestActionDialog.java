@@ -53,12 +53,12 @@ public class FriendRequestActionDialog extends DialogFragment implements Constan
 
         position = bundle.getInt("position");
 
-        AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(requireActivity());
 
         /** Setting a title for the window */
         builderSingle.setTitle(getText(R.string.label_friend_request_dialog_title));
 
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_list_item_1);
         arrayAdapter.add(getString(R.string.action_accept));
         arrayAdapter.add(getString(R.string.action_reject));
 

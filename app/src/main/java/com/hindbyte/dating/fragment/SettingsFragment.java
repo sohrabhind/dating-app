@@ -93,8 +93,8 @@ initpDialog();
         itemContactUs = findPreference("settings_contact_us");
 
         if (!GOOGLE_AUTHORIZATION) {
-
             PreferenceCategory headerGeneral = (PreferenceCategory) findPreference("header_general");
+            assert headerGeneral != null;
             headerGeneral.removePreference(itemServices);
         }
 
@@ -103,7 +103,7 @@ initpDialog();
 
             public boolean onPreferenceClick(Preference arg0) {
 
-                Intent i = new Intent(getActivity(), BalanceHistoryActivity.class);
+                Intent i = new Intent(requireActivity(), BalanceHistoryActivity.class);
                 startActivity(i);
 
                 return true;
@@ -114,7 +114,7 @@ initpDialog();
 
             public boolean onPreferenceClick(Preference arg0) {
 
-                Intent i = new Intent(getActivity(), SupportActivity.class);
+                Intent i = new Intent(requireActivity(), SupportActivity.class);
                 startActivity(i);
 
                 return true;
@@ -125,7 +125,7 @@ initpDialog();
 
             public boolean onPreferenceClick(Preference arg0) {
 
-                Intent i = new Intent(getActivity(), PrivacySettingsActivity.class);
+                Intent i = new Intent(requireActivity(), PrivacySettingsActivity.class);
                 startActivity(i);
 
                 return true;
@@ -136,7 +136,7 @@ initpDialog();
 
             public boolean onPreferenceClick(Preference arg0) {
 
-                Intent i = new Intent(getActivity(), NotificationsSettingsActivity.class);
+                Intent i = new Intent(requireActivity(), NotificationsSettingsActivity.class);
                 startActivity(i);
 
                 return true;
@@ -148,7 +148,7 @@ initpDialog();
 
             public boolean onPreferenceClick(Preference arg0) {
 
-                Intent i = new Intent(getActivity(), BlackListActivity.class);
+                Intent i = new Intent(requireActivity(), BlackListActivity.class);
                 startActivity(i);
 
                 return true;
@@ -162,7 +162,7 @@ initpDialog();
 
             public boolean onPreferenceClick(Preference arg0) {
 
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireActivity());
                 alertDialog.setTitle(getText(R.string.action_logout));
 
                 alertDialog.setMessage(getText(R.string.msg_action_logout));
@@ -216,7 +216,7 @@ initpDialog();
                                             App.getInstance().setUsername("");
                                             App.getInstance().setFullname("");
 
-                                            Intent intent = new Intent(getActivity(), HomeActivity.class);
+                                            Intent intent = new Intent(requireActivity(), HomeActivity.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(intent);
                                         }
@@ -236,7 +236,7 @@ initpDialog();
                                 App.getInstance().setUsername("");
                                 App.getInstance().setFullname("");
 
-                                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                                Intent intent = new Intent(requireActivity(), HomeActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
 
@@ -274,7 +274,7 @@ initpDialog();
             @Override
             public boolean onPreferenceClick(Preference preference) {
 
-                Intent i = new Intent(getActivity(), ChangePasswordActivity.class);
+                Intent i = new Intent(requireActivity(), ChangePasswordActivity.class);
                 startActivity(i);
 
                 return true;
@@ -286,7 +286,7 @@ initpDialog();
             @Override
             public boolean onPreferenceClick(Preference preference) {
 
-                Intent i = new Intent(getActivity(), DeactivateActivity.class);
+                Intent i = new Intent(requireActivity(), DeactivateActivity.class);
                 startActivity(i);
 
                 return true;
@@ -298,7 +298,7 @@ initpDialog();
             @Override
             public boolean onPreferenceClick(Preference preference) {
 
-                Intent i = new Intent(getActivity(), ServicesActivity.class);
+                Intent i = new Intent(requireActivity(), ServicesActivity.class);
                 startActivity(i);
 
                 return true;
@@ -331,7 +331,7 @@ initpDialog();
 
                     } else {
 
-                        Toast.makeText(getActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -365,7 +365,7 @@ initpDialog();
 
                     } else {
 
-                        Toast.makeText(getActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -468,7 +468,7 @@ initpDialog();
 
                 hidepDialog();
 
-                Toast.makeText(getActivity().getApplicationContext(), getText(R.string.error_data_loading), Toast.LENGTH_LONG).show();
+                Toast.makeText(requireActivity().getApplicationContext(), getText(R.string.error_data_loading), Toast.LENGTH_LONG).show();
             }
         }) {
 
@@ -540,7 +540,7 @@ initpDialog();
 
                 hidepDialog();
 
-                Toast.makeText(getActivity().getApplicationContext(), getText(R.string.error_data_loading), Toast.LENGTH_LONG).show();
+                Toast.makeText(requireActivity().getApplicationContext(), getText(R.string.error_data_loading), Toast.LENGTH_LONG).show();
             }
         }) {
 
@@ -561,7 +561,7 @@ initpDialog();
 
     protected void initpDialog() {
 
-        pDialog = new ProgressDialog(getActivity());
+        pDialog = new ProgressDialog(requireActivity());
         pDialog.setMessage(getString(R.string.msg_loading));
         pDialog.setCancelable(false);
     }

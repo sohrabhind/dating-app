@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -22,9 +23,7 @@ import java.util.Objects;
 public class ProfileActivity extends ActivityBase implements ProfileReportDialog.AlertPositiveListener, ProfileBlockDialog.AlertPositiveListener {
 
     Toolbar mToolbar;
-
     public FloatingActionButton mFabButton;
-
     Fragment fragment;
 
     @Override
@@ -41,11 +40,8 @@ public class ProfileActivity extends ActivityBase implements ProfileReportDialog
         mFabButton = findViewById(R.id.fabButton);
 
         if (savedInstanceState != null) {
-
             fragment = getSupportFragmentManager().getFragment(savedInstanceState, "currentFragment");
-
         } else {
-
             fragment = new ProfileFragment();
         }
 
@@ -54,10 +50,8 @@ public class ProfileActivity extends ActivityBase implements ProfileReportDialog
     }
 
     @Override
-    protected void onSaveInstanceState (Bundle outState) {
-
+    protected void onSaveInstanceState (@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
         getSupportFragmentManager().putFragment(outState, "currentFragment", fragment);
     }
 
@@ -85,13 +79,11 @@ public class ProfileActivity extends ActivityBase implements ProfileReportDialog
 
     @Override
     public void onBackPressed(){
-
         finish();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -100,19 +92,16 @@ public class ProfileActivity extends ActivityBase implements ProfileReportDialog
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
         switch (item.getItemId()) {
-
             case android.R.id.home: {
-
                 finish();
                 return true;
             }
 
             default: {
-
                 return super.onOptionsItemSelected(item);
             }
         }
+
     }
 }

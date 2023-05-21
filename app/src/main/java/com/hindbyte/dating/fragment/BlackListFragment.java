@@ -68,7 +68,7 @@ public class BlackListFragment extends Fragment implements Constants, SwipeRefre
         if (savedInstanceState != null) {
 
             blackList = savedInstanceState.getParcelableArrayList(STATE_LIST);
-            blackListAdapter = new BlackListAdapter(getActivity(), blackList, this);
+            blackListAdapter = new BlackListAdapter(requireActivity(), blackList, this);
 
             restore = savedInstanceState.getBoolean("restore");
             itemId = savedInstanceState.getInt("itemId");
@@ -76,7 +76,7 @@ public class BlackListFragment extends Fragment implements Constants, SwipeRefre
         } else {
 
             blackList = new ArrayList<BlacklistItem>();
-            blackListAdapter = new BlackListAdapter(getActivity(), blackList, this);
+            blackListAdapter = new BlackListAdapter(requireActivity(), blackList, this);
 
             restore = false;
             itemId = 0;
@@ -190,7 +190,7 @@ public class BlackListFragment extends Fragment implements Constants, SwipeRefre
 
     protected void initpDialog() {
 
-        pDialog = new ProgressDialog(getActivity());
+        pDialog = new ProgressDialog(requireActivity());
         pDialog.setMessage(getString(R.string.msg_loading));
         pDialog.setCancelable(false);
     }
@@ -214,7 +214,7 @@ public class BlackListFragment extends Fragment implements Constants, SwipeRefre
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        if (!isAdded() || getActivity() == null) {
+                        if (!isAdded() || requireActivity() == null) {
 
                             Log.e("ERROR", "BlackListFragment Not Added to Activity");
 
@@ -264,7 +264,7 @@ public class BlackListFragment extends Fragment implements Constants, SwipeRefre
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || getActivity() == null) {
+                if (!isAdded() || requireActivity() == null) {
 
                     Log.e("ERROR", "BlackListFragment Not Added to Activity");
 

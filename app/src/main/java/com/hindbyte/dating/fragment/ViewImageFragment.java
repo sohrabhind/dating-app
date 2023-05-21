@@ -3,12 +3,10 @@ package com.hindbyte.dating.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,16 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -49,7 +46,6 @@ import com.hindbyte.dating.R;
 import com.hindbyte.dating.activity.LikersActivity;
 import com.hindbyte.dating.activity.PhotoViewActivity;
 import com.hindbyte.dating.activity.ProfileActivity;
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.hindbyte.dating.adapter.CommentsListAdapter;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
@@ -67,6 +63,7 @@ import com.hindbyte.dating.util.Api;
 import com.hindbyte.dating.util.CommentInterface;
 import com.hindbyte.dating.util.CustomRequest;
 import com.hindbyte.dating.view.ResizableImageView;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -84,8 +81,6 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
     private MaterialRippleLayout mLikeButton;
     private ImageView mLikeIcon;
-    
-    private Toolbar mToolbar;
 
     private LinearLayout mCommentsContainer, mLikesContainer;
     TextView mItemText;
@@ -140,17 +135,18 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
         initpDialog();
 
-        Intent i = getActivity().getIntent();
+        Intent i = requireActivity().getIntent();
 
         itemId = i.getLongExtra("itemId", 0);
 
         itemsList = new ArrayList<Comment>();
-        itemsAdapter = new CommentsListAdapter(getActivity(), itemsList);
+        itemsAdapter = new CommentsListAdapter(requireActivity(), itemsList);
 
         Log.e("ERROR_TEST", "No Error");
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_view_image, container, false);
@@ -176,16 +172,11 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
             showpDialog();
         }
 
-        mToolbar = rootView.findViewById(R.id.toolbar);
-
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
 
         mRecyclerView = rootView.findViewById(R.id.recycler_view);
         mNestedView = rootView.findViewById(R.id.nested_view);
 
-        final GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
+        final GridLayoutManager mLayoutManager = new GridLayoutManager(requireActivity(), 1);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -199,19 +190,19 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
                     case R.id.action_report: {
 
                         String[] profile_report_categories = new String[] {
-                                getActivity().getText(R.string.label_profile_report_0).toString(),
-                                getActivity().getText(R.string.label_profile_report_1).toString(),
-                                getActivity().getText(R.string.label_profile_report_2).toString(),
-                                getActivity().getText(R.string.label_profile_report_3).toString(),
+                                requireActivity().getText(R.string.label_profile_report_0).toString(),
+                                requireActivity().getText(R.string.label_profile_report_1).toString(),
+                                requireActivity().getText(R.string.label_profile_report_2).toString(),
+                                requireActivity().getText(R.string.label_profile_report_3).toString(),
                         };
 
-                        androidx.appcompat.app.AlertDialog.Builder alertDialog = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
-                        alertDialog.setTitle(getActivity().getText(R.string.label_item_report_title));
+                        androidx.appcompat.app.AlertDialog.Builder alertDialog = new androidx.appcompat.app.AlertDialog.Builder(requireActivity());
+                        alertDialog.setTitle(requireActivity().getText(R.string.label_item_report_title));
 
                         alertDialog.setSingleChoiceItems(profile_report_categories, 0, null);
                         alertDialog.setCancelable(true);
 
-                        alertDialog.setNegativeButton(getActivity().getText(R.string.action_cancel), new DialogInterface.OnClickListener() {
+                        alertDialog.setNegativeButton(requireActivity().getText(R.string.action_cancel), new DialogInterface.OnClickListener() {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -220,14 +211,14 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
                             }
                         });
 
-                        alertDialog.setPositiveButton(getActivity().getText(R.string.action_ok), new DialogInterface.OnClickListener() {
+                        alertDialog.setPositiveButton(requireActivity().getText(R.string.action_ok), new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int which) {
 
                                 androidx.appcompat.app.AlertDialog alert = (androidx.appcompat.app.AlertDialog) dialog;
                                 int reason = alert.getListView().getCheckedItemPosition();
 
-                                Toast.makeText(getActivity(), getActivity().getString(R.string.label_item_report_sent), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireActivity(), requireActivity().getString(R.string.label_item_report_sent), Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -238,7 +229,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
                     case R.id.action_remove: {
 
-                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                        FragmentManager fm = requireActivity().getSupportFragmentManager();
 
                         CommentDeleteDialog alert = new CommentDeleteDialog();
 
@@ -285,7 +276,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
                 if (item.isMyLike()) {
 
-                    mLikeIcon.setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark), android.graphics.PorterDuff.Mode.SRC_IN);
+                    mLikeIcon.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.colorPrimaryDark), android.graphics.PorterDuff.Mode.SRC_IN);
 
                     item.setMyLike(false);
 
@@ -293,7 +284,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
                 } else {
 
-                    mLikeIcon.setColorFilter(ContextCompat.getColor(getActivity(), R.color.statusBarColor), android.graphics.PorterDuff.Mode.SRC_IN);
+                    mLikeIcon.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.statusBarColor), android.graphics.PorterDuff.Mode.SRC_IN);
 
                     item.setMyLike(true);
 
@@ -304,18 +295,14 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
             }
         });
 
-        mLikeButton.setOnTouchListener(new View.OnTouchListener() {
+        mLikeButton.setOnTouchListener((v, event) -> {
 
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-                    animateIcon(mLikeIcon);
-                }
-
-                return false;
+                animateIcon(mLikeIcon);
             }
+
+            return false;
         });
 
         mEmptyScreen = rootView.findViewById(R.id.emptyScreen);
@@ -424,7 +411,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
     protected void initpDialog() {
 
-        pDialog = new ProgressDialog(getActivity());
+        pDialog = new ProgressDialog(requireActivity());
         pDialog.setMessage(getString(R.string.msg_loading));
         pDialog.setCancelable(false);
     }
@@ -522,10 +509,10 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
                     break;
             }
 
-        if (item.getOwner().getLowPhotoUrl().length() != 0 && (App.getInstance().getSettings().isAllowShowNotModeratedProfilePhotos() || App.getInstance().getId() == item.getId())) {
+        if (item.getOwner().getBigPhotoUrl().length() != 0 && (App.getInstance().getSettings().isAllowShowNotModeratedProfilePhotos() || App.getInstance().getId() == item.getId())) {
             mPhotoImage.setVisibility(View.VISIBLE);
             Picasso.get()
-                    .load(item.getOwner().getLowPhotoUrl())
+                    .load(item.getOwner().getBigPhotoUrl())
                     .placeholder(R.drawable.profile_default_photo)
                     .error(R.drawable.profile_default_photo)
                     .into(mPhotoImage);
@@ -538,7 +525,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                Intent intent = new Intent(requireActivity(), ProfileActivity.class);
                 intent.putExtra("profileId", item.getOwner().getId());
                 startActivity(intent);
             }
@@ -548,7 +535,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                Intent intent = new Intent(requireActivity(), ProfileActivity.class);
                 intent.putExtra("profileId", item.getOwner().getId());
                 startActivity(intent);
             }
@@ -558,7 +545,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(), LikersActivity.class);
+                Intent intent = new Intent(requireActivity(), LikersActivity.class);
                 intent.putExtra("itemId", item.getId());
                 startActivity(intent);
             }
@@ -566,11 +553,11 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
         if (item.isMyLike()) {
 
-            mLikeIcon.setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark), android.graphics.PorterDuff.Mode.SRC_IN);
+            mLikeIcon.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.colorPrimaryDark), android.graphics.PorterDuff.Mode.SRC_IN);
 
         } else {
 
-            mLikeIcon.setColorFilter(ContextCompat.getColor(getActivity(), R.color.statusBarColor), android.graphics.PorterDuff.Mode.SRC_IN);
+            mLikeIcon.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.statusBarColor), android.graphics.PorterDuff.Mode.SRC_IN);
         }
 
         mItemTimeAgo.setText(item.getTimeAgo());
@@ -591,8 +578,8 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
             Picasso.get()
             .load(item.getImgUrl())
-            .placeholder(R.drawable.img_loading)
-            .error(R.drawable.img_loading)
+            .placeholder(R.drawable.profile_default_photo)
+            .error(R.drawable.profile_default_photo)
             .into(mItemImg);
 
             mItemImg.setVisibility(View.VISIBLE);
@@ -603,7 +590,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
             @Override
             public void onClick(View v) {
                 if (item.getItemType() == Constants.GALLERY_ITEM_TYPE_IMAGE) {
-                    Intent i = new Intent(getActivity(), PhotoViewActivity.class);
+                    Intent i = new Intent(requireActivity(), PhotoViewActivity.class);
                     i.putExtra("imgUrl", item.getImgUrl());
                     startActivity(i);
                 }
@@ -630,12 +617,9 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
         mItemCommentsCount.setText(String.valueOf(item.getCommentsCount()));
 
         if (item.getCommentsCount() > 0) {
-
-            mCommentsContainer.setVisibility(View.VISIBLE);
-            mItemCommentsCount.setVisibility(View.VISIBLE);
-
+            mCommentsContainer.setVisibility(View.GONE);
+            mItemCommentsCount.setVisibility(View.GONE);
         } else {
-
             mCommentsContainer.setVisibility(View.GONE);
             mItemCommentsCount.setVisibility(View.GONE);
         }
@@ -665,8 +649,8 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
         if (item.getCommentsCount() > 0) {
 
-            mCommentsContainer.setVisibility(View.VISIBLE);
-            mItemCommentsCount.setVisibility(View.VISIBLE);
+            mCommentsContainer.setVisibility(View.GONE);
+            mItemCommentsCount.setVisibility(View.GONE);
 
         } else {
 
@@ -682,7 +666,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        if (!isAdded() || getActivity() == null) {
+                        if (!isAdded() || requireActivity() == null) {
 
                             Log.e("ERROR", "ViewImageFragment Not Added to Activity");
 
@@ -760,7 +744,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || getActivity() == null) {
+                if (!isAdded() || requireActivity() == null) {
 
                     Log.e("ERROR", "ViewImageFragment Not Added to Activity");
 
@@ -802,7 +786,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
                         @Override
                         public void onResponse(JSONObject response) {
 
-                            if (!isAdded() || getActivity() == null) {
+                            if (!isAdded() || requireActivity() == null) {
 
                                 Log.e("ERROR", "ViewImageFragment Not Added to Activity");
 
@@ -840,7 +824,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
                                         });
                                     }
 
-                                    Toast.makeText(getActivity(), getString(R.string.msg_comment_has_been_added), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(requireActivity(), getString(R.string.msg_comment_has_been_added), Toast.LENGTH_SHORT).show();
 
                                 }
 
@@ -862,7 +846,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    if (!isAdded() || getActivity() == null) {
+                    if (!isAdded() || requireActivity() == null) {
 
                         Log.e("ERROR", "ViewImageFragment Not Added to Activity");
 
@@ -903,30 +887,30 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
     public void onPhotoDelete(final int position) {
 
-        Api api = new Api(getActivity());
+        Api api = new Api(requireActivity());
 
         api.photoDelete(item.getId());
 
-        getActivity().finish();
+        requireActivity().finish();
     }
 
     public void onPhotoReport(int position, int reasonId) {
 
         if (App.getInstance().isConnected()) {
 
-            Api api = new Api(getActivity());
+            Api api = new Api(requireActivity());
 
             api.photoReport(item.getId(), reasonId);
 
         } else {
 
-            Toast.makeText(getActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
         }
     }
 
     public void remove(int position) {
 
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
 
         PhotoDeleteDialog alert = new PhotoDeleteDialog();
 
@@ -939,7 +923,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
     public void report(int position) {
 
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
 
         PhotoReportDialog alert = new PhotoReportDialog();
 
@@ -956,7 +940,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
         if (item.getOwner().getId() == App.getInstance().getId()) {
 
             /** Getting the fragment manager */
-            FragmentManager fm = getActivity().getSupportFragmentManager();
+            FragmentManager fm = requireActivity().getSupportFragmentManager();
 
             /** Instantiating the DialogFragment class */
             MyPhotoActionDialog alert = new MyPhotoActionDialog();
@@ -977,7 +961,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
         } else {
 
             /** Getting the fragment manager */
-            FragmentManager fm = getActivity().getSupportFragmentManager();
+            FragmentManager fm = requireActivity().getSupportFragmentManager();
 
             /** Instantiating the DialogFragment class */
             PhotoActionDialog alert = new PhotoActionDialog();
@@ -1055,7 +1039,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
         loadingComplete = true;
 
-        getActivity().invalidateOptionsMenu();
+        requireActivity().invalidateOptionsMenu();
     }
 
     @Override
@@ -1074,7 +1058,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
         if (comment.getOwner().getId() == App.getInstance().getId() && item.getOwner().getId() == App.getInstance().getId()) {
 
-            FragmentManager fm = getActivity().getSupportFragmentManager();
+            FragmentManager fm = requireActivity().getSupportFragmentManager();
 
             MyCommentActionDialog alert = new MyCommentActionDialog();
 
@@ -1088,7 +1072,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
         } else if (comment.getOwner().getId() != App.getInstance().getId() && item.getOwner().getId() == App.getInstance().getId()) {
 
-            FragmentManager fm = getActivity().getSupportFragmentManager();
+            FragmentManager fm = requireActivity().getSupportFragmentManager();
 
             MixedCommentActionDialog alert = new MixedCommentActionDialog();
 
@@ -1102,7 +1086,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
         } else if (comment.getOwner().getId() == App.getInstance().getId() && item.getOwner().getId() != App.getInstance().getId()) {
 
-            FragmentManager fm = getActivity().getSupportFragmentManager();
+            FragmentManager fm = requireActivity().getSupportFragmentManager();
 
             MyCommentActionDialog alert = new MyCommentActionDialog();
 
@@ -1117,7 +1101,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
         } else {
 
             /** Getting the fragment manager */
-            FragmentManager fm = getActivity().getSupportFragmentManager();
+            FragmentManager fm = requireActivity().getSupportFragmentManager();
 
             /** Instantiating the DialogFragment class */
             CommentActionDialog alert = new CommentActionDialog();
@@ -1152,14 +1136,14 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
         } else {
 
-            Toast.makeText(getActivity(), getString(R.string.msg_comments_disabled), Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), getString(R.string.msg_comments_disabled), Toast.LENGTH_SHORT).show();
         }
     }
 
     public void onCommentRemove(int position) {
 
         /** Getting the fragment manager */
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
 
         /** Instantiating the DialogFragment class */
         CommentDeleteDialog alert = new CommentDeleteDialog();
@@ -1185,7 +1169,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
         itemsList.remove(position);
         itemsAdapter.notifyDataSetChanged();
 
-        Api api = new Api(getActivity());
+        Api api = new Api(requireActivity());
 
         api.imagesCommentDelete(comment.getId());
 
@@ -1207,7 +1191,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
 
         super.onPrepareOptionsMenu(menu);
 
@@ -1273,7 +1257,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        if (!isAdded() || getActivity() == null) {
+                        if (!isAdded() || requireActivity() == null) {
 
                             Log.e("ERROR", "ViewImageFragment Not Added to Activity");
 
@@ -1301,14 +1285,14 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || getActivity() == null) {
+                if (!isAdded() || requireActivity() == null) {
 
                     Log.e("ERROR", "ViewImageFragment Not Added to Activity");
 
                     return;
                 }
 
-                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(requireActivity(), error.toString(), Toast.LENGTH_LONG).show();
             }
         }) {
 

@@ -52,7 +52,7 @@ public class ServicesFragment extends Fragment implements Constants {
     Button mGoogleDisconnectBtn;
     TextView mGooglePrompt;
 
-    SignInButton mGoogleSignInButton;
+    Button mGoogleSignInButton;
     private GoogleSignInClient mGoogleSignInClient;
     private ActivityResultLauncher<Intent> googleSigninActivityResultLauncher;
 
@@ -139,18 +139,11 @@ public class ServicesFragment extends Fragment implements Constants {
         // Google Button
 
         mGoogleSignInButton = rootView.findViewById(R.id.google_sign_in_button);
-        mGoogleSignInButton.setSize(SignInButton.SIZE_WIDE);
 
-        setGooglePlusButtonText(mGoogleSignInButton, getString(R.string.action_connect_with_google));
-
-        mGoogleSignInButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                mGoogleSignInClient.signOut();
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                googleSigninActivityResultLauncher.launch(signInIntent);
-            }
+        mGoogleSignInButton.setOnClickListener(v -> {
+            mGoogleSignInClient.signOut();
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            googleSigninActivityResultLauncher.launch(signInIntent);
         });
 
 
@@ -212,7 +205,7 @@ public class ServicesFragment extends Fragment implements Constants {
 
     protected void initpDialog() {
 
-        pDialog = new ProgressDialog(getActivity());
+        pDialog = new ProgressDialog(requireActivity());
         pDialog.setMessage(getString(R.string.msg_loading));
         pDialog.setCancelable(false);
     }
@@ -253,19 +246,19 @@ public class ServicesFragment extends Fragment implements Constants {
 
                                     if (action.equals("connect")) {
 
-                                        Toast.makeText(getActivity(), getString(R.string.msg_connect_to_google_success), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(requireActivity(), getString(R.string.msg_connect_to_google_success), Toast.LENGTH_SHORT).show();
                                         App.getInstance().setGoogleFirebaseId(uid);
                                     }
 
                                     if (action.equals("disconnect")) {
 
-                                        Toast.makeText(getActivity(), getString(R.string.msg_connect_to_google_removed), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(requireActivity(), getString(R.string.msg_connect_to_google_removed), Toast.LENGTH_SHORT).show();
                                         App.getInstance().setGoogleFirebaseId("");
                                     }
 
                                 } else {
 
-                                    Toast.makeText(getActivity(), getString(R.string.msg_connect_to_google_error), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(requireActivity(), getString(R.string.msg_connect_to_google_error), Toast.LENGTH_SHORT).show();
                                 }
                             }
 
@@ -290,7 +283,7 @@ public class ServicesFragment extends Fragment implements Constants {
 
                 uid = "";
 
-                Toast.makeText(getActivity(), getText(R.string.error_data_loading), Toast.LENGTH_LONG).show();
+                Toast.makeText(requireActivity(), getText(R.string.error_data_loading), Toast.LENGTH_LONG).show();
 
                 loading = false;
 

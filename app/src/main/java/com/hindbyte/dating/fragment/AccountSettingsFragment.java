@@ -11,10 +11,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -28,12 +28,9 @@ import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.dialogs.AlcoholViewsSelectDialog;
 import com.hindbyte.dating.dialogs.GenderSelectDialog;
-import com.hindbyte.dating.dialogs.ImportantInOthersSelectDialog;
-import com.hindbyte.dating.dialogs.PersonalPrioritySelectDialog;
-import com.hindbyte.dating.dialogs.PoliticalViewsSelectDialog;
 import com.hindbyte.dating.dialogs.RelationshipStatusSelectDialog;
+import com.hindbyte.dating.dialogs.ReligiousViewSelectDialog;
 import com.hindbyte.dating.dialogs.SmokingViewsSelectDialog;
-import com.hindbyte.dating.dialogs.WorldViewSelectDialog;
 import com.hindbyte.dating.dialogs.YouLikeSelectDialog;
 import com.hindbyte.dating.dialogs.YouLookingSelectDialog;
 import com.hindbyte.dating.util.CustomRequest;
@@ -53,13 +50,13 @@ public class AccountSettingsFragment extends Fragment implements Constants {
 
     private String fullname, location, instagramPage, bio;
 
-    private int sex, year, month, day, age, height, weight;
-    private int relationshipStatus, politicalViews, worldView, personalPriority, importantInOthers, viewsOnSmoking, viewsOnAlcohol, youLooking, youLike, allowShowMyBirthday;
+    private int gender, year, month, day, age, height, weight;
+    private int relationshipStatus, religiousView, viewsOnSmoking, viewsOnAlcohol, youLooking, youLike, allowShowMyBirthday;
 
     EditText mFullname, mLocation, mInstagramPage, mBio, mAgeField, mHeightField, mWeightField;
-    Button mBirth, mGender, mRelationshipStatus, mWorldView, mPoliticalViews, mPersonalPriority, mImportantInOthers, mSmokingViews, mAlcoholViews, mYouLooking, mYouLike;
+    TextView mBirth, mGender, mRelationshipStatus, mReligiousView, mSmokingViews, mAlcoholViews, mYouLooking, mYouLike;
 
-    CheckBox mAllowShowDatebirth;
+    CheckBox mAllowShowDateBirth;
 
     private Boolean loading = false;
 
@@ -75,13 +72,13 @@ setHasOptionsMenu(true);
 
         initpDialog();
 
-        Intent i = getActivity().getIntent();
+        Intent i = requireActivity().getIntent();
         fullname = i.getStringExtra("fullname");
         location = i.getStringExtra("location");
         instagramPage = i.getStringExtra("instagramPage");
         bio = i.getStringExtra("bio");
 
-        sex = i.getIntExtra("sex", 0);
+        gender = i.getIntExtra("gender", 0);
 
         age = i.getIntExtra("age", 0);
         height = i.getIntExtra("height", 0);
@@ -92,10 +89,7 @@ setHasOptionsMenu(true);
         day = i.getIntExtra("day", 0);
 
         relationshipStatus = i.getIntExtra("relationshipStatus", 0);
-        politicalViews = i.getIntExtra("politicalViews", 0);
-        worldView = i.getIntExtra("worldView", 0);
-        personalPriority = i.getIntExtra("personalPriority", 0);
-        importantInOthers = i.getIntExtra("importantInOthers", 0);
+        religiousView = i.getIntExtra("religiousView", 0);
         viewsOnSmoking = i.getIntExtra("viewsOnSmoking", 0);
         viewsOnAlcohol = i.getIntExtra("viewsOnAlcohol", 0);
         youLooking = i.getIntExtra("youLooking", 0);
@@ -126,37 +120,26 @@ setHasOptionsMenu(true);
         mBirth = rootView.findViewById(R.id.selectBirth);
         mGender = rootView.findViewById(R.id.selectGender);
         mRelationshipStatus = rootView.findViewById(R.id.selectRelationshipStatus);
-        mPoliticalViews = rootView.findViewById(R.id.selectPoliticalViews);
-        mWorldView = rootView.findViewById(R.id.selectWorldView);
-        mPersonalPriority = rootView.findViewById(R.id.selectPersonalPriority);
-        mImportantInOthers = rootView.findViewById(R.id.selectImportantInOthers);
+        mReligiousView = rootView.findViewById(R.id.selectReligiousView);
         mSmokingViews = rootView.findViewById(R.id.selectSmokingViews);
         mAlcoholViews = rootView.findViewById(R.id.selectAlcoholViews);
         mYouLooking = rootView.findViewById(R.id.selectYouLooking);
         mYouLike = rootView.findViewById(R.id.selectYouLike);
 
-        mAllowShowDatebirth = rootView.findViewById(R.id.allowShowDatebirth);
+        mAllowShowDateBirth = rootView.findViewById(R.id.allowShowDateBirth);
 
         mBirth.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-                DatePickerDialog dpd = new DatePickerDialog(getActivity(), mDateSetListener, year, month, day);
+                DatePickerDialog dpd = new DatePickerDialog(requireActivity(), mDateSetListener, year, month, day);
                 dpd.getDatePicker().setMaxDate(new Date().getTime());
 
                 dpd.show();
             }
         });
 
-        mGender.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                selectGender(sex);
-            }
-        });
+        mGender.setOnClickListener(v -> selectGender(gender));
 
         mRelationshipStatus.setOnClickListener(new View.OnClickListener() {
 
@@ -167,41 +150,16 @@ setHasOptionsMenu(true);
             }
         });
 
-        mPoliticalViews.setOnClickListener(new View.OnClickListener() {
+
+        mReligiousView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                selectPoliticalViews(politicalViews);
+                selectReligiousView(religiousView);
             }
         });
 
-        mWorldView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                selectWorldView(worldView);
-            }
-        });
-
-        mPersonalPriority.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                selectPersonalPriority(personalPriority);
-            }
-        });
-
-        mImportantInOthers.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                selectImportantInOthers(importantInOthers);
-            }
-        });
 
         mSmokingViews.setOnClickListener(new View.OnClickListener() {
 
@@ -264,12 +222,9 @@ setHasOptionsMenu(true);
             mWeightField.setText(String.valueOf(weight));
         }
 
-        getGender(sex);
+        getGender(gender);
         getRelationshipStatus(relationshipStatus);
-        getPoliticalViews(politicalViews);
-        getWorldView(worldView);
-        getPersonalPriority(personalPriority);
-        getImportantInOthers(importantInOthers);
+        getReligiousView(religiousView);
         getSmokingViews(viewsOnSmoking);
         getAlcoholViews(viewsOnAlcohol);
         getYouLooking(youLooking);
@@ -289,12 +244,12 @@ setHasOptionsMenu(true);
 
         if (value == 1) {
 
-            mAllowShowDatebirth.setChecked(true);
+            mAllowShowDateBirth.setChecked(true);
             allowShowMyBirthday = 1;
 
         } else {
 
-            mAllowShowDatebirth.setChecked(false);
+            mAllowShowDateBirth.setChecked(false);
             allowShowMyBirthday = 0;
         }
     }
@@ -316,11 +271,8 @@ setHasOptionsMenu(true);
     };
 
     public void selectGender(int position) {
-
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
         GenderSelectDialog alert = new GenderSelectDialog();
-
         Bundle b  = new Bundle();
         b.putInt("position", position);
 
@@ -328,13 +280,15 @@ setHasOptionsMenu(true);
         alert.show(fm, "alert_dialog_select_gender");
     }
 
-    public void getGender(int mSex) {
-
-        sex = mSex;
-
-        switch (mSex) {
+    public void getGender(int sex) {
+        gender = sex;
+        switch (gender) {
             case 1: {
                 mGender.setText(getString(R.string.label_sex_female));
+                break;
+            }
+            case 2: {
+                mGender.setText(getString(R.string.label_sex_other));
                 break;
             }
             case 0: default: {
@@ -346,9 +300,7 @@ setHasOptionsMenu(true);
 
 
     public void selectRelationshipStatus(int position) {
-
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
         RelationshipStatusSelectDialog alert = new RelationshipStatusSelectDialog();
 
         Bundle b  = new Bundle();
@@ -359,7 +311,6 @@ setHasOptionsMenu(true);
     }
 
     public void getRelationshipStatus(int mRelationship) {
-
         relationshipStatus = mRelationship;
 
         switch (mRelationship) {
@@ -427,187 +378,86 @@ setHasOptionsMenu(true);
         }
     }
 
-    public void selectPoliticalViews(int position) {
 
-        FragmentManager fm = getActivity().getSupportFragmentManager();
 
-        PoliticalViewsSelectDialog alert = new PoliticalViewsSelectDialog();
+    public void selectReligiousView(int position) {
 
-        Bundle b  = new Bundle();
-        b.putInt("position", position);
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
 
-        alert.setArguments(b);
-        alert.show(fm, "alert_dialog_select_political_views");
-    }
-
-    public void getPoliticalViews(int mPolitical) {
-
-        politicalViews = mPolitical;
-
-        switch (mPolitical) {
-
-            case 0: {
-
-                mPoliticalViews.setText(getString(R.string.account_political_views) + ": " + getString(R.string.political_views_0));
-
-                break;
-            }
-
-            case 1: {
-
-                mPoliticalViews.setText(getString(R.string.account_political_views) + ": " + getString(R.string.political_views_1));
-
-                break;
-            }
-
-            case 2: {
-
-                mPoliticalViews.setText(getString(R.string.account_political_views) + ": " + getString(R.string.political_views_2));
-
-                break;
-            }
-
-            case 3: {
-
-                mPoliticalViews.setText(getString(R.string.account_political_views) + ": " + getString(R.string.political_views_3));
-
-                break;
-            }
-
-            case 4: {
-
-                mPoliticalViews.setText(getString(R.string.account_political_views) + ": " + getString(R.string.political_views_4));
-
-                break;
-            }
-
-            case 5: {
-
-                mPoliticalViews.setText(getString(R.string.account_political_views) + ": " + getString(R.string.political_views_5));
-
-                break;
-            }
-
-            case 6: {
-
-                mPoliticalViews.setText(getString(R.string.account_political_views) + ": " + getString(R.string.political_views_6));
-
-                break;
-            }
-
-            case 7: {
-
-                mPoliticalViews.setText(getString(R.string.account_political_views) + ": " + getString(R.string.political_views_7));
-
-                break;
-            }
-
-            case 8: {
-
-                mPoliticalViews.setText(getString(R.string.account_political_views) + ": " + getString(R.string.political_views_8));
-
-                break;
-            }
-
-            case 9: {
-
-                mPoliticalViews.setText(getString(R.string.account_political_views) + ": " + getString(R.string.political_views_9));
-
-                break;
-            }
-
-            default: {
-
-                break;
-            }
-        }
-    }
-
-    public void selectWorldView(int position) {
-
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-
-        WorldViewSelectDialog alert = new WorldViewSelectDialog();
+        ReligiousViewSelectDialog alert = new ReligiousViewSelectDialog();
 
         Bundle b  = new Bundle();
         b.putInt("position", position);
 
         alert.setArguments(b);
-        alert.show(fm, "alert_dialog_select_world_view");
+        alert.show(fm, "alert_dialog_select_religious_view");
     }
 
-    public void getWorldView(int mWorld) {
+    public void getReligiousView(int mWorld) {
 
-        worldView = mWorld;
+        religiousView = mWorld;
 
         switch (mWorld) {
 
             case 0: {
 
-                mWorldView.setText(getString(R.string.account_world_view) + ": " + getString(R.string.world_view_0));
+                mReligiousView.setText(getString(R.string.account_religious_view) + ": " + getString(R.string.religious_view_0));
 
                 break;
             }
 
             case 1: {
 
-                mWorldView.setText(getString(R.string.account_world_view) + ": " + getString(R.string.world_view_1));
+                mReligiousView.setText(getString(R.string.account_religious_view) + ": " + getString(R.string.religious_view_1));
 
                 break;
             }
 
             case 2: {
 
-                mWorldView.setText(getString(R.string.account_world_view) + ": " + getString(R.string.world_view_2));
+                mReligiousView.setText(getString(R.string.account_religious_view) + ": " + getString(R.string.religious_view_2));
 
                 break;
             }
 
             case 3: {
 
-                mWorldView.setText(getString(R.string.account_world_view) + ": " + getString(R.string.world_view_3));
+                mReligiousView.setText(getString(R.string.account_religious_view) + ": " + getString(R.string.religious_view_3));
 
                 break;
             }
 
             case 4: {
 
-                mWorldView.setText(getString(R.string.account_world_view) + ": " + getString(R.string.world_view_4));
+                mReligiousView.setText(getString(R.string.account_religious_view) + ": " + getString(R.string.religious_view_4));
 
                 break;
             }
 
             case 5: {
 
-                mWorldView.setText(getString(R.string.account_world_view) + ": " + getString(R.string.world_view_5));
+                mReligiousView.setText(getString(R.string.account_religious_view) + ": " + getString(R.string.religious_view_5));
 
                 break;
             }
 
             case 6: {
 
-                mWorldView.setText(getString(R.string.account_world_view) + ": " + getString(R.string.world_view_6));
+                mReligiousView.setText(getString(R.string.account_religious_view) + ": " + getString(R.string.religious_view_6));
 
                 break;
             }
 
             case 7: {
 
-                mWorldView.setText(getString(R.string.account_world_view) + ": " + getString(R.string.world_view_7));
+                mReligiousView.setText(getString(R.string.account_religious_view) + ": " + getString(R.string.religious_view_7));
 
                 break;
             }
 
             case 8: {
 
-                mWorldView.setText(getString(R.string.account_world_view) + ": " + getString(R.string.world_view_8));
-
-                break;
-            }
-
-            case 9: {
-
-                mWorldView.setText(getString(R.string.account_world_view) + ": " + getString(R.string.world_view_9));
+                mReligiousView.setText(getString(R.string.account_religious_view) + ": " + getString(R.string.religious_view_8));
 
                 break;
             }
@@ -619,173 +469,10 @@ setHasOptionsMenu(true);
         }
     }
 
-    public void selectPersonalPriority(int position) {
-
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-
-        PersonalPrioritySelectDialog alert = new PersonalPrioritySelectDialog();
-
-        Bundle b  = new Bundle();
-        b.putInt("position", position);
-
-        alert.setArguments(b);
-        alert.show(fm, "alert_dialog_select_personal_priority");
-    }
-
-    public void getPersonalPriority(int mPriority) {
-
-        personalPriority = mPriority;
-
-        switch (mPriority) {
-
-            case 0: {
-
-                mPersonalPriority.setText(getString(R.string.account_personal_priority) + ": " + getString(R.string.personal_priority_0));
-
-                break;
-            }
-
-            case 1: {
-
-                mPersonalPriority.setText(getString(R.string.account_personal_priority) + ": " + getString(R.string.personal_priority_1));
-
-                break;
-            }
-
-            case 2: {
-
-                mPersonalPriority.setText(getString(R.string.account_personal_priority) + ": " + getString(R.string.personal_priority_2));
-
-                break;
-            }
-
-            case 3: {
-
-                mPersonalPriority.setText(getString(R.string.account_personal_priority) + ": " + getString(R.string.personal_priority_3));
-
-                break;
-            }
-
-            case 4: {
-
-                mPersonalPriority.setText(getString(R.string.account_personal_priority) + ": " + getString(R.string.personal_priority_4));
-
-                break;
-            }
-
-            case 5: {
-
-                mPersonalPriority.setText(getString(R.string.account_personal_priority) + ": " + getString(R.string.personal_priority_5));
-
-                break;
-            }
-
-            case 6: {
-
-                mPersonalPriority.setText(getString(R.string.account_personal_priority) + ": " + getString(R.string.personal_priority_6));
-
-                break;
-            }
-
-            case 7: {
-
-                mPersonalPriority.setText(getString(R.string.account_personal_priority) + ": " + getString(R.string.personal_priority_7));
-
-                break;
-            }
-
-            case 8: {
-
-                mPersonalPriority.setText(getString(R.string.account_personal_priority) + ": " + getString(R.string.personal_priority_8));
-
-                break;
-            }
-
-            default: {
-
-                break;
-            }
-        }
-    }
-
-    public void selectImportantInOthers(int position) {
-
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-
-        ImportantInOthersSelectDialog alert = new ImportantInOthersSelectDialog();
-
-        Bundle b  = new Bundle();
-        b.putInt("position", position);
-
-        alert.setArguments(b);
-        alert.show(fm, "alert_dialog_select_important_in_others");
-    }
-
-    public void getImportantInOthers(int mImportant) {
-
-        importantInOthers = mImportant;
-
-        switch (mImportant) {
-
-            case 0: {
-
-                mImportantInOthers.setText(getString(R.string.account_important_in_others) + ": " + getString(R.string.important_in_others_0));
-
-                break;
-            }
-
-            case 1: {
-
-                mImportantInOthers.setText(getString(R.string.account_important_in_others) + ": " + getString(R.string.important_in_others_1));
-
-                break;
-            }
-
-            case 2: {
-
-                mImportantInOthers.setText(getString(R.string.account_important_in_others) + ": " + getString(R.string.important_in_others_2));
-
-                break;
-            }
-
-            case 3: {
-
-                mImportantInOthers.setText(getString(R.string.account_important_in_others) + ": " + getString(R.string.important_in_others_3));
-
-                break;
-            }
-
-            case 4: {
-
-                mImportantInOthers.setText(getString(R.string.account_important_in_others) + ": " + getString(R.string.important_in_others_4));
-
-                break;
-            }
-
-            case 5: {
-
-                mImportantInOthers.setText(getString(R.string.account_important_in_others) + ": " + getString(R.string.important_in_others_5));
-
-                break;
-            }
-
-            case 6: {
-
-                mImportantInOthers.setText(getString(R.string.account_important_in_others) + ": " + getString(R.string.important_in_others_6));
-
-                break;
-            }
-
-            default: {
-
-                break;
-            }
-        }
-    }
 
     public void selectSmokingViews(int position) {
 
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
 
         SmokingViewsSelectDialog alert = new SmokingViewsSelectDialog();
 
@@ -853,7 +540,7 @@ setHasOptionsMenu(true);
 
     public void selectAlcoholViews(int position) {
 
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
 
         AlcoholViewsSelectDialog alert = new AlcoholViewsSelectDialog();
 
@@ -921,7 +608,7 @@ setHasOptionsMenu(true);
 
     public void selectYouLooking(int position) {
 
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
 
         YouLookingSelectDialog alert = new YouLookingSelectDialog();
 
@@ -975,7 +662,7 @@ setHasOptionsMenu(true);
 
     public void selectYouLike(int position) {
 
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
 
         YouLikeSelectDialog alert = new YouLikeSelectDialog();
 
@@ -1029,7 +716,7 @@ setHasOptionsMenu(true);
 
     protected void initpDialog() {
 
-        pDialog = new ProgressDialog(getActivity());
+        pDialog = new ProgressDialog(requireActivity());
         pDialog.setMessage(getString(R.string.msg_loading));
         pDialog.setCancelable(false);
     }
@@ -1098,7 +785,7 @@ setHasOptionsMenu(true);
                     weight = 0;
                 }
 
-                if (mAllowShowDatebirth.isChecked()) {
+                if (mAllowShowDateBirth.isChecked()) {
 
                     allowShowMyBirthday = 1;
 
@@ -1147,7 +834,7 @@ setHasOptionsMenu(true);
                                     height = response.getInt("height");
                                     weight = response.getInt("weight");
 
-                                    Toast.makeText(getActivity(), getText(R.string.msg_settings_saved), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(requireActivity(), getText(R.string.msg_settings_saved), Toast.LENGTH_SHORT).show();
 
                                     App.getInstance().setFullname(fullname);
 
@@ -1157,7 +844,7 @@ setHasOptionsMenu(true);
                                     i.putExtra("instagramPage", instagramPage);
                                     i.putExtra("bio", bio);
 
-                                    i.putExtra("sex", sex);
+                                    i.putExtra("gender", gender);
 
                                     i.putExtra("age", age);
                                     i.putExtra("height", height);
@@ -1168,10 +855,7 @@ setHasOptionsMenu(true);
                                     i.putExtra("day", day);
 
                                     i.putExtra("relationshipStatus", relationshipStatus);
-                                    i.putExtra("politicalViews", politicalViews);
-                                    i.putExtra("worldView", worldView);
-                                    i.putExtra("personalPriority", personalPriority);
-                                    i.putExtra("importantInOthers", importantInOthers);
+                                    i.putExtra("religiousView", religiousView);
                                     i.putExtra("viewsOnSmoking", viewsOnSmoking);
                                     i.putExtra("viewsOnAlcohol", viewsOnAlcohol);
                                     i.putExtra("youLooking", youLooking);
@@ -1180,10 +864,10 @@ setHasOptionsMenu(true);
 
                                     if (isAdded()) {
 
-                                        getActivity().setResult(RESULT_OK, i);
+                                        requireActivity().setResult(RESULT_OK, i);
                                     }
 
-                                    getActivity().finish();
+                                    requireActivity().finish();
                                 }
                             }
 
@@ -1217,7 +901,7 @@ setHasOptionsMenu(true);
                 params.put("location", location);
                 params.put("instagramPage", instagramPage);
                 params.put("bio", bio);
-                params.put("sex", String.valueOf(sex));
+                params.put("gender", String.valueOf(gender));
                 params.put("year", String.valueOf(year));
                 params.put("month", String.valueOf(month));
                 params.put("day", String.valueOf(day));
@@ -1227,10 +911,7 @@ setHasOptionsMenu(true);
                 params.put("weight", String.valueOf(weight));
 
                 params.put("iStatus", String.valueOf(relationshipStatus));
-                params.put("politicalViews", String.valueOf(politicalViews));
-                params.put("worldViews", String.valueOf(worldView));
-                params.put("personalPriority", String.valueOf(personalPriority));
-                params.put("importantInOthers", String.valueOf(importantInOthers));
+                params.put("religiousViews", String.valueOf(religiousView));
                 params.put("smokingViews", String.valueOf(viewsOnSmoking));
                 params.put("alcoholViews", String.valueOf(viewsOnAlcohol));
                 params.put("lookingViews", String.valueOf(youLooking));

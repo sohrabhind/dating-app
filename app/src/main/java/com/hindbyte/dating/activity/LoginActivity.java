@@ -151,60 +151,41 @@ public class LoginActivity extends ActivityBase {
 
 
     public void signIn() {
-
         loading = true;
-
         showpDialog();
-
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_ACCOUNT_LOGIN, null,
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
                         if (App.getInstance().authorize(response)) {
-
                             if (App.getInstance().getState() == ACCOUNT_STATE_ENABLED) {
-
                                 App.getInstance().updateGeoLocation();
-
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
-
                             } else {
-
                                 if (App.getInstance().getState() == ACCOUNT_STATE_BLOCKED) {
-
                                     App.getInstance().logout();
                                     Toast.makeText(LoginActivity.this, getText(R.string.msg_account_blocked), Toast.LENGTH_SHORT).show();
-
                                 } else if (App.getInstance().getState() == ACCOUNT_STATE_DEACTIVATED) {
-
                                     App.getInstance().logout();
                                     Toast.makeText(LoginActivity.this, getText(R.string.msg_account_deactivated), Toast.LENGTH_SHORT).show();
                                 }
                             }
 
                         } else {
-
                             Toast.makeText(LoginActivity.this, getString(R.string.error_signin), Toast.LENGTH_SHORT).show();
-
                             Log.e("response", response.toString());
                         }
-
                         loading = false;
-
                         hidepDialog();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("", error.toString());
-                Toast.makeText(LoginActivity.this, getText(R.string.error_data_loading), Toast.LENGTH_LONG).show();
-                loading = false;
-                hidepDialog();
-            }
-        }) {
+                }, error -> {
+                    Log.e("", error.toString());
+                    Toast.makeText(LoginActivity.this, getText(R.string.error_data_loading), Toast.LENGTH_LONG).show();
+                    loading = false;
+                    hidepDialog();
+                }) {
 
             @Override
             protected Map<String, String> getParams() {

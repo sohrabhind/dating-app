@@ -14,7 +14,7 @@ public class Friend extends Application implements Constants, Parcelable {
 
     private long id, friendTo, friendUserId;
 
-    private int pro;
+    private int pro, friendUserGender;
 
     private String friendUserUsername, friendUserFullname, friendUserPhoto, friendLocation, timeAgo;
 
@@ -38,6 +38,7 @@ public class Friend extends Application implements Constants, Parcelable {
                 this.setFriendUserUsername(jsonData.getString("friendUserUsername"));
                 this.setFriendUserFullname(jsonData.getString("friendUserFullname"));
                 this.setFriendUserPhotoUrl(jsonData.getString("friendUserPhoto"));
+                this.setFriendUserGender(jsonData.getInt("friendUserGender"));
                 this.setFriendLocation(jsonData.getString("friendLocation"));
                 this.setFriendTo(jsonData.getLong("friendTo"));
                 this.setTimeAgo(jsonData.getString("timeAgo"));
@@ -142,6 +143,17 @@ public class Friend extends Application implements Constants, Parcelable {
     public String getFriendUserPhotoUrl() {
 
         return this.friendUserPhoto;
+    }
+
+
+    public void setFriendUserGender(int friendUserGender) {
+
+        this.friendUserGender = friendUserGender;
+    }
+
+    public int getFriendUserGender() {
+
+        return this.friendUserGender;
     }
 
     public void setFriendLocation(String friendLocation) {

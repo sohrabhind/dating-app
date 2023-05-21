@@ -14,27 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:contentInsetStartWithNavigation="0dp"
-                    app:paddingEnd="@dimen/spacing_medium" />
-            </LinearLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/refresh_view"
@@ -150,7 +129,7 @@
                                                 <TextView
                                                     android:id="@+id/fullname_label"
                                                     android:layout_width="wrap_content"
-                                                    android:layout_height="wrap_content"
+                                                    android:layout_height="match_parent"
                                                     android:fontFamily="sans-serif-light"
                                                     android:singleLine="true"
                                                     android:text="@string/item_author_fullname"
@@ -165,6 +144,7 @@
                                                     android:fontFamily="sans-serif-light"
                                                     android:singleLine="true"
                                                     android:text="username"
+                                                    android:visibility="gone"
                                                     android:textColor="@color/colorSubTitle" />
 
                                                 <LinearLayout
@@ -249,7 +229,7 @@
                                             android:adjustViewBounds="true"
                                             android:maxHeight="300dp"
                                             android:scaleType="centerCrop"
-                                            android:src="@drawable/img_loading" />
+                                            android:src="@drawable/profile_default_photo" />
 
                                         <ImageView
                                             android:id="@+id/itemPlay"
@@ -315,7 +295,8 @@
                                     android:clickable="true"
                                     android:gravity="center_vertical"
                                     android:orientation="horizontal"
-                                    android:focusable="true">
+                                    android:focusable="true"
+                                    android:visibility="gone">
 
                                     <ImageView
                                         android:layout_width="@dimen/spacing_smlarge"
@@ -359,7 +340,7 @@
                                                 android:layout_alignParentEnd="true"
                                                 android:padding="@dimen/spacing_medium"
                                                 app:tint="@color/grey_40"
-                                                app:srcCompat="@drawable/ic_like"/>
+                                                app:srcCompat="@drawable/ic_action_like"/>
 
                                         </RelativeLayout>
 
@@ -387,7 +368,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginBottom="60dp"
                             android:clipToPadding="false"
-                            android:scrollbars="vertical" />
+                            android:scrollbars="vertical"
+                            android:visibility="gone"/>
 
                     </LinearLayout>
 
@@ -406,7 +388,8 @@
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:background="@color/colorDialogFooterBackground"
-        android:id="@+id/commentFormContainer">
+        android:id="@+id/commentFormContainer"
+        android:visibility="gone">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -470,7 +453,7 @@
                 android:text="@string/error_data_loading"
                 android:gravity="center"
                 android:textSize="16sp"
-                android:textColor="@color/gray_text" />
+                android:textColor="@color/gray" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -507,7 +490,7 @@
                 android:text="@string/label_empty_list"
                 android:gravity="center"
                 android:textSize="16sp"
-                android:textColor="@color/gray_text" />
+                android:textColor="@color/gray" />
         </LinearLayout>
     </RelativeLayout>
 

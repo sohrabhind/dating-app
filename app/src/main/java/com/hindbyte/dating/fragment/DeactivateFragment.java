@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -37,7 +38,7 @@ public class DeactivateFragment extends Fragment implements Constants {
 
     EditText mCurrentPassword;
 
-    Button mDeactivate;
+    TextView mDeactivate;
 
     String sCurrentPassword;
 
@@ -83,7 +84,7 @@ setHasOptionsMenu(true);
 
                     } else {
 
-                        Toast.makeText(getActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -103,7 +104,7 @@ setHasOptionsMenu(true);
 
     protected void initpDialog() {
 
-        pDialog = new ProgressDialog(getActivity());
+        pDialog = new ProgressDialog(requireActivity());
         pDialog.setMessage(getString(R.string.msg_loading));
         pDialog.setCancelable(false);
     }
@@ -158,7 +159,7 @@ setHasOptionsMenu(true);
 
                                 } else {
 
-                                    Toast.makeText(getActivity(), getText(R.string.error_password), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(requireActivity(), getText(R.string.error_password), Toast.LENGTH_SHORT).show();
                                 }
                             }
 
@@ -217,7 +218,7 @@ setHasOptionsMenu(true);
                                     App.getInstance().removeData();
                                     App.getInstance().readData();
 
-                                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                                    Intent intent = new Intent(requireActivity(), HomeActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
                                 }
@@ -260,7 +261,7 @@ setHasOptionsMenu(true);
 
     public Boolean checkCurrentPassword(String password) {
 
-        Helper helper = new Helper(getActivity());
+        Helper helper = new Helper(requireActivity());
 
         if (password.length() == 0) {
 

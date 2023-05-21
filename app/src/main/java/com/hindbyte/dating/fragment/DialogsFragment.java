@@ -73,35 +73,18 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
 
-        if (savedInstanceState != null) {
-
-            itemsList = savedInstanceState.getParcelableArrayList(STATE_LIST);
-            itemsAdapter = new DialogsListAdapter(getActivity(), itemsList);
-
-            restore = savedInstanceState.getBoolean("restore");
-            messageCreateAt = savedInstanceState.getInt("messageCreateAt");
-
-        } else {
-
-            itemsList = new ArrayList<Chat>();
-            itemsAdapter = new DialogsListAdapter(getActivity(), itemsList);
-
-            restore = false;
-            messageCreateAt = 0;
-        }
+        itemsList = new ArrayList<>();
+        itemsAdapter = new DialogsListAdapter(requireActivity(), itemsList);
+        restore = false;
+        messageCreateAt = 0;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_dialogs, container, false);
-
-        getActivity().setTitle(R.string.nav_messages);
 
         mItemsContainer = rootView.findViewById(R.id.container_items);
         mItemsContainer.setOnRefreshListener(this);
@@ -113,8 +96,8 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
 
         mRecyclerView = rootView.findViewById(R.id.recycler_view);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.addItemDecoration(new LineItemDecoration(getActivity(), LinearLayout.VERTICAL));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        mRecyclerView.addItemDecoration(new LineItemDecoration(requireActivity(), LinearLayout.VERTICAL));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mRecyclerView.setAdapter(itemsAdapter);
@@ -125,7 +108,7 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
             @Override
             public void onItemClick(View view, Chat item, int position) {
 
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                Intent intent = new Intent(requireActivity(), ChatActivity.class);
                 intent.putExtra("position", position);
                 intent.putExtra("chatId", item.getId());
                 intent.putExtra("profileId", item.getWithUserId());
@@ -142,85 +125,74 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
                 intent.putExtra("fromUserId", item.getFromUserId());
                 intent.putExtra("toUserId", item.getToUserId());
 
-                startActivityForResult(intent, VIEW_CHAT);
+                startActivity(intent);
 
                 if (item.getNewMessagesCount() != 0) {
-
                     item.setNewMessagesCount(0);
-
                     if (App.getInstance().getMessagesCount() > 0) {
-
                         App.getInstance().setMessagesCount(App.getInstance().getMessagesCount() - 1);
                         App.getInstance().saveData();
                     }
                 }
-
                 itemsAdapter.notifyDataSetChanged();
             }
         });
 
         mRecyclerView.setNestedScrollingEnabled(false);
 
-        mNestedView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-
-                if (scrollY < oldScrollY) { // up
+        mNestedView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY < oldScrollY) { // up
 
 
-                }
+            }
 
-                if (scrollY > oldScrollY) { // down
+            if (scrollY > oldScrollY) { // down
 
 
-                }
-
-                if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
-
-                    if (!loadingMore && (viewMore) && !(mItemsContainer.isRefreshing())) {
-
-                        mItemsContainer.setRefreshing(true);
-
-                        loadingMore = true;
-
-                        getItems();
-                    }
+            }
+            if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
+                if (!loadingMore && (viewMore) && !(mItemsContainer.isRefreshing())) {
+                    mItemsContainer.setRefreshing(true);
+                    loadingMore = true;
+                    getItems(true);
                 }
             }
         });
 
         if (itemsAdapter.getItemCount() == 0) {
-
             showMessage(getText(R.string.label_empty_list).toString());
-
         } else {
-
             hideMessage();
         }
 
         if (!restore) {
-
             showMessage(getText(R.string.msg_loading_2).toString());
-
-            getItems();
+            getItems(true);
         }
-
-
         // Inflate the layout for this fragment
         return rootView;
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        requireActivity().setTitle(R.string.nav_messages);
+        onRefresh();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            onRefresh();
+        }
+    }
+
     public void onRefresh() {
-
         if (App.getInstance().isConnected()) {
-
             messageCreateAt = 0;
-            getItems();
-
+            getItems(false);
         } else {
-
             mItemsContainer.setRefreshing(false);
         }
     }
@@ -230,11 +202,11 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == VIEW_CHAT && resultCode == getActivity().RESULT_OK && null != data) {
+        if (requestCode == VIEW_CHAT && resultCode == requireActivity().RESULT_OK && null != data) {
 
             int pos = data.getIntExtra("position", 0);
 
-            Toast.makeText(getActivity(), getString(R.string.msg_chat_has_been_removed), Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), getString(R.string.msg_chat_has_been_removed), Toast.LENGTH_SHORT).show();
 
             itemsList.remove(pos);
 
@@ -253,12 +225,9 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
         super.onCreateOptionsMenu(menu, inflater);
-
         MenuItem item = menu.findItem(R.id.action_filters);
         item.setVisible(false);
-
         item = menu.findItem(R.id.action_remove_all);
         item.setVisible(false);
     }
@@ -279,16 +248,16 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
         outState.putParcelableArrayList(STATE_LIST, itemsList);
     }
 
-    public void getItems() {
+    public void getItems(boolean refresh) {
 
-        mItemsContainer.setRefreshing(true);
+        mItemsContainer.setRefreshing(refresh);
 
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_DIALOGS_NEW_GET, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.e("isError", "Error Not Found");
-                        if (!isAdded() || getActivity() == null) {
+                        if (!isAdded() || requireActivity() == null) {
                             Log.e("ERROR", "DialogsFragment Not Added to Activity");
                             return;
                         }
@@ -321,7 +290,7 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (!isAdded() || getActivity() == null) {
+                if (!isAdded() || requireActivity() == null) {
                     Log.e("ERROR", "DialogsFragment Not Added to Activity");
                     return;
                 }
@@ -347,6 +316,7 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
         App.getInstance().addToRequestQueue(jsonReq);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void loadingComplete() {
 
         viewMore = arrayLength == LIST_ITEMS;

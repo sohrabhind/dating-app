@@ -96,7 +96,7 @@ setHasOptionsMenu(true);
         if (savedInstanceState != null) {
 
             itemsList = savedInstanceState.getParcelableArrayList(STATE_LIST);
-            itemsAdapter = new AdvancedPeopleListAdapter(getActivity(), itemsList);
+            itemsAdapter = new AdvancedPeopleListAdapter(requireActivity(), itemsList);
 
             viewMore = savedInstanceState.getBoolean("viewMore");
 
@@ -114,7 +114,7 @@ setHasOptionsMenu(true);
         } else {
 
             itemsList = new ArrayList<Profile>();
-            itemsAdapter = new AdvancedPeopleListAdapter(getActivity(), itemsList);
+            itemsAdapter = new AdvancedPeopleListAdapter(requireActivity(), itemsList);
 
             restore = false;
             itemId = 0;
@@ -131,7 +131,7 @@ setHasOptionsMenu(true);
 
         mRecyclerView = rootView.findViewById(R.id.recycler_view);
 
-        final LinearLayoutManager mLayoutManager = new GridLayoutManager(getActivity(), Helper.getGridSpanCount(getActivity()));
+        final LinearLayoutManager mLayoutManager = new GridLayoutManager(requireActivity(), Helper.getGridSpanCount(requireActivity()));
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -171,7 +171,7 @@ setHasOptionsMenu(true);
             @Override
             public void onItemClick(View view, Profile item, int position) {
 
-                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                Intent intent = new Intent(requireActivity(), ProfileActivity.class);
                 intent.putExtra("profileId", item.getId());
                 startActivity(intent);
             }
@@ -220,7 +220,7 @@ setHasOptionsMenu(true);
 
         } else {
 
-            Toast.makeText(getActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -287,7 +287,7 @@ setHasOptionsMenu(true);
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        if (!isAdded() || getActivity() == null) {
+                        if (!isAdded() || requireActivity() == null) {
 
                             Log.e("ERROR", "SearchFragment Not Added to Activity");
 
@@ -342,7 +342,7 @@ setHasOptionsMenu(true);
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || getActivity() == null) {
+                if (!isAdded() || requireActivity() == null) {
 
                     Log.e("ERROR", "SearchFragment Not Added to Activity");
 
@@ -351,7 +351,7 @@ setHasOptionsMenu(true);
 
                 loadingComplete();
 
-                Toast.makeText(getActivity(), getString(R.string.error_data_loading), Toast.LENGTH_LONG).show();
+                Toast.makeText(requireActivity(), getString(R.string.error_data_loading), Toast.LENGTH_LONG).show();
             }
         }) {
 
@@ -427,10 +427,10 @@ setHasOptionsMenu(true);
 
     public void getSearchSettings() {
 
-        AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder b = new AlertDialog.Builder(requireActivity());
         b.setTitle(getText(R.string.label_search_filters));
 
-        LinearLayout view = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.dialog_search_settings, null);
+        LinearLayout view = (LinearLayout) requireActivity().getLayoutInflater().inflate(R.layout.dialog_search_settings, null);
 
         b.setView(view);
 
@@ -439,6 +439,7 @@ setHasOptionsMenu(true);
         final RadioButton mAnyGenderRadio = view.findViewById(R.id.radio_gender_any);
         final RadioButton mMaleGenderRadio = view.findViewById(R.id.radio_gender_male);
         final RadioButton mFemaleGenderRadio = view.findViewById(R.id.radio_gender_female);
+        final RadioButton mOtherGenderRadio = view.findViewById(R.id.radio_gender_other);
 
         final CheckBox mOnlineCheckBox = view.findViewById(R.id.checkbox_online);
         final CheckBox mPhotoCheckBox = view.findViewById(R.id.checkbox_photo);
@@ -467,6 +468,13 @@ setHasOptionsMenu(true);
             case 1: {
 
                 mFemaleGenderRadio.setChecked(true);
+
+                break;
+            }
+
+            case 2: {
+
+                mOtherGenderRadio.setChecked(true);
 
                 break;
             }
@@ -554,6 +562,11 @@ setHasOptionsMenu(true);
                 if (mFemaleGenderRadio.isChecked()) {
 
                     gender = 1;
+                }
+
+                if (mOtherGenderRadio.isChecked()) {
+
+                    gender = 2;
                 }
 
                 //

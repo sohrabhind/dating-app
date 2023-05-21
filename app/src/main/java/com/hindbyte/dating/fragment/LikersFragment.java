@@ -69,14 +69,14 @@ public class LikersFragment extends Fragment implements Constants, SwipeRefreshL
 
         super.onCreate(savedInstanceState);
 
-        Intent i = getActivity().getIntent();
+        Intent i = requireActivity().getIntent();
 
         itemId = i.getLongExtra("itemId", 0);
 
         if (savedInstanceState != null) {
 
             itemsList = savedInstanceState.getParcelableArrayList(STATE_LIST);
-            itemsAdapter = new AdvancedPeopleListAdapter(getActivity(), itemsList);
+            itemsAdapter = new AdvancedPeopleListAdapter(requireActivity(), itemsList);
 
             restore = savedInstanceState.getBoolean("restore");
             itemId = savedInstanceState.getLong("itemId");
@@ -85,7 +85,7 @@ public class LikersFragment extends Fragment implements Constants, SwipeRefreshL
         } else {
 
             itemsList = new ArrayList<Profile>();
-            itemsAdapter = new AdvancedPeopleListAdapter(getActivity(), itemsList);
+            itemsAdapter = new AdvancedPeopleListAdapter(requireActivity(), itemsList);
 
             restore = false;
             itemIndex = 0;
@@ -109,11 +109,11 @@ public class LikersFragment extends Fragment implements Constants, SwipeRefreshL
 
         int columns = 2;
 
-        if (isAdded()) columns = Helper.getGridSpanCount(getActivity());
+        if (isAdded()) columns = Helper.getGridSpanCount(requireActivity());
 
-        final GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(), columns);
+        final GridLayoutManager mLayoutManager = new GridLayoutManager(requireActivity(), columns);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new SpacingItemDecoration(columns, Helper.dpToPx(getActivity(), 4), true));
+        mRecyclerView.addItemDecoration(new SpacingItemDecoration(columns, Helper.dpToPx(requireActivity(), 4), true));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mRecyclerView.setAdapter(itemsAdapter);
@@ -123,7 +123,7 @@ public class LikersFragment extends Fragment implements Constants, SwipeRefreshL
             @Override
             public void onItemClick(View view, Profile item, int position) {
 
-                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                Intent intent = new Intent(requireActivity(), ProfileActivity.class);
                 intent.putExtra("profileId", item.getId());
                 startActivity(intent);
             }
@@ -212,7 +212,7 @@ public class LikersFragment extends Fragment implements Constants, SwipeRefreshL
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        if (!isAdded() || getActivity() == null) {
+                        if (!isAdded() || requireActivity() == null) {
 
                             Log.e("ERROR", "LikersFragment Not Added to Activity");
 
@@ -265,7 +265,7 @@ public class LikersFragment extends Fragment implements Constants, SwipeRefreshL
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || getActivity() == null) {
+                if (!isAdded() || requireActivity() == null) {
 
                     Log.e("ERROR", "LikersFragment Not Added to Activity");
 

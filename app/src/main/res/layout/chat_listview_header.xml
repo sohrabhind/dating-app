@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/action_more"
-        android:textColor="@color/gray_text"
+        android:textColor="@color/gray"
         android:textSize="18dp"
         android:padding="10dp"
         android:gravity="center" />
