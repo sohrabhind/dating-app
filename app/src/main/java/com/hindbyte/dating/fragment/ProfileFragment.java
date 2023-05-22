@@ -404,7 +404,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
         mProfileInstagramUrl = rootView.findViewById(R.id.profileInstagramUrl);
 
-        ((ProfileActivity)requireActivity()).mFabButton.hide();
+        ((ProfileActivity)requireActivity()).mFabButton.setVisibility(View.GONE);
 
 
 
@@ -846,7 +846,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         // Show settings button is your profile
         if (profile.getId() == App.getInstance().getId()) {
 
-            ((ProfileActivity)requireActivity()).mFabButton.show();
+            ((ProfileActivity)requireActivity()).mFabButton.setVisibility(View.VISIBLE);
             ((ProfileActivity)requireActivity()).mFabButton.setImageResource(R.drawable.ic_action_new);
 
             mProfileActionBtn.setText(R.string.action_profile_edit);
@@ -857,13 +857,13 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
         } else {
 
-            ((ProfileActivity)requireActivity()).mFabButton.hide();
+            ((ProfileActivity)requireActivity()).mFabButton.setVisibility(View.GONE);
 
             if (!profile.isMyLike()) {
 
                 ((ProfileActivity)requireActivity()).mFabButton.setImageResource(R.drawable.ic_action_like);
 
-                ((ProfileActivity)requireActivity()).mFabButton.show();
+                ((ProfileActivity)requireActivity()).mFabButton.setVisibility(View.VISIBLE);
             }
 
             mProfileMessageBtn.setText(R.string.action_message);
@@ -1423,59 +1423,38 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
+        int id = item.getItemId();
+        if (id == R.id.action_profile_refresh) {
+            mProfileRefreshLayout.setRefreshing(true);
+            onRefresh();
 
+            return true;
+        } else if (id == R.id.action_profile_report) {
+            profileReport();
 
-            case R.id.action_profile_refresh: {
+            return true;
+        } else if (id == R.id.action_profile_block) {
+            profileBlock();
 
-                mProfileRefreshLayout.setRefreshing(true);
-                onRefresh();
+            return true;
+        } else if (id == R.id.action_profile_edit_photo) {
+            if (!checkPermission(READ_EXTERNAL_STORAGE)) {
 
-                return true;
+                requestPermission();
+
+            } else {
+
+                mAccountAction = 0;
+
+                choiceImage();
             }
 
-            case R.id.action_profile_report: {
-
-                profileReport();
-
-                return true;
-            }
-
-            case R.id.action_profile_block: {
-
-                profileBlock();
-
-                return true;
-            }
-
-            case R.id.action_profile_edit_photo: {
-
-                if (!checkPermission(READ_EXTERNAL_STORAGE)) {
-
-                    requestPermission();
-
-                } else {
-
-                    mAccountAction = 0;
-
-                    choiceImage();
-                }
-
-                return true;
-            }
-
-            case R.id.action_profile_settings: {
-
-                getAccountSettings();
-
-                return true;
-            }
-
-            default: {
-
-                return super.onOptionsItemSelected(item);
-            }
+            return true;
+        } else if (id == R.id.action_profile_settings) {
+            getAccountSettings();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void hideMenuItems(Menu menu, boolean visible) {
@@ -2041,7 +2020,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
                             hidepDialog();
 
-                            ((ProfileActivity)requireActivity()).mFabButton.hide();
+                            ((ProfileActivity)requireActivity()).mFabButton.setVisibility(View.GONE);
                         }
                     }
                 }, new Response.ErrorListener() {

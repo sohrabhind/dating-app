@@ -2,17 +2,13 @@ package com.hindbyte.dating.fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,20 +16,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -48,15 +39,13 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
-import com.android.volley.VolleyError;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hindbyte.dating.R;
-import com.hindbyte.dating.activity.UpgradeActivity;
 import com.hindbyte.dating.activity.ChatActivity;
 import com.hindbyte.dating.adapter.HotgameAdapter;
+import com.hindbyte.dating.animation.Pager2Transformer;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.model.Profile;
@@ -89,7 +78,7 @@ public class HotGameFragment extends Fragment implements Constants {
     private ArrayList<Profile> itemsList;
     private HotgameAdapter itemsAdapter;
 
-    public FloatingActionButton mHotGameLike, mHotGameBack, mHotGameProfile, mHotGameNext;
+    public ImageView mHotGameLike, mHotGameBack, mHotGameProfile, mHotGameNext;
     public ProgressBar mHotGameProgressBar;
 
     private ActivityResultLauncher<String[]> multiplePermissionLauncher;
@@ -145,6 +134,7 @@ public class HotGameFragment extends Fragment implements Constants {
         mViewPager2 = rootView.findViewById(R.id.viewPager2);
 
         mViewPager2.setAdapter(itemsAdapter);
+        mViewPager2.setPageTransformer(new Pager2Transformer());
 
         mViewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -161,10 +151,11 @@ public class HotGameFragment extends Fragment implements Constants {
                 super.onPageSelected(position);
                 Profile u = itemsList.get(position);
                 if (u.isMyLike()) {
-                    mHotGameLike.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFloatActionButton)));
+                    mHotGameLike.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.app_circular_button_green));
                 }
                 if (!u.isMyLike()) {
-                    mHotGameLike.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryDark)));
+                    mHotGameLike.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.app_circular_button));
+
                 }
             }
 
@@ -544,10 +535,10 @@ public class HotGameFragment extends Fragment implements Constants {
                             Profile u = itemsList.get(mViewPager2.getCurrentItem());
                             u.setMyLike(response.getBoolean("myLike"));
                             if (u.isMyLike()) {
-                                mHotGameLike.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFloatActionButton)));
+                                mHotGameLike.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.app_circular_button_green));
                             }
                             if (!u.isMyLike()) {
-                                mHotGameLike.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryDark)));
+                                mHotGameLike.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.app_circular_button));
                             }
                         }
                     } catch (JSONException e) {

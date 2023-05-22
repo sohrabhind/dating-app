@@ -117,36 +117,27 @@ setHasOptionsMenu(true);
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
+        if (item.getItemId() == R.id.action_set_password) {
+            sCurrentPassword = mCurrentPassword.getText().toString();
+            sNewPassword = mNewPassword.getText().toString();
 
-            case R.id.action_set_password: {
+            if (checkCurrentPassword(sCurrentPassword)) {
 
-                sCurrentPassword = mCurrentPassword.getText().toString();
-                sNewPassword = mNewPassword.getText().toString();
+                if (checkNewPassword(sNewPassword)) {
 
-                if (checkCurrentPassword(sCurrentPassword)) {
+                    if (App.getInstance().isConnected()) {
 
-                    if (checkNewPassword(sNewPassword)) {
+                        accountSetPassword();
 
-                        if (App.getInstance().isConnected()) {
+                    } else {
 
-                            accountSetPassword();
-
-                        } else {
-
-                            Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
-                        }
-
+                        Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
                     }
+
                 }
-
-                return true;
             }
 
-            default: {
-
-                break;
-            }
+            return true;
         }
 
         return false;

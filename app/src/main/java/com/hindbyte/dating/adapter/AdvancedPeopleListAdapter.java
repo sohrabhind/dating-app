@@ -120,7 +120,7 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 
 
 		} else {
-            holder.mProgressBar.setVisibility(View.GONE);
+			holder.mProgressBar.setVisibility(View.GONE);
 			holder.mGenderImage.setVisibility(View.VISIBLE);
 
 			holder.mSquarePhotoImage.setVisibility(View.VISIBLE);

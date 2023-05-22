@@ -18,7 +18,6 @@
     <color name="gray_button_text_color">#288EC1</color>
     <color name="toolBar">#204062</color>
     <color name="hashTag">#5BCFF2</color>
-    <color name="green_text">#108E3A</color>
     <color name="transparent">#00FFFFFF</color>
 
     <color name="item_list_divider">#d9d9d9</color>
@@ -38,16 +37,12 @@
     <color name="colorPrimaryLight2">#B9665B</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
-    <color name="navigationBarColor">#000000</color>
-    <color name="colorFloatActionButton">#669900</color>
     <color name="tabLayoutBackground">#EEEEEE</color>
     <color name="listViewDivider">#F0F3F5</color>
     <color name="listViewDivider2">#E1E8ED</color>
     <color name="postSeparatorLine">#e8f0f5</color>
 
     <!-- added for version 2.6 -->
-    <color name="green">#1ebe1b</color>
-    <color name="colorPrimaryButtonDisabled">#e6878787</color>
 
     <!-- added for version 3.9 -->
     <color name="grey_3">#f7f7f7</color>
@@ -88,6 +83,11 @@
     <color name="colorAccent">#F9518A</color>
 
     <color name="statusBarColor">#FF8960</color>
+
+
+
+    <color name="greenStartColor">#1ebe1b</color>
+    <color name="greenEndColor">#108E3A</color>
 
 
     <color name="buttonPressedStart">#ff3e80</color>

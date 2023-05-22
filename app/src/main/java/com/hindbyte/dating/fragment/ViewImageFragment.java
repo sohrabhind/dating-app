@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -182,81 +183,66 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
         itemsAdapter.setOnMoreButtonClickListener(new CommentsListAdapter.OnItemMenuButtonClickListener() {
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onItemClick(View v, Comment obj, int actionId, int position) {
 
-                switch (actionId){
+                if (actionId == R.id.action_report) {
+                    String[] profile_report_categories = new String[]{
+                            requireActivity().getText(R.string.label_profile_report_0).toString(),
+                            requireActivity().getText(R.string.label_profile_report_1).toString(),
+                            requireActivity().getText(R.string.label_profile_report_2).toString(),
+                            requireActivity().getText(R.string.label_profile_report_3).toString(),
+                    };
 
-                    case R.id.action_report: {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireActivity());
+                    alertDialog.setTitle(requireActivity().getText(R.string.label_item_report_title));
 
-                        String[] profile_report_categories = new String[] {
-                                requireActivity().getText(R.string.label_profile_report_0).toString(),
-                                requireActivity().getText(R.string.label_profile_report_1).toString(),
-                                requireActivity().getText(R.string.label_profile_report_2).toString(),
-                                requireActivity().getText(R.string.label_profile_report_3).toString(),
-                        };
+                    alertDialog.setSingleChoiceItems(profile_report_categories, 0, null);
+                    alertDialog.setCancelable(true);
 
-                        androidx.appcompat.app.AlertDialog.Builder alertDialog = new androidx.appcompat.app.AlertDialog.Builder(requireActivity());
-                        alertDialog.setTitle(requireActivity().getText(R.string.label_item_report_title));
+                    alertDialog.setNegativeButton(requireActivity().getText(R.string.action_cancel), new DialogInterface.OnClickListener() {
 
-                        alertDialog.setSingleChoiceItems(profile_report_categories, 0, null);
-                        alertDialog.setCancelable(true);
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                        alertDialog.setNegativeButton(requireActivity().getText(R.string.action_cancel), new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                dialog.cancel();
-                            }
-                        });
-
-                        alertDialog.setPositiveButton(requireActivity().getText(R.string.action_ok), new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                androidx.appcompat.app.AlertDialog alert = (androidx.appcompat.app.AlertDialog) dialog;
-                                int reason = alert.getListView().getCheckedItemPosition();
-
-                                Toast.makeText(requireActivity(), requireActivity().getString(R.string.label_item_report_sent), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                        alertDialog.show();
-
-                        break;
-                    }
-
-                    case R.id.action_remove: {
-
-                        FragmentManager fm = requireActivity().getSupportFragmentManager();
-
-                        CommentDeleteDialog alert = new CommentDeleteDialog();
-
-                        Bundle b = new Bundle();
-                        b.putInt("position", position);
-                        b.putLong("itemId", obj.getId());
-
-                        alert.setArguments(b);
-                        alert.show(fm, "alert_dialog_comment_delete");
-
-                        break;
-                    }
-
-                    case R.id.action_reply: {
-
-                        if (App.getInstance().getId() != 0) {
-
-                            replyToUserId = obj.getOwner().getId();
-
-                            mCommentText.setText("@" + obj.getOwner().getUsername() + ", ");
-                            mCommentText.setSelection(mCommentText.getText().length());
-
-                            mCommentText.requestFocus();
-
+                            dialog.cancel();
                         }
+                    });
 
-                        break;
+                    alertDialog.setPositiveButton(requireActivity().getText(R.string.action_ok), new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            AlertDialog alert = (AlertDialog) dialog;
+                            int reason = alert.getListView().getCheckedItemPosition();
+
+                            Toast.makeText(requireActivity(), requireActivity().getString(R.string.label_item_report_sent), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    alertDialog.show();
+                } else if (actionId == R.id.action_remove) {
+                    FragmentManager fm = requireActivity().getSupportFragmentManager();
+
+                    CommentDeleteDialog alert = new CommentDeleteDialog();
+
+                    Bundle b = new Bundle();
+                    b.putInt("position", position);
+                    b.putLong("itemId", obj.getId());
+
+                    alert.setArguments(b);
+                    alert.show(fm, "alert_dialog_comment_delete");
+                } else if (actionId == R.id.action_reply) {
+                    if (App.getInstance().getId() != 0) {
+
+                        replyToUserId = obj.getOwner().getId();
+
+                        mCommentText.setText("@" + obj.getOwner().getUsername() + ", ");
+                        mCommentText.setSelection(mCommentText.getText().length());
+
+                        mCommentText.requestFocus();
+
                     }
                 }
             }
@@ -320,26 +306,17 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
         mCommentText = rootView.findViewById(R.id.commentText);
         mSendComment = rootView.findViewById(R.id.sendButton);
 
-        mSendComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                send();
-            }
-        });
+        mSendComment.setOnClickListener(v -> send());
 
         mRetryBtn = rootView.findViewById(R.id.retryBtn);
 
-        mRetryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mRetryBtn.setOnClickListener(v -> {
 
-                if (App.getInstance().isConnected()) {
+            if (App.getInstance().isConnected()) {
 
-                    showLoadingScreen();
+                showLoadingScreen();
 
-                    getItem();
-                }
+                getItem();
             }
         });
 
@@ -1219,27 +1196,17 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
+        int id = item.getItemId();
+        if (id == R.id.action_delete) {
+            remove(0);
 
-            case R.id.action_delete: {
+            return true;
+        } else if (id == R.id.action_report) {
+            report(0);
 
-                remove(0);
-
-                return true;
-            }
-
-            case R.id.action_report: {
-
-                report(0);
-
-                return true;
-            }
-
-            default: {
-
-                return super.onOptionsItemSelected(item);
-            }
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void hideMenuItems(Menu menu, boolean visible) {
@@ -1257,11 +1224,13 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        if (!isAdded() || requireActivity() == null) {
+                        if (!isAdded()) {
 
                             Log.e("ERROR", "ViewImageFragment Not Added to Activity");
 
                             return;
+                        } else {
+                            requireActivity();
                         }
 
                         try {

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -51,7 +52,7 @@ public class UpgradeActivity extends ActivityBase {
     static final int ITEM_PRODUCT_2_AMOUNT = 600;// in usd cents | 6 usd = 600 cents
     static final int ITEM_PRODUCT_3_AMOUNT = 900;// in usd cents | 9 usd = 900 cents
 
-    Button mBuy1Button, mBuy2Button, mBuy3Button;
+    TextView mBuy1Button, mBuy2Button, mBuy3Button;
 
     private Boolean loading = false;
 

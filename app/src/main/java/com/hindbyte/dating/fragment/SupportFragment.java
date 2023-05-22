@@ -116,30 +116,21 @@ setHasOptionsMenu(true);
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
+        if (item.getItemId() == R.id.action_send) {
+            email = mEmail.getText().toString();
+            subject = mSubject.getText().toString();
+            detail = mDetail.getText().toString();
 
-            case R.id.action_send: {
+            if (email.length() > 0 && subject.length() > 0 && detail.length() > 0) {
 
-                email = mEmail.getText().toString();
-                subject = mSubject.getText().toString();
-                detail = mDetail.getText().toString();
+                sendTicket();
 
-                if (email.length() > 0 && subject.length() > 0 && detail.length() > 0){
+            } else {
 
-                    sendTicket();
-
-                } else {
-
-                    Toast.makeText(requireActivity(), getString(R.string.error_field_empty), Toast.LENGTH_SHORT).show();
-                }
-
-                return true;
+                Toast.makeText(requireActivity(), getString(R.string.error_field_empty), Toast.LENGTH_SHORT).show();
             }
 
-            default: {
-
-                break;
-            }
+            return true;
         }
 
         return false;

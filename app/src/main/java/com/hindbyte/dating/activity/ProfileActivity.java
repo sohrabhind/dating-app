@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -23,7 +24,7 @@ import java.util.Objects;
 public class ProfileActivity extends ActivityBase implements ProfileReportDialog.AlertPositiveListener, ProfileBlockDialog.AlertPositiveListener {
 
     Toolbar mToolbar;
-    public FloatingActionButton mFabButton;
+    public ImageView mFabButton;
     Fragment fragment;
 
     @Override

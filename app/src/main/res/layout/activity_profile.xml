@@ -33,19 +33,19 @@
             android:layout_height="match_parent"
             android:visibility="visible" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageView
             android:id="@+id/fabButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="15dp"
             android:layout_marginEnd="@dimen/spacing_xlarge"
             android:layout_marginBottom="@dimen/spacing_xlarge"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:clickable="true"
-            android:src="@drawable/ic_action_new"
-            app:backgroundTint="@color/colorPrimaryDark"
-            app:fabSize="auto"
             android:focusable="true"
+            android:src="@drawable/ic_action_new"
+            android:background="@drawable/app_circular_button"
             android:contentDescription="@null" />
 
 

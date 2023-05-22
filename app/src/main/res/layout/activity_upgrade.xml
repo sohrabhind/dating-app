@@ -73,18 +73,16 @@
                 </LinearLayout>
 
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
                     android:text="@string/action_buy_plan"
                     android:id="@+id/iap1_google_btn"
-                    android:textColor="@color/white"
-                    android:background="@drawable/app_profile_button"
                     android:textStyle="bold"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"
-                    android:padding="10dp"
-                    android:textSize="11sp"
+                    android:textSize="16sp"
+                    android:background="@drawable/app_profile_button"
+                    android:gravity="center"
+                    android:textColor="@color/white"
                     android:layout_marginTop="16dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="8dp" />
@@ -140,18 +138,16 @@
                 </LinearLayout>
 
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
                     android:text="@string/action_buy_plan"
                     android:id="@+id/iap2_google_btn"
-                    android:textColor="@color/white"
-                    android:background="@drawable/app_profile_button"
                     android:textStyle="bold"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"
-                    android:padding="10dp"
-                    android:textSize="11sp"
+                    android:textSize="16sp"
+                    android:background="@drawable/app_profile_button"
+                    android:gravity="center"
+                    android:textColor="@color/white"
                     android:layout_marginTop="16dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="8dp" />
@@ -206,18 +202,16 @@
 
                 </LinearLayout>
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
                     android:text="@string/action_buy_plan"
                     android:id="@+id/iap3_google_btn"
-                    android:textColor="@color/white"
-                    android:background="@drawable/app_profile_button"
                     android:textStyle="bold"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"
-                    android:padding="10dp"
-                    android:textSize="11sp"
+                    android:textSize="16sp"
+                    android:background="@drawable/app_profile_button"
+                    android:gravity="center"
+                    android:textColor="@color/white"
                     android:layout_marginTop="16dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="8dp" />

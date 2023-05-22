@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorPageBackground">
+    android:background="@color/white">
 
     <ProgressBar
         android:id="@+id/hotgame_progressbar"
@@ -130,48 +129,44 @@
             android:clipChildren="false"
             android:orientation="horizontal">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <ImageView
                 android:id="@+id/fab_back_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_marginEnd="25dp"
+                android:padding="15dp"
                 android:src="@drawable/ic_action_back"
-                app:backgroundTint="@color/colorPrimaryDark"
-                app:fabSize="auto"
-                app:rippleColor="@color/statusBarColor"
+                android:background="@drawable/app_circular_button"
                 android:contentDescription="@null"  />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <ImageView
                 android:id="@+id/fab_profile_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_marginEnd="25dp"
+                android:padding="15dp"
                 android:src="@drawable/ic_baseline_message_24"
-                app:backgroundTint="@color/colorPrimaryDark"
-                app:fabSize="auto"
-                app:rippleColor="@color/statusBarColor"
-                android:contentDescription="@null" />
+                android:background="@drawable/app_circular_button"
+                android:contentDescription="@null"/>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <ImageView
                 android:id="@+id/fab_like_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_marginEnd="25dp"
+                android:padding="15dp"
                 android:src="@drawable/ic_action_like"
-                app:backgroundTint="@color/colorPrimaryDark"
-                app:fabSize="auto"
-                app:rippleColor="@color/statusBarColor"
-                android:contentDescription="@null"  />
+                android:background="@drawable/app_circular_button"
+                android:contentDescription="@null"   />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <ImageView
                 android:id="@+id/fab_next_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="15dp"
                 android:src="@drawable/ic_action_next"
-                app:backgroundTint="@color/colorPrimaryDark"
-                app:fabSize="auto"
-                app:rippleColor="@color/statusBarColor"
-                android:contentDescription="@null"  />
+                android:background="@drawable/app_circular_button"
+                android:contentDescription="@null"   />
 
         </LinearLayout>
 

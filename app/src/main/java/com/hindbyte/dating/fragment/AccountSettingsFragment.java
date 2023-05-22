@@ -746,63 +746,42 @@ public class AccountSettingsFragment extends Fragment implements Constants {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_save) {
+            fullname = mFullname.getText().toString();
+            location = mLocation.getText().toString();
+            instagramPage = mInstagramPage.getText().toString();
+            bio = mBio.getText().toString();
 
-        switch (item.getItemId()) {
-
-            case R.id.action_save: {
-
-                fullname = mFullname.getText().toString();
-                location = mLocation.getText().toString();
-                instagramPage = mInstagramPage.getText().toString();
-                bio = mBio.getText().toString();
-
-                if (mAgeField.getText().toString().length() > 0) {
-
-                    age = Integer.parseInt(mAgeField.getText().toString());
-                }
-
-                if (mHeightField.getText().toString().length() > 0) {
-
-                    height = Integer.parseInt(mHeightField.getText().toString());
-
-                } else {
-
-                    height = 0;
-                }
-
-                if (mWeightField.getText().toString().length() > 0) {
-
-                    weight = Integer.parseInt(mWeightField.getText().toString());
-
-                } else {
-
-                    weight = 0;
-                }
-
-                if (mAllowShowDateBirth.isChecked()) {
-
-                    allowShowMyBirthday = 1;
-
-                } else {
-
-                    allowShowMyBirthday = 0;
-                }
-
-                saveSettings();
-
-                return true;
+            if (mAgeField.getText().toString().length() > 0) {
+                age = Integer.parseInt(mAgeField.getText().toString());
             }
 
-            default: {
-
-                break;
+            if (mHeightField.getText().toString().length() > 0) {
+                height = Integer.parseInt(mHeightField.getText().toString());
+            } else {
+                height = 0;
             }
+
+            if (mWeightField.getText().toString().length() > 0) {
+                weight = Integer.parseInt(mWeightField.getText().toString());
+            } else {
+                weight = 0;
+            }
+
+            if (mAllowShowDateBirth.isChecked()) {
+                allowShowMyBirthday = 1;
+            } else {
+                allowShowMyBirthday = 0;
+            }
+
+            saveSettings();
+
+            return true;
         }
 
         return false;

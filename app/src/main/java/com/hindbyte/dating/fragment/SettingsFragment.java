@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.CheckBoxPreference;
 import androidx.preference.Preference;
@@ -72,7 +73,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
         initpDialog();
 
         screen = this.getPreferenceScreen();
-        
+
         logoutPreference = findPreference("settings_logout");
         changePassword = findPreference("settings_change_password");
         itemDeactivateAccount = findPreference("settings_deactivate_account");
@@ -92,7 +93,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
 
         itemBalanceHistory.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
-            public boolean onPreferenceClick(Preference arg0) {
+            public boolean onPreferenceClick(@NonNull Preference arg0) {
 
                 Intent i = new Intent(requireActivity(), BalanceHistoryActivity.class);
                 startActivity(i);
@@ -103,7 +104,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
 
         itemContactUs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
-            public boolean onPreferenceClick(Preference arg0) {
+            public boolean onPreferenceClick(@NonNull Preference arg0) {
 
                 Intent i = new Intent(requireActivity(), SupportActivity.class);
                 startActivity(i);
@@ -114,7 +115,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
 
         itemPrivacy.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
-            public boolean onPreferenceClick(Preference arg0) {
+            public boolean onPreferenceClick(@NonNull Preference arg0) {
 
                 Intent i = new Intent(requireActivity(), PrivacySettingsActivity.class);
                 startActivity(i);
@@ -125,7 +126,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
 
         itemNotifications.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
-            public boolean onPreferenceClick(Preference arg0) {
+            public boolean onPreferenceClick(@NonNull Preference arg0) {
 
                 Intent i = new Intent(requireActivity(), NotificationsSettingsActivity.class);
                 startActivity(i);
@@ -137,7 +138,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
 
         itemBlackList.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
-            public boolean onPreferenceClick(Preference arg0) {
+            public boolean onPreferenceClick(@NonNull Preference arg0) {
 
                 Intent i = new Intent(requireActivity(), BlackListActivity.class);
                 startActivity(i);

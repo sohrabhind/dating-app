@@ -57,7 +57,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
-import com.hindbyte.dating.BuildConfig;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.util.CustomViewPager;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -282,7 +281,7 @@ public class RegisterActivity extends ActivityBase {
                     selectedImagePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + newImageFileName;
 
                     mPhoto.setImageURI(null);
-                    mPhoto.setImageURI(FileProvider.getUriForFile(App.getInstance().getApplicationContext(), BuildConfig.APPLICATION_ID + ".provider", new File(selectedImagePath)));
+                    mPhoto.setImageURI(FileProvider.getUriForFile(App.getInstance().getApplicationContext(), getPackageName() + ".provider", new File(selectedImagePath)));
 
                     updateView();
                 }

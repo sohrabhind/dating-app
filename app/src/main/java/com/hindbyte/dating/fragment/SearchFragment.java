@@ -262,20 +262,11 @@ setHasOptionsMenu(true);
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-
-            case R.id.action_nearby_settings: {
-
-                getSearchSettings();
-
-                return true;
-            }
-
-            default: {
-
-                return super.onOptionsItemSelected(item);
-            }
+        if (item.getItemId() == R.id.action_nearby_settings) {
+            getSearchSettings();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     public void search() {

@@ -74,7 +74,7 @@
                                     android:layout_width="15dp"
                                     android:layout_height="15dp"
                                     android:layout_marginStart="8dp"
-                                    app:tint="@color/green"
+                                    app:tint="@color/greenStartColor"
                                     app:srcCompat="@drawable/ic_online" />
 
 

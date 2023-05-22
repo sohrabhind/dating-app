@@ -663,7 +663,7 @@ public class ChatFragment extends Fragment implements Constants {
         TextView diamondPackageBtn = signInLayout2.findViewById(R.id.diamondPackageBtn);
         TextView packageDesc = signInLayout2.findViewById(R.id.packageDesc);
 
-        silverPackageBtn.setBackgroundResource(R.color.green_text);
+        silverPackageBtn.setBackgroundResource(R.color.greenEndColor);
         packageDesc.setText("Validity 30 Days\n\n₹ 300\n\n1000 Messages\n\nSilver Profile Badge");
         Intent intentX = new Intent(requireActivity(), UpgradeActivity.class);
         intentX.putExtra("package", "silver");
@@ -671,7 +671,7 @@ public class ChatFragment extends Fragment implements Constants {
         silverPackageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                silverPackageBtn.setBackgroundResource(R.color.green_text);
+                silverPackageBtn.setBackgroundResource(R.color.greenEndColor);
                 goldPackageBtn.setBackgroundResource(R.color.white);
                 diamondPackageBtn.setBackgroundResource(R.color.white);
                 packageDesc.setText("Validity 30 Days\n\n₹ 300\n\n1000 Messages\n\nSilver Profile Badge");
@@ -683,7 +683,7 @@ public class ChatFragment extends Fragment implements Constants {
             @Override
             public void onClick(View v) {
                 silverPackageBtn.setBackgroundResource(R.color.white);
-                goldPackageBtn.setBackgroundResource(R.color.green_text);
+                goldPackageBtn.setBackgroundResource(R.color.greenEndColor);
                 diamondPackageBtn.setBackgroundResource(R.color.white);
                 packageDesc.setText("Validity 30 Days\n\n₹ 600\n\n5000 Messages\n\nGold Profile Badge");
                 intentX.putExtra("package", "gold");
@@ -695,7 +695,7 @@ public class ChatFragment extends Fragment implements Constants {
             public void onClick(View v) {
                 silverPackageBtn.setBackgroundResource(R.color.white);
                 goldPackageBtn.setBackgroundResource(R.color.white);
-                diamondPackageBtn.setBackgroundResource(R.color.green_text);
+                diamondPackageBtn.setBackgroundResource(R.color.greenEndColor);
                 packageDesc.setText("Validity 30 Days\n\n₹ 900\n\n10000 Messages\n\nDiamond Profile Badge");
                 intentX.putExtra("package", "diamond");
             }
@@ -1429,33 +1429,19 @@ public class ChatFragment extends Fragment implements Constants {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
         super.onCreateOptionsMenu(menu, inflater);
-
         menu.clear();
-
         inflater.inflate(R.menu.menu_chat, menu);
-
         MainMenu = menu;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case R.id.action_chat_delete: {
-
-                deleteChat();
-
-                return true;
-            }
-
-            default: {
-
-                return super.onOptionsItemSelected(item);
-            }
+        if (item.getItemId() == R.id.action_chat_delete) {
+            deleteChat();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -1465,13 +1451,9 @@ public class ChatFragment extends Fragment implements Constants {
 
     @Override
     public void onDetach() {
-
         super.onDetach();
-
         updateChat();
-
         if (outboxTyping) {
-
             sendNotify(GCM_NOTIFY_TYPING_END);
         }
     }
