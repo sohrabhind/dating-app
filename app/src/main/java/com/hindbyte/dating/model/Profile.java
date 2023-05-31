@@ -14,29 +14,24 @@ public class Profile extends Application implements Constants, Parcelable {
 
     private long id;
 
-    private int age = 0, height, weight, state, gender = 3, year, month, day, pro, itemsCount, likesCount, friendsCount, followingsCount, followersCount, photosCount, allowPhotosComments, allowShowMyBirthday, allowMessages, lastAuthorize;
+    private int age = 0, height, state, gender = 3, level, itemsCount, likesCount, imagesCount, allowPhotosComments, allowMessages, lastAuthorize;
 
     private double distance = 0;
 
-    private int relationshipStatus, religiousView, viewsOnSmoking, viewsOnAlcohol, youLooking, youLike;
+    private int religiousView, viewsOnSmoking, viewsOnAlcohol, youLooking, youLike;
 
     private int allowShowMyInfo, allowShowMyGallery, allowShowMyFriends, allowShowMyLikes, allowShowMyAge, allowShowOnline;
 
-    private String username, fullname, bigPhotoUrl = "", location, instagramPage, bio, lastAuthorizeDate, lastAuthorizeTimeAgo, createDate;
+    private String username, fullname, bigPhotoUrl = "", location, interests, bio, lastAuthorizeDate, lastAuthorizeTimeAgo, createDate;
 
     private Boolean blocked = false;
 
     private Boolean inBlackList = false;
 
-    private Boolean follower = false;
-
-    private Boolean friend = false;
-
-    private Boolean follow = false;
-
     private Boolean online = false;
 
-    private Boolean myLike = false;
+    private Boolean iLiked = false;
+    private Boolean myFan = false;
 
     private String last_visit = "";
 
@@ -53,7 +48,6 @@ public class Profile extends Application implements Constants, Parcelable {
 
             if (!jsonData.getBoolean("error")) {
 
-                this.setRelationshipStatus(jsonData.getInt("iStatus"));
                 this.setReligiousView(jsonData.getInt("iReligiousView"));
                 this.setViewsOnSmoking(jsonData.getInt("iSmokingViews"));
                 this.setViewsOnAlcohol(jsonData.getInt("iAlcoholViews"));
@@ -63,24 +57,19 @@ public class Profile extends Application implements Constants, Parcelable {
                 this.setId(jsonData.getLong("id"));
                 this.setState(jsonData.getInt("state"));
                 this.setGender(jsonData.getInt("gender"));
-                this.setYear(jsonData.getInt("year"));
-                this.setMonth(jsonData.getInt("month"));
-                this.setDay(jsonData.getInt("day"));
                 this.setUsername(jsonData.getString("username"));
                 this.setFullname(jsonData.getString("fullname"));
                 this.setLocation(jsonData.getString("location"));
-                this.setInstagramPage(jsonData.getString("instagram_page"));
-                this.setBio(jsonData.getString("status"));
+                this.setInterests(jsonData.getString("interests"));
+                this.setBio(jsonData.getString("bio"));
 
                 this.setBigPhotoUrl(jsonData.getString("bigPhotoUrl"));
 
-                this.setFriendsCount(jsonData.getInt("friendsCount"));
                 this.setLikesCount(jsonData.getInt("likesCount"));
-                this.setPhotosCount(jsonData.getInt("photosCount"));
+                this.setImagesCount(jsonData.getInt("imagesCount"));
 
                 this.setAllowPhotosComments(jsonData.getInt("allowPhotosComments"));
                 this.setAllowMessages(jsonData.getInt("allowMessages"));
-                this.setAllowShowMyBirthday(jsonData.getInt("allowShowMyBirthday"));
 
                 this.setAllowShowMyInfo(jsonData.getInt("allowShowMyInfo"));
                 this.setAllowShowMyGallery(jsonData.getInt("allowShowMyGallery"));
@@ -88,12 +77,10 @@ public class Profile extends Application implements Constants, Parcelable {
                 this.setAllowShowMyLikes(jsonData.getInt("allowShowMyLikes"));
 
                 this.setInBlackList(jsonData.getBoolean("inBlackList"));
-                this.setFollower(jsonData.getBoolean("follower"));
-                this.setFriend(jsonData.getBoolean("friend"));
-                this.setFollow(jsonData.getBoolean("follow"));
                 this.setOnline(jsonData.getBoolean("online"));
                 this.setBlocked(jsonData.getBoolean("blocked"));
-                this.setMyLike(jsonData.getBoolean("myLike"));
+                this.setILike(jsonData.getBoolean("iLiked"));
+                this.setIsMyFan(jsonData.getBoolean("myFan"));
 
                 this.setLastActive(jsonData.getInt("lastAuthorize"));
                 this.setLastActiveDate(jsonData.getString("lastAuthorizeDate"));
@@ -121,11 +108,6 @@ public class Profile extends Application implements Constants, Parcelable {
                     this.setHeight(jsonData.getInt("height"));
                 }
 
-                if (jsonData.has("weight")) {
-
-                    this.setWeight(jsonData.getInt("weight"));
-                }
-
                 if (jsonData.has("allowShowMyAge")) {
 
                     this.setAllowShowMyAge(jsonData.getInt("allowShowMyAge"));
@@ -150,16 +132,6 @@ public class Profile extends Application implements Constants, Parcelable {
 
             Log.d("Profile", jsonData.toString());
         }
-    }
-
-    public void setRelationshipStatus(int relationshipStatus) {
-
-        this.relationshipStatus = relationshipStatus;
-    }
-
-    public int getRelationshipStatus() {
-
-        return this.relationshipStatus;
     }
 
 
@@ -244,44 +216,14 @@ public class Profile extends Application implements Constants, Parcelable {
         return this.gender;
     }
 
-    public void setYear(int year) {
+    public void setLevelMode(int levelMode) {
 
-        this.year = year;
-    }
-
-    public int getYear() {
-
-        return this.year;
-    }
-
-    public void setMonth(int month) {
-
-        this.month = month;
-    }
-
-    public int getMonth() {
-
-        return this.month;
-    }
-
-    public void setDay(int day) {
-
-        this.day = day;
-    }
-
-    public int getDay() {
-
-        return this.day;
-    }
-
-    public void setLevelMode(int proMode) {
-
-        this.pro = proMode;
+        this.level = levelMode;
     }
 
     public int getLevelMode() {
 
-        return this.pro;
+        return this.level;
     }
 
 
@@ -303,16 +245,6 @@ public class Profile extends Application implements Constants, Parcelable {
     public int getHeight() {
 
         return this.height;
-    }
-
-    public void setWeight(int weight) {
-
-        this.weight = weight;
-    }
-
-    public int getWeight() {
-
-        return this.weight;
     }
 
     public void setUsername(String profile_username) {
@@ -350,14 +282,14 @@ public class Profile extends Application implements Constants, Parcelable {
         return this.location;
     }
 
-    public void setInstagramPage(String instagramPage) {
+    public void setInterests(String interests) {
 
-        this.instagramPage = instagramPage;
+        this.interests = interests;
     }
 
-    public String getInstagramPage() {
+    public String getInterests() {
 
-        return this.instagramPage;
+        return this.interests;
     }
 
     public void setBio(String bio) {
@@ -386,26 +318,6 @@ public class Profile extends Application implements Constants, Parcelable {
     }
 
 
-    public void setFollowersCount(int followersCount) {
-
-        this.followersCount = followersCount;
-    }
-
-    public int getFollowersCount() {
-
-        return this.followersCount;
-    }
-
-    public void setFriendsCount(int friendsCount) {
-
-        this.friendsCount = friendsCount;
-    }
-
-    public int getFriendsCount() {
-
-        return this.friendsCount;
-    }
-
     public void setItemsCount(int itemsCount) {
 
         this.itemsCount = itemsCount;
@@ -427,24 +339,14 @@ public class Profile extends Application implements Constants, Parcelable {
     }
 
 
-    public void setPhotosCount(int photosCount) {
+    public void setImagesCount(int imagesCount) {
 
-        this.photosCount = photosCount;
+        this.imagesCount = imagesCount;
     }
 
-    public int getPhotosCount() {
+    public int getImagesCount() {
 
-        return this.photosCount;
-    }
-
-    public void setFollowingsCount(int followingsCount) {
-
-        this.followingsCount = followingsCount;
-    }
-
-    public int getFollowingsCount() {
-
-        return this.followingsCount;
+        return this.imagesCount;
     }
 
     public void setAllowPhotosComments(int allowPhotosComments) {
@@ -465,16 +367,6 @@ public class Profile extends Application implements Constants, Parcelable {
     public int getAllowMessages() {
 
         return this.allowMessages;
-    }
-
-    public void setAllowShowMyBirthday(int allowShowMyBirthday) {
-
-        this.allowShowMyBirthday = allowShowMyBirthday;
-    }
-
-    public int getAllowShowMyBirthday() {
-
-        return this.allowShowMyBirthday;
     }
 
     public void setLastActive(int lastAuthorize) {
@@ -517,12 +409,6 @@ public class Profile extends Application implements Constants, Parcelable {
         return this.createDate;
     }
 
-    public String getBirthDate() {
-
-        int tMonth = this.month + 1;
-
-        return this.day + "/" + tMonth + "/" + this.year;
-    }
 
     public void setLastActiveTimeAgo(String lastAuthorizeTimeAgo) {
 
@@ -544,36 +430,6 @@ public class Profile extends Application implements Constants, Parcelable {
         return this.blocked;
     }
 
-    public void setFollower(Boolean follower) {
-
-        this.follower = follower;
-    }
-
-    public Boolean isFollower() {
-
-        return this.follower;
-    }
-
-    public void setFriend(Boolean friend) {
-
-        this.friend = friend;
-    }
-
-    public Boolean isFriend() {
-
-        return this.friend;
-    }
-
-
-    public void setFollow(Boolean follow) {
-
-        this.follow = follow;
-    }
-
-    public Boolean isFollow() {
-
-        return this.follow;
-    }
 
     public void setOnline(Boolean online) {
 
@@ -585,14 +441,24 @@ public class Profile extends Application implements Constants, Parcelable {
         return this.online;
     }
 
-    public void setMyLike(Boolean myLike) {
+    public void setILike(Boolean iLiked) {
 
-        this.myLike = myLike;
+        this.iLiked = iLiked;
     }
 
-    public Boolean isMyLike() {
+    public Boolean isILike() {
 
-        return this.myLike;
+        return this.iLiked;
+    }
+
+    public void setIsMyFan(Boolean myFan) {
+
+        this.myFan = myFan;
+    }
+
+    public Boolean isMyFan() {
+
+        return this.myFan;
     }
 
     public void setInBlackList(Boolean inBlackList) {
@@ -707,25 +573,16 @@ public class Profile extends Application implements Constants, Parcelable {
         dest.writeLong(this.id);
         dest.writeInt(this.age);
         dest.writeInt(this.height);
-        dest.writeInt(this.weight);
         dest.writeInt(this.state);
         dest.writeInt(this.gender);
-        dest.writeInt(this.year);
-        dest.writeInt(this.month);
-        dest.writeInt(this.day);
-        dest.writeInt(this.pro);
+        dest.writeInt(this.level);
         dest.writeInt(this.itemsCount);
         dest.writeInt(this.likesCount);
-        dest.writeInt(this.friendsCount);
-        dest.writeInt(this.followingsCount);
-        dest.writeInt(this.followersCount);
-        dest.writeInt(this.photosCount);
+        dest.writeInt(this.imagesCount);
         dest.writeInt(this.allowPhotosComments);
-        dest.writeInt(this.allowShowMyBirthday);
         dest.writeInt(this.allowMessages);
         dest.writeInt(this.lastAuthorize);
         dest.writeDouble(this.distance);
-        dest.writeInt(this.relationshipStatus);
         dest.writeInt(this.religiousView);
         dest.writeInt(this.viewsOnSmoking);
         dest.writeInt(this.viewsOnAlcohol);
@@ -741,18 +598,15 @@ public class Profile extends Application implements Constants, Parcelable {
         dest.writeString(this.fullname);
         dest.writeString(this.bigPhotoUrl);
         dest.writeString(this.location);
-        dest.writeString(this.instagramPage);
+        dest.writeString(this.interests);
         dest.writeString(this.bio);
         dest.writeString(this.lastAuthorizeDate);
         dest.writeString(this.lastAuthorizeTimeAgo);
         dest.writeString(this.createDate);
         dest.writeValue(this.blocked);
         dest.writeValue(this.inBlackList);
-        dest.writeValue(this.follower);
-        dest.writeValue(this.friend);
-        dest.writeValue(this.follow);
         dest.writeValue(this.online);
-        dest.writeValue(this.myLike);
+        dest.writeValue(this.iLiked);
         dest.writeString(this.last_visit);
         dest.writeInt(this.photoModerateAt);
     }
@@ -761,25 +615,16 @@ public class Profile extends Application implements Constants, Parcelable {
         this.id = in.readLong();
         this.age = in.readInt();
         this.height = in.readInt();
-        this.weight = in.readInt();
         this.state = in.readInt();
         this.gender = in.readInt();
-        this.year = in.readInt();
-        this.month = in.readInt();
-        this.day = in.readInt();
-        this.pro = in.readInt();
+        this.level = in.readInt();
         this.itemsCount = in.readInt();
         this.likesCount = in.readInt();
-        this.friendsCount = in.readInt();
-        this.followingsCount = in.readInt();
-        this.followersCount = in.readInt();
-        this.photosCount = in.readInt();
+        this.imagesCount = in.readInt();
         this.allowPhotosComments = in.readInt();
-        this.allowShowMyBirthday = in.readInt();
         this.allowMessages = in.readInt();
         this.lastAuthorize = in.readInt();
         this.distance = in.readDouble();
-        this.relationshipStatus = in.readInt();
         this.religiousView = in.readInt();
         this.viewsOnSmoking = in.readInt();
         this.viewsOnAlcohol = in.readInt();
@@ -795,18 +640,15 @@ public class Profile extends Application implements Constants, Parcelable {
         this.fullname = in.readString();
         this.bigPhotoUrl = in.readString();
         this.location = in.readString();
-        this.instagramPage = in.readString();
+        this.interests = in.readString();
         this.bio = in.readString();
         this.lastAuthorizeDate = in.readString();
         this.lastAuthorizeTimeAgo = in.readString();
         this.createDate = in.readString();
         this.blocked = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.inBlackList = (Boolean) in.readValue(Boolean.class.getClassLoader());
-        this.follower = (Boolean) in.readValue(Boolean.class.getClassLoader());
-        this.friend = (Boolean) in.readValue(Boolean.class.getClassLoader());
-        this.follow = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.online = (Boolean) in.readValue(Boolean.class.getClassLoader());
-        this.myLike = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.iLiked = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.last_visit = in.readString();
         this.photoModerateAt = in.readInt();
     }

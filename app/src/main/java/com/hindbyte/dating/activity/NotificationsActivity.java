@@ -12,9 +12,8 @@ import android.view.MenuItem;
 import com.hindbyte.dating.fragment.NotificationsFragment;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.common.ActivityBase;
-import com.hindbyte.dating.dialogs.FriendRequestActionDialog;
 
-public class NotificationsActivity extends ActivityBase implements FriendRequestActionDialog.AlertPositiveListener {
+public class NotificationsActivity extends ActivityBase {
 
     Toolbar mToolbar;
 
@@ -100,17 +99,4 @@ public class NotificationsActivity extends ActivityBase implements FriendRequest
         startActivity(i);
     }
 
-    @Override
-    public void onAcceptRequest(int position) {
-
-        NotificationsFragment p = (NotificationsFragment) fragment;
-        p.onAcceptRequest(position);
-    }
-
-    @Override
-    public void onRejectRequest(int position) {
-
-        NotificationsFragment p = (NotificationsFragment) fragment;
-        p.onRejectRequest(position);
-    }
 }

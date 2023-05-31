@@ -233,69 +233,6 @@ public class Helper extends Application {
         return matcher.matches();
     }
 
-    public static String md5(final String s) {
-        final String MD5 = "MD5";
-        try {
-            // Create MD5 Hash
-            MessageDigest digest = java.security.MessageDigest.getInstance(MD5);
-            digest.update(s.getBytes());
-            byte[] messageDigest = digest.digest();
-            // Create Hex String
-            StringBuilder hexString = new StringBuilder();
-            for (byte aMessageDigest : messageDigest) {
-                String h = Integer.toHexString(0xFF & aMessageDigest);
-                while (h.length() < 2) h = "0" + h;
-                hexString.append(h);
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-    public String getRelationshipStatus(int mRelationship) {
-        switch (mRelationship) {
-
-            case 0: {
-                return "-";
-            }
-
-            case 1: {
-                return context.getResources().getString(R.string.relationship_status_1);
-            }
-
-            case 2: {
-                return context.getResources().getString(R.string.relationship_status_2);
-            }
-
-            case 3: {
-                return context.getResources().getString(R.string.relationship_status_3);
-            }
-
-            case 4: {
-                return context.getResources().getString(R.string.relationship_status_4);
-            }
-
-            case 5: {
-                return context.getResources().getString(R.string.relationship_status_5);
-            }
-
-            case 6: {
-                return context.getResources().getString(R.string.relationship_status_6);
-            }
-
-            case 7: {
-                return context.getResources().getString(R.string.relationship_status_7);
-            }
-
-            default: {
-                break;
-            }
-        }
-        return "-";
-    }
-
 
     public String getReligiousView(int mWorld) {
         switch (mWorld) {

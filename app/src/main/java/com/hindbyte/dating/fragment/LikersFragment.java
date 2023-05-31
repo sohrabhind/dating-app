@@ -283,7 +283,6 @@ public class LikersFragment extends Fragment implements Constants, SwipeRefreshL
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("itemIndex", Long.toString(itemIndex));
                 params.put("itemId", Long.toString(itemId));
-                params.put("language", "en");
 
                 return params;
             }

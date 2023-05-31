@@ -15,11 +15,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,16 +29,14 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.hindbyte.dating.R;
-import com.hindbyte.dating.activity.LikesActivity;
 import com.hindbyte.dating.activity.ProfileActivity;
 import com.hindbyte.dating.activity.ViewImageActivity;
 import com.hindbyte.dating.adapter.NotificationsListAdapter;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
-import com.hindbyte.dating.dialogs.FriendRequestActionDialog;
 import com.hindbyte.dating.model.Notify;
-import com.hindbyte.dating.util.Api;
 import com.hindbyte.dating.util.CustomRequest;
+import com.hindbyte.dating.util.ToastWindow;
 import com.hindbyte.dating.view.LineItemDecoration;
 
 import org.json.JSONArray;
@@ -73,6 +69,7 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
     private Boolean viewMore = false;
     private Boolean restore = false;
 
+    ToastWindow toastWindow = new ToastWindow();
     private Boolean loadingComplete = false;
 
     public NotificationsFragment() {
@@ -119,30 +116,6 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
             public void onItemClick(View view, Notify item, int position) {
 
                 switch (item.getType()) {
-
-                    case NOTIFY_TYPE_FOLLOWER: {
-
-                        /** Getting the fragment manager */
-                        FragmentManager fm = requireActivity().getSupportFragmentManager();
-
-                        /** Instantiating the DialogFragment class */
-                        FriendRequestActionDialog alert = new FriendRequestActionDialog();
-
-                        /** Creating a bundle object to store the selected item's index */
-                        Bundle b  = new Bundle();
-
-                        /** Storing the selected item's index in the bundle object */
-                        b.putInt("position", position);
-
-                        /** Setting the bundle object to the dialog fragment object */
-                        alert.setArguments(b);
-
-                        /** Creating the dialog fragment object, which will in turn open the alert dialog window */
-
-                        alert.show(fm, "alert_friend_request_action");
-
-                        break;
-                    }
 
                     case NOTIFY_TYPE_LIKE: {
                         if (item.getFromUserId() != 0) {
@@ -521,61 +494,6 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
         if (pDialog.isShowing()) pDialog.dismiss();
     }
 
-    public void onAcceptRequest(final int position) {
-
-        final Notify item = itemsList.get(position);
-
-        itemsList.remove(position);
-        itemsAdapter.notifyDataSetChanged();
-
-        if (mRecyclerView.getAdapter().getItemCount() == 0) {
-
-            showMessage(getText(R.string.label_empty_list).toString());
-
-        } else {
-
-            hideMessage();
-        }
-
-        if (App.getInstance().isConnected()) {
-
-            Api api = new Api(requireActivity());
-
-            api.acceptFriendRequest(item.getFromUserId());
-
-        } else {
-
-            Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void onRejectRequest(final int position) {
-
-        final Notify item = itemsList.get(position);
-
-        itemsList.remove(position);
-        itemsAdapter.notifyDataSetChanged();
-
-        if (mRecyclerView.getAdapter().getItemCount() == 0) {
-
-            showMessage(getText(R.string.label_empty_list).toString());
-
-        } else {
-
-            hideMessage();
-        }
-
-        if (App.getInstance().isConnected()) {
-
-            Api api = new Api(requireActivity());
-
-            api.rejectFriendRequest(item.getFromUserId());
-
-        } else {
-
-            Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
-        }
-    }
 
     @Override
     public void onAttach(Activity activity) {

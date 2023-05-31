@@ -17,6 +17,7 @@ import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.common.ActivityBase;
 import com.hindbyte.dating.util.CustomRequest;
 import com.hindbyte.dating.util.Helper;
+import com.hindbyte.dating.util.ToastWindow;
 
 import org.json.JSONException;
 
@@ -36,6 +37,8 @@ public class RecoveryActivity extends ActivityBase {
 
     private Boolean loading = false;
 
+    ToastWindow toastWindow = new ToastWindow();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,13 +56,13 @@ public class RecoveryActivity extends ActivityBase {
             public void onClick(View v) {
                 email = mEmail.getText().toString();
                 if (!App.getInstance().isConnected()) {
-                    Toast.makeText(RecoveryActivity.this, R.string.msg_network_error, Toast.LENGTH_SHORT).show();
+                    toastWindow.makeText(RecoveryActivity.this, R.string.msg_network_error, 2000);
                 } else {
                     Helper helper = new Helper(RecoveryActivity.this);
                     if (helper.isValidEmail(email)) {
                         recovery();
                     } else {
-                        Toast.makeText(RecoveryActivity.this, getText(R.string.error_email), Toast.LENGTH_SHORT).show();
+                        toastWindow.makeText(RecoveryActivity.this, getText(R.string.error_email), 2000);
                     }
                 }
             }
@@ -108,10 +111,10 @@ public class RecoveryActivity extends ActivityBase {
                 response -> {
                     try {
                         if (!response.getBoolean("error")) {
-                            Toast.makeText(RecoveryActivity.this, getText(R.string.msg_password_reset_link_sent), Toast.LENGTH_SHORT).show();
+                            toastWindow.makeText(RecoveryActivity.this, getText(R.string.msg_password_reset_link_sent), 2000);
                             finish();
                         } else {
-                            Toast.makeText(RecoveryActivity.this, getText(R.string.msg_no_such_user_in_bd), Toast.LENGTH_SHORT).show();
+                            toastWindow.makeText(RecoveryActivity.this, getText(R.string.msg_no_such_user_in_bd), 2000);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -122,13 +125,12 @@ public class RecoveryActivity extends ActivityBase {
                 }, error -> {
                     loading = false;
                     hidepDialog();
-                    Toast.makeText(RecoveryActivity.this, getText(R.string.error_data_loading), Toast.LENGTH_LONG).show();
+                    toastWindow.makeText(RecoveryActivity.this, getText(R.string.error_data_loading), 2000);
                 }) {
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("clientId", CLIENT_ID);
                 params.put("email", email);
                 return params;
             }

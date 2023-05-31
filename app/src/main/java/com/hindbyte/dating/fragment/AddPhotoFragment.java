@@ -52,6 +52,7 @@ import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.util.CustomRequest;
 import com.hindbyte.dating.util.Helper;
+import com.hindbyte.dating.util.ToastWindow;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.MultipartBuilder;
@@ -73,6 +74,7 @@ public class AddPhotoFragment extends Fragment implements Constants {
 
     public static final int RESULT_OK = -1;
 
+    ToastWindow toastWindow = new ToastWindow();
     private ProgressDialog pDialog;
 
     private EditText mTextEditor;
@@ -84,12 +86,10 @@ public class AddPhotoFragment extends Fragment implements Constants {
     String commentText = "", imgUrl = "",  postArea = "", postCountry = "", postCity = "", postLat = "", postLng = "";
 
     private Uri selectedImage;
-
     private String selectedImagePath = "", newImageFileName = "", newThumbFileName = "";
 
     private int postMode = 0;
     private int itemType = 0;
-
     private Boolean loading = false;
 
     //
@@ -186,7 +186,7 @@ initpDialog();
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
 
-                        Toast.makeText(requireActivity(), getString(R.string.label_grant_camera_permission), Toast.LENGTH_SHORT).show();
+                        toastWindow.makeText(requireActivity(), getString(R.string.label_grant_camera_permission), 2000);
                     }
 
                 }).show();
@@ -221,7 +221,7 @@ initpDialog();
                     public void onClick(View v) {
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
-                        Toast.makeText(requireActivity(), getString(R.string.label_grant_storage_permission), Toast.LENGTH_SHORT).show();
+                        toastWindow.makeText(requireActivity(), getString(R.string.label_grant_storage_permission), 2000);
                     }
 
                 }).show();
@@ -313,42 +313,25 @@ initpDialog();
         });
 
         //
-
         mPublishButton = rootView.findViewById(R.id.publish_button);
-
         mPublishButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
-
                 if (App.getInstance().isConnected()) {
-
                     commentText = mTextEditor.getText().toString();
                     commentText = commentText.trim();
-
-
                     if (selectedImagePath != null && selectedImagePath.length() > 0) {
-
                         loading = true;
-
                         showpDialog();
-
                         if (itemType == GALLERY_ITEM_TYPE_IMAGE) {
                             File f = new File(selectedImagePath);
                             uploadFile(METHOD_GALLERY_UPLOAD_IMG, f);
                         }
                     } else {
-
-                        Toast toast= Toast.makeText(requireActivity(), getText(R.string.msg_enter_photo), Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
+                        toastWindow.makeText(requireActivity(), getText(R.string.msg_enter_photo), 2000);
                     }
-
                 } else {
-
-                    Toast toast= Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    toastWindow.makeText(requireActivity(), getText(R.string.msg_network_error), 2000);
                 }
             }
         });
@@ -470,7 +453,7 @@ initpDialog();
                             cameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                             imgFromCameraActivityResultLauncher.launch(cameraIntent);
                         } catch (Exception e) {
-                            Toast.makeText(requireActivity(), "Error occured. Please try again later.", Toast.LENGTH_SHORT).show();
+                            toastWindow.makeText(requireActivity(), "Error occured. Please try again later.", 2000);
                         }
                     } else {
                         requestCameraPermission();
@@ -486,69 +469,6 @@ initpDialog();
 
         /** Return the alert dialog window */
         d.show();
-    }
-
-    public void sendPost() {
-
-        imgUrl = imgUrl.replace("../","");
-
-        CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_GALLERY_NEW, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        try {
-
-                            if (!response.getBoolean("error")) {
-
-
-                            }
-
-                        } catch (JSONException e) {
-
-                            e.printStackTrace();
-
-                        } finally {
-
-                            sendSuccess();
-
-                            Log.e("Result", response.toString());
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                sendSuccess();
-
-//                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("accountId", Long.toString(App.getInstance().getId()));
-                params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("accessMode", String.valueOf(postMode));
-                params.put("itemType", String.valueOf(itemType));
-                params.put("comment", commentText);
-                params.put("imgUrl", imgUrl);
-                params.put("postArea", postArea);
-                params.put("postCountry", postCountry);
-                params.put("postCity", postCity);
-                params.put("postLat", postLat);
-                params.put("postLng", postLng);
-
-                return params;
-            }
-        };
-
-        RetryPolicy policy = new DefaultRetryPolicy((int) TimeUnit.SECONDS.toMillis(15), DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-
-        jsonReq.setRetryPolicy(policy);
-
-        App.getInstance().addToRequestQueue(jsonReq);
     }
 
     public void sendSuccess() {
@@ -580,6 +500,14 @@ initpDialog();
                     .addFormDataPart("uploaded_file", file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
                     .addFormDataPart("accountId", Long.toString(App.getInstance().getId()))
                     .addFormDataPart("accessToken", App.getInstance().getAccessToken())
+                    .addFormDataPart("accessMode", String.valueOf(postMode))
+                    .addFormDataPart("itemType", String.valueOf(itemType))
+                    .addFormDataPart("comment", commentText)
+                    .addFormDataPart("postArea", postArea)
+                    .addFormDataPart("postCountry", postCountry)
+                    .addFormDataPart("postCity", postCity)
+                    .addFormDataPart("postLat", postLat)
+                    .addFormDataPart("postLng", postLng)
                     .build();
 
             com.squareup.okhttp.Request request = new com.squareup.okhttp.Request.Builder()
@@ -603,20 +531,14 @@ initpDialog();
                     try {
                         JSONObject result = new JSONObject(jsonData);
                         if (!result.getBoolean("error")) {
-                            imgUrl = result.getString("normalPhotoUrl");
+                            imgUrl = result.getString("normalImageUrl");
                         }
-
                         Log.d("My App", response.toString());
-
                     } catch (Throwable t) {
-
                         Log.e("My App", "Could not parse malformed JSON: \"" + t.getMessage() + "\"");
-
                     } finally {
-
                         Log.e("response", jsonData);
-
-                        sendPost();
+                        sendSuccess();
                     }
 
                 }

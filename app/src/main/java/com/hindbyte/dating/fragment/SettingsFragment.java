@@ -35,6 +35,7 @@ import com.hindbyte.dating.activity.SupportActivity;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.util.CustomRequest;
+import com.hindbyte.dating.util.ToastWindow;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,6 +52,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
     private CheckBoxPreference allowMessages, allowPhotosComments;
     private PreferenceScreen screen;
 
+    ToastWindow toastWindow = new ToastWindow();
     private ProgressDialog pDialog;
 
     int mAllowMessages, mAllowPhotosComments;
@@ -235,7 +237,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
                         @Override
                         protected Map<String, String> getParams() {
                             Map<String, String> params = new HashMap<String, String>();
-                            params.put("clientId", CLIENT_ID);
                             params.put("accountId", Long.toString(App.getInstance().getId()));
                             params.put("accessToken", App.getInstance().getAccessToken());
 
@@ -318,7 +319,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
 
                     } else {
 
-                        Toast.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                        toastWindow.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), 2000);
                     }
                 }
 
@@ -352,7 +353,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
 
                     } else {
 
-                        Toast.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                        toastWindow.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), 2000);
                     }
                 }
 
@@ -455,14 +456,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
 
                 hidepDialog();
 
-                Toast.makeText(requireActivity().getApplicationContext(), getText(R.string.error_data_loading), Toast.LENGTH_LONG).show();
+                toastWindow.makeText(requireActivity().getApplicationContext(), getText(R.string.error_data_loading), 2000);
             }
         }) {
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("clientId", CLIENT_ID);
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("allowPhotosComments", String.valueOf(mAllowPhotosComments));
@@ -527,14 +527,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
 
                 hidepDialog();
 
-                Toast.makeText(requireActivity().getApplicationContext(), getText(R.string.error_data_loading), Toast.LENGTH_LONG).show();
+                toastWindow.makeText(requireActivity().getApplicationContext(), getText(R.string.error_data_loading), 2000);
             }
         }) {
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("clientId", CLIENT_ID);
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("allowMessages", String.valueOf(mAllowMessages));

@@ -28,12 +28,12 @@ import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.dialogs.AlcoholViewsSelectDialog;
 import com.hindbyte.dating.dialogs.GenderSelectDialog;
-import com.hindbyte.dating.dialogs.RelationshipStatusSelectDialog;
 import com.hindbyte.dating.dialogs.ReligiousViewSelectDialog;
 import com.hindbyte.dating.dialogs.SmokingViewsSelectDialog;
 import com.hindbyte.dating.dialogs.YouLikeSelectDialog;
 import com.hindbyte.dating.dialogs.YouLookingSelectDialog;
 import com.hindbyte.dating.util.CustomRequest;
+import com.hindbyte.dating.util.ToastWindow;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,16 +48,15 @@ public class AccountSettingsFragment extends Fragment implements Constants {
 
     private ProgressDialog pDialog;
 
-    private String fullname, location, instagramPage, bio;
+    private String fullname, location, interests, bio;
 
-    private int gender, year, month, day, age, height, weight;
-    private int relationshipStatus, religiousView, viewsOnSmoking, viewsOnAlcohol, youLooking, youLike, allowShowMyBirthday;
+    private int gender, age, height;
+    private int religiousView, viewsOnSmoking, viewsOnAlcohol, youLooking, youLike;
 
-    EditText mFullname, mLocation, mInstagramPage, mBio, mAgeField, mHeightField, mWeightField;
-    TextView mBirth, mGender, mRelationshipStatus, mReligiousView, mSmokingViews, mAlcoholViews, mYouLooking, mYouLike;
+    EditText mFullname, mLocation, mInterests, mBio, mAgeField, mHeightField;
+    TextView mGender, mReligiousView, mSmokingViews, mAlcoholViews, mYouLooking, mYouLike;
 
-    CheckBox mAllowShowDateBirth;
-
+    ToastWindow toastWindow = new ToastWindow();
     private Boolean loading = false;
 
     public AccountSettingsFragment() {
@@ -75,27 +74,19 @@ public class AccountSettingsFragment extends Fragment implements Constants {
         Intent i = requireActivity().getIntent();
         fullname = i.getStringExtra("fullname");
         location = i.getStringExtra("location");
-        instagramPage = i.getStringExtra("instagramPage");
+        interests = i.getStringExtra("interests");
         bio = i.getStringExtra("bio");
 
         gender = i.getIntExtra("gender", 0);
 
         age = i.getIntExtra("age", 0);
         height = i.getIntExtra("height", 0);
-        weight = i.getIntExtra("weight", 0);
 
-        year = i.getIntExtra("year", 0);
-        month = i.getIntExtra("month", 0);
-        day = i.getIntExtra("day", 0);
-
-        relationshipStatus = i.getIntExtra("relationshipStatus", 0);
         religiousView = i.getIntExtra("religiousView", 0);
         viewsOnSmoking = i.getIntExtra("viewsOnSmoking", 0);
         viewsOnAlcohol = i.getIntExtra("viewsOnAlcohol", 0);
         youLooking = i.getIntExtra("youLooking", 0);
         youLike = i.getIntExtra("youLike", 0);
-
-        allowShowMyBirthday = i.getIntExtra("allowShowMyBirthday", 0);
     }
 
     @Override
@@ -110,45 +101,20 @@ public class AccountSettingsFragment extends Fragment implements Constants {
 
         mFullname = rootView.findViewById(R.id.fullname);
         mLocation = rootView.findViewById(R.id.location);
-        mInstagramPage = rootView.findViewById(R.id.instagramPage);
+        mInterests = rootView.findViewById(R.id.interests);
         mBio = rootView.findViewById(R.id.bio);
 
         mAgeField = rootView.findViewById(R.id.ageField);
         mHeightField = rootView.findViewById(R.id.heightField);
-        mWeightField = rootView.findViewById(R.id.weightField);
 
-        mBirth = rootView.findViewById(R.id.selectBirth);
         mGender = rootView.findViewById(R.id.selectGender);
-        mRelationshipStatus = rootView.findViewById(R.id.selectRelationshipStatus);
         mReligiousView = rootView.findViewById(R.id.selectReligiousView);
         mSmokingViews = rootView.findViewById(R.id.selectSmokingViews);
         mAlcoholViews = rootView.findViewById(R.id.selectAlcoholViews);
         mYouLooking = rootView.findViewById(R.id.selectYouLooking);
         mYouLike = rootView.findViewById(R.id.selectYouLike);
 
-        mAllowShowDateBirth = rootView.findViewById(R.id.allowShowDateBirth);
-
-        mBirth.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog dpd = new DatePickerDialog(requireActivity(), mDateSetListener, year, month, day);
-                dpd.getDatePicker().setMaxDate(new Date().getTime());
-
-                dpd.show();
-            }
-        });
-
         mGender.setOnClickListener(v -> selectGender(gender));
-
-        mRelationshipStatus.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                selectRelationshipStatus(relationshipStatus);
-            }
-        });
 
 
         mReligiousView.setOnClickListener(new View.OnClickListener() {
@@ -161,23 +127,9 @@ public class AccountSettingsFragment extends Fragment implements Constants {
         });
 
 
-        mSmokingViews.setOnClickListener(new View.OnClickListener() {
+        mSmokingViews.setOnClickListener(v -> selectSmokingViews(viewsOnSmoking));
 
-            @Override
-            public void onClick(View v) {
-
-                selectSmokingViews(viewsOnSmoking);
-            }
-        });
-
-        mAlcoholViews.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                selectAlcoholViews(viewsOnAlcohol);
-            }
-        });
+        mAlcoholViews.setOnClickListener(v -> selectAlcoholViews(viewsOnAlcohol));
 
         mYouLooking.setOnClickListener(new View.OnClickListener() {
 
@@ -200,7 +152,7 @@ public class AccountSettingsFragment extends Fragment implements Constants {
 
         mFullname.setText(fullname);
         mLocation.setText(location);
-        mInstagramPage.setText(instagramPage);
+        mInterests.setText(interests);
         mBio.setText(bio);
 
         if (age > 0) {
@@ -215,60 +167,16 @@ public class AccountSettingsFragment extends Fragment implements Constants {
             mHeightField.setText(String.valueOf(height));
         }
 
-        mWeightField.setHint(getString(R.string.label_weight) + " (" + getString(R.string.label_kg) + ")");
-
-        if (weight > 0) {
-
-            mWeightField.setText(String.valueOf(weight));
-        }
-
         getGender(gender);
-        getRelationshipStatus(relationshipStatus);
         getReligiousView(religiousView);
         getSmokingViews(viewsOnSmoking);
         getAlcoholViews(viewsOnAlcohol);
         getYouLooking(youLooking);
         getYouLike(youLike);
 
-        int mMonth1 = month + 1;
-
-        mBirth.setText(getString(R.string.action_select_birth) + ": " + new StringBuilder().append(day).append("/").append(mMonth1).append("/").append(year));
-
-        checkAllowShowBirthday(allowShowMyBirthday);
-
-        // Inflate the layout for this fragment
         return rootView;
     }
 
-    public void checkAllowShowBirthday(int value) {
-
-        if (value == 1) {
-
-            mAllowShowDateBirth.setChecked(true);
-            allowShowMyBirthday = 1;
-
-        } else {
-
-            mAllowShowDateBirth.setChecked(false);
-            allowShowMyBirthday = 0;
-        }
-    }
-
-    private DatePickerDialog.OnDateSetListener mDateSetListener =new DatePickerDialog.OnDateSetListener() {
-
-        public void onDateSet(DatePicker view, int mYear, int monthOfYear, int dayOfMonth) {
-
-            year = mYear;
-            month = monthOfYear;
-            day = dayOfMonth;
-
-            int mMonth1 = month + 1;
-
-            mBirth.setText(getString(R.string.action_select_birth) + ": " + new StringBuilder().append(day).append("/").append(mMonth1).append("/").append(year));
-
-        }
-
-    };
 
     public void selectGender(int position) {
         FragmentManager fm = requireActivity().getSupportFragmentManager();
@@ -297,87 +205,6 @@ public class AccountSettingsFragment extends Fragment implements Constants {
             }
         }
     }
-
-
-    public void selectRelationshipStatus(int position) {
-        FragmentManager fm = requireActivity().getSupportFragmentManager();
-        RelationshipStatusSelectDialog alert = new RelationshipStatusSelectDialog();
-
-        Bundle b  = new Bundle();
-        b.putInt("position", position);
-
-        alert.setArguments(b);
-        alert.show(fm, "alert_dialog_select_relationship_status");
-    }
-
-    public void getRelationshipStatus(int mRelationship) {
-        relationshipStatus = mRelationship;
-
-        switch (mRelationship) {
-
-            case 0: {
-
-                mRelationshipStatus.setText(getString(R.string.account_relationship_status) + ": " + getString(R.string.relationship_status_0));
-
-                break;
-            }
-
-            case 1: {
-
-                mRelationshipStatus.setText(getString(R.string.account_relationship_status) + ": " + getString(R.string.relationship_status_1));
-
-                break;
-            }
-
-            case 2: {
-
-                mRelationshipStatus.setText(getString(R.string.account_relationship_status) + ": " + getString(R.string.relationship_status_2));
-
-                break;
-            }
-
-            case 3: {
-
-                mRelationshipStatus.setText(getString(R.string.account_relationship_status) + ": " + getString(R.string.relationship_status_3));
-
-                break;
-            }
-
-            case 4: {
-
-                mRelationshipStatus.setText(getString(R.string.account_relationship_status) + ": " + getString(R.string.relationship_status_4));
-
-                break;
-            }
-
-            case 5: {
-
-                mRelationshipStatus.setText(getString(R.string.account_relationship_status) + ": " + getString(R.string.relationship_status_5));
-
-                break;
-            }
-
-            case 6: {
-
-                mRelationshipStatus.setText(getString(R.string.account_relationship_status) + ": " + getString(R.string.relationship_status_6));
-
-                break;
-            }
-
-            case 7: {
-
-                mRelationshipStatus.setText(getString(R.string.account_relationship_status) + ": " + getString(R.string.relationship_status_7));
-
-                break;
-            }
-
-            default: {
-
-                break;
-            }
-        }
-    }
-
 
 
     public void selectReligiousView(int position) {
@@ -754,7 +581,7 @@ public class AccountSettingsFragment extends Fragment implements Constants {
         if (item.getItemId() == R.id.action_save) {
             fullname = mFullname.getText().toString();
             location = mLocation.getText().toString();
-            instagramPage = mInstagramPage.getText().toString();
+            interests = mInterests.getText().toString();
             bio = mBio.getText().toString();
 
             if (mAgeField.getText().toString().length() > 0) {
@@ -765,18 +592,6 @@ public class AccountSettingsFragment extends Fragment implements Constants {
                 height = Integer.parseInt(mHeightField.getText().toString());
             } else {
                 height = 0;
-            }
-
-            if (mWeightField.getText().toString().length() > 0) {
-                weight = Integer.parseInt(mWeightField.getText().toString());
-            } else {
-                weight = 0;
-            }
-
-            if (mAllowShowDateBirth.isChecked()) {
-                allowShowMyBirthday = 1;
-            } else {
-                allowShowMyBirthday = 0;
             }
 
             saveSettings();
@@ -806,40 +621,32 @@ public class AccountSettingsFragment extends Fragment implements Constants {
 
                                     fullname = response.getString("fullname");
                                     location = response.getString("location");
-                                    instagramPage = response.getString("instagram_page");
-                                    bio = response.getString("status");
+                                    interests = response.getString("interests");
+                                    bio = response.getString("bio");
 
                                     age = response.getInt("age");
                                     height = response.getInt("height");
-                                    weight = response.getInt("weight");
 
-                                    Toast.makeText(requireActivity(), getText(R.string.msg_settings_saved), Toast.LENGTH_SHORT).show();
+                                    toastWindow.makeText(requireActivity(), getText(R.string.msg_settings_saved), 2000);
 
                                     App.getInstance().setFullname(fullname);
 
                                     Intent i = new Intent();
                                     i.putExtra("fullname", fullname);
                                     i.putExtra("location", location);
-                                    i.putExtra("instagramPage", instagramPage);
+                                    i.putExtra("interests", interests);
                                     i.putExtra("bio", bio);
 
                                     i.putExtra("gender", gender);
 
                                     i.putExtra("age", age);
                                     i.putExtra("height", height);
-                                    i.putExtra("weight", weight);
 
-                                    i.putExtra("year", year);
-                                    i.putExtra("month", month);
-                                    i.putExtra("day", day);
-
-                                    i.putExtra("relationshipStatus", relationshipStatus);
                                     i.putExtra("religiousView", religiousView);
                                     i.putExtra("viewsOnSmoking", viewsOnSmoking);
                                     i.putExtra("viewsOnAlcohol", viewsOnAlcohol);
                                     i.putExtra("youLooking", youLooking);
                                     i.putExtra("youLike", youLike);
-                                    i.putExtra("allowShowMyBirthday", allowShowMyBirthday);
 
                                     if (isAdded()) {
 
@@ -878,26 +685,19 @@ public class AccountSettingsFragment extends Fragment implements Constants {
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("fullname", fullname);
                 params.put("location", location);
-                params.put("instagramPage", instagramPage);
+                params.put("interests", interests);
                 params.put("bio", bio);
                 params.put("gender", String.valueOf(gender));
-                params.put("year", String.valueOf(year));
-                params.put("month", String.valueOf(month));
-                params.put("day", String.valueOf(day));
 
                 params.put("age", String.valueOf(age));
                 params.put("height", String.valueOf(height));
-                params.put("weight", String.valueOf(weight));
 
-                params.put("iStatus", String.valueOf(relationshipStatus));
                 params.put("religiousViews", String.valueOf(religiousView));
                 params.put("smokingViews", String.valueOf(viewsOnSmoking));
                 params.put("alcoholViews", String.valueOf(viewsOnAlcohol));
                 params.put("lookingViews", String.valueOf(youLooking));
                 params.put("interestedViews", String.valueOf(youLike));
-
-                params.put("allowShowMyBirthday", String.valueOf(allowShowMyBirthday));
-
+                
                 return params;
             }
         };

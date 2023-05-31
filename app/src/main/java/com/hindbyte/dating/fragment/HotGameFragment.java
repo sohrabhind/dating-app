@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -50,6 +53,7 @@ import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.model.Profile;
 import com.hindbyte.dating.util.CustomRequest;
+import com.hindbyte.dating.util.ToastWindow;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -68,6 +72,7 @@ public class HotGameFragment extends Fragment implements Constants {
     private Location mLastLocation;
     Menu MainMenu;
 
+    ToastWindow toastWindow = new ToastWindow();
 
     TextView mGrantPermissionButton, mShowFiltersButton;
 
@@ -82,10 +87,11 @@ public class HotGameFragment extends Fragment implements Constants {
     public ProgressBar mHotGameProgressBar;
 
     private ActivityResultLauncher<String[]> multiplePermissionLauncher;
-    LocationManager lm;
+    LocationManager locationManager;
 
-    private int gender = 3, liked = 1, distance = 1000;
 
+    private int gender = 3, liked = 0, distance = 1000;
+    //Gender 3 = Any
     private int itemId = 0;
     private int arrayLength = 0;
     private Boolean loading = false;
@@ -107,7 +113,7 @@ public class HotGameFragment extends Fragment implements Constants {
         itemId = 0;
         distance = 1000;
         gender = 3;
-        liked = 1;
+        liked = 0;
         readFilterSettings();
     }
 
@@ -128,7 +134,7 @@ public class HotGameFragment extends Fragment implements Constants {
             }
         });
 
-        lm = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
         mHotGameProgressBar = rootView.findViewById(R.id.hotgame_progressbar);
         mCardsContainer = rootView.findViewById(R.id.swipe_cards_container);
         mViewPager2 = rootView.findViewById(R.id.viewPager2);
@@ -150,12 +156,11 @@ public class HotGameFragment extends Fragment implements Constants {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 Profile u = itemsList.get(position);
-                if (u.isMyLike()) {
+                if (u.isILike()) {
                     mHotGameLike.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.app_circular_button_green));
                 }
-                if (!u.isMyLike()) {
+                if (!u.isILike()) {
                     mHotGameLike.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.app_circular_button));
-
                 }
             }
 
@@ -177,8 +182,8 @@ public class HotGameFragment extends Fragment implements Constants {
 
         mHotGameProfile.setOnClickListener(v -> {
             Profile profile = itemsList.get(mViewPager2.getCurrentItem());
-            if (profile.getAllowMessages() == 0 && !profile.isFriend()) {
-                Toast.makeText(requireActivity(), getString(R.string.error_no_friend), Toast.LENGTH_SHORT).show();
+            if (profile.getAllowMessages() == 0 && !profile.isMyFan()) {
+                toastWindow.makeText(requireActivity(), getString(R.string.error_no_friend), 2000);
             } else {
                 if (!profile.isInBlackList()) {
                     Intent i = new Intent(requireActivity(), ChatActivity.class);
@@ -191,7 +196,7 @@ public class HotGameFragment extends Fragment implements Constants {
                     i.putExtra("with_user_state", profile.getState());
                     startActivity(i);
                 } else {
-                    Toast.makeText(requireActivity(), getString(R.string.error_action), Toast.LENGTH_SHORT).show();
+                    toastWindow.makeText(requireActivity(), getString(R.string.error_action), 2000);
                 }
             }
         });
@@ -218,10 +223,25 @@ public class HotGameFragment extends Fragment implements Constants {
             }
         });
 
-        if (!restore && App.getInstance().getLat() != 0.000000 && App.getInstance().getLng() != 0.000000) {
+        if (!restore) {
             getItems();
         }
         updateView();
+        if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            boolean GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            if(!GpsStatus) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", (dialog, id) -> {
+                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        })
+                        .setNegativeButton("No", (dialog, id) -> {
+                            dialog.cancel();
+                        });
+                builder.show();
+            }
+        }
         return rootView;
     }
 
@@ -236,17 +256,15 @@ public class HotGameFragment extends Fragment implements Constants {
             mHotgameEmptyContainer.setVisibility(View.GONE);
             mPermissionPromptContainer.setVisibility(View.GONE);
             mCardsContainer.setVisibility(View.GONE);
-            if (App.getInstance().getLat() != 0.0 && App.getInstance().getLng() != 0.0) {
+            if (ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (!permission_denied) {
+                    mPermissionPromptContainer.setVisibility(View.VISIBLE);
+                }
+            } else {
                 if (itemsList.size() != 0) {
                     mCardsContainer.setVisibility(View.VISIBLE);
                 } else {
                     mHotgameEmptyContainer.setVisibility(View.VISIBLE);
-                }
-            } else {
-                if (ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    if (!permission_denied) {
-                        mPermissionPromptContainer.setVisibility(View.VISIBLE);
-                    }
                 }
             }
         }
@@ -270,46 +288,27 @@ public class HotGameFragment extends Fragment implements Constants {
     @Override
     public void onResume() {
         super.onResume();
-        //updateLocation();
+        updateLocation();
     }
 
 
     public void updateLocation() {
         if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
-            mFusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                // Logic to handle location object
-                                mLastLocation = location;
-                                App.getInstance().setLat(mLastLocation.getLatitude());
-                                App.getInstance().setLng(mLastLocation.getLongitude());
-                                if (itemsList.size() == 0) {
-                                    loading = true;
-                                    updateView();
-                                    getItems();
-                                }
-                            } else {
-                                if (App.getInstance().getLat() == 0.000000 || App.getInstance().getLng() == 0.000000) {
-                                    App.getInstance().setLat(39.9199);
-                                    App.getInstance().setLng(32.8543);
-                                    if (itemsList.size() == 0) {
-                                        loading = true;
-                                        updateView();
-                                        getItems();
-                                    }
-                                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireActivity());
-                                    alertDialog.setTitle(getText(R.string.app_name));
-                                    alertDialog.setMessage(getText(R.string.msg_location_detect_error));
-                                    alertDialog.setCancelable(true);
-                                    alertDialog.setPositiveButton(getText(R.string.action_ok), (dialog, which) -> dialog.cancel());
-                                    alertDialog.show();
-                                }
-                            }
-                        }
-                    });
+            mFusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
+                // Got last known location. In some rare situations this can be null.
+                if (location != null) {
+                    mLastLocation = location;
+                    App.getInstance().setLat(mLastLocation.getLatitude());
+                    App.getInstance().setLng(mLastLocation.getLongitude());
+                    App.getInstance().setLocation();
+                }
+                if (itemsList.size() == 0) {
+                    loading = true;
+                    updateView();
+                    getItems();
+                }
+            });
         } else {
             Log.e("GPS", "error");
         }
@@ -318,75 +317,71 @@ public class HotGameFragment extends Fragment implements Constants {
 
     public void getItems() {
         loading = true;
-        if (App.getInstance().getLat() != 0.000000 && App.getInstance().getLng() != 0.000000) {
-            CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_HOTGAME_GET, null,
-                    new Response.Listener<JSONObject>() {
-                        @SuppressLint("NotifyDataSetChanged")
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            if (!isAdded()) {
-                                Log.e("ERROR", "HotGame Fragment Not Added to Activity");
-                                return;
-                            } else {
-                                requireActivity();
-                            }
-                            try {
-                                arrayLength = 0;
-                                if (!response.getBoolean("error")) {
-                                    itemId = response.getInt("itemId");
-                                    if (response.has("items")) {
-                                        JSONArray usersArray = response.getJSONArray("items");
-                                        arrayLength = usersArray.length();
-                                        if (arrayLength > 0) {
-                                            for (int i = 0; i < usersArray.length(); i++) {
-                                                JSONObject userObj = (JSONObject) usersArray.get(i);
-                                                Profile profile = new Profile(userObj);
-                                                if (itemsList.size() == 0) {
-                                                    itemsList.add(profile);
-                                                    itemsAdapter.notifyDataSetChanged();
-                                                } else {
-                                                    itemsList.add(profile);
-                                                    itemsAdapter.notifyItemRangeInserted(itemsList.size(), 1);
-                                                }
-                                            }
+        @SuppressLint("NotifyDataSetChanged")
+        CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_HOTGAME_GET, null, response -> {
+                    if (!isAdded()) {
+                        Log.e("ERROR", "HotGame Fragment Not Added to Activity");
+                        return;
+                    } else {
+                        requireActivity();
+                    }
+                    try {
+                        arrayLength = 0;
+                        if (!response.getBoolean("error")) {
+                            itemId = response.getInt("itemId");
+                            if (response.has("items")) {
+                                JSONArray usersArray = response.getJSONArray("items");
+                                arrayLength = usersArray.length();
+                                if (arrayLength > 0) {
+                                    for (int i = 0; i < usersArray.length(); i++) {
+                                        JSONObject userObj = (JSONObject) usersArray.get(i);
+                                        Profile profile = new Profile(userObj);
+
+                                        if (itemsList.size() == 0) {
+
+                                            Log.e("ERROR", "1");    itemsList.add(profile);
+                                            itemsAdapter.notifyDataSetChanged();
+                                        } else {
+                                            Log.e("ERROR", "2");
+                                            itemsList.add(profile);
+                                            itemsAdapter.notifyItemRangeInserted(itemsList.size(), 1);
                                         }
                                     }
                                 }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } finally {
-                                loadingComplete();
-                                Log.d("Success", response.toString());
                             }
                         }
-                    }, error -> {
-                        if (!isAdded()) {
-                            Log.e("ERROR", "HotGame Fragment Not Added to Activity");
-                            return;
-                        } else {
-                            requireActivity();
-                        }
-                loadingComplete();
-                    }) {
-
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("accountId", Long.toString(App.getInstance().getId()));
-                    params.put("accessToken", App.getInstance().getAccessToken());
-                    params.put("distance", String.valueOf(distance));
-                    params.put("lat", Double.toString(App.getInstance().getLat()));
-                    params.put("lng", Double.toString(App.getInstance().getLng()));
-                    params.put("itemId", Long.toString(itemId));
-                    params.put("gender", String.valueOf(gender));
-                    params.put("liked", String.valueOf(liked));
-                    return params;
-                }
-            };
-            RetryPolicy policy = new DefaultRetryPolicy((int) TimeUnit.SECONDS.toMillis(VOLLEY_REQUEST_SECONDS), DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-            jsonReq.setRetryPolicy(policy);
-            App.getInstance().addToRequestQueue(jsonReq);
-        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } finally {
+                        loadingComplete();
+                        Log.d("Success", response.toString());
+                    }
+                }, error -> {
+            if (!isAdded()) {
+                Log.e("ERROR", "HotGame Fragment Not Added to Activity");
+                return;
+            } else {
+                requireActivity();
+            }
+            loadingComplete();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("accountId", Long.toString(App.getInstance().getId()));
+                params.put("accessToken", App.getInstance().getAccessToken());
+                params.put("distance", String.valueOf(distance));
+                params.put("lat", Double.toString(App.getInstance().getLat()));
+                params.put("lng", Double.toString(App.getInstance().getLng()));
+                params.put("itemId", Long.toString(itemId));
+                params.put("gender", String.valueOf(gender));
+                params.put("liked", String.valueOf(liked));
+                return params;
+            }
+        };
+        RetryPolicy policy = new DefaultRetryPolicy((int) TimeUnit.SECONDS.toMillis(VOLLEY_REQUEST_SECONDS), DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        jsonReq.setRetryPolicy(policy);
+        App.getInstance().addToRequestQueue(jsonReq);
     }
 
     public void loadingComplete() {
@@ -418,10 +413,10 @@ public class HotGameFragment extends Fragment implements Constants {
         final RadioButton mAnyGenderRadio = view.findViewById(R.id.radio_gender_any);
         final RadioButton mMaleGenderRadio = view.findViewById(R.id.radio_gender_male);
         final RadioButton mFemaleGenderRadio = view.findViewById(R.id.radio_gender_female);
+        final RadioButton mOtherGenderRadio = view.findViewById(R.id.radio_gender_other);
 
 
         final TextView mDistanceLabel = view.findViewById(R.id.distance_label);
-
         final AppCompatSeekBar mDistanceSeekBar = view.findViewById(R.id.choice_distance);
 
         switch (gender) {
@@ -429,12 +424,14 @@ public class HotGameFragment extends Fragment implements Constants {
                 mMaleGenderRadio.setChecked(true);
                 break;
             }
-
             case 1: {
                 mFemaleGenderRadio.setChecked(true);
                 break;
             }
-
+            case 2: {
+                mOtherGenderRadio.setChecked(true);
+                break;
+            }
             default: {
                 mAnyGenderRadio.setChecked(true);
                 break;
@@ -467,39 +464,40 @@ public class HotGameFragment extends Fragment implements Constants {
             mLikedCheckBox.setChecked(false);
         }
 
-        b.setPositiveButton(getText(R.string.action_ok), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                // get distance
+        b.setPositiveButton(getText(R.string.action_ok), (dialog, which) -> {
+            // get distance
 
-                distance = mDistanceSeekBar.getProgress();
+            distance = mDistanceSeekBar.getProgress();
 
-                // Gender
+            // Gender
 
-                if (mAnyGenderRadio.isChecked()) {
-                    gender = 3;
-                }
-
-                if (mMaleGenderRadio.isChecked()) {
-                    gender = 0;
-                }
-
-                if (mFemaleGenderRadio.isChecked()) {
-                    gender = 1;
-                }
-
-
-                if (mLikedCheckBox.isChecked()) {
-                    liked = 1;
-                } else {
-                    liked = 0;
-                }
-                itemsList.clear();
-                itemId = 0;
-                loading = true;
-                saveFilterSettings();
-                updateView();
-                getItems();
+            if (mAnyGenderRadio.isChecked()) {
+                gender = 3;
             }
+
+            if (mMaleGenderRadio.isChecked()) {
+                gender = 0;
+            }
+
+            if (mFemaleGenderRadio.isChecked()) {
+                gender = 1;
+            }
+
+            if (mOtherGenderRadio.isChecked()) {
+                gender = 2;
+            }
+
+            if (mLikedCheckBox.isChecked()) {
+                liked = 1;
+            } else {
+                liked = 0;
+            }
+            itemsList.clear();
+            itemId = 0;
+            loading = true;
+            saveFilterSettings();
+            updateView();
+            getItems();
         });
 
         b.setNegativeButton(getText(R.string.action_cancel), (dialog, which) -> dialog.cancel());
@@ -533,11 +531,11 @@ public class HotGameFragment extends Fragment implements Constants {
                     try {
                         if (!response.getBoolean("error")) {
                             Profile u = itemsList.get(mViewPager2.getCurrentItem());
-                            u.setMyLike(response.getBoolean("myLike"));
-                            if (u.isMyLike()) {
+                            u.setILike(response.getBoolean("iLiked"));
+                            if (u.isILike()) {
                                 mHotGameLike.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.app_circular_button_green));
                             }
-                            if (!u.isMyLike()) {
+                            if (!u.isILike()) {
                                 mHotGameLike.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.app_circular_button));
                             }
                         }
@@ -572,7 +570,7 @@ public class HotGameFragment extends Fragment implements Constants {
 
     private void readFilterSettings() {
         gender = App.getInstance().getSharedPref().getInt(getString(R.string.settings_hotgame_gender), 3); // 3 = all
-        liked = App.getInstance().getSharedPref().getInt(getString(R.string.settings_hotgame_liked), 1);
+        liked = App.getInstance().getSharedPref().getInt(getString(R.string.settings_hotgame_liked), 0);
         distance = App.getInstance().getSharedPref().getInt(getString(R.string.settings_hotgame_distance), 1000);
     }
 

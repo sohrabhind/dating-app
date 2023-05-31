@@ -30,6 +30,7 @@ import com.hindbyte.dating.R;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.common.ActivityBase;
 import com.hindbyte.dating.util.CustomRequest;
+import com.hindbyte.dating.util.ToastWindow;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,6 +57,7 @@ public class UpgradeActivity extends ActivityBase {
 
     private Boolean loading = false;
 
+    ToastWindow toastWindow = new ToastWindow();
     private BillingClient mBillingClient;
     private final Map<String, ProductDetails> mProductDetailsMap = new HashMap<>();
     private String packageName;
@@ -243,7 +245,6 @@ public class UpgradeActivity extends ActivityBase {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("clientId", CLIENT_ID);
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("level", String.valueOf(level));
@@ -262,7 +263,7 @@ public class UpgradeActivity extends ActivityBase {
     }
 
     public void success() {
-        Toast.makeText(UpgradeActivity.this, getString(R.string.msg_success_purchase), Toast.LENGTH_SHORT).show();
+        toastWindow.makeText(UpgradeActivity.this, getString(R.string.msg_success_purchase), 2000);
     }
 
     @Override

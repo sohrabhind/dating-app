@@ -96,7 +96,6 @@ public class AppActivity extends ActivityBase {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put("clientId", CLIENT_ID);
                     params.put("appType", String.valueOf(APP_TYPE_ANDROID));
                     params.put("fcm_regId", App.getInstance().getGcmToken());
                     params.put("accountId", Long.toString(App.getInstance().getId()));

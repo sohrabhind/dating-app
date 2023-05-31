@@ -35,6 +35,7 @@ import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.model.Chat;
 import com.hindbyte.dating.util.CustomRequest;
+import com.hindbyte.dating.util.ToastWindow;
 import com.hindbyte.dating.view.LineItemDecoration;
 
 import org.json.JSONArray;
@@ -53,6 +54,7 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
     RecyclerView mRecyclerView;
     NestedScrollView mNestedView;
 
+    ToastWindow toastWindow = new ToastWindow();
     TextView mMessage;
     ImageView mSplash;
 
@@ -206,7 +208,7 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
 
             int pos = data.getIntExtra("position", 0);
 
-            Toast.makeText(requireActivity(), getString(R.string.msg_chat_has_been_removed), Toast.LENGTH_SHORT).show();
+            toastWindow.makeText(requireActivity(), getString(R.string.msg_chat_has_been_removed), 2000);
 
             itemsList.remove(pos);
 
@@ -304,7 +306,6 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("messageCreateAt", String.valueOf(messageCreateAt));
-                params.put("language", "en");
                 return params;
             }
         };

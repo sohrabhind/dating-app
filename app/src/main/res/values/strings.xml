@@ -35,7 +35,6 @@
     <string name="action_search">Search</string>
     <string name="action_retry">Retry</string>
     <string name="action_turn_on">Turn on</string>
-    <string name="action_select_birth">Date of Birth</string>
     <string name="action_camera">Camera</string>
     <string name="action_gallery">Choose from gallery</string>
     <string name="settings_allow_messages">Receive messages from anyone</string>
@@ -77,7 +76,7 @@
     <string name="placeholder_login">Username</string>
     <string name="placeholder_fullname">Fullname</string>
     <string name="placeholder_location">Country</string>
-    <string name="placeholder_instagram_page">Instagram page</string>
+    <string name="placeholder_interests">Interests</string>
     <string name="placeholder_bio">Bio</string>
     <string name="placeholder_email">Email</string>
     <string name="placeholder_subject">Subject</string>
@@ -118,6 +117,7 @@
     <string name="error_login_taken">Username is already taken</string>
     <string name="error_email_taken">User with this email is already registered</string>
     <string name="error_password">Invalid password.</string>
+    <string name="error_gender">Please select gender.</string>
     <string name="error_email">Email invalid.</string>
     <string name="error_credits">Not enough credits!</string>
     <string name="error_action">This user has forbidden you to do it!</string>
@@ -193,7 +193,6 @@
     <string name="settings_account_username" translatable="false">account_username</string>
     <string name="settings_account_access_token" translatable="false">access_token</string>
 
-    <string name="account_relationship_status">Relationship status</string>
     <string name="account_religious_view">Religious view</string>
     <string name="account_smoking_views">Views on smoking</string>
     <string name="account_alcohol_views">Views on alcohol</string>
@@ -205,15 +204,6 @@
 
     <string name="account_you_looking_dialog">You looking for</string>
     <string name="account_you_like_dialog">I\'m interested in</string>
-
-    <string name="relationship_status_0">Not specified</string>
-    <string name="relationship_status_1">Single</string>
-    <string name="relationship_status_2">In a relationship</string>
-    <string name="relationship_status_3">Engaged</string>
-    <string name="relationship_status_4">Married</string>
-    <string name="relationship_status_5">In love</string>
-    <string name="relationship_status_6">It\'s complicated</string>
-    <string name="relationship_status_7">Actively searching</string>
 
 
     <string name="religious_view_0">None</string>
@@ -289,8 +279,6 @@
 
     <!-- for version 1.2 -->
 
-    <string name="label_profile_birth">Birth Date</string>
-    <string name="label_profile_allow_show_birth">Show date of birth in the profile</string>
     <string name="action_detail">More details</string>
     <string name="msg_location_error">We could not get your location.</string>
 
@@ -420,9 +408,7 @@
     <!-- added for version 3.5 -->
 
     <string name="label_height">Height</string>
-    <string name="label_weight">Weight</string>
     <string name="label_cm">cm</string>
-    <string name="label_kg">kg</string>
 
     <string name="label_select_gender">Select Gender</string>
 
@@ -567,10 +553,7 @@
     <string name="action_image_from_gallery">Image from gallery</string>
     <string name="action_image_from_camera">Take photo</string>
     <string name="action_choice_sticker">Stickers</string>
-
-    <string name="error_client_id">CLIENT_ID - Incorrect or not the same in both config files! Make the correct configuration of the config files!</string>
-    <string name="error_client_secret">CLIENT_SECRET - Incorrect or not the same in both config files! Make the correct configuration of the config files!</string>
-
+    
     <!--  For version 5.4  -->
 
     <string name="settings_search_distance" translatable="false">account_search_distance</string>

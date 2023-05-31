@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.hindbyte.dating.util.ToastWindow;
 import com.pkmmte.view.CircularImageView;
 import com.hindbyte.dating.activity.ProfileActivity;
 import com.hindbyte.dating.R;
@@ -38,6 +39,7 @@ public class BlackListAdapter extends BaseAdapter implements Constants {
 	private LayoutInflater inflater;
 	private List<BlacklistItem> blackList;
 
+    ToastWindow toastWindow = new ToastWindow();
     private BlacklistItemInterface responder;
 
 
@@ -192,7 +194,7 @@ public class BlackListAdapter extends BaseAdapter implements Constants {
                                         notifyDataSetChanged();
                                     }
                                 }
-                            }, error -> Toast.makeText(activity.getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show()) {
+                            }, error -> toastWindow.makeText(activity.getApplicationContext(), error.getMessage(), 2000)) {
 
                         @Override
                         protected Map<String, String> getParams() {
@@ -206,7 +208,7 @@ public class BlackListAdapter extends BaseAdapter implements Constants {
 
                     App.getInstance().addToRequestQueue(jsonReq);
                 } else {
-                    Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                    toastWindow.makeText(activity.getApplicationContext(), activity.getText(R.string.msg_network_error), 2000);
                 }
             }
         });

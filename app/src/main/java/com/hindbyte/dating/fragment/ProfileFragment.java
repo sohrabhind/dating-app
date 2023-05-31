@@ -43,6 +43,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
@@ -84,6 +85,7 @@ import com.hindbyte.dating.model.Profile;
 import com.hindbyte.dating.util.Api;
 import com.hindbyte.dating.util.CustomRequest;
 import com.hindbyte.dating.util.Helper;
+import com.hindbyte.dating.util.ToastWindow;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.MultipartBuilder;
@@ -110,6 +112,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
     private static final String STATE_LIST = "State Adapter Data";
 
+    ToastWindow toastWindow = new ToastWindow();
     private ProgressDialog pDialog;
 
     private static final String TAG = ProfileFragment.class.getSimpleName();
@@ -127,10 +130,10 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
     LinearLayout mLocationContainer, mProfileInfoContainer, mProfileCountersContainer;
 
-    LinearLayout mProfileAgeContainer, mProfileHeightContainer, mProfileWeightContainer, mProfileStatusContainer, mProfileJoinDateContainer, mProfileBirthDateContainer, mProfileGenderContainer, mProfileRelationshipStatusContainer, mProfileReligiousViewContainer, mProfileSiteContainer;
+    LinearLayout mProfileAgeContainer, mProfileHeightContainer, mProfileStatusContainer, mProfileJoinDateContainer, mProfileGenderContainer, mProfileReligiousViewContainer, mProfileSiteContainer;
     LinearLayout mProfileSmokingViewsContainer, mProfileAlcoholViewsContainer, mProfileProfileLookingContainer, mProfileGenderLikeContainer;
     TextView mProfileSmokingViews, mProfileAlcoholViews, mProfileProfileLooking, mProfileGenderLike;
-    TextView mProfileAge, mProfileHeight, mProfileWeight, mProfileStatus, mProfileJoinDate, mProfileBirthDate, mProfileGender, mProfileRelationshipStatus, mProfileReligiousView, mProfileInstagramUrl;
+    TextView mProfileAge, mProfileHeight, mProfileStatus, mProfileJoinDate, mProfileGender, mProfileReligiousView, mProfileInterests;
 
     SwipeRefreshLayout mProfileRefreshLayout;
     NestedScrollView mNestedScrollView;
@@ -140,8 +143,8 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
     ImageView mProfilePhoto, mProfileOnlineIcon;
     TextView mProfileLocation, mProfileFullname, mProfileUsername;
     RecyclerView mRecyclerView;
-    TextView mProfileItemsCount, mProfileFriendsCount, mProfileLikesCount;
-    MaterialRippleLayout mProfileItemsBtn, mProfileFriendsBtn, mProfileLikesBtn;
+    TextView mProfileItemsCount, mProfileLikesCount;
+    MaterialRippleLayout mProfileItemsBtn, mProfileLikesBtn;
 
     TextView mProfileMessageBtn, mProfileActionBtn;
 
@@ -316,7 +319,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
 
-                        Toast.makeText(requireActivity(), getString(R.string.label_grant_storage_permission), Toast.LENGTH_SHORT).show();
+                        toastWindow.makeText(requireActivity(), getString(R.string.label_grant_storage_permission), 2000);
                     }
 
                 }).show();
@@ -349,7 +352,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
 
-                        Toast.makeText(requireActivity(), getString(R.string.label_grant_camera_permission), Toast.LENGTH_SHORT).show();
+                        toastWindow.makeText(requireActivity(), getString(R.string.label_grant_camera_permission), 2000);
                     }
 
                 }).show();
@@ -371,18 +374,14 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
         mProfileAgeContainer = rootView.findViewById(R.id.profileAgeContainer);
         mProfileHeightContainer = rootView.findViewById(R.id.profileHeightContainer);
-        mProfileWeightContainer = rootView.findViewById(R.id.profileWeightContainer);
 
         mProfileAge = rootView.findViewById(R.id.profileAge);
         mProfileHeight = rootView.findViewById(R.id.profileHeight);
-        mProfileWeight = rootView.findViewById(R.id.profileWeight);
 
 
         mProfileStatusContainer = rootView.findViewById(R.id.profileStatusContainer);
         mProfileJoinDateContainer = rootView.findViewById(R.id.profileJoinDateContainer);
-        mProfileBirthDateContainer = rootView.findViewById(R.id.profileBirthDateContainer);
         mProfileGenderContainer = rootView.findViewById(R.id.profileGenderContainer);
-        mProfileRelationshipStatusContainer = rootView.findViewById(R.id.profileRelationshipStatusContainer);
         mProfileReligiousViewContainer = rootView.findViewById(R.id.profileReligiousViewContainer);
         mProfileSmokingViewsContainer = rootView.findViewById(R.id.profileSmokingViewsContainer);
         mProfileAlcoholViewsContainer = rootView.findViewById(R.id.profileAlcoholViewsContainer);
@@ -393,20 +392,14 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
         mProfileStatus = rootView.findViewById(R.id.profileStatus);
         mProfileJoinDate = rootView.findViewById(R.id.profileJoinDate);
-        mProfileBirthDate = rootView.findViewById(R.id.profileBirthDate);
         mProfileGender = rootView.findViewById(R.id.profileGender);
-        mProfileRelationshipStatus = rootView.findViewById(R.id.profileRelationshipStatus);
         mProfileReligiousView = rootView.findViewById(R.id.profileReligiousView);
         mProfileSmokingViews = rootView.findViewById(R.id.profileSmokingViews);
         mProfileAlcoholViews = rootView.findViewById(R.id.profileAlcoholViews);
         mProfileProfileLooking = rootView.findViewById(R.id.profileProfileLooking);
         mProfileGenderLike = rootView.findViewById(R.id.profileGenderLike);
 
-        mProfileInstagramUrl = rootView.findViewById(R.id.profileInstagramUrl);
-
-        ((ProfileActivity)requireActivity()).mFabButton.setVisibility(View.GONE);
-
-
+        mProfileInterests = rootView.findViewById(R.id.profileInterests);
 
 
         mNestedScrollView = rootView.findViewById(R.id.nestedScrollView);
@@ -460,11 +453,9 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         mProfileOnlineIcon = rootView.findViewById(R.id.profileOnlineIcon);
 
         mProfileItemsCount = rootView.findViewById(R.id.profileItemsCount);
-        mProfileFriendsCount = rootView.findViewById(R.id.profileFriendsCount);
         mProfileLikesCount = rootView.findViewById(R.id.profileLikesCount);
 
         mProfileItemsBtn = rootView.findViewById(R.id.profileItemsBtn);
-        mProfileFriendsBtn = rootView.findViewById(R.id.profileFriendsBtn);
         mProfileLikesBtn = rootView.findViewById(R.id.profileLikesBtn);
 
         mLocationContainer = rootView.findViewById(R.id.profileLocationContainer);
@@ -475,25 +466,17 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
             @Override
             public void onClick(View v) {
 
-                if (!profile.getInstagramPage().startsWith("https://") && !profile.getInstagramPage().startsWith("http://")){
+                if (!profile.getInterests().startsWith("https://") && !profile.getInterests().startsWith("http://")){
 
-                    profile.setInstagramPage("http://" + profile.getInstagramPage());
+                    profile.setInterests("http://" + profile.getInterests());
                 }
 
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(profile.getInstagramPage()));
+                i.setData(Uri.parse(profile.getInterests()));
                 startActivity(i);
             }
         });
 
-        mProfileFriendsBtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                showProfileFriends(profile.getId());
-            }
-        });
 
         mProfileLikesBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -509,96 +492,63 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
 
 
-        mProfileActionBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mProfileActionBtn.setOnClickListener(v -> {
+            if (App.getInstance().getId() == profile.getId()) {
+                getAccountSettings();
+            }
+        });
 
-                if (App.getInstance().getId() == profile.getId()) {
+        ((ProfileActivity)requireActivity()).mFabButton.setOnClickListener(v -> {
 
-                    getAccountSettings();
+            if (profile.getId() == App.getInstance().getId()) {
 
+                Intent intent = new Intent(requireActivity(), AddPhotoActivity.class);
+                startActivity(intent);
+            } else {
+                if (!profile.isInBlackList()) {
+                    like(profile.getId());
                 } else {
-
-                    if (profile.isFriend()) {
-
-                        removeFromFriends();
-
-                    } else {
-
-                        friendsRequest();
-                    }
+                    toastWindow.makeText(requireActivity(), getString(R.string.error_action), 2000);
                 }
             }
         });
 
-        ((ProfileActivity)requireActivity()).mFabButton.setOnClickListener(new View.OnClickListener() {
+        mProfileMessageBtn.setOnClickListener(v -> {
+            if (profile.getAllowMessages() == 0 && !profile.isMyFan()) {
+                toastWindow.makeText(requireActivity(), getString(R.string.error_no_friend), 2000);
+            } else {
+                if (!profile.isInBlackList()) {
+                    Intent i = new Intent(requireActivity(), ChatActivity.class);
+                    i.putExtra("chatId", 0);
+                    i.putExtra("profileId", profile.getId());
+                    i.putExtra("withProfile", profile.getFullname());
 
-            @Override
-            public void onClick(View v) {
+                    i.putExtra("with_user_username", profile.getUsername());
+                    i.putExtra("with_user_fullname", profile.getFullname());
+                    i.putExtra("with_user_photo_url", profile.getBigPhotoUrl());
 
-                if (profile.getId() == App.getInstance().getId()) {
+                    i.putExtra("with_user_state", profile.getState());
 
-                    Intent intent = new Intent(requireActivity(), AddPhotoActivity.class);
-                    startActivity(intent);
-
-                } else {
-
-                    if (!profile.isInBlackList()) {
-
-                        like(profile.getId());
-
-                    } else {
-
-                        Toast.makeText(requireActivity(), getString(R.string.error_action), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-
-        mProfileMessageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (profile.getAllowMessages() == 0 && !profile.isFriend()) {
-                    Toast.makeText(requireActivity(), getString(R.string.error_no_friend), Toast.LENGTH_SHORT).show();
-                } else {
-                    if (!profile.isInBlackList()) {
-                        Intent i = new Intent(requireActivity(), ChatActivity.class);
-                        i.putExtra("chatId", 0);
-                        i.putExtra("profileId", profile.getId());
-                        i.putExtra("withProfile", profile.getFullname());
-
-                        i.putExtra("with_user_username", profile.getUsername());
-                        i.putExtra("with_user_fullname", profile.getFullname());
-                        i.putExtra("with_user_photo_url", profile.getBigPhotoUrl());
-
-                        i.putExtra("with_user_state", profile.getState());
-
-                        startActivity(i);
-                    } else {
-                        Toast.makeText(requireActivity(), getString(R.string.error_action), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-
-
-        mProfilePhoto.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                if (profile.getBigPhotoUrl().length() > 0 &&
-                        (App.getInstance().getSettings().isAllowShowNotModeratedProfilePhotos() || App.getInstance().getId() == profile.getId() || profile.getPhotoModerateAt() != 0)) {
-
-                    Intent i = new Intent(requireActivity(), PhotoViewActivity.class);
-                    i.putExtra("imgUrl", profile.getBigPhotoUrl());
                     startActivity(i);
+                } else {
+                    toastWindow.makeText(requireActivity(), getString(R.string.error_action), 2000);
                 }
+            }
+        });
+
+
+        mProfilePhoto.setOnClickListener(v -> {
+
+            if (profile.getBigPhotoUrl().length() > 0 &&
+                    (App.getInstance().getSettings().isAllowShowNotModeratedProfilePhotos() || App.getInstance().getId() == profile.getId() || profile.getPhotoModerateAt() != 0)) {
+
+                Intent i = new Intent(requireActivity(), PhotoViewActivity.class);
+                i.putExtra("imgUrl", profile.getBigPhotoUrl());
+                startActivity(i);
             }
         });
 
         if (profile.getFullname() == null || profile.getFullname().length() == 0) {
-
             if (App.getInstance().isConnected()) {
 
                 showLoadingScreen();
@@ -614,7 +564,6 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         } else {
 
             if (App.getInstance().isConnected()) {
-
                 if (profile.getState() == ACCOUNT_STATE_ENABLED) {
 
                     showContentScreen();
@@ -623,12 +572,10 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
                     updateProfile();
 
                 } else {
-
                     showDisabledScreen();
                 }
 
             } else {
-
                 showErrorScreen();
             }
         }
@@ -638,14 +585,12 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
     }
 
     public void onDestroyView() {
-
         super.onDestroyView();
-
         hidepDialog();
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
 
         super.onSaveInstanceState(outState);
 
@@ -731,35 +676,27 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == STREAM_NEW_POST && resultCode == Activity.RESULT_OK && null != data) {
-            profile.setPhotosCount(profile.getPhotosCount() + 1);
+            profile.setImagesCount(profile.getImagesCount() + 1);
             itemId = 0;
             getItems();
         } else if (requestCode == PROFILE_EDIT && resultCode == Activity.RESULT_OK) {
 
             profile.setFullname(data.getStringExtra("fullname"));
             profile.setLocation(data.getStringExtra("location"));
-            profile.setInstagramPage(data.getStringExtra("instagramPage"));
+            profile.setInterests(data.getStringExtra("interests"));
             profile.setBio(data.getStringExtra("bio"));
 
             profile.setGender(data.getIntExtra("gender", 0));
 
             profile.setAge(data.getIntExtra("age", 0));
             profile.setHeight(data.getIntExtra("height", 0));
-            profile.setWeight(data.getIntExtra("weight", 0));
 
-            profile.setYear(data.getIntExtra("year", 0));
-            profile.setMonth(data.getIntExtra("month", 0));
-            profile.setDay(data.getIntExtra("day", 0));
-
-            profile.setRelationshipStatus(data.getIntExtra("relationshipStatus", 0));
             profile.setReligiousView(data.getIntExtra("religiousView", 0));
             profile.setViewsOnSmoking(data.getIntExtra("viewsOnSmoking", 0));
             profile.setViewsOnAlcohol(data.getIntExtra("viewsOnAlcohol", 0));
             profile.setYouLooking(data.getIntExtra("youLooking", 0));
             profile.setYouLike(data.getIntExtra("youLike", 0));
-
-            profile.setAllowShowMyBirthday(data.getIntExtra("allowShowMyBirthday", 0));
-
+            
             updateProfile();
 
         } else if (requestCode == PROFILE_NEW_POST && resultCode == requireActivity().RESULT_OK) {
@@ -798,7 +735,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
                                 cameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                                 imgFromCameraActivityResultLauncher.launch(cameraIntent);
                             } catch (Exception e) {
-                                Toast.makeText(requireActivity(), "Error occured. Please try again later.", Toast.LENGTH_SHORT).show();
+                                toastWindow.makeText(requireActivity(), "Error occured. Please try again later.", 2000);
                             }
                         } else {
                             requestCameraPermission();
@@ -832,42 +769,33 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
     public void updateProfile() {
 
         updateFullname();
-        updateFriendsCount();
         updateLikesCount();
         updateActionButton();
 
         mProfileUsername.setText("@" + profile.getUsername());
         mProfileLocation.setText(profile.getLocation());
 
-        mProfileItemsCount.setText(String.valueOf(profile.getPhotosCount()));
-        mProfileFriendsCount.setText(String.valueOf(profile.getFriendsCount()));
+        mProfileItemsCount.setText(String.valueOf(profile.getImagesCount()));
         mProfileLikesCount.setText(String.valueOf(profile.getLikesCount()));
 
         // Show settings button is your profile
         if (profile.getId() == App.getInstance().getId()) {
-
-            ((ProfileActivity)requireActivity()).mFabButton.setVisibility(View.VISIBLE);
             ((ProfileActivity)requireActivity()).mFabButton.setImageResource(R.drawable.ic_action_new);
 
             mProfileActionBtn.setText(R.string.action_profile_edit);
-
             mProfileActionBtn.setVisibility(View.VISIBLE);
-
             mProfileMessageBtn.setVisibility(View.GONE);
-
         } else {
-
-            ((ProfileActivity)requireActivity()).mFabButton.setVisibility(View.GONE);
-
-            if (!profile.isMyLike()) {
-
-                ((ProfileActivity)requireActivity()).mFabButton.setImageResource(R.drawable.ic_action_like);
-
-                ((ProfileActivity)requireActivity()).mFabButton.setVisibility(View.VISIBLE);
+            mProfileActionBtn.setVisibility(View.GONE);
+            ((ProfileActivity)requireActivity()).mFabButton.setImageResource(R.drawable.ic_action_like);
+            if (profile.isILike()) {
+                ((ProfileActivity)requireActivity()).mFabButton.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.app_circular_button_green));
+            }
+            if (!profile.isILike()) {
+                ((ProfileActivity)requireActivity()).mFabButton.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.app_circular_button));
             }
 
             mProfileMessageBtn.setText(R.string.action_message);
-
             mProfileMessageBtn.setVisibility(View.VISIBLE);
 
             if (!profile.isInBlackList()) {
@@ -890,10 +818,10 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         }
 
 
-        if (profile.getInstagramPage() != null && profile.getInstagramPage().length() != 0) {
+        if (profile.getInterests() != null && profile.getInterests().length() != 0) {
 
             mProfileSiteContainer.setVisibility(View.VISIBLE);
-            mProfileInstagramUrl.setText(profile.getInstagramPage());
+            mProfileInterests.setText(profile.getInterests());
 
         } else {
 
@@ -919,11 +847,9 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
         mProfileAge.setText(getString(R.string.label_age) + ": " + profile.getAge());
         mProfileHeight.setText(getString(R.string.label_height) + ": " + profile.getHeight() + " (" + getString(R.string.label_cm) + ")");
-        mProfileWeight.setText(getString(R.string.label_weight) + ": " + profile.getWeight() + " (" + getString(R.string.label_kg) + ")");
-
+        
         Helper helper = new Helper(getContext());
 
-        mProfileRelationshipStatus.setText(getString(R.string.account_relationship_status) + ": " + helper.getRelationshipStatus(profile.getRelationshipStatus()));
         mProfileReligiousView.setText(getString(R.string.account_religious_view) + ": " + helper.getReligiousView(profile.getReligiousView()));
         mProfileSmokingViews.setText(getString(R.string.account_smoking_views) + ": " + helper.getSmokingViews(profile.getViewsOnSmoking()));
         mProfileAlcoholViews.setText(getString(R.string.account_alcohol_views) + ": " + helper.getAlcoholViews(profile.getViewsOnAlcohol()));
@@ -931,15 +857,6 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         mProfileGenderLike.setText(getString(R.string.account_profile_like) + ": " + helper.getGenderLike(profile.getYouLike()));
 
         mProfileJoinDate.setText(getString(R.string.label_profile_join) + ": " + profile.getCreateDate());
-
-        if (profile.getAllowShowMyBirthday() == 1) {
-            mProfileBirthDate.setVisibility(View.VISIBLE);
-            mProfileBirthDateContainer.setVisibility(View.VISIBLE);
-            mProfileBirthDate.setText(getString(R.string.label_profile_birth) + ": " + profile.getBirthDate());
-        } else {
-            mProfileBirthDate.setVisibility(View.GONE);
-            mProfileBirthDateContainer.setVisibility(View.GONE);
-        }
 
         if (profile.getAge() == 0) {
             mProfileAgeContainer.setVisibility(View.GONE);
@@ -951,16 +868,6 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
             mProfileHeightContainer.setVisibility(View.GONE);
         } else {
             mProfileHeightContainer.setVisibility(View.VISIBLE);
-        }
-
-        if (profile.getWeight() == 0) {
-            mProfileWeightContainer.setVisibility(View.GONE);
-        } else {
-            mProfileWeightContainer.setVisibility(View.VISIBLE);
-        }
-
-        if (profile.getRelationshipStatus() == 0) {
-            mProfileRelationshipStatusContainer.setVisibility(View.GONE);
         }
 
         if (profile.getReligiousView() == 0) {
@@ -1028,7 +935,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
         } else {
 
-            if (profile.getAllowShowMyInfo() == 1 && profile.isFriend()) {
+            if (profile.getAllowShowMyInfo() == 1 && profile.isMyFan()) {
 
                 mProfileInfoContainer.setVisibility(View.VISIBLE);
             }
@@ -1036,7 +943,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
         if (profile.getAllowShowMyGallery() == 0 || App.getInstance().getId() == profile.getId()) {
 
-            if (profile.getPhotosCount() > 0 && itemsAdapter.getItemCount() != 0) {
+            if (profile.getImagesCount() > 0 && itemsAdapter.getItemCount() != 0) {
 
                 mRecyclerView.setVisibility(View.VISIBLE);
 
@@ -1047,9 +954,9 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
         } else {
 
-            if (profile.getAllowShowMyGallery() == 1 && profile.isFriend()) {
+            if (profile.getAllowShowMyGallery() == 1 && profile.isMyFan()) {
 
-                if (profile.getPhotosCount() > 0 && itemsAdapter.getItemCount() != 0) {
+                if (profile.getImagesCount() > 0 && itemsAdapter.getItemCount() != 0) {
 
                     mRecyclerView.setVisibility(View.VISIBLE);
 
@@ -1108,7 +1015,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
                         try {
                             if (!response.getBoolean("error")) {
                                 profile = new Profile(response);
-                                if (profile.getPhotosCount() > 0) {
+                                if (profile.getImagesCount() > 0) {
                                     getItems();
                                 }
                                 if (profile.getState() == ACCOUNT_STATE_ENABLED) {
@@ -1197,7 +1104,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         if (App.getInstance().getId() == profile.getId() || profile.getAllowShowMyGallery() == 0) {
             // All right. Load items
         } else {
-            if (profile.getAllowShowMyGallery() == 1 && profile.isFriend()) {
+            if (profile.getAllowShowMyGallery() == 1 && profile.isMyFan()) {
                 // All right. Load items
             } else {
                 return;
@@ -1258,7 +1165,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
                 }
 
                 loadingComplete();
-                Toast.makeText(requireActivity(), error.toString(), Toast.LENGTH_LONG).show();
+                toastWindow.makeText(requireActivity(), error.toString(), 2000);
             }
         }) {
 
@@ -1568,7 +1475,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
                                     profile.setBlocked(false);
 
-                                    Toast.makeText(requireActivity(), getString(R.string.msg_profile_removed_from_blacklist), Toast.LENGTH_SHORT).show();
+                                    toastWindow.makeText(requireActivity(), getString(R.string.msg_profile_removed_from_blacklist), 2000);
                                 }
 
                             } catch (JSONException e) {
@@ -1638,7 +1545,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
                                 profile.setBlocked(true);
 
-                                Toast.makeText(requireActivity(), getString(R.string.msg_profile_added_to_blacklist), Toast.LENGTH_SHORT).show();
+                                toastWindow.makeText(requireActivity(), getString(R.string.msg_profile_added_to_blacklist), 2000);
                             }
 
                         } catch (JSONException e) {
@@ -1656,11 +1563,13 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || requireActivity() == null) {
+                if (!isAdded()) {
 
                     Log.e("ERROR", "ProfileFragment Not Added to Activity");
 
                     return;
+                } else {
+                    requireActivity();
                 }
 
                 loading = false;
@@ -1746,145 +1655,11 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         return false;
     }
 
-    public void removeFromFriends() {
 
-        loading = true;
-
-        showpDialog();
-
-        CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_FRIENDS_REMOVE, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        if (!isAdded() || requireActivity() == null) {
-
-                            Log.e("ERROR", "ProfileFragment Not Added to Activity");
-
-                            return;
-                        }
-
-                        try {
-
-                            if (!response.getBoolean("error")) {
-
-                                profile.setFriend(false);
-                                profile.setFriendsCount(profile.getFriendsCount() - 1);
-
-                                updateProfile();
-                            }
-
-                        } catch (JSONException e) {
-
-                            e.printStackTrace();
-
-                        } finally {
-
-                            loading = false;
-
-                            hidepDialog();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                if (!isAdded() || requireActivity() == null) {
-
-                    Log.e("ERROR", "ProfileFragment Not Added to Activity");
-
-                    return;
-                }
-
-                loading = false;
-
-                hidepDialog();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("accountId", Long.toString(App.getInstance().getId()));
-                params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("friendId", Long.toString(profile.getId()));
-
-                return params;
-            }
-        };
-
-        App.getInstance().addToRequestQueue(jsonReq);
-    }
-
-    public void friendsRequest() {
-
-        showpDialog();
-
-        CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_FRIENDS_REQUEST, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        if (!isAdded() || requireActivity() == null) {
-
-                            Log.e("ERROR", "ProfileFragment Not Added to Activity");
-
-                            return;
-                        }
-
-                        try {
-
-                            if (!response.getBoolean("error")) {
-
-                                profile.setFollow(response.getBoolean("follow"));
-                                profile.setFollowersCount(response.getInt("followersCount"));
-
-                                updateProfile();
-
-                                changeAccessMode();
-                            }
-
-                        } catch (JSONException e) {
-
-                            e.printStackTrace();
-
-                        } finally {
-
-                            hidepDialog();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                if (!isAdded() || requireActivity() == null) {
-
-                    Log.e("ERROR", "ProfileFragment Not Added to Activity");
-
-                    return;
-                }
-
-                hidepDialog();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("accountId", Long.toString(App.getInstance().getId()));
-                params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("profileId", Long.toString(profile_id));
-
-                return params;
-            }
-        };
-
-        App.getInstance().addToRequestQueue(jsonReq);
-    }
 
     public void changeAccessMode() {
 
-        if (App.getInstance().getId() == profile.getId() || profile.isFollow()) {
+        if (App.getInstance().getId() == profile.getId()) {
 
             accessMode = 1;
 
@@ -1894,42 +1669,17 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         }
     }
 
-    private void updateFriendsCount() {
-        mProfileFriendsCount.setText(String.valueOf(profile.getFriendsCount()));
-    }
-
 
     private void updateLikesCount() {
         mProfileLikesCount.setText(String.valueOf(profile.getLikesCount()));
     }
 
     public void updateActionButton() {
-
         if (profile.getId() == App.getInstance().getId()) {
-
             mProfileActionBtn.setText(R.string.action_profile_edit);
             mProfileActionBtn.setEnabled(true);
-
         } else {
-
-            if (profile.isFriend()) {
-
-                mProfileActionBtn.setText(R.string.action_remove_from_friends);
-                mProfileActionBtn.setEnabled(true);
-
-            } else {
-
-                if (profile.isFollow()) {
-
-                    mProfileActionBtn.setText(R.string.action_cancel_friends_request);
-                    mProfileActionBtn.setEnabled(true);
-
-                } else {
-
-                    mProfileActionBtn.setText(R.string.action_add_to_friends);
-                    mProfileActionBtn.setEnabled(true);
-                }
-            }
+            mProfileActionBtn.setVisibility(View.GONE);
         }
     }
 
@@ -1944,29 +1694,9 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
         } else {
 
-            if (profile.getAllowShowMyLikes() == 1 && profile.isFriend()) {
+            if (profile.getAllowShowMyLikes() == 1 && profile.isILike()) {
 
                 Intent intent = new Intent(requireActivity(), LikesActivity.class);
-                intent.putExtra("profileId", profileId);
-                startActivity(intent);
-
-            }
-        }
-    }
-
-    public void showProfileFriends(long profileId) {
-
-        if (profile.getAllowShowMyFriends() == 0 || App.getInstance().getId() == profile.getId()) {
-
-            Intent intent = new Intent(requireActivity(), FriendsActivity.class);
-            intent.putExtra("profileId", profileId);
-            startActivity(intent);
-
-        } else {
-
-            if (profile.getAllowShowMyFriends() == 1 && profile.isFriend()) {
-
-                Intent intent = new Intent(requireActivity(), FriendsActivity.class);
                 intent.putExtra("profileId", profileId);
                 startActivity(intent);
 
@@ -1982,56 +1712,53 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         showpDialog();
 
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_PROFILE_LIKE, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
+                response -> {
 
-                        if (!isAdded() || requireActivity() == null) {
+                    if (!isAdded()) {
 
-                            Log.e("ERROR", "ProfileFragment Not Added to Activity");
+                        Log.e("ERROR", "ProfileFragment Not Added to Activity");
 
-                            return;
-                        }
+                        return;
+                    } else {
+                        requireActivity();
+                    }
 
-                        try {
+                    try {
 
-                            if (!response.getBoolean("error")) {
+                        if (!response.getBoolean("error")) {
 
-                                if (response.has("likesCount")) {
+                            if (response.has("likesCount")) {
 
-                                    profile.setLikesCount(response.getInt("likesCount"));
+                                profile.setLikesCount(response.getInt("likesCount"));
 
-                                    updateLikesCount();
-                                }
-
-                                if (response.has("myLike")) {
-
-                                    profile.setMyLike(response.getBoolean("myLike"));
-                                }
+                                updateLikesCount();
                             }
 
-                        } catch (JSONException e) {
+                            if (response.has("iLiked")) {
 
-                            e.printStackTrace();
-
-                        } finally {
-
-                            loading = false;
-
-                            hidepDialog();
-
-                            ((ProfileActivity)requireActivity()).mFabButton.setVisibility(View.GONE);
+                                profile.setILike(response.getBoolean("iLiked"));
+                            }
                         }
+
+                    } catch (JSONException e) {
+
+                        e.printStackTrace();
+
+                    } finally {
+                        loading = false;
+                        hidepDialog();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || requireActivity() == null) {
+                if (!isAdded()) {
 
                     Log.e("ERROR", "ProfileFragment Not Added to Activity");
 
                     return;
+                } else {
+                    requireActivity();
                 }
 
                 loading = false;
@@ -2132,25 +1859,18 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         Intent i = new Intent(requireActivity(), AccountSettingsActivity.class);
         i.putExtra("profileId", App.getInstance().getId());
         i.putExtra("gender", profile.getGender());
-        i.putExtra("year", profile.getYear());
-        i.putExtra("month", profile.getMonth());
-        i.putExtra("day", profile.getDay());
         i.putExtra("age", profile.getAge());
         i.putExtra("height", profile.getHeight());
-        i.putExtra("weight", profile.getWeight());
 
-        i.putExtra("relationshipStatus", profile.getRelationshipStatus());
         i.putExtra("religiousView", profile.getReligiousView());
         i.putExtra("viewsOnSmoking", profile.getViewsOnSmoking());
         i.putExtra("viewsOnAlcohol", profile.getViewsOnAlcohol());
         i.putExtra("youLooking", profile.getYouLooking());
         i.putExtra("youLike", profile.getYouLike());
 
-        i.putExtra("allowShowMyBirthday", profile.getAllowShowMyBirthday());
-
         i.putExtra("fullname", profile.getFullname());
         i.putExtra("location", profile.getLocation());
-        i.putExtra("instagramPage", profile.getInstagramPage());
+        i.putExtra("interests", profile.getInterests());
         i.putExtra("bio", profile.getBio());
         startActivity(i);
     }

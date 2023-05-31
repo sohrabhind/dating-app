@@ -46,13 +46,10 @@ public class App extends Application implements Constants {
 
     private SharedPreferences sharedPref;
 
-    private List<Map<String, String>> languages = new ArrayList<>();;
-    private String language = "";
-
-    private String username, fullname, accessToken, gcmToken = "", google_id = "", photoUrl, area = "", country = "", city = "";
+    private String username = "", fullname = "", accessToken = "", gcmToken = "", google_id = "", photoUrl= "", area = "", country = "", city = "";
     private Double lat = 0.0, lng = 0.0;
-    private long id;
-    private int state, balance = 0, level, freeMessagesCount, levelMessagesCount, allowShowMyAge, allowShowOnline, allowShowMyInfo, allowShowMyGallery, allowShowMyFriends, allowShowMyLikes, allowPhotosComments, allowComments, allowMessages, allowLikesGCM, allowCommentsGCM, allowFollowersGCM, allowMessagesGCM, allowCommentReplyGCM, errorCode, currentChatId = 0, notificationsCount = 0, messagesCount = 0, newFriendsCount = 0, seenTyping = 1;
+    private long id = 0;
+    private int state = 0, balance = 0, level = 0, freeMessagesCount = 0, levelMessagesCount = 0, allowShowMyAge = 0, allowShowOnline = 0, allowShowMyInfo = 0, allowShowMyGallery = 0, allowShowMyFriends = 0, allowShowMyLikes = 0, allowPhotosComments = 0, allowComments = 0, allowMessages = 0, allowLikesGCM = 0, allowCommentsGCM = 0, allowMessagesGCM = 0, allowCommentReplyGCM = 0, errorCode = 0, currentChatId = 0, notificationsCount = 0, messagesCount = 0, newFriendsCount = 0, seenTyping = 1;
     
     private Settings settings;
     private int feedMode = 0;
@@ -122,7 +119,7 @@ public class App extends Application implements Constants {
 
                                     if (!response.getBoolean("error")) {
 
-//                                            Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+//                                            toastWindow.makeText(getApplicationContext(), response.toString(), 2000);
                                     }
 
                                 } catch (JSONException e) {
@@ -197,7 +194,6 @@ public class App extends Application implements Constants {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put("clientId", CLIENT_ID);
                     params.put("accountId", Long.toString(App.getInstance().getId()));
                     params.put("accessToken", App.getInstance().getAccessToken());
 
@@ -293,7 +289,6 @@ public class App extends Application implements Constants {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put("clientId", CLIENT_ID);
                     params.put("accountId", Long.toString(App.getInstance().getId()));
                     params.put("accessToken", App.getInstance().getAccessToken());
                     return params;
@@ -456,7 +451,7 @@ public class App extends Application implements Constants {
 
                                 if (!response.getBoolean("error")) {
 
-//                                    Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+//                                    toastWindow.makeText(getApplicationContext(), response.toString(), 2000);
                                 }
 
                             } catch (JSONException e) {
@@ -507,12 +502,6 @@ public class App extends Application implements Constants {
     }
 
     public String getGoogleFirebaseId() {
-
-        if (this.google_id == null) {
-
-            this.google_id = "";
-        }
-
         return this.google_id;
     }
 
@@ -590,16 +579,6 @@ public class App extends Application implements Constants {
     public int getAllowCommentReplyGCM() {
 
         return this.allowCommentReplyGCM;
-    }
-
-    public void setAllowFollowersGCM(int allowFollowersGCM) {
-
-        this.allowFollowersGCM = allowFollowersGCM;
-    }
-
-    public int getAllowFollowersGCM() {
-
-        return this.allowFollowersGCM;
     }
 
     public void setAllowCommentsGCM(int allowCommentsGCM) {
@@ -768,17 +747,10 @@ public class App extends Application implements Constants {
     }
 
     public int getErrorCode() {
-
         return this.errorCode;
     }
 
     public String getUsername() {
-
-        if (this.username == null) {
-
-            this.username = "";
-        }
-
         return this.username;
     }
 
@@ -803,12 +775,6 @@ public class App extends Application implements Constants {
     }
 
     public String getFullname() {
-
-        if (this.fullname == null) {
-
-            this.fullname = "";
-        }
-
         return this.fullname;
     }
 
@@ -818,27 +784,14 @@ public class App extends Application implements Constants {
     }
 
     public String getPhotoUrl() {
-
-        if (this.photoUrl == null) {
-
-            this.photoUrl = "";
-        }
-
         return this.photoUrl;
     }
 
     public void setCountry(String country) {
-
         this.country = country;
     }
 
     public String getCountry() {
-
-        if (this.country == null) {
-
-            this.setCountry("");
-        }
-
         return this.country;
     }
 
@@ -848,58 +801,27 @@ public class App extends Application implements Constants {
     }
 
     public String getCity() {
-
-        if (this.city == null) {
-
-            this.setCity("");
-        }
-
         return this.city;
     }
 
     public void setArea(String area) {
-
         this.area = area;
     }
 
     public String getArea() {
-
-        if (this.area == null) {
-
-            this.setArea("");
-        }
-
         return this.area;
     }
 
 
     public void setLat(Double lat) {
-
-        if (this.lat == null) {
-
-            this.lat = 0.000000;
-        }
-
         this.lat = lat;
     }
 
     public Double getLat() {
-
-        if (this.lat == null) {
-
-            this.lat = 0.000000;
-        }
-
         return this.lat;
     }
 
     public void setLng(Double lng) {
-
-        if (this.lng == null) {
-
-            this.lng = 0.000000;
-        }
-
         this.lng = lng;
     }
 
@@ -937,7 +859,6 @@ public class App extends Application implements Constants {
         this.setAllowLikesGCM(sharedPref.getInt(getString(R.string.settings_account_allow_likes_gcm), 1));
 
         this.setAllowComments(sharedPref.getInt(getString(R.string.settings_account_allow_comments_gcm), 1));
-        this.setAllowFollowersGCM(sharedPref.getInt(getString(R.string.settings_account_allow_friends_requests_gcm), 1));
 
         if (App.getInstance().getLat() == 0.000000 && App.getInstance().getLng() == 0.000000) {
 
@@ -963,8 +884,7 @@ public class App extends Application implements Constants {
         sharedPref.edit().putInt(getString(R.string.settings_account_allow_likes_gcm), this.getAllowLikesGCM()).apply();
 
         sharedPref.edit().putInt(getString(R.string.settings_account_allow_comments_gcm), this.getAllowCommentsGCM()).apply();
-        sharedPref.edit().putInt(getString(R.string.settings_account_allow_friends_requests_gcm), this.getAllowFollowersGCM()).apply();
-
+        
         
         sharedPref.edit().putString(getString(R.string.settings_account_lat), Double.toString(this.getLat())).apply();
         sharedPref.edit().putString(getString(R.string.settings_account_lng), Double.toString(this.getLng())).apply();
@@ -995,11 +915,9 @@ public class App extends Application implements Constants {
 	}
 
 	public RequestQueue getRequestQueue() {
-
 		if (mRequestQueue == null) {
 			mRequestQueue = Volley.newRequestQueue(getApplicationContext());
 		}
-
 		return mRequestQueue;
 	}
 

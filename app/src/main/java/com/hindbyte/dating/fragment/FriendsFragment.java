@@ -30,7 +30,6 @@ import com.hindbyte.dating.activity.ProfileActivity;
 import com.hindbyte.dating.adapter.AdvancedPeopleListAdapter;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
-import com.hindbyte.dating.model.Friend;
 import com.hindbyte.dating.model.Profile;
 import com.hindbyte.dating.util.CustomRequest;
 import com.hindbyte.dating.util.Helper;
@@ -251,21 +250,7 @@ public class FriendsFragment extends Fragment implements Constants, SwipeRefresh
 
                                         for (int i = 0; i < usersArray.length(); i++) {
                                             JSONObject userObj = (JSONObject) usersArray.get(i);
-
-                                            Friend friend = new Friend(userObj);
-
-                                            Profile profile = new Profile();
-
-                                            profile.setId(friend.getFriendUserId());
-                                            profile.setFullname(friend.getFriendUserFullname());
-                                            profile.setUsername(friend.getFriendUserUsername());
-                                            profile.setGender(friend.getFriendUserGender());
-                                            profile.setBigPhotoUrl(friend.getFriendUserPhotoUrl());
-                                            profile.setLevelMode(friend.getFriendUserPro());
-                                            profile.setOnline(friend.isOnline());
-                                            profile.setDistance(0.000000);
-                                            profile.setPhotoModerateAt(friend.getPhotoModerateAt());
-
+                                            Profile profile = new Profile(userObj);
                                             itemsList.add(profile);
                                         }
                                     }
@@ -286,11 +271,13 @@ public class FriendsFragment extends Fragment implements Constants, SwipeRefresh
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || requireActivity() == null) {
+                if (!isAdded()) {
 
                     Log.e("ERROR", "Friends Fragment Not Added to Activity");
 
                     return;
+                } else {
+                    requireActivity();
                 }
 
                 loadingComplete();
@@ -304,8 +291,6 @@ public class FriendsFragment extends Fragment implements Constants, SwipeRefresh
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("profileId", Long.toString(profileId));
                 params.put("itemId", Long.toString(itemId));
-                params.put("language", "en");
-
                 return params;
             }
         };

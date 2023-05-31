@@ -34,6 +34,7 @@ import com.hindbyte.dating.R;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.util.CustomRequest;
+import com.hindbyte.dating.util.ToastWindow;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,6 +65,8 @@ public class ServicesFragment extends Fragment implements Constants {
     public ServicesFragment() {
         // Required empty public constructor
     }
+
+    ToastWindow toastWindow = new ToastWindow();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -247,19 +250,19 @@ public class ServicesFragment extends Fragment implements Constants {
 
                                     if (action.equals("connect")) {
 
-                                        Toast.makeText(requireActivity(), getString(R.string.msg_connect_to_google_success), Toast.LENGTH_SHORT).show();
+                                        toastWindow.makeText(requireActivity(), getString(R.string.msg_connect_to_google_success), 2000);
                                         App.getInstance().setGoogleFirebaseId(uid);
                                     }
 
                                     if (action.equals("disconnect")) {
 
-                                        Toast.makeText(requireActivity(), getString(R.string.msg_connect_to_google_removed), Toast.LENGTH_SHORT).show();
+                                        toastWindow.makeText(requireActivity(), getString(R.string.msg_connect_to_google_removed), 2000);
                                         App.getInstance().setGoogleFirebaseId("");
                                     }
 
                                 } else {
 
-                                    Toast.makeText(requireActivity(), getString(R.string.msg_connect_to_google_error), Toast.LENGTH_SHORT).show();
+                                    toastWindow.makeText(requireActivity(), getString(R.string.msg_connect_to_google_error), 2000);
                                 }
                             }
 
@@ -284,7 +287,7 @@ public class ServicesFragment extends Fragment implements Constants {
 
                 uid = "";
 
-                Toast.makeText(requireActivity(), getText(R.string.error_data_loading), Toast.LENGTH_LONG).show();
+                toastWindow.makeText(requireActivity(), getText(R.string.error_data_loading), 2000);
 
                 loading = false;
 
@@ -295,7 +298,6 @@ public class ServicesFragment extends Fragment implements Constants {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("client_id", CLIENT_ID);
                 params.put("access_token", App.getInstance().getAccessToken());
                 params.put("account_id", Long.toString(App.getInstance().getId()));
                 params.put("app_type", String.valueOf(APP_TYPE_ANDROID));

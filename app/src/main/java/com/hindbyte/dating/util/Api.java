@@ -29,6 +29,7 @@ public class Api extends Application implements Constants {
         this.context = context;
     }
 
+    ToastWindow toastWindow = new ToastWindow();
 
     public void profileReport(final long profileId, final int reason) {
 
@@ -50,14 +51,14 @@ public class Api extends Application implements Constants {
 
                         } finally {
 
-                            Toast.makeText(context, context.getText(R.string.label_profile_reported), Toast.LENGTH_SHORT).show();
+                            toastWindow.makeText(context, context.getText(R.string.label_profile_reported), 2000);
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(context, context.getText(R.string.label_profile_reported), Toast.LENGTH_SHORT).show();
+                toastWindow.makeText(context, context.getText(R.string.label_profile_reported), 2000);
             }
         }) {
 
@@ -75,90 +76,8 @@ public class Api extends Application implements Constants {
 
         App.getInstance().addToRequestQueue(jsonReq);
     }
+    
 
-    public void acceptFriendRequest(final long friendId) {
-
-        CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_FRIENDS_ACCEPT, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        try {
-
-                            if (!response.getBoolean("error")) {
-
-
-                            }
-
-                        } catch (JSONException e) {
-
-                            e.printStackTrace();
-
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                Toast.makeText(context, context.getString(R.string.error_data_loading), Toast.LENGTH_LONG).show();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("accountId", Long.toString(App.getInstance().getId()));
-                params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("friendId", Long.toString(friendId));
-
-                return params;
-            }
-        };
-
-        App.getInstance().addToRequestQueue(jsonReq);
-    }
-
-    public void rejectFriendRequest(final long friendId) {
-
-        CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_FRIENDS_REJECT, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        try {
-
-                            if (!response.getBoolean("error")) {
-
-
-                            }
-
-                        } catch (JSONException e) {
-
-                            e.printStackTrace();
-
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                Toast.makeText(context, context.getString(R.string.error_data_loading), Toast.LENGTH_LONG).show();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("accountId", Long.toString(App.getInstance().getId()));
-                params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("friendId", Long.toString(friendId));
-
-                return params;
-            }
-        };
-
-        App.getInstance().addToRequestQueue(jsonReq);
-    }
 
 
     public void photoDelete(final long itemId) {
@@ -185,7 +104,7 @@ public class Api extends Application implements Constants {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(context, context.getString(R.string.error_data_loading), Toast.LENGTH_LONG).show();
+                toastWindow.makeText(context, context.getString(R.string.error_data_loading), 2000);
             }
         }) {
 
@@ -223,14 +142,14 @@ public class Api extends Application implements Constants {
 
                         } finally {
 
-                            Toast.makeText(context, context.getString(R.string.label_item_reported), Toast.LENGTH_SHORT).show();
+                            toastWindow.makeText(context, context.getString(R.string.label_item_reported), 2000);
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(context, context.getString(R.string.label_item_reported), Toast.LENGTH_SHORT).show();
+                toastWindow.makeText(context, context.getString(R.string.label_item_reported), 2000);
             }
         }) {
 
@@ -272,7 +191,7 @@ public class Api extends Application implements Constants {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(context, context.getString(R.string.msg_comment_has_been_removed), Toast.LENGTH_SHORT).show();
+                toastWindow.makeText(context, context.getString(R.string.msg_comment_has_been_removed), 2000);
             }
         }) {
 

@@ -17,7 +17,7 @@ public class Image extends Application implements Constants, Parcelable {
     private String timeAgo, date, comment, imgUrl, area, country, city;
     private int itemType;
     private Double lat = 0.000000, lng = 0.000000;
-    private Boolean myLike = false;
+    private Boolean iLiked = false;
 
     private int removeAt = 0, moderateAt = 0;
 
@@ -49,7 +49,7 @@ public class Image extends Application implements Constants, Parcelable {
                 this.setDate(jsonData.getString("date"));
                 this.setTimeAgo(jsonData.getString("timeAgo"));
 
-                this.setMyLike(jsonData.getBoolean("myLike"));
+                this.setILike(jsonData.getBoolean("iLiked"));
 
                 if (jsonData.has("removeAt")) {
 
@@ -266,13 +266,13 @@ public class Image extends Application implements Constants, Parcelable {
         return WEB_SITE + this.owner.getUsername() + "/gallery/" + this.getId();
     }
 
-    public Boolean isMyLike() {
-        return myLike;
+    public Boolean isILike() {
+        return iLiked;
     }
 
-    public void setMyLike(Boolean myLike) {
+    public void setILike(Boolean iLiked) {
 
-        this.myLike = myLike;
+        this.iLiked = iLiked;
     }
 
     @Override
@@ -297,7 +297,7 @@ public class Image extends Application implements Constants, Parcelable {
         dest.writeInt(this.itemType);
         dest.writeValue(this.lat);
         dest.writeValue(this.lng);
-        dest.writeValue(this.myLike);
+        dest.writeValue(this.iLiked);
         dest.writeInt(this.removeAt);
         dest.writeInt(this.moderateAt);
         dest.writeParcelable(this.owner, flags);
@@ -319,7 +319,7 @@ public class Image extends Application implements Constants, Parcelable {
         this.itemType = in.readInt();
         this.lat = (Double) in.readValue(Double.class.getClassLoader());
         this.lng = (Double) in.readValue(Double.class.getClassLoader());
-        this.myLike = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.iLiked = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.removeAt = in.readInt();
         this.moderateAt = in.readInt();
         this.owner = (Profile) in.readParcelable(Profile.class.getClassLoader());

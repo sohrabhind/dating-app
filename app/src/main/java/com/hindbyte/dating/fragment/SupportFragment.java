@@ -28,6 +28,7 @@ import com.hindbyte.dating.R;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.util.CustomRequest;
+import com.hindbyte.dating.util.ToastWindow;
 
 public class SupportFragment extends Fragment implements Constants {
 
@@ -39,6 +40,7 @@ public class SupportFragment extends Fragment implements Constants {
 
     private Boolean loading = false;
 
+    ToastWindow toastWindow = new ToastWindow();
     public SupportFragment() {
         // Required empty public constructor
     }
@@ -127,7 +129,7 @@ setHasOptionsMenu(true);
 
             } else {
 
-                Toast.makeText(requireActivity(), getString(R.string.error_field_empty), Toast.LENGTH_SHORT).show();
+                toastWindow.makeText(requireActivity(), getString(R.string.error_field_empty), 2000);
             }
 
             return true;
@@ -167,7 +169,7 @@ setHasOptionsMenu(true);
 
                             hidepDialog();
 
-                            Toast.makeText(requireActivity(), getText(R.string.msg_ticket_send_success), Toast.LENGTH_SHORT).show();
+                            toastWindow.makeText(requireActivity(), getText(R.string.msg_ticket_send_success), 2000);
 
                             requireActivity().finish();
                         }
@@ -180,7 +182,7 @@ setHasOptionsMenu(true);
 
                 hidepDialog();
 
-                Toast.makeText(requireActivity(), getText(R.string.error_data_loading), Toast.LENGTH_SHORT).show();
+                toastWindow.makeText(requireActivity(), getText(R.string.error_data_loading), 2000);
             }
         }) {
 

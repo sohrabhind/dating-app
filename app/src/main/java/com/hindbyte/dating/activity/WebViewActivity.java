@@ -14,12 +14,14 @@ import android.widget.Toast;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.common.ActivityBase;
+import com.hindbyte.dating.util.ToastWindow;
 
 
 public class WebViewActivity extends ActivityBase {
 
     private static final String TAG = WebViewActivity.class.getSimpleName();
 
+    ToastWindow toastWindow = new ToastWindow();
     Toolbar toolbar;
 
     RelativeLayout mWebViewLoadingScreen, mWebViewErrorScreen, mWebViewContentScreen;
@@ -78,7 +80,7 @@ public class WebViewActivity extends ActivityBase {
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 
                 showErrorScreen();
-                Toast.makeText(getApplicationContext(), description, Toast.LENGTH_SHORT).show();
+                toastWindow.makeText(getApplicationContext(), description, 2000);
             }
 
         });

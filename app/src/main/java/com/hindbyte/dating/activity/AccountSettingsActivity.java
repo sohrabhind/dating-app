@@ -15,7 +15,6 @@ import com.hindbyte.dating.R;
 import com.hindbyte.dating.common.ActivityBase;
 import com.hindbyte.dating.dialogs.AlcoholViewsSelectDialog;
 import com.hindbyte.dating.dialogs.GenderSelectDialog;
-import com.hindbyte.dating.dialogs.RelationshipStatusSelectDialog;
 import com.hindbyte.dating.dialogs.SmokingViewsSelectDialog;
 import com.hindbyte.dating.dialogs.ReligiousViewSelectDialog;
 import com.hindbyte.dating.dialogs.YouLikeSelectDialog;
@@ -23,7 +22,7 @@ import com.hindbyte.dating.dialogs.YouLookingSelectDialog;
 
 import java.util.Objects;
 
-public class AccountSettingsActivity extends ActivityBase implements GenderSelectDialog.AlertPositiveListener, RelationshipStatusSelectDialog.AlertPositiveListener, ReligiousViewSelectDialog.AlertPositiveListener, SmokingViewsSelectDialog.AlertPositiveListener, AlcoholViewsSelectDialog.AlertPositiveListener, YouLookingSelectDialog.AlertPositiveListener, YouLikeSelectDialog.AlertPositiveListener {
+public class AccountSettingsActivity extends ActivityBase implements GenderSelectDialog.AlertPositiveListener, ReligiousViewSelectDialog.AlertPositiveListener, SmokingViewsSelectDialog.AlertPositiveListener, AlcoholViewsSelectDialog.AlertPositiveListener, YouLookingSelectDialog.AlertPositiveListener, YouLikeSelectDialog.AlertPositiveListener {
 
     Toolbar mToolbar;
     Fragment fragment;
@@ -80,12 +79,6 @@ public class AccountSettingsActivity extends ActivityBase implements GenderSelec
     public void onGenderSelect(int position) {
         AccountSettingsFragment p = (AccountSettingsFragment) fragment;
         p.getGender(position);
-    }
-
-    @Override
-    public void onRelationshipStatusSelect(int position) {
-        AccountSettingsFragment p = (AccountSettingsFragment) fragment;
-        p.getRelationshipStatus(position);
     }
 
 

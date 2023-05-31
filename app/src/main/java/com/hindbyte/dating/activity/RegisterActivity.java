@@ -59,6 +59,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.util.CustomViewPager;
+import com.hindbyte.dating.util.ToastWindow;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.common.ActivityBase;
@@ -92,6 +93,7 @@ public class RegisterActivity extends ActivityBase {
     private TextView[] markers;
     private int[] screens;
     private Button mButtonBack, mButtonFinish;
+    ToastWindow toastWindow = new ToastWindow();
 
     //
 
@@ -142,11 +144,10 @@ public class RegisterActivity extends ActivityBase {
 
     //
 
-    private int age = 18, gender = 0; // gender: 0 = male; 1 = female; 2 = other
+    private int age = 18, gender = -1; // gender: 0 = male; 1 = female; 2 = other
     private String username = "";
     private String password = "";
     private String email = "";
-    private final String language = "en";
     private String fullname = "";
     private final String photo_url = "";
     private String uid = "";
@@ -313,7 +314,7 @@ public class RegisterActivity extends ActivityBase {
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
 
-                        Toast.makeText(RegisterActivity.this, getString(R.string.label_grant_camera_permission), Toast.LENGTH_SHORT).show();
+                        toastWindow.makeText(RegisterActivity.this, getString(R.string.label_grant_camera_permission), 2000);
                     }
 
                 }).show();
@@ -352,7 +353,7 @@ public class RegisterActivity extends ActivityBase {
                     public void onClick(View v) {
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
-                        Toast.makeText(RegisterActivity.this, getString(R.string.label_grant_storage_permission), Toast.LENGTH_SHORT).show();
+                        toastWindow.makeText(RegisterActivity.this, getString(R.string.label_grant_storage_permission), 2000);
                     }
                 }).show();
             }
@@ -399,7 +400,7 @@ public class RegisterActivity extends ActivityBase {
                         if (age > 17) {
                             mViewPager.setCurrentItem(current + 1);
                         } else {
-                            Toast.makeText(RegisterActivity.this, getString(R.string.register_screen_3_msg), Toast.LENGTH_SHORT).show();
+                            toastWindow.makeText(RegisterActivity.this, getString(R.string.register_screen_3_msg), 2000);
                         }
                         break;
                     }
@@ -407,7 +408,7 @@ public class RegisterActivity extends ActivityBase {
                         if (selectedImagePath.length() != 0) {
                             mViewPager.setCurrentItem(current + 1);
                         } else {
-                            Toast.makeText(RegisterActivity.this, getString(R.string.register_screen_2_msg), Toast.LENGTH_SHORT).show();
+                            toastWindow.makeText(RegisterActivity.this, getString(R.string.register_screen_2_msg), 2000);
                             animateIcon(mPhoto);
                         }
                         break;
@@ -457,7 +458,7 @@ public class RegisterActivity extends ActivityBase {
                         mButtonGenderMale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.overlay_light_90));
                         mButtonGenderFemale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.gray));
                         mButtonGenderOther.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.overlay_light_90));
-                    } else {
+                    } else if (gender == 2) {
                         mButtonGenderMale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.overlay_light_90));
                         mButtonGenderFemale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.overlay_light_90));
                         mButtonGenderOther.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.gray));
@@ -729,7 +730,7 @@ public class RegisterActivity extends ActivityBase {
                             cameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                             imgFromCameraActivityResultLauncher.launch(cameraIntent);
                         } catch (Exception e) {
-                            Toast.makeText(RegisterActivity.this, "Error occured. Please try again later.", Toast.LENGTH_SHORT).show();
+                            toastWindow.makeText(RegisterActivity.this, "Error occured. Please try again later.", 2000);
                         }
                     } else {
                         requestCameraPermission();
@@ -836,7 +837,6 @@ public class RegisterActivity extends ActivityBase {
         if (!helper.isValidEmail(email)) {
             return false;
         }
-
         return true;
     }
 
@@ -852,12 +852,17 @@ public class RegisterActivity extends ActivityBase {
     public Boolean check_fullname() {
         fullname = mFullname.getText().toString();
         if (fullname.length() == 0) {
-            Toast.makeText(RegisterActivity.this, getString(R.string.error_field_empty), Toast.LENGTH_SHORT).show();
+            toastWindow.makeText(RegisterActivity.this, getString(R.string.error_field_empty), 2000);
             return false;
         }
 
         if (fullname.length() < 2) {
-            Toast.makeText(RegisterActivity.this, getString(R.string.error_small_fullname), Toast.LENGTH_SHORT).show();
+            toastWindow.makeText(RegisterActivity.this, getString(R.string.error_small_fullname), 2000);
+            return false;
+        }
+
+        if (gender < 0 || gender > 2) {
+            toastWindow.makeText(this, getString(R.string.error_gender), 2000);
             return false;
         }
         return  true;
@@ -946,30 +951,20 @@ public class RegisterActivity extends ActivityBase {
 
                         switch (App.getInstance().getErrorCode()) {
 
-                            case ERROR_CLIENT_ID: {
-
-                                Toast.makeText(RegisterActivity.this, getString(R.string.error_client_id), Toast.LENGTH_SHORT).show();
-                            }
-
-                            case ERROR_CLIENT_SECRET: {
-
-                                Toast.makeText(RegisterActivity.this, getString(R.string.error_client_secret), Toast.LENGTH_SHORT).show();
-                            }
-
                             case 300: {
                                 mViewPager.setCurrentItem(0);
-                                Toast.makeText(RegisterActivity.this, getString(R.string.error_login_taken), Toast.LENGTH_SHORT).show();
+                                toastWindow.makeText(RegisterActivity.this, getString(R.string.error_login_taken), 2000);
                                 break;
                             }
 
                             case 301: {
                                 mViewPager.setCurrentItem(0);
-                                Toast.makeText(RegisterActivity.this, getString(R.string.error_email_taken), Toast.LENGTH_SHORT).show();
+                                toastWindow.makeText(RegisterActivity.this, getString(R.string.error_email_taken), 2000);
                                 break;
                             }
 
                             case 500: {
-                                Toast.makeText(RegisterActivity.this, getString(R.string.label_multi_account_msg), Toast.LENGTH_SHORT).show();
+                                toastWindow.makeText(RegisterActivity.this, getString(R.string.label_multi_account_msg), 2000);
                                 break;
                             }
 
@@ -998,13 +993,10 @@ public class RegisterActivity extends ActivityBase {
                 params.put("password", password);
                 params.put("photo", photo_url);
                 params.put("email", email);
-                params.put("language", language);
                 params.put("uid", uid);
                 params.put("oauth_type", String.valueOf(oauth_type));
                 params.put("gender", String.valueOf(gender));
                 params.put("age", String.valueOf(age));
-                params.put("clientId", CLIENT_ID);
-                params.put("hash", Helper.md5(Helper.md5(username) + CLIENT_SECRET));
                 params.put("appType", String.valueOf(APP_TYPE_ANDROID));
                 params.put("fcm_regId", App.getInstance().getGcmToken());
                 return params;

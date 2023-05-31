@@ -76,6 +76,7 @@ import com.hindbyte.dating.model.ChatItem;
 import com.hindbyte.dating.model.Sticker;
 import com.hindbyte.dating.util.CustomRequest;
 import com.hindbyte.dating.util.Helper;
+import com.hindbyte.dating.util.ToastWindow;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.MultipartBuilder;
@@ -146,7 +147,7 @@ public class ChatFragment extends Fragment implements Constants {
     int chatId = 0, msgId = 0, messagesCount = 0, position = 0;
     long profileId = 0, stickerId = 0, lStickerId = 0;
 
-    String lMessage = "", lMessageImage = "", lStickerImg = "";
+    String lMessage = "", lStickerImg = "";
 
     Boolean blocked = false;
 
@@ -166,6 +167,8 @@ public class ChatFragment extends Fragment implements Constants {
     private Boolean restore = false;
     private Boolean preload = false;
     private Boolean visible = true;
+
+    ToastWindow toastWindow = new ToastWindow();
 
     private Boolean inboxTyping = false, outboxTyping = false;
 
@@ -245,7 +248,7 @@ public class ChatFragment extends Fragment implements Constants {
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
 
-                        Toast.makeText(requireActivity(), getString(R.string.label_grant_camera_permission), Toast.LENGTH_SHORT).show();
+                        toastWindow.makeText(requireActivity(), getString(R.string.label_grant_camera_permission), 2000);
                     }
 
                 }).show();
@@ -335,7 +338,7 @@ public class ChatFragment extends Fragment implements Constants {
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
 
-                        Toast.makeText(requireActivity(), getString(R.string.label_grant_storage_permission), Toast.LENGTH_SHORT).show();
+                        toastWindow.makeText(requireActivity(), getString(R.string.label_grant_storage_permission), 2000);
                     }
 
                 }).show();
@@ -1158,7 +1161,6 @@ public class ChatFragment extends Fragment implements Constants {
         if (App.getInstance().isConnected()) {
             messageText = mMessageText.getText().toString();
             messageText = messageText.trim();
-
             if (selectedImagePath.length() != 0) {
                 loading = true;
                 showpDialog();
@@ -1169,15 +1171,11 @@ public class ChatFragment extends Fragment implements Constants {
                     loading = true;
                     send();
                 } else {
-                    Toast toast= Toast.makeText(requireActivity(), getText(R.string.msg_enter_msg), Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    toastWindow.makeText(requireActivity(), getText(R.string.msg_enter_msg), 2000);
                 }
             }
         } else {
-            Toast toast= Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+            toastWindow.makeText(requireActivity(), getText(R.string.msg_network_error), 2000);
         }
     }
 
@@ -1188,35 +1186,14 @@ public class ChatFragment extends Fragment implements Constants {
                         if (!response.getBoolean("error")) {
                             chatId = response.getInt("chatId");
                             App.getInstance().setCurrentChatId(chatId);
-                            if (response.has("chatFromUserId")) {
-                                fromUserId = response.getLong("chatFromUserId");
-                            }
-                            if (response.has("chatToUserId")) {
-                                toUserId = response.getLong("chatToUserId");
-                            }
                             if (response.has("message")) {
                                 JSONObject msgObj = response.getJSONObject("message");
                                 ChatItem item = new ChatItem(msgObj);
                                 item.setListId(response.getInt("listId"));
+                                chatList.add(item);
+                                chatAdapter.notifyDataSetChanged();
+                                scrollListViewToBottom();
                             }
-
-                            ChatItem cItem = new ChatItem();
-                            cItem.setListId(listView.getAdapter().getCount());
-                            cItem.setId(0);
-                            cItem.setFromUserId(App.getInstance().getId());
-                            cItem.setFromUserState(ACCOUNT_STATE_ENABLED);
-                            cItem.setFromUserUsername(App.getInstance().getUsername());
-                            cItem.setFromUserFullname(App.getInstance().getFullname());
-                            cItem.setFromUserPhotoUrl(App.getInstance().getPhotoUrl());
-                            cItem.setMessage(messageText);
-                            cItem.setStickerId(stickerId);
-                            cItem.setStickerImgUrl(stickerImg);
-                            cItem.setImgUrl(messageImg);
-                            cItem.setTimeAgo(requireActivity().getString(R.string.label_just_now));
-
-                            chatList.add(cItem);
-                            chatAdapter.notifyDataSetChanged();
-                            scrollListViewToBottom();
                         } else {
                             if (response.getInt("error_code") == 402) {
                                 initiatePopupWindow();
@@ -1246,7 +1223,6 @@ public class ChatFragment extends Fragment implements Constants {
                 params.put("profileId", Long.toString(profileId));
                 params.put("chatId", String.valueOf(chatId));
                 params.put("messageText", lMessage);
-                params.put("messageImg", lMessageImage);
                 params.put("listId", String.valueOf(listView.getAdapter().getCount()));
                 params.put("chatFromUserId", Long.toString(fromUserId));
                 params.put("chatToUserId", Long.toString(toUserId));
@@ -1258,16 +1234,13 @@ public class ChatFragment extends Fragment implements Constants {
 
 
         lMessage = messageText;
-        lMessageImage = messageImg;
         lStickerImg = stickerImg;
         lStickerId = stickerId;
         if (stickerId != 0) {
             messageImg = stickerImg;
             lMessage = "";
-            lMessageImage = "";
             messageText = "";
         }
-
 
         int socketTimeout = 0;//0 seconds - change to what you want
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
@@ -1286,6 +1259,110 @@ public class ChatFragment extends Fragment implements Constants {
         stickerImg = "";
         stickerId = 0;
         hideImageContainer();
+    }
+
+
+    public Boolean uploadFile(String serverURL, File file) {
+        lMessage = messageText;
+        lStickerImg = stickerImg;
+        lStickerId = stickerId;
+        if (stickerId != 0) {
+            messageImg = stickerImg;
+            lMessage = "";
+            messageText = "";
+        }
+
+        outboxTyping = false;
+
+        mContainerImg.setVisibility(View.GONE);
+        selectedImagePath = "";
+        selectedImage = null;
+        messageImg = "";
+        mMessageText.setText("");
+        messagesCount++;
+
+        stickerImg = "";
+        stickerId = 0;
+        hideImageContainer();
+
+        final OkHttpClient client = new OkHttpClient();
+        client.setProtocols(Arrays.asList(Protocol.HTTP_1_1));
+        try {
+            RequestBody requestBody = new MultipartBuilder()
+                    .type(MultipartBuilder.FORM)
+                    .addFormDataPart("uploaded_file", file.getName(), RequestBody.create(MediaType.parse("text/csv"), file))
+                    .addFormDataPart("accountId", Long.toString(App.getInstance().getId()))
+                    .addFormDataPart("accessToken", App.getInstance().getAccessToken())
+                    .addFormDataPart("profileId", Long.toString(profileId))
+                    .addFormDataPart("chatId", String.valueOf(chatId))
+                    .addFormDataPart("messageText", lMessage)
+                    .addFormDataPart("listId", String.valueOf(listView.getAdapter().getCount()))
+                    .addFormDataPart("chatFromUserId", Long.toString(fromUserId))
+                    .addFormDataPart("chatToUserId", Long.toString(toUserId))
+                    .addFormDataPart("stickerImgUrl", lStickerImg)
+                    .addFormDataPart("stickerId", Long.toString(lStickerId))
+                    .build();
+
+            com.squareup.okhttp.Request request = new com.squareup.okhttp.Request.Builder()
+                    .url(serverURL)
+                    .addHeader("Accept", "application/json;")
+                    .post(requestBody)
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+
+                @Override
+                public void onFailure(com.squareup.okhttp.Request request, IOException e) {
+                    messageText = "";
+                    messageImg = "";
+                    loading = false;
+                    hidepDialog();
+                    Log.e("failure", request.toString());
+                }
+
+                @Override
+                public void onResponse(com.squareup.okhttp.Response response) throws IOException {
+                    String jsonData = response.body().string();
+                    Log.e("response", jsonData);
+                    try {
+                        JSONObject result = new JSONObject(jsonData);
+                        if (!result.getBoolean("error")) {
+                            chatId = result.getInt("chatId");
+                            App.getInstance().setCurrentChatId(chatId);
+                            if (result.has("message")) {
+                                JSONObject msgObj = result.getJSONObject("message");
+                                ChatItem item = new ChatItem(msgObj);
+                                item.setListId(result.getInt("listId"));
+                                chatList.add(item);
+                                chatAdapter.notifyDataSetChanged();
+                                scrollListViewToBottom();
+                            }
+                        } else {
+                            if (result.getInt("error_code") == 402) {
+                                initiatePopupWindow();
+                            }
+                        }
+                        Log.d("My App", response.toString());
+                    } catch (Throwable t) {
+
+                        Log.e("My App", "Could not parse malformed JSON: \"" + t.getMessage() + "\"");
+                    } finally {
+                        loading = false;
+                        hidepDialog();
+                        messageText = "";
+                        messageImg = "";
+                    }
+                }
+            });
+
+            return true;
+        } catch (Exception ex) {
+            // Handle the error
+            loading = false;
+            hidepDialog();
+        }
+
+        return false;
     }
 
     public void deleteChat() {
@@ -1320,7 +1397,7 @@ public class ChatFragment extends Fragment implements Constants {
 
                                 requireActivity().finish();
 
-//                                Toast.makeText(requireActivity(), getString(R.string.msg_send_msg_error), Toast.LENGTH_SHORT).show();
+//                                toastWindow.makeText(requireActivity(), getString(R.string.msg_send_msg_error), 2000);
                             }
 
                         } catch (JSONException e) {
@@ -1458,88 +1535,6 @@ public class ChatFragment extends Fragment implements Constants {
         }
     }
 
-
-    public Boolean uploadFile(String serverURL, File file) {
-
-        final OkHttpClient client = new OkHttpClient();
-
-        client.setProtocols(Arrays.asList(Protocol.HTTP_1_1));
-
-        try {
-
-            RequestBody requestBody = new MultipartBuilder()
-                    .type(MultipartBuilder.FORM)
-                    .addFormDataPart("uploaded_file", file.getName(), RequestBody.create(MediaType.parse("text/csv"), file))
-                    .addFormDataPart("accountId", Long.toString(App.getInstance().getId()))
-                    .addFormDataPart("accessToken", App.getInstance().getAccessToken())
-                    .build();
-
-            com.squareup.okhttp.Request request = new com.squareup.okhttp.Request.Builder()
-                    .url(serverURL)
-                    .addHeader("Accept", "application/json;")
-                    .post(requestBody)
-                    .build();
-
-            client.newCall(request).enqueue(new Callback() {
-
-                @Override
-                public void onFailure(com.squareup.okhttp.Request request, IOException e) {
-
-                    loading = false;
-
-                    hidepDialog();
-
-                    Log.e("failure", request.toString());
-                }
-
-                @Override
-                public void onResponse(com.squareup.okhttp.Response response) throws IOException {
-
-                    String jsonData = response.body().string();
-
-                    Log.e("response", jsonData);
-
-                    try {
-
-                        JSONObject result = new JSONObject(jsonData);
-
-                        if (!result.getBoolean("error")) {
-
-                            messageImg = result.getString("imgUrl");
-                        }
-
-                        Log.d("My App", response.toString());
-
-                    } catch (Throwable t) {
-
-                        Log.e("My App", "Could not parse malformed JSON: \"" + t.getMessage() + "\"");
-
-                    } finally {
-
-                        requireActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                send();
-                            }
-                        });
-                    }
-
-                }
-            });
-
-            return true;
-
-        } catch (Exception ex) {
-            // Handle the error
-
-            loading = false;
-
-            hidepDialog();
-        }
-
-        return false;
-    }
 
     public void loadStickers() {
 
@@ -1720,7 +1715,7 @@ public class ChatFragment extends Fragment implements Constants {
 
                         } catch (Exception e) {
 
-                            Toast.makeText(requireActivity(), "Error occured. Please try again later.", Toast.LENGTH_SHORT).show();
+                            toastWindow.makeText(requireActivity(), "Error occured. Please try again later.", 2000);
                         }
 
                     } else {

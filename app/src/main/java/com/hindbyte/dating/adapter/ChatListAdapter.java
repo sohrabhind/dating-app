@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.hindbyte.dating.util.ToastWindow;
 import com.pkmmte.view.CircularImageView;
 import com.hindbyte.dating.activity.PhotoViewActivity;
 import com.hindbyte.dating.activity.ProfileActivity;
@@ -37,6 +38,7 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
 	private LayoutInflater inflater;
 	private List<ChatItem> dialogList;
 
+    ToastWindow toastWindow = new ToastWindow();
 
 	public ChatListAdapter(FragmentActivity activity, List<ChatItem> dialogList) {
 
@@ -260,7 +262,7 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
                     ClipData clip = ClipData.newPlainText("msg", chatItem.getMessage().replaceAll("<br>", "\n"));
                     clipboard.setPrimaryClip(clip);
 
-                    Toast.makeText(activity, activity.getString(R.string.msg_copied_to_clipboard), Toast.LENGTH_SHORT).show();
+                    toastWindow.makeText(activity, activity.getString(R.string.msg_copied_to_clipboard), 2000);
 
                     return false;
                 }
@@ -348,7 +350,7 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
                     ClipData clip = ClipData.newPlainText("msg", chatItem.getMessage().replaceAll("<br>", "\n"));
                     clipboard.setPrimaryClip(clip);
 
-                    Toast.makeText(activity, activity.getString(R.string.msg_copied_to_clipboard), Toast.LENGTH_SHORT).show();
+                    toastWindow.makeText(activity, activity.getString(R.string.msg_copied_to_clipboard), 2000);
 
                     return false;
                 }
@@ -402,7 +404,7 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
                 androidx.appcompat.app.AlertDialog alert = (androidx.appcompat.app.AlertDialog) dialog;
                 int reason = alert.getListView().getCheckedItemPosition();
 
-                Toast.makeText(activity, activity.getString(R.string.label_item_report_sent), Toast.LENGTH_SHORT).show();
+                toastWindow.makeText(activity, activity.getString(R.string.label_item_report_sent), 2000);
             }
         });
 

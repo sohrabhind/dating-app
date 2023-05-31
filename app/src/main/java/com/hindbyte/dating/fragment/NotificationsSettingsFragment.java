@@ -13,11 +13,11 @@ import com.hindbyte.dating.constants.Constants;
 
 public class NotificationsSettingsFragment extends PreferenceFragmentCompat implements Constants {
 
-    private CheckBoxPreference mAllowLikesGCM, mAllowFollowersGCM, mAllowMessagesGCM, mAllowCommentsGCM;
+    private CheckBoxPreference mAllowLikesGCM, mAllowMessagesGCM, mAllowCommentsGCM;
 
     private ProgressDialog pDialog;
 
-    int mAllowLikes, mAllowFollowers, mAllowMessages, mAllowComments;
+    int mAllowLikes, mAllowMessages, mAllowComments;
 
     private Boolean loading = false;
 
@@ -87,32 +87,6 @@ mAllowLikesGCM = (CheckBoxPreference) getPreferenceManager().findPreference("all
             }
         });
 
-        mAllowFollowersGCM = (CheckBoxPreference) getPreferenceManager().findPreference("allowFollowersGCM");
-
-        mAllowFollowersGCM.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-
-                if (newValue instanceof Boolean) {
-
-                    Boolean value = (Boolean) newValue;
-
-                    if (value) {
-
-                        mAllowFollowers = 1;
-
-                    } else {
-
-                        mAllowFollowers = 0;
-                    }
-
-                    saveSettings();
-                }
-
-                return true;
-            }
-        });
 
         mAllowMessagesGCM = (CheckBoxPreference) getPreferenceManager().findPreference("allowMessagesGCM");
 
@@ -143,7 +117,6 @@ mAllowLikesGCM = (CheckBoxPreference) getPreferenceManager().findPreference("all
 
 
         checkAllowLikes(App.getInstance().getAllowLikesGCM());
-        checkAllowFollowers(App.getInstance().getAllowFollowersGCM());
         checkAllowMessages(App.getInstance().getAllowMessagesGCM());
         checkAllowComments(App.getInstance().getAllowCommentsGCM());
     }
@@ -211,19 +184,6 @@ mAllowLikesGCM = (CheckBoxPreference) getPreferenceManager().findPreference("all
         }
     }
 
-    public void checkAllowFollowers(int value) {
-
-        if (value == 1) {
-
-            mAllowFollowersGCM.setChecked(true);
-            mAllowFollowers = 1;
-
-        } else {
-
-            mAllowFollowersGCM.setChecked(false);
-            mAllowFollowers = 0;
-        }
-    }
 
     public void checkAllowMessages(int value) {
 
@@ -245,7 +205,6 @@ mAllowLikesGCM = (CheckBoxPreference) getPreferenceManager().findPreference("all
         App.getInstance().setAllowLikesGCM(mAllowLikes);
         App.getInstance().setAllowMessagesGCM(mAllowMessages);
         App.getInstance().setAllowCommentsGCM(mAllowComments);
-        App.getInstance().setAllowFollowersGCM(mAllowFollowers);
 
         App.getInstance().saveData();
     }

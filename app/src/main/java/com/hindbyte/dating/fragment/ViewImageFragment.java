@@ -63,6 +63,7 @@ import com.hindbyte.dating.model.Image;
 import com.hindbyte.dating.util.Api;
 import com.hindbyte.dating.util.CommentInterface;
 import com.hindbyte.dating.util.CustomRequest;
+import com.hindbyte.dating.util.ToastWindow;
 import com.hindbyte.dating.view.ResizableImageView;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
@@ -83,6 +84,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
     private MaterialRippleLayout mLikeButton;
     private ImageView mLikeIcon;
 
+    ToastWindow toastWindow = new ToastWindow();
     private LinearLayout mCommentsContainer, mLikesContainer;
     TextView mItemText;
 
@@ -217,7 +219,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
                             AlertDialog alert = (AlertDialog) dialog;
                             int reason = alert.getListView().getCheckedItemPosition();
 
-                            Toast.makeText(requireActivity(), requireActivity().getString(R.string.label_item_report_sent), Toast.LENGTH_SHORT).show();
+                            toastWindow.makeText(requireActivity(), requireActivity().getString(R.string.label_item_report_sent), 2000);
                         }
                     });
 
@@ -260,11 +262,11 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
             @Override
             public void onClick(View v) {
 
-                if (item.isMyLike()) {
+                if (item.isILike()) {
 
                     mLikeIcon.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.colorPrimaryDark), android.graphics.PorterDuff.Mode.SRC_IN);
 
-                    item.setMyLike(false);
+                    item.setILike(false);
 
                     item.setLikesCount(item.getLikesCount() - 1);
 
@@ -272,7 +274,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
                     mLikeIcon.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.statusBarColor), android.graphics.PorterDuff.Mode.SRC_IN);
 
-                    item.setMyLike(true);
+                    item.setILike(true);
 
                     item.setLikesCount(item.getLikesCount() + 1);
                 }
@@ -528,7 +530,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
             }
         });
 
-        if (item.isMyLike()) {
+        if (item.isILike()) {
 
             mLikeIcon.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.colorPrimaryDark), android.graphics.PorterDuff.Mode.SRC_IN);
 
@@ -738,8 +740,6 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("itemId", Long.toString(itemId));
-                params.put("language", "en");
-
                 return params;
             }
         };
@@ -801,7 +801,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
                                         });
                                     }
 
-                                    Toast.makeText(requireActivity(), getString(R.string.msg_comment_has_been_added), Toast.LENGTH_SHORT).show();
+                                    toastWindow.makeText(requireActivity(), getString(R.string.msg_comment_has_been_added), 2000);
 
                                 }
 
@@ -881,7 +881,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
         } else {
 
-            Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+            toastWindow.makeText(requireActivity(), getText(R.string.msg_network_error), 2000);
         }
     }
 
@@ -1113,7 +1113,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
         } else {
 
-            Toast.makeText(requireActivity(), getString(R.string.msg_comments_disabled), Toast.LENGTH_SHORT).show();
+            toastWindow.makeText(requireActivity(), getString(R.string.msg_comments_disabled), 2000);
         }
     }
 
@@ -1238,7 +1238,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
                             if (!response.getBoolean("error")) {
 
                                 item.setLikesCount(response.getInt("likesCount"));
-                                item.setMyLike(response.getBoolean("myLike"));
+                                item.setILike(response.getBoolean("iLiked"));
                             }
 
                         } catch (JSONException e) {
@@ -1261,7 +1261,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
                     return;
                 }
 
-                Toast.makeText(requireActivity(), error.toString(), Toast.LENGTH_LONG).show();
+                toastWindow.makeText(requireActivity(), error.toString(), 2000);
             }
         }) {
 

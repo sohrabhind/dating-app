@@ -40,6 +40,7 @@ import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.model.Profile;
 import com.hindbyte.dating.util.CustomRequest;
 import com.hindbyte.dating.util.Helper;
+import com.hindbyte.dating.util.ToastWindow;
 import com.hindbyte.dating.view.RangeSeekBar;
 
 import org.json.JSONArray;
@@ -57,6 +58,7 @@ public class SearchFragment extends Fragment implements Constants, SwipeRefreshL
 
     Menu MainMenu;
 
+    ToastWindow toastWindow = new ToastWindow();
     RecyclerView mRecyclerView;
     TextView mMessage;
     ImageView mSplash;
@@ -220,7 +222,7 @@ setHasOptionsMenu(true);
 
         } else {
 
-            Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+            toastWindow.makeText(requireActivity(), getText(R.string.msg_network_error), 2000);
         }
     }
 
@@ -342,7 +344,7 @@ setHasOptionsMenu(true);
 
                 loadingComplete();
 
-                Toast.makeText(requireActivity(), getString(R.string.error_data_loading), Toast.LENGTH_LONG).show();
+                toastWindow.makeText(requireActivity(), getString(R.string.error_data_loading), 2000);
             }
         }) {
 

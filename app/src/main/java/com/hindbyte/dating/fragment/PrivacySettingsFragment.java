@@ -16,6 +16,7 @@ import com.hindbyte.dating.R;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.util.CustomRequest;
+import com.hindbyte.dating.util.ToastWindow;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +32,7 @@ public class PrivacySettingsFragment extends PreferenceFragmentCompat implements
 
     int allowLikes, allowFriends, allowInfo, allowGallery;
 
+    ToastWindow toastWindow = new ToastWindow();
     private Boolean loading = false;
 
     @Override
@@ -71,7 +73,7 @@ initpDialog();
 
                     } else {
 
-                        Toast.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                        toastWindow.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), 2000);
                     }
                 }
 
@@ -105,7 +107,7 @@ initpDialog();
 
                     } else {
 
-                        Toast.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                        toastWindow.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), 2000);
                     }
                 }
 
@@ -139,7 +141,7 @@ initpDialog();
 
                     } else {
 
-                        Toast.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                        toastWindow.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), 2000);
                     }
                 }
 
@@ -174,7 +176,7 @@ initpDialog();
 
                     } else {
 
-                        Toast.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                        toastWindow.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), 2000);
                     }
                 }
 
@@ -333,7 +335,6 @@ initpDialog();
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("clientId", CLIENT_ID);
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("allowShowMyLikes", String.valueOf(allowLikes));

@@ -71,7 +71,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/placeholder_instagram_page"
+                android:text="@string/placeholder_interests"
                 android:textColor="@color/grey_40"
                 android:layout_marginTop="10dp">
             </TextView>
@@ -79,8 +79,8 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint="@string/placeholder_instagram_page"
-                android:id="@+id/instagramPage"
+                android:hint="@string/placeholder_interests"
+                android:id="@+id/interests"
                 android:maxLength="255"
                 android:maxLines="1"
                 android:textSize="16sp"
@@ -113,15 +113,6 @@
                 android:background="@drawable/edittext_dark_border"
                 android:padding="10dp"
                 android:layout_marginTop="5dp" />
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_profile_allow_show_birth"
-                android:id="@+id/allowShowDateBirth"
-                android:textColor="@color/grey_40"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp" />
 
 
             <TextView
@@ -170,30 +161,7 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:layout_marginTop="5dp" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_weight"
-                android:textColor="@color/grey_40"
-                android:layout_marginTop="10dp">
-            </TextView>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="@string/label_weight"
-                android:id="@+id/weightField"
-                android:maxLength="3"
-                android:textSize="16sp"
-                android:textColor="@color/overlay_dark_70"
-                android:inputType="number"
-                android:background="@drawable/edittext_dark_border"
-                android:layout_gravity="center_horizontal"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:layout_marginTop="5dp" />
+                
 
             <TextView
                 android:id="@+id/selectGender"
@@ -207,29 +175,6 @@
                 android:visibility="gone"
                 android:layout_marginTop="10dp" />
 
-
-            <TextView
-                android:id="@+id/selectBirth"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:textSize="16sp"
-                android:text="Date of Birth"
-                android:textColor="@color/overlay_dark_60"
-                android:background="@drawable/edit_profile_button"
-                android:gravity="center"
-                android:layout_marginTop="10dp" />
-
-
-            <TextView
-                android:id="@+id/selectRelationshipStatus"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:textSize="16sp"
-                android:text="Relationship Status"
-                android:textColor="@color/overlay_dark_60"
-                android:background="@drawable/edit_profile_button"
-                android:gravity="center"
-                android:layout_marginTop="10dp" />
 
             <TextView
                 android:id="@+id/selectReligiousView"

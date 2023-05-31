@@ -341,51 +341,6 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                 break;
             }
 
-            case GCM_NOTIFY_FOLLOWER: {
-
-                if (App.getInstance().getId() != 0 && Long.toString(App.getInstance().getId()).equals(accountId)) {
-
-                    App.getInstance().setNotificationsCount(App.getInstance().getNotificationsCount() + 1);
-
-                    if (App.getInstance().getAllowFollowersGCM() == 1) {
-
-                        message = context.getString(R.string.label_gcm_friend_request);
-
-                        NotificationCompat.Builder mBuilder =
-                                new NotificationCompat.Builder(context, CHANNEL_ID)
-                                        .setSmallIcon(R.drawable.ic_action_push_notification)
-                                        .setContentTitle(title)
-                                        .setContentText(message);
-
-                        Intent resultIntent = new Intent(context, MainActivity.class);
-                        resultIntent.putExtra("pageId", PAGE_NOTIFICATIONS);
-                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-                        stackBuilder.addParentStack(MainActivity.class);
-                        stackBuilder.addNextIntent(resultIntent);
-                        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, flag);
-                        mBuilder.setContentIntent(resultPendingIntent);
-
-                        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-                            int importance = NotificationManager.IMPORTANCE_HIGH;
-
-                            mChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
-
-                            mNotificationManager.createNotificationChannel(mChannel);
-                        }
-
-                        mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
-                        mBuilder.setAutoCancel(true);
-                        mNotificationManager.notify(0, mBuilder.build());
-                    }
-                }
-
-                break;
-            }
 
             case GCM_NOTIFY_COMMENT: {
 
@@ -583,51 +538,6 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                 break;
             }
 
-            case GCM_FRIEND_REQUEST_ACCEPTED: {
-
-                if (App.getInstance().getId() != 0 && Long.toString(App.getInstance().getId()).equals(accountId)) {
-
-                    App.getInstance().setNewFriendsCount(App.getInstance().getNewFriendsCount() + 1);
-
-                    if (App.getInstance().getAllowFollowersGCM() == 1) {
-
-                        message = context.getString(R.string.label_gcm_friend_request_accepted);
-
-                        NotificationCompat.Builder mBuilder =
-                                new NotificationCompat.Builder(context, CHANNEL_ID)
-                                        .setSmallIcon(R.drawable.ic_action_push_notification)
-                                        .setContentTitle(title)
-                                        .setContentText(message);
-
-                        Intent resultIntent = new Intent(context, FriendsActivity.class);
-                        resultIntent.putExtra("gcm", true);
-                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-                        stackBuilder.addParentStack(FriendsActivity.class);
-                        stackBuilder.addNextIntent(resultIntent);
-                        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, flag);
-                        mBuilder.setContentIntent(resultPendingIntent);
-
-                        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-                            int importance = NotificationManager.IMPORTANCE_HIGH;
-
-                            mChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
-
-                            mNotificationManager.createNotificationChannel(mChannel);
-                        }
-
-                        mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
-                        mBuilder.setAutoCancel(true);
-                        mNotificationManager.notify(0, mBuilder.build());
-                    }
-                }
-
-                break;
-            }
 
             case GCM_NOTIFY_IMAGE_LIKE: {
 

@@ -5,7 +5,7 @@ public interface Constants {
     // Attention! You can only change values of following constants:
 
     // EMOJI_KEYBOARD, WEB_SITE_AVAILABLE, GOOGLE_PAY_TEST_BUTTON, FACEBOOK_AUTHORIZATION,
-    // APP_TEMP_FOLDER, CLIENT_ID, API_DOMAIN, WEB_SITE,
+    // APP_TEMP_FOLDER, API_DOMAIN, WEB_SITE,
     // VERIFIED_BADGE_COST, DISABLE_ADS_COST,
     // PRO_MODE_COST, HASHTAGS_COLOR
 
@@ -23,14 +23,6 @@ public interface Constants {
 
     String APP_TEMP_FOLDER = "chat"; //directory for temporary storage of images from the camera
 
-    // Client ID For identify the application | Must be the same with CLIENT_ID from server config: db.inc.php
-
-    String CLIENT_ID = "1";                         // old 11; Correct example: 12567 | Incorrect example: 0987
-
-    // Client Secret | Text constant | Must be the same with CLIENT_SECRET from server config: db.inc.php
-
-    String CLIENT_SECRET = "e862f4egfad1d65ef08f1e491690be56b24";    // Example: "wFt4*KBoNN_kjSdG13m1k3k="
-
     String API_DOMAIN = "https://dating.hindbyte.com/";  // url address to which the application sends requests | with back slash "/" at the end | example: https://mysite.com/ | for emulator on localhost: http://10.0.2.2/
 
     String API_FILE_EXTENSION = "";                 // Don`t change value for this constant!
@@ -42,18 +34,18 @@ public interface Constants {
     String METHOD_DIALOGS_NEW_GET = API_DOMAIN + "api/" + API_VERSION + "/method/dialogs_new.get" + API_FILE_EXTENSION;
     String METHOD_CHAT_UPDATE = API_DOMAIN + "api/" + API_VERSION + "/method/chat.update" + API_FILE_EXTENSION;
 
-    String METHOD_ACCOUNT_LOGIN = API_DOMAIN + "api/" + API_VERSION + "/method/account.signIn" + API_FILE_EXTENSION;
-    String METHOD_ACCOUNT_SIGNUP = API_DOMAIN + "api/" + API_VERSION + "/method/account.signUp" + API_FILE_EXTENSION;
+    String METHOD_ACCOUNT_LOGIN = API_DOMAIN + "api/" + API_VERSION + "/method/account.signin" + API_FILE_EXTENSION;
+    String METHOD_ACCOUNT_SIGNUP = API_DOMAIN + "api/" + API_VERSION + "/method/account.signup" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_AUTHORIZE = API_DOMAIN + "api/" + API_VERSION + "/method/account.authorize" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_SET_GCM_TOKEN = API_DOMAIN + "api/" + API_VERSION + "/method/account.setGcmToken" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_RECOVERY = API_DOMAIN + "api/" + API_VERSION + "/method/account.recovery" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_SET_PASSWORD = API_DOMAIN + "api/" + API_VERSION + "/method/account.setPassword" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_DEACTIVATE = API_DOMAIN + "api/" + API_VERSION + "/method/account.deactivate" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_SAVE_SETTINGS = API_DOMAIN + "api/" + API_VERSION + "/method/account.saveSettings" + API_FILE_EXTENSION;
-    String METHOD_ACCOUNT_LOGOUT = API_DOMAIN + "api/" + API_VERSION + "/method/account.logOut" + API_FILE_EXTENSION;
+    String METHOD_ACCOUNT_LOGOUT = API_DOMAIN + "api/" + API_VERSION + "/method/account.logout" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_SET_ALLOW_MESSAGES = API_DOMAIN + "api/" + API_VERSION + "/method/account.setAllowMessages" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_SET_GEO_LOCATION = API_DOMAIN + "api/" + API_VERSION + "/method/account.setGeoLocation" + API_FILE_EXTENSION;
-    String METHOD_ACCOUNT_UPLOAD_PHOTO = API_DOMAIN + "api/" + API_VERSION + "/method/account.uploadPhoto" + API_FILE_EXTENSION;
+
     String METHOD_ACCOUNT_SET_ALLOW_PHOTOS_COMMENTS = API_DOMAIN + "api/" + API_VERSION + "/method/account.setAllowPhotosComments" + API_FILE_EXTENSION;
 
     String METHOD_SUPPORT_SEND_TICKET = API_DOMAIN + "api/" + API_VERSION + "/method/support.sendTicket" + API_FILE_EXTENSION;
@@ -72,8 +64,6 @@ public interface Constants {
 
     String METHOD_FRIENDS_REQUEST = API_DOMAIN + "api/" + API_VERSION + "/method/friends.sendRequest" + API_FILE_EXTENSION;
     String METHOD_FRIENDS_GET = API_DOMAIN + "api/" + API_VERSION + "/method/friends.get" + API_FILE_EXTENSION;
-    String METHOD_FRIENDS_ACCEPT = API_DOMAIN + "api/" + API_VERSION + "/method/friends.acceptRequest" + API_FILE_EXTENSION;
-    String METHOD_FRIENDS_REJECT = API_DOMAIN + "api/" + API_VERSION + "/method/friends.rejectRequest" + API_FILE_EXTENSION;
     String METHOD_FRIENDS_REMOVE = API_DOMAIN + "api/" + API_VERSION + "/method/friends.remove" + API_FILE_EXTENSION;
 
     String METHOD_NOTIFICATIONS_GET = API_DOMAIN + "api/" + API_VERSION + "/method/notifications.get" + API_FILE_EXTENSION;
@@ -87,7 +77,7 @@ public interface Constants {
     String METHOD_CHAT_GET_PREVIOUS = API_DOMAIN + "api/" + API_VERSION + "/method/chat.getPrevious" + API_FILE_EXTENSION;
 
     String METHOD_MSG_NEW = API_DOMAIN + "api/" + API_VERSION + "/method/msg.new" + API_FILE_EXTENSION;
-    String METHOD_MSG_UPLOAD_IMG = API_DOMAIN + "api/" + API_VERSION + "/method/msg.uploadImg" + API_FILE_EXTENSION;
+    String METHOD_MSG_UPLOAD_IMG = API_DOMAIN + "api/" + API_VERSION + "/method/msg.uploadimg" + API_FILE_EXTENSION;
 
 
     // added for version 3.2
@@ -106,7 +96,7 @@ public interface Constants {
     String METHOD_APP_CHECK_EMAIL = API_DOMAIN + "api/" + API_VERSION + "/method/app.checkEmail" + API_FILE_EXTENSION;
 
     // added dor version 4.5
-    String METHOD_ACCOUNT_UPLOAD_IMAGE = API_DOMAIN + "api/" + API_VERSION + "/method/profile.uploadImg" + API_FILE_EXTENSION;
+    String METHOD_ACCOUNT_UPLOAD_IMAGE = API_DOMAIN + "api/" + API_VERSION + "/method/profile.uploadimg" + API_FILE_EXTENSION;
 
 
     String METHOD_PAYMENTS_NEW = API_DOMAIN + "api/" + API_VERSION + "/method/payments.new" + API_FILE_EXTENSION;
@@ -122,7 +112,7 @@ public interface Constants {
     String METHOD_GALLERY_LIKES = API_DOMAIN + "api/" + API_VERSION + "/method/gallery.likes" + API_FILE_EXTENSION;
     String METHOD_GALLERY_GET_ITEM = API_DOMAIN + "api/" + API_VERSION + "/method/gallery.getItem" + API_FILE_EXTENSION;
 
-    String METHOD_GALLERY_UPLOAD_IMG = API_DOMAIN + "api/" + API_VERSION + "/method/gallery.uploadImg" + API_FILE_EXTENSION;
+    String METHOD_GALLERY_UPLOAD_IMG = API_DOMAIN + "api/" + API_VERSION + "/method/gallery.uploadimg" + API_FILE_EXTENSION;
 
     String METHOD_COMMENTS_NEW = API_DOMAIN + "api/" + API_VERSION + "/method/comments.new" + API_FILE_EXTENSION;
     String METHOD_COMMENTS_REMOVE = API_DOMAIN + "api/" + API_VERSION + "/method/comments.remove" + API_FILE_EXTENSION;
@@ -174,11 +164,9 @@ public interface Constants {
     int GENDER_UNKNOWN = 2;
 
     int NOTIFY_TYPE_LIKE = 0;
-    int NOTIFY_TYPE_FOLLOWER = 1;
     int NOTIFY_TYPE_MESSAGE = 2;
     int NOTIFY_TYPE_COMMENT = 3;
     int NOTIFY_TYPE_COMMENT_REPLY = 4;
-    int NOTIFY_TYPE_FRIEND_REQUEST_ACCEPTED = 5;
 
     int NOTIFY_TYPE_IMAGE_COMMENT = 7;
     int NOTIFY_TYPE_IMAGE_COMMENT_REPLY = 8;
@@ -200,12 +188,9 @@ public interface Constants {
     int GCM_NOTIFY_ANSWER = 4;
     int GCM_NOTIFY_QUESTION = 5;
     int GCM_NOTIFY_COMMENT = 6;
-    int GCM_NOTIFY_FOLLOWER = 7;
     int GCM_NOTIFY_PERSONAL = 8;
     int GCM_NOTIFY_MESSAGE = 9;
     int GCM_NOTIFY_COMMENT_REPLY = 10;
-    int GCM_FRIEND_REQUEST_INBOX = 11;
-    int GCM_FRIEND_REQUEST_ACCEPTED = 12;
     int GCM_NOTIFY_SEEN = 15;
     int GCM_NOTIFY_TYPING = 16;
     int GCM_NOTIFY_URL = 17;
@@ -248,9 +233,6 @@ public interface Constants {
     int ERROR_ACCESS_TOKEN = 101;
 
     int ERROR_ACCOUNT_ID = 400;
-
-    int ERROR_CLIENT_ID = 19100;
-    int ERROR_CLIENT_SECRET = 19101;
 
     int UPLOAD_TYPE_PHOTO = 0;
 

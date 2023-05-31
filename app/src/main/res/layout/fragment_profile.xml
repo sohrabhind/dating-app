@@ -149,7 +149,7 @@
 
                     <TextView
                         android:id="@+id/profileMessageBtn"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_marginEnd="1dp"
                         android:layout_weight="1"
@@ -164,7 +164,7 @@
 
                     <TextView
                         android:id="@+id/profileActionBtn"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="1dp"
                         android:layout_weight="1"
@@ -202,32 +202,6 @@
 
                         <TextView
                             android:id="@+id/profileJoinDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/spacing_medium"
-                            android:text="01.01.2017"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/colorSubTitle" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/profileBirthDateContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="5dp">
-
-                        <ImageView
-                            android:layout_width="@dimen/spacing_mlarge"
-                            android:layout_height="@dimen/spacing_mlarge"
-                            android:layout_margin="@dimen/spacing_middle"
-                            app:srcCompat="@drawable/ic_birthday"
-                            app:tint="@color/colorIconTint" />
-
-                        <TextView
-                            android:id="@+id/profileBirthDate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/spacing_medium"
@@ -311,58 +285,6 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/spacing_medium"
                             android:text="@string/label_height"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/colorSubTitle" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/profileWeightContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="5dp">
-
-                        <ImageView
-                            android:layout_width="@dimen/spacing_mlarge"
-                            android:layout_height="@dimen/spacing_mlarge"
-                            android:layout_margin="@dimen/spacing_middle"
-                            app:srcCompat="@drawable/ic_weight"
-                            app:tint="@color/colorIconTint" />
-
-                        <TextView
-                            android:id="@+id/profileWeight"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/spacing_medium"
-                            android:text="@string/label_weight"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/colorSubTitle" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/profileRelationshipStatusContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="5dp">
-
-                        <ImageView
-                            android:layout_width="@dimen/spacing_mlarge"
-                            android:layout_height="@dimen/spacing_mlarge"
-                            android:layout_margin="@dimen/spacing_middle"
-                            app:srcCompat="@drawable/ic_feature"
-                            app:tint="@color/colorIconTint" />
-
-                        <TextView
-                            android:id="@+id/profileRelationshipStatus"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/spacing_medium"
-                            android:text="RelationshipStatus"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             android:textColor="@color/colorSubTitle" />
 
@@ -541,11 +463,10 @@
                             app:tint="@color/colorIconTint" />
 
                         <TextView
-                            android:id="@+id/profileInstagramUrl"
+                            android:id="@+id/profileInterests"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/spacing_medium"
-                            android:text="www.instagram.com/example"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             android:textColor="@color/colorSubTitle" />
 
@@ -585,7 +506,7 @@
                                 android:id="@+id/profileItemsCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="1.2 K"
+                                android:text="0"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                                 android:textColor="@color/colorTitle" />
 
@@ -600,37 +521,6 @@
 
                     </com.balysv.materialripple.MaterialRippleLayout>
 
-                    <com.balysv.materialripple.MaterialRippleLayout
-                        android:id="@+id/profileFriendsBtn"
-                        style="@style/MyRippleStyleDark"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/profileFriendsCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="293"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                                android:textColor="@color/colorTitle" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/label_friends"
-                                android:textAllCaps="true"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                android:textColor="@color/colorSubTitle" />
-                        </LinearLayout>
-
-                    </com.balysv.materialripple.MaterialRippleLayout>
 
                     <com.balysv.materialripple.MaterialRippleLayout
                         android:id="@+id/profileLikesBtn"
@@ -649,7 +539,7 @@
                                 android:id="@+id/profileLikesCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="57"
+                                android:text="0"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                                 android:textColor="@color/colorTitle" />
 

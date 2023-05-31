@@ -277,7 +277,6 @@ public class LikedFragment extends Fragment implements Constants, SwipeRefreshLa
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("itemId", Long.toString(itemId));
-                params.put("language", "en");
 
                 return params;
             }

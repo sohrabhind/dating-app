@@ -51,6 +51,7 @@ import com.hindbyte.dating.util.CustomRequest;
 import com.hindbyte.dating.util.Helper;
 import com.hindbyte.dating.animation.Render;
 import com.hindbyte.dating.animation.Slide;
+import com.hindbyte.dating.util.ToastWindow;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,6 +65,7 @@ public class HomeActivity extends ActivityBase {
 
     protected Location mLastLocation;
 
+    ToastWindow toastWindow = new ToastWindow();
     TextView signupBtn;
     TextView mGoogleSignInButton;
 
@@ -263,7 +265,7 @@ public class HomeActivity extends ActivityBase {
                                     } else {
                                         if (App.getInstance().getState() == ACCOUNT_STATE_BLOCKED) {
                                             App.getInstance().logout();
-                                            Toast.makeText(HomeActivity.this, getText(R.string.msg_account_blocked), Toast.LENGTH_SHORT).show();
+                                            toastWindow.makeText(HomeActivity.this, getText(R.string.msg_account_blocked), 2000);
                                         } else {
                                             App.getInstance().updateGeoLocation();
                                             Intent intent = new Intent(HomeActivity.this, MainActivity.class);
@@ -280,7 +282,7 @@ public class HomeActivity extends ActivityBase {
                                         i.putExtra("oauth_type", oauth_type);
                                         startActivity(i);
                                     } else {
-                                        Toast.makeText(HomeActivity.this, getString(R.string.error_signin), Toast.LENGTH_SHORT).show();
+                                        toastWindow.makeText(HomeActivity.this, getString(R.string.error_signin), 2000);
                                     }
                                 }
 
@@ -290,7 +292,7 @@ public class HomeActivity extends ActivityBase {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.e("Google", "signInWithCredential:failure");
-                            Toast.makeText(HomeActivity.this, getText(R.string.error_data_loading), Toast.LENGTH_LONG).show();
+                            toastWindow.makeText(HomeActivity.this, getText(R.string.error_data_loading), 2000);
                             loading = false;
                             hidepDialog();
                         }
@@ -298,7 +300,6 @@ public class HomeActivity extends ActivityBase {
                         @Override
                         protected Map<String, String> getParams() {
                             Map<String, String> params = new HashMap<String, String>();
-                            params.put("client_id", CLIENT_ID);
                             params.put("uid", uid);
                             params.put("email", email);
                             params.put("app_type", String.valueOf(APP_TYPE_ANDROID));
@@ -364,7 +365,6 @@ public class HomeActivity extends ActivityBase {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
-                    params.put("clientId", CLIENT_ID);
                     params.put("appType", String.valueOf(APP_TYPE_ANDROID));
                     params.put("fcm_regId", App.getInstance().getGcmToken());
                     params.put("accountId", Long.toString(App.getInstance().getId()));
@@ -408,50 +408,50 @@ public class HomeActivity extends ActivityBase {
         Helper helper = new Helper(this);
 
         if(isEmailTaken) {
-            Toast.makeText(this, R.string.error_email_taken, Toast.LENGTH_SHORT).show();
+            toastWindow.makeText(this, R.string.error_email_taken, 2000);
             return false;
         }
 
         if (email.length() == 0) {
-            Toast.makeText(this, R.string.error_field_empty, Toast.LENGTH_SHORT).show();
+            toastWindow.makeText(this, R.string.error_field_empty, 2000);
             return false;
         }
 
         if (!helper.isValidEmail(email)) {
-            Toast.makeText(this, R.string.error_wrong_format, Toast.LENGTH_SHORT).show();
+            toastWindow.makeText(this, R.string.error_wrong_format, 2000);
             return false;
         }
 
 
         if (username.length() == 0) {
-            Toast.makeText(this, R.string.error_field_empty, Toast.LENGTH_SHORT).show();
+            toastWindow.makeText(this, R.string.error_field_empty, 2000);
             return false;
         }
 
         if (username.length() < 5) {
-            Toast.makeText(this, R.string.error_small_username, Toast.LENGTH_SHORT).show();
+            toastWindow.makeText(this, R.string.error_small_username, 2000);
             return false;
         }
 
         if (!helper.isValidLogin(username)) {
-            Toast.makeText(this, R.string.error_wrong_format, Toast.LENGTH_SHORT).show();
+            toastWindow.makeText(this, R.string.error_wrong_format, 2000);
             return false;
         }
 
 
 
         if (password.length() == 0) {
-            Toast.makeText(this, R.string.error_field_empty, Toast.LENGTH_SHORT).show();
+            toastWindow.makeText(this, R.string.error_field_empty, 2000);
             return false;
         }
 
         if (password.length() < 6) {
-            Toast.makeText(this, R.string.error_small_password, Toast.LENGTH_SHORT).show();
+            toastWindow.makeText(this, R.string.error_small_password, 2000);
             return false;
         }
 
         if (!helper.isValidPassword(password)) {
-            Toast.makeText(this, R.string.error_wrong_format, Toast.LENGTH_SHORT).show();
+            toastWindow.makeText(this, R.string.error_wrong_format, 2000);
             return false;
         }
 

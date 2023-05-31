@@ -29,6 +29,7 @@ import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.util.CustomRequest;
 import com.hindbyte.dating.util.Helper;
+import com.hindbyte.dating.util.ToastWindow;
 
 public class ChangePasswordFragment extends Fragment implements Constants {
 
@@ -36,6 +37,7 @@ public class ChangePasswordFragment extends Fragment implements Constants {
 
     EditText mCurrentPassword, mNewPassword;
 
+    ToastWindow toastWindow = new ToastWindow();
     String sCurrentPassword, sNewPassword;
 
     private Boolean loading = false;
@@ -131,7 +133,7 @@ setHasOptionsMenu(true);
 
                     } else {
 
-                        Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                        toastWindow.makeText(requireActivity(), getText(R.string.msg_network_error), 2000);
                     }
 
                 }
@@ -158,12 +160,12 @@ setHasOptionsMenu(true);
 
                             if (!response.getBoolean("error")) {
 
-                                Toast.makeText(requireActivity(), getText(R.string.msg_password_changed), Toast.LENGTH_SHORT).show();
+                                toastWindow.makeText(requireActivity(), getText(R.string.msg_password_changed), 2000);
                                 requireActivity().finish();
 
                             } else {
 
-                                Toast.makeText(requireActivity(), getText(R.string.error_password), Toast.LENGTH_SHORT).show();
+                                toastWindow.makeText(requireActivity(), getText(R.string.error_password), 2000);
                             }
                         }
 

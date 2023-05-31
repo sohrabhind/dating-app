@@ -25,6 +25,7 @@ import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.util.CustomRequest;
 import com.hindbyte.dating.util.Helper;
+import com.hindbyte.dating.util.ToastWindow;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +45,7 @@ public class DeactivateFragment extends Fragment implements Constants {
 
     private Boolean loading = false;
 
+    ToastWindow toastWindow = new ToastWindow();
     public DeactivateFragment() {
         // Required empty public constructor
     }
@@ -84,7 +86,7 @@ setHasOptionsMenu(true);
 
                     } else {
 
-                        Toast.makeText(requireActivity(), getText(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                        toastWindow.makeText(requireActivity(), getText(R.string.msg_network_error), 2000);
                     }
                 }
             }
@@ -159,7 +161,7 @@ setHasOptionsMenu(true);
 
                                 } else {
 
-                                    Toast.makeText(requireActivity(), getText(R.string.error_password), Toast.LENGTH_SHORT).show();
+                                    toastWindow.makeText(requireActivity(), getText(R.string.error_password), 2000);
                                 }
                             }
 
@@ -247,7 +249,6 @@ setHasOptionsMenu(true);
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put("clientId", CLIENT_ID);
                     params.put("accountId", Long.toString(App.getInstance().getId()));
                     params.put("accessToken", App.getInstance().getAccessToken());
 
