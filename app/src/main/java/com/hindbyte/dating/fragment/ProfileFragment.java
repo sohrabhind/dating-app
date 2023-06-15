@@ -11,10 +11,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,14 +30,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -45,16 +44,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -68,9 +63,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.activity.AccountSettingsActivity;
 import com.hindbyte.dating.activity.AddPhotoActivity;
-import com.hindbyte.dating.activity.UpgradeActivity;
 import com.hindbyte.dating.activity.ChatActivity;
-import com.hindbyte.dating.activity.FriendsActivity;
 import com.hindbyte.dating.activity.LikesActivity;
 import com.hindbyte.dating.activity.PhotoViewActivity;
 import com.hindbyte.dating.activity.ProfileActivity;
@@ -82,6 +75,7 @@ import com.hindbyte.dating.dialogs.ProfileBlockDialog;
 import com.hindbyte.dating.dialogs.ProfileReportDialog;
 import com.hindbyte.dating.model.Image;
 import com.hindbyte.dating.model.Profile;
+import com.hindbyte.dating.tagview.TagContainerLayout;
 import com.hindbyte.dating.util.Api;
 import com.hindbyte.dating.util.CustomRequest;
 import com.hindbyte.dating.util.Helper;
@@ -102,9 +96,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -133,14 +127,16 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
     LinearLayout mProfileAgeContainer, mProfileHeightContainer, mProfileStatusContainer, mProfileJoinDateContainer, mProfileGenderContainer, mProfileReligiousViewContainer, mProfileSiteContainer;
     LinearLayout mProfileSmokingViewsContainer, mProfileAlcoholViewsContainer, mProfileProfileLookingContainer, mProfileGenderLikeContainer;
     TextView mProfileSmokingViews, mProfileAlcoholViews, mProfileProfileLooking, mProfileGenderLike;
-    TextView mProfileAge, mProfileHeight, mProfileStatus, mProfileJoinDate, mProfileGender, mProfileReligiousView, mProfileInterests;
+    TextView mProfileAge, mProfileHeight, mProfileStatus, mProfileJoinDate, mProfileGender, mProfileReligiousView;
+    TagContainerLayout mTagContainerLayout;
 
     SwipeRefreshLayout mProfileRefreshLayout;
     NestedScrollView mNestedScrollView;
 
     ImageView mProfileLevelIcon;
 
-    ImageView mProfilePhoto, mProfileOnlineIcon;
+    ImageView mProfilePhoto;
+    ImageView mProfileOnlineIcon;
     TextView mProfileLocation, mProfileFullname, mProfileUsername;
     RecyclerView mRecyclerView;
     TextView mProfileItemsCount, mProfileLikesCount;
@@ -181,6 +177,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
     private ActivityResultLauncher<Intent> imgFromGalleryActivityResultLauncher;
     private ActivityResultLauncher<Intent> imgFromCameraActivityResultLauncher;
 
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -194,6 +191,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         initpDialog();
 
         Intent i = requireActivity().getIntent();
+
 
         profile_id = i.getLongExtra("profileId", 0);
         profile_mention = i.getStringExtra("profileMention");
@@ -212,9 +210,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
-
         if (savedInstanceState != null) {
 
             itemsList = savedInstanceState.getParcelableArrayList(STATE_LIST);
@@ -227,12 +223,9 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
             preload = savedInstanceState.getBoolean("preload");
 
             profile = savedInstanceState.getParcelable("profileObj");
-
         } else {
-
             itemsList = new ArrayList<>();
             itemsAdapter = new GalleryListAdapter(requireActivity(), itemsList);
-
 
             itemId = 0;
 
@@ -242,8 +235,6 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         }
 
         if (loading) {
-
-
             showpDialog();
         }
 
@@ -319,7 +310,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
 
-                        toastWindow.makeText(requireActivity(), getString(R.string.label_grant_storage_permission), 2000);
+                        toastWindow.makeText(getString(R.string.label_grant_storage_permission), 2000);
                     }
 
                 }).show();
@@ -352,7 +343,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
 
-                        toastWindow.makeText(requireActivity(), getString(R.string.label_grant_camera_permission), 2000);
+                        toastWindow.makeText(getString(R.string.label_grant_camera_permission), 2000);
                     }
 
                 }).show();
@@ -399,14 +390,14 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         mProfileProfileLooking = rootView.findViewById(R.id.profileProfileLooking);
         mProfileGenderLike = rootView.findViewById(R.id.profileGenderLike);
 
-        mProfileInterests = rootView.findViewById(R.id.profileInterests);
 
+        mTagContainerLayout = rootView.findViewById(R.id.tagcontainerLayout);
 
         mNestedScrollView = rootView.findViewById(R.id.nestedScrollView);
 
         mRecyclerView = rootView.findViewById(R.id.recyclerView);
 
-        final GridLayoutManager mLayoutManager = new GridLayoutManager(requireActivity(), Helper.getGalleryGridCount(requireActivity()));
+        final GridLayoutManager mLayoutManager = new GridLayoutManager(requireActivity(), 1); //Helper.getGalleryGridCount(requireActivity()));
         mLayoutManager.setAutoMeasureEnabled(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setPadding(2, 2, 2, 2);
@@ -416,7 +407,6 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         mRecyclerView.setNestedScrollingEnabled(false);
 
         mNestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
@@ -428,21 +418,6 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
                 }
             }
         });
-
-        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(requireActivity(), mRecyclerView, new FriendsFragment.RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Image img = itemsList.get(position);
-                Intent intent = new Intent(requireActivity(), ViewImageActivity.class);
-                intent.putExtra("itemId", img.getId());
-                startActivity(intent);
-            }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-                // ...
-            }
-        }));
 
         mProfileActionBtn = rootView.findViewById(R.id.profileActionBtn);
         mProfileMessageBtn = rootView.findViewById(R.id.profileMessageBtn);
@@ -462,21 +437,6 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         mProfileLocation = rootView.findViewById(R.id.profileLocation);
 
 
-        mProfileSiteContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (!profile.getInterests().startsWith("https://") && !profile.getInterests().startsWith("http://")){
-
-                    profile.setInterests("http://" + profile.getInterests());
-                }
-
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(profile.getInterests()));
-                startActivity(i);
-            }
-        });
-
 
         mProfileLikesBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -488,6 +448,10 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         });
 
         mProfilePhoto = rootView.findViewById(R.id.profilePhoto);
+        int screenwidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+        mProfilePhoto.setMinimumHeight(screenwidth);
+        mProfilePhoto.setMaxHeight((int) (screenwidth*1.3f));
+        //mProfilePhoto.setMaxZoom(10f);
         mProfileLevelIcon = rootView.findViewById(R.id.profileLevelIcon);
 
 
@@ -499,23 +463,22 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         });
 
         ((ProfileActivity)requireActivity()).mFabButton.setOnClickListener(v -> {
-
             if (profile.getId() == App.getInstance().getId()) {
-
                 Intent intent = new Intent(requireActivity(), AddPhotoActivity.class);
                 startActivity(intent);
             } else {
                 if (!profile.isInBlackList()) {
+                    animateIcon(((ProfileActivity)requireActivity()).mFabButton);
                     like(profile.getId());
                 } else {
-                    toastWindow.makeText(requireActivity(), getString(R.string.error_action), 2000);
+                    toastWindow.makeText(getString(R.string.error_action), 2000);
                 }
             }
         });
 
         mProfileMessageBtn.setOnClickListener(v -> {
             if (profile.getAllowMessages() == 0 && !profile.isMyFan()) {
-                toastWindow.makeText(requireActivity(), getString(R.string.error_no_friend), 2000);
+                toastWindow.makeText(getString(R.string.error_no_friend), 2000);
             } else {
                 if (!profile.isInBlackList()) {
                     Intent i = new Intent(requireActivity(), ChatActivity.class);
@@ -531,7 +494,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
                     startActivity(i);
                 } else {
-                    toastWindow.makeText(requireActivity(), getString(R.string.error_action), 2000);
+                    toastWindow.makeText(getString(R.string.error_action), 2000);
                 }
             }
         });
@@ -587,6 +550,16 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
     public void onDestroyView() {
         super.onDestroyView();
         hidepDialog();
+    }
+
+
+    private void animateIcon(View view) {
+        ScaleAnimation scale = new ScaleAnimation(1.0f, 0.1f, 1.0f, 0.1f,
+                ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
+                ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
+        scale.setDuration(300);
+        scale.setInterpolator(new LinearInterpolator());
+        view.startAnimation(scale);
     }
 
     @Override
@@ -735,7 +708,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
                                 cameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                                 imgFromCameraActivityResultLauncher.launch(cameraIntent);
                             } catch (Exception e) {
-                                toastWindow.makeText(requireActivity(), "Error occured. Please try again later.", 2000);
+                                toastWindow.makeText("Error occured. Please try again later.", 2000);
                             }
                         } else {
                             requestCameraPermission();
@@ -767,7 +740,6 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
     @SuppressLint("SetTextI18n")
     public void updateProfile() {
-
         updateFullname();
         updateLikesCount();
         updateActionButton();
@@ -787,12 +759,13 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
             mProfileMessageBtn.setVisibility(View.GONE);
         } else {
             mProfileActionBtn.setVisibility(View.GONE);
-            ((ProfileActivity)requireActivity()).mFabButton.setImageResource(R.drawable.ic_action_like);
             if (profile.isILike()) {
-                ((ProfileActivity)requireActivity()).mFabButton.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.app_circular_button_green));
+                ((ProfileActivity)requireActivity()).mFabButton.setImageResource(R.drawable.ic_action_liked);
+                ((ProfileActivity)requireActivity()).mFabButton.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.circular_button_liked));
             }
             if (!profile.isILike()) {
-                ((ProfileActivity)requireActivity()).mFabButton.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.app_circular_button));
+                ((ProfileActivity)requireActivity()).mFabButton.setImageResource(R.drawable.ic_action_like);
+                ((ProfileActivity)requireActivity()).mFabButton.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.circular_button));
             }
 
             mProfileMessageBtn.setText(R.string.action_message);
@@ -821,7 +794,10 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         if (profile.getInterests() != null && profile.getInterests().length() != 0) {
 
             mProfileSiteContainer.setVisibility(View.VISIBLE);
-            mProfileInterests.setText(profile.getInterests());
+            //mProfileInterests.setText(profile.getInterests());
+
+            List<String> items = Arrays.asList(profile.getInterests().split("\\s*,\\s*"));
+            mTagContainerLayout.setTags(items);
 
         } else {
 
@@ -926,24 +902,11 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
             }    
 
         // Profile Info
+        mProfileInfoContainer.setVisibility(View.VISIBLE);
 
-        mProfileInfoContainer.setVisibility(View.GONE);
+    
 
-        if (profile.getAllowShowMyInfo() == 0 || App.getInstance().getId() == profile.getId()) {
-
-            mProfileInfoContainer.setVisibility(View.VISIBLE);
-
-        } else {
-
-            if (profile.getAllowShowMyInfo() == 1 && profile.isMyFan()) {
-
-                mProfileInfoContainer.setVisibility(View.VISIBLE);
-            }
-        }
-
-        if (profile.getAllowShowMyGallery() == 0 || App.getInstance().getId() == profile.getId()) {
-
-            if (profile.getImagesCount() > 0 && itemsAdapter.getItemCount() != 0) {
+        if (profile.getImagesCount() > 0 && itemsAdapter.getItemCount() != 0) {
 
                 mRecyclerView.setVisibility(View.VISIBLE);
 
@@ -951,25 +914,6 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
                 mRecyclerView.setVisibility(View.GONE);
             }
-
-        } else {
-
-            if (profile.getAllowShowMyGallery() == 1 && profile.isMyFan()) {
-
-                if (profile.getImagesCount() > 0 && itemsAdapter.getItemCount() != 0) {
-
-                    mRecyclerView.setVisibility(View.VISIBLE);
-
-                } else {
-
-                    mRecyclerView.setVisibility(View.GONE);
-                }
-
-            } else {
-
-                mRecyclerView.setVisibility(View.GONE);
-            }
-        }
 
         mProfileCountersContainer.setVisibility(View.VISIBLE);
 
@@ -987,16 +931,19 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
     }
 
     private void updateFullname() {
-
-        if (profile.getFullname() == null || profile.getFullname().length() == 0) {
-
-            mProfileFullname.setText(profile.getUsername());
-            if (!isMainScreen) requireActivity().setTitle(profile.getUsername());
-
-        } else {
-
-            mProfileFullname.setText(profile.getFullname());
+        if(profile.getFullname() == null)  {
+            profile.setFullname("");
+        }
+        if (profile.getId() == App.getInstance().getId()) {
+            mProfileFullname.setText(profile.getFullname()+ ", " + profile.getAge());
             if (!isMainScreen) requireActivity().setTitle(profile.getFullname());
+        } else {
+            String fullname = profile.getFullname();
+            if(fullname.split("\\w+").length>1){
+                fullname = fullname.substring(0, fullname.lastIndexOf(' '));
+            }
+            mProfileFullname.setText(fullname+ ", " + profile.getAge());
+            if (!isMainScreen) requireActivity().setTitle(fullname);
         }
     }
 
@@ -1101,15 +1048,6 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
 
     public void getItems() {
-        if (App.getInstance().getId() == profile.getId() || profile.getAllowShowMyGallery() == 0) {
-            // All right. Load items
-        } else {
-            if (profile.getAllowShowMyGallery() == 1 && profile.isMyFan()) {
-                // All right. Load items
-            } else {
-                return;
-            }
-        }
         if (loadingMore) {
             mProfileRefreshLayout.setRefreshing(true);
         } else{
@@ -1165,7 +1103,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
                 }
 
                 loadingComplete();
-                toastWindow.makeText(requireActivity(), error.toString(), 2000);
+                toastWindow.makeText(error.toString(), 2000);
             }
         }) {
 
@@ -1475,7 +1413,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
                                     profile.setBlocked(false);
 
-                                    toastWindow.makeText(requireActivity(), getString(R.string.msg_profile_removed_from_blacklist), 2000);
+                                    toastWindow.makeText(getString(R.string.msg_profile_removed_from_blacklist), 2000);
                                 }
 
                             } catch (JSONException e) {
@@ -1545,7 +1483,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
                                 profile.setBlocked(true);
 
-                                toastWindow.makeText(requireActivity(), getString(R.string.msg_profile_added_to_blacklist), 2000);
+                                toastWindow.makeText(getString(R.string.msg_profile_added_to_blacklist), 2000);
                             }
 
                         } catch (JSONException e) {
@@ -1686,31 +1624,16 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
     public void showProfileLikes(long profileId) {
 
-        if (profile.getAllowShowMyLikes() == 0 || App.getInstance().getId() == profile.getId()) {
-
-            Intent intent = new Intent(requireActivity(), LikesActivity.class);
+              Intent intent = new Intent(requireActivity(), LikesActivity.class);
             intent.putExtra("profileId", profileId);
             startActivity(intent);
 
-        } else {
-
-            if (profile.getAllowShowMyLikes() == 1 && profile.isILike()) {
-
-                Intent intent = new Intent(requireActivity(), LikesActivity.class);
-                intent.putExtra("profileId", profileId);
-                startActivity(intent);
-
-            }
-        }
+      
     }
 
 
     public void like(final long profileId) {
-
         loading = true;
-
-        showpDialog();
-
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_PROFILE_LIKE, null,
                 response -> {
 
@@ -1726,27 +1649,26 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
                     try {
 
                         if (!response.getBoolean("error")) {
-
                             if (response.has("likesCount")) {
-
                                 profile.setLikesCount(response.getInt("likesCount"));
-
                                 updateLikesCount();
                             }
-
                             if (response.has("iLiked")) {
-
                                 profile.setILike(response.getBoolean("iLiked"));
+                                if (profile.isILike()) {
+                                    ((ProfileActivity)requireActivity()).mFabButton.setImageResource(R.drawable.ic_action_liked);
+                                    ((ProfileActivity)requireActivity()).mFabButton.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.circular_button_liked));
+                                }
+                                if (!profile.isILike()) {
+                                    ((ProfileActivity)requireActivity()).mFabButton.setImageResource(R.drawable.ic_action_like);
+                                    ((ProfileActivity)requireActivity()).mFabButton.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.circular_button));
+                                }
                             }
                         }
-
                     } catch (JSONException e) {
-
                         e.printStackTrace();
-
                     } finally {
                         loading = false;
-                        hidepDialog();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -1760,10 +1682,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
                 } else {
                     requireActivity();
                 }
-
                 loading = false;
-
-                hidepDialog();
             }
         }) {
 
@@ -1793,66 +1712,6 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         dialog.getWindow().setAttributes(lp);
     }
 
-    static class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
-
-        public interface OnItemClickListener {
-
-            void onItemClick(View view, int position);
-
-            void onItemLongClick(View view, int position);
-        }
-
-        private FriendsFragment.RecyclerItemClickListener.OnItemClickListener mListener;
-
-        private GestureDetector mGestureDetector;
-
-        public RecyclerItemClickListener(Context context, final RecyclerView recyclerView, FriendsFragment.RecyclerItemClickListener.OnItemClickListener listener) {
-
-            mListener = listener;
-
-            mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-
-                    return true;
-                }
-
-                @Override
-                public void onLongPress(MotionEvent e) {
-
-                    View childView = recyclerView.findChildViewUnder(e.getX(), e.getY());
-
-                    if (childView != null && mListener != null) {
-
-                        mListener.onItemLongClick(childView, recyclerView.getChildAdapterPosition(childView));
-                    }
-                }
-            });
-        }
-
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e) {
-
-            View childView = view.findChildViewUnder(e.getX(), e.getY());
-
-            if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
-
-                mListener.onItemClick(childView, view.getChildAdapterPosition(childView));
-            }
-
-            return false;
-        }
-
-        @Override
-        public void onTouchEvent(RecyclerView view, MotionEvent motionEvent) {
-
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-        }
-    }
 
     public void getAccountSettings() {
 

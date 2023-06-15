@@ -56,7 +56,7 @@ public class MainActivity extends ActivityBase {
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_swipe_cards_4).setContentDescription(R.string.app_name);
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_swipe_cards).setContentDescription(R.string.app_name);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_notification).setContentDescription(R.string.nav_notifications);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_messages).setContentDescription(R.string.nav_messages);
         tabLayout.getTabAt(3).setIcon(R.drawable.ic_menu).setContentDescription(R.string.nav_menu);

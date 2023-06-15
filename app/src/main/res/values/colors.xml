@@ -33,7 +33,7 @@
     <color name="drawer_item_text">#FFFFFF</color>
 
 
-    <color name="colorPrimaryLight">#C45143</color>
+    <color name="colorPrimaryLight">#D95C4C</color>
     <color name="colorPrimaryLight2">#B9665B</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
@@ -94,8 +94,8 @@
     <color name="buttonPressedEnd">#ff6c39</color>
 
     //
-    <color name="colorLikeIconTint">#606770</color>
-    <color name="colorLikeActiveIconTint">#EB4846</color>
+    <color name="colorLikeIconTint">#DE153E</color>
+    <color name="colorLikeActiveIconTint">#FF0000</color>
     //
 
     <color name="tabBarBackground">#242627</color>

@@ -4,26 +4,30 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <com.balysv.materialripple.MaterialRippleLayout
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/parent"
         style="@style/MyRippleStyleLight"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_size"
-        android:layout_margin="@dimen/spacing_medium"
+        android:layout_margin="@dimen/spacing_small"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        app:cardCornerRadius="4dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/photo_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/profile_default_photo" />
+                <ImageView
+                    android:id="@+id/photo_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/profile_default_photo" />
+
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -140,5 +144,6 @@
                     android:id="@+id/progressBar" />
             </RelativeLayout>
         </RelativeLayout>
-    </com.balysv.materialripple.MaterialRippleLayout>
+    </androidx.cardview.widget.CardView>
+
 </RelativeLayout>

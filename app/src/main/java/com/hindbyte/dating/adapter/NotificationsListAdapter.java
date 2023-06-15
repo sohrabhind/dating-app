@@ -2,8 +2,6 @@ package com.hindbyte.dating.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +10,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.hindbyte.dating.activity.ProfileActivity;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.model.Chat;
@@ -113,49 +109,37 @@ public class NotificationsListAdapter extends RecyclerView.Adapter<Notifications
         if (item.getFromUserId() != 0) {
             holder.title.setText(item.getFromUserFullname());
         } else {
-            holder.image.setImageResource(R.drawable.def_photo);
+            holder.image.setImageResource(R.drawable.ic_action_liked);
             holder.title.setText(ctx.getString(R.string.app_name));
         }
 
         if (item.getType() == NOTIFY_TYPE_LIKE) {
             holder.message.setText(item.getFromUserFullname() + " " + ctx.getText(R.string.label_likes_profile));
-            holder.icon.setImageResource(R.drawable.notify_like);
-         } else if (item.getType() == NOTIFY_TYPE_COMMENT) {
-            holder.message.setText(item.getFromUserFullname() + " " + ctx.getText(R.string.label_comment_added));
-            holder.icon.setImageResource(R.drawable.notify_comment);
-        } else if (item.getType() == NOTIFY_TYPE_COMMENT_REPLY) {
-            holder.message.setText(item.getFromUserFullname() + " " + ctx.getText(R.string.label_comment_reply_added));
-            holder.icon.setImageResource(R.drawable.notify_reply);
-        } else if (item.getType() == NOTIFY_TYPE_IMAGE_COMMENT) {
-            holder.message.setText(item.getFromUserFullname() + " " + ctx.getText(R.string.label_comment_added));
-            holder.icon.setImageResource(R.drawable.notify_comment);
-        } else if (item.getType() == NOTIFY_TYPE_IMAGE_COMMENT_REPLY) {
-            holder.message.setText(item.getFromUserFullname() + " " + ctx.getText(R.string.label_comment_reply_added));
-            holder.icon.setImageResource(R.drawable.notify_comment);
-        } else if (item.getType() == NOTIFY_TYPE_IMAGE_LIKE) {
+            holder.icon.setImageResource(R.drawable.ic_action_liked);
+         } else if (item.getType() == NOTIFY_TYPE_IMAGE_LIKE) {
             holder.message.setText(item.getFromUserFullname() + " " + ctx.getText(R.string.label_likes_item));
-            holder.icon.setImageResource(R.drawable.notify_like);
+            holder.icon.setImageResource(R.drawable.ic_action_liked);
         } else if (item.getType() == NOTIFY_TYPE_MEDIA_APPROVE) {
             holder.message.setText(String.format(Locale.getDefault(), ctx.getString(R.string.label_media_approved), ctx.getString(R.string.app_name)));
-            holder.icon.setImageResource(R.drawable.notify_approved);
+            holder.icon.setImageResource(R.drawable.ic_action_done);
         } else if (item.getType() == NOTIFY_TYPE_MEDIA_REJECT) {
             holder.message.setText(String.format(Locale.getDefault(), ctx.getString(R.string.label_media_rejected), ctx.getString(R.string.app_name)));
-            holder.icon.setImageResource(R.drawable.notify_rejected);
+            holder.icon.setImageResource(R.drawable.ic_rejected);
         } else if (item.getType() == NOTIFY_TYPE_ACCOUNT_APPROVE) {
             holder.message.setText(String.format(Locale.getDefault(), ctx.getString(R.string.label_profile_photo_approved_new), ctx.getString(R.string.app_name)));
-            holder.icon.setImageResource(R.drawable.notify_approved);
+            holder.icon.setImageResource(R.drawable.ic_action_done);
         } else if (item.getType() == NOTIFY_TYPE_ACCOUNT_REJECT) {
             holder.message.setText(String.format(Locale.getDefault(), ctx.getString(R.string.label_profile_photo_rejected_new), ctx.getString(R.string.app_name)));
-            holder.icon.setImageResource(R.drawable.notify_rejected);
+            holder.icon.setImageResource(R.drawable.ic_rejected);
         } else if (item.getType() == NOTIFY_TYPE_PROFILE_PHOTO_APPROVE) {
             holder.message.setText(String.format(Locale.getDefault(), ctx.getString(R.string.label_profile_photo_approved_new), ctx.getString(R.string.app_name)));
-            holder.icon.setImageResource(R.drawable.notify_approved);
+            holder.icon.setImageResource(R.drawable.ic_action_done);
         } else if (item.getType() == NOTIFY_TYPE_PROFILE_PHOTO_REJECT) {
             holder.message.setText(String.format(Locale.getDefault(), ctx.getString(R.string.label_profile_photo_rejected_new), ctx.getString(R.string.app_name)));
-            holder.icon.setImageResource(R.drawable.notify_rejected);
+            holder.icon.setImageResource(R.drawable.ic_rejected);
         } else {
             holder.message.setText(item.getFromUserFullname() + " " + ctx.getText(R.string.label_friend_request_added));
-            holder.icon.setImageResource(R.drawable.notify_approved);
+            holder.icon.setImageResource(R.drawable.ic_action_done);
         }
 
         holder.time.setText(item.getTimeAgo());

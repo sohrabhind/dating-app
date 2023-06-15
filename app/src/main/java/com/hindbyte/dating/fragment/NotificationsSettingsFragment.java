@@ -13,11 +13,11 @@ import com.hindbyte.dating.constants.Constants;
 
 public class NotificationsSettingsFragment extends PreferenceFragmentCompat implements Constants {
 
-    private CheckBoxPreference mAllowLikesGCM, mAllowMessagesGCM, mAllowCommentsGCM;
+    private CheckBoxPreference mAllowLikesGCM, mAllowMessagesGCM;
 
     private ProgressDialog pDialog;
 
-    int mAllowLikes, mAllowMessages, mAllowComments;
+    int mAllowLikes, mAllowMessages;
 
     private Boolean loading = false;
 
@@ -31,36 +31,9 @@ public class NotificationsSettingsFragment extends PreferenceFragmentCompat impl
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-initpDialog();
-
-        mAllowCommentsGCM = (CheckBoxPreference) getPreferenceManager().findPreference("allowCommentsGCM");
-
-        assert mAllowCommentsGCM != null;
-        mAllowCommentsGCM.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-
-                if (newValue instanceof Boolean) {
-
-                    Boolean value = (Boolean) newValue;
-
-                    if (value) {
-
-                        mAllowComments = 1;
-
-                    } else {
-
-                        mAllowComments = 0;
-                    }
-
-                    saveSettings();
-                }
-
-                return true;
-            }
-        });
-mAllowLikesGCM = (CheckBoxPreference) getPreferenceManager().findPreference("allowLikesGCM");
+        initpDialog();
+        
+        mAllowLikesGCM = (CheckBoxPreference) getPreferenceManager().findPreference("allowLikesGCM");
 
         mAllowLikesGCM.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 
@@ -118,7 +91,6 @@ mAllowLikesGCM = (CheckBoxPreference) getPreferenceManager().findPreference("all
 
         checkAllowLikes(App.getInstance().getAllowLikesGCM());
         checkAllowMessages(App.getInstance().getAllowMessagesGCM());
-        checkAllowComments(App.getInstance().getAllowCommentsGCM());
     }
 
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -153,20 +125,6 @@ mAllowLikesGCM = (CheckBoxPreference) getPreferenceManager().findPreference("all
         super.onSaveInstanceState(outState);
 
         outState.putBoolean("loading", loading);
-    }
-
-    public void checkAllowComments(int value) {
-
-        if (value == 1) {
-
-            mAllowCommentsGCM.setChecked(true);
-            mAllowComments = 1;
-
-        } else {
-
-            mAllowCommentsGCM.setChecked(false);
-            mAllowComments = 0;
-        }
     }
 
 
@@ -204,7 +162,6 @@ mAllowLikesGCM = (CheckBoxPreference) getPreferenceManager().findPreference("all
 
         App.getInstance().setAllowLikesGCM(mAllowLikes);
         App.getInstance().setAllowMessagesGCM(mAllowMessages);
-        App.getInstance().setAllowCommentsGCM(mAllowComments);
 
         App.getInstance().saveData();
     }

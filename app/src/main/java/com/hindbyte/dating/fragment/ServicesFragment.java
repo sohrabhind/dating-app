@@ -250,19 +250,19 @@ public class ServicesFragment extends Fragment implements Constants {
 
                                     if (action.equals("connect")) {
 
-                                        toastWindow.makeText(requireActivity(), getString(R.string.msg_connect_to_google_success), 2000);
+                                        toastWindow.makeText(getString(R.string.msg_connect_to_google_success), 2000);
                                         App.getInstance().setGoogleFirebaseId(uid);
                                     }
 
                                     if (action.equals("disconnect")) {
 
-                                        toastWindow.makeText(requireActivity(), getString(R.string.msg_connect_to_google_removed), 2000);
+                                        toastWindow.makeText(getString(R.string.msg_connect_to_google_removed), 2000);
                                         App.getInstance().setGoogleFirebaseId("");
                                     }
 
                                 } else {
 
-                                    toastWindow.makeText(requireActivity(), getString(R.string.msg_connect_to_google_error), 2000);
+                                    toastWindow.makeText(getString(R.string.msg_connect_to_google_error), 2000);
                                 }
                             }
 
@@ -287,7 +287,7 @@ public class ServicesFragment extends Fragment implements Constants {
 
                 uid = "";
 
-                toastWindow.makeText(requireActivity(), getText(R.string.error_data_loading), 2000);
+                toastWindow.makeText(getText(R.string.error_data_loading), 2000);
 
                 loading = false;
 

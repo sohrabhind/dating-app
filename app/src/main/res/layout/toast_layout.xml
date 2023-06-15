@@ -4,7 +4,9 @@
     android:id="@+id/toast_text"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:textColor="#ffffff"
+    android:textColor="#FFFFFF"
     android:textSize="@dimen/button_text_size"
+    android:background="@drawable/toast_background"
+    android:gravity="center"
     android:padding="10dp">
 </TextView>

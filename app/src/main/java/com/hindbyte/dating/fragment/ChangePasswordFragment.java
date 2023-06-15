@@ -133,7 +133,7 @@ setHasOptionsMenu(true);
 
                     } else {
 
-                        toastWindow.makeText(requireActivity(), getText(R.string.msg_network_error), 2000);
+                        toastWindow.makeText(getText(R.string.msg_network_error), 2000);
                     }
 
                 }
@@ -160,12 +160,12 @@ setHasOptionsMenu(true);
 
                             if (!response.getBoolean("error")) {
 
-                                toastWindow.makeText(requireActivity(), getText(R.string.msg_password_changed), 2000);
+                                toastWindow.makeText(getText(R.string.msg_password_changed), 2000);
                                 requireActivity().finish();
 
                             } else {
 
-                                toastWindow.makeText(requireActivity(), getText(R.string.error_password), 2000);
+                                toastWindow.makeText(getText(R.string.error_password), 2000);
                             }
                         }
 

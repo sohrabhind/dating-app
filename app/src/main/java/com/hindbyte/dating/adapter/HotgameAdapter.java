@@ -68,8 +68,15 @@ public class HotgameAdapter extends RecyclerView.Adapter<HotgameAdapter.MyViewHo
 		holder.progress.setVisibility(View.GONE);
 
 		Profile profileItem = itemList.get(position);
-
-		holder.title.setText(profileItem.getFullname() + ", " + profileItem.getAge());
+		if (profileItem.getId() == App.getInstance().getId()) {
+			holder.title.setText(profileItem.getFullname() + ", " + profileItem.getAge());
+		} else {
+			String fullname = profileItem.getFullname();
+			if(fullname.split("\\w+").length>1){
+				fullname = fullname.substring(0, fullname.lastIndexOf(' '));
+			}
+			holder.title.setText(fullname + ", " + profileItem.getAge());
+		}
 
 		holder.distance.setVisibility(View.GONE);
 

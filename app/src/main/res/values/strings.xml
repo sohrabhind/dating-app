@@ -1,14 +1,7 @@
 <resources>
-    <string name="app_name" translatable="false">Poppi App</string>
-    <string name="app_version" translatable="false">6.2</string>
-    <string name="app_year" translatable="false">2022</string>
-    <string name="app_copyright" translatable="false">datingnet.fun</string>
-
+    <string name="app_name" translatable="false">Poppi</string>
 
     <string name="fb_login_protocol_scheme" translatable="false">fb345345345345</string>
-
-    <!-- AdMob App Id -->
-    <!-- DEFAULT Admob APP ID: ca-app-pub-3940256099942544~3347511713 -->
 
     <string name="action_login">Log in</string>
     <string name="action_signup">Sign up with email</string>
@@ -38,7 +31,7 @@
     <string name="action_camera">Camera</string>
     <string name="action_gallery">Choose from gallery</string>
     <string name="settings_allow_messages">Receive messages from anyone</string>
-    <string name="settings_allow_messages_summary">You will be able to receive Direct Messages from any user even if you do not follow them.</string>
+    <string name="settings_allow_messages_summary">Receive messages from any user, regardless of whether you\'ve liked them.</string>
     <string name="action_enable">Enable</string>
     <string name="action_accept">Accept</string>
     <string name="action_reject">Reject</string>
@@ -75,7 +68,7 @@
     <string name="placeholder_password">Password</string>
     <string name="placeholder_login">Username</string>
     <string name="placeholder_fullname">Fullname</string>
-    <string name="placeholder_location">Country</string>
+    <string name="placeholder_location">Address</string>
     <string name="placeholder_interests">Interests</string>
     <string name="placeholder_bio">Bio</string>
     <string name="placeholder_email">Email</string>
@@ -271,7 +264,6 @@
     <string name="title_activity_location">Location</string>
     <string name="title_activity_deactivate">Deactivate Account</string>
     <string name="title_activity_friends">Profile Friends</string>
-    <string name="title_activity_balance">Upgrade</string>
     <string name="title_activity_nearby">People Nearby</string>
 
     <!-- for version 1.1 -->
@@ -312,7 +304,6 @@
     <!-- added for version 2.3 -->
 
     <string name="label_delete_item">Delete item?</string>
-    <string name="title_activity_view_gallery_item">Gallery Item</string>
 
     <string name="title_activity_stream">Media Stream</string>
 
@@ -499,7 +490,7 @@
 
     <!-- For version 4.4 -->
 
-    <string name="label_distance">Distance (%d)</string>
+    <string name="label_distance">Distance (%d) KM</string>
     <string name="label_nearby_settings_dialog_title">Nearby Settings</string>
 
     <!-- DO NOT TRANSLATE BLOCK START -->

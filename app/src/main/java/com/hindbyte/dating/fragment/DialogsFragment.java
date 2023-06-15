@@ -178,7 +178,6 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
     @Override
     public void onResume() {
         super.onResume();
-        requireActivity().setTitle(R.string.nav_messages);
         onRefresh();
     }
 
@@ -208,7 +207,7 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
 
             int pos = data.getIntExtra("position", 0);
 
-            toastWindow.makeText(requireActivity(), getString(R.string.msg_chat_has_been_removed), 2000);
+            toastWindow.makeText(getString(R.string.msg_chat_has_been_removed), 2000);
 
             itemsList.remove(pos);
 

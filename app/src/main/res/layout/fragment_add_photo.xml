@@ -59,7 +59,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_delete"
+                        android:src="@drawable/ic_rejected"
                         app:tint="@android:color/white" />
 
                 </RelativeLayout>
@@ -72,22 +72,6 @@
                 android:layout_height="1dp"
                 android:background="@color/colorSeparator"
                 android:visibility="gone"/>
-
-            <EditText
-                android:id="@+id/text_editor"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                android:minHeight="200dp"
-                android:hint="@string/placeholder_comment"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="none"
-                android:overScrollMode="never"
-                android:gravity="start|top"
-                android:background="@drawable/edittext_dark_border"
-                android:maxLength="1000"
-                android:textSize="16sp"
-                android:padding="@dimen/spacing_xmedium" />
 
         </LinearLayout>
 

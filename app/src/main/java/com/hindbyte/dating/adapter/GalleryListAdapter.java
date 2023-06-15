@@ -3,7 +3,21 @@ package com.hindbyte.dating.adapter;
 import static com.hindbyte.dating.R.id.progressBar;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PointF;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.FaceDetector;
+import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,9 +32,12 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hindbyte.dating.R;
+import com.hindbyte.dating.activity.ViewImageActivity;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.model.Image;
+import com.hindbyte.dating.view.FaceDetectImageView;
+import com.hindbyte.dating.view.TouchImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -33,52 +50,42 @@ public class GalleryListAdapter extends RecyclerView.Adapter<GalleryListAdapter.
     private Context mContext;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
-
         public ImageView thumbnail;
-        public ImageView playImg;
-
         public ProgressBar mProgressBar;
+        public RelativeLayout recyclerViewItem;
 
         public MyViewHolder(View view) {
-
             super(view);
+            recyclerViewItem = view.findViewById(R.id.recyclerViewItem);
             thumbnail = view.findViewById(R.id.thumbnail);
-            playImg = view.findViewById(R.id.playImg);
-
             mProgressBar = view.findViewById(progressBar);
         }
     }
 
 
     public GalleryListAdapter(Context context, List<Image> images) {
-
         mContext = context;
         this.images = images;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.gallery_thumbnail, parent, false);
-
         return new MyViewHolder(itemView);
     }
 
+
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
         Image image = images.get(position);
-
-        holder.thumbnail.setVisibility(View.VISIBLE);
-        holder.mProgressBar.setVisibility(View.VISIBLE);
-        holder.playImg.setVisibility(View.GONE);
-
         final ProgressBar progressBar = holder.mProgressBar;
-        final ImageView playImg = holder.playImg;
+        holder.thumbnail.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+        int screenwidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+        holder.thumbnail.setMinimumHeight(screenwidth);
+        holder.thumbnail.setMaxHeight((int) (screenwidth*1.3f));
 
         if (image.getItemType() == Constants.GALLERY_ITEM_TYPE_IMAGE) {
-
             Picasso.get()
                     .load(image.getImgUrl())
                     .placeholder(R.drawable.profile_default_photo)
@@ -94,75 +101,25 @@ public class GalleryListAdapter extends RecyclerView.Adapter<GalleryListAdapter.
                             progressBar.setVisibility(View.GONE);
                         }
                     });
-
         }
+
+        holder.recyclerViewItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ViewImageActivity.class);
+                intent.putExtra("itemId", image.getId());
+                mContext.startActivity(intent);
+            }
+        });
+
+
         if (image.getOwner().getId() == App.getInstance().getId()) {
         }
     }
 
     @Override
     public int getItemCount() {
-
         return images.size();
     }
 
-    public interface ClickListener {
-
-        void onClick(View view, int position);
-
-        void onLongClick(View view, int position);
-    }
-
-    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
-
-        private GestureDetector gestureDetector;
-        private GalleryListAdapter.ClickListener clickListener;
-
-        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final GalleryListAdapter.ClickListener clickListener) {
-
-            this.clickListener = clickListener;
-
-            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-
-                    return true;
-                }
-
-                @Override
-                public void onLongPress(MotionEvent e) {
-
-                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-
-                    if (child != null && clickListener != null) {
-
-                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
-                    }
-                }
-            });
-        }
-
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            View child = rv.findChildViewUnder(e.getX(), e.getY());
-
-            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
-
-                clickListener.onClick(child, rv.getChildPosition(child));
-            }
-            return false;
-        }
-
-        @Override
-        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-        }
-    }
 }

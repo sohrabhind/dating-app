@@ -1,16 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
+    compileSdk 34
     namespace 'com.hindbyte.dating'
-    buildToolsVersion '33.0.2'
+    buildToolsVersion '34.0.0'
 
     defaultConfig {
         applicationId "com.hindbyte.dating"
         minSdkVersion 21
-        targetSdkVersion 33
-        versionCode 8
-        versionName '1.0.8'
+        targetSdkVersion 34
+        versionCode 9
+        versionName '1.0.9'
     }
 
     compileOptions {
@@ -20,13 +21,20 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            zipAlignEnabled false
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
     lintOptions {
         abortOnError false
+    }
+
+    dependenciesInfo {
+        includeInApk false
+        includeInBundle false
     }
 
 }
@@ -55,11 +63,13 @@ dependencies {
     implementation 'com.android.billingclient:billing:6.0.0'
     implementation 'com.google.android.exoplayer:exoplayer:2.18.7'
 
-    implementation platform('com.google.firebase:firebase-bom:31.2.3')
+    implementation platform('com.google.firebase:firebase-bom:32.1.0')
     implementation 'com.google.firebase:firebase-core:21.1.1'
     implementation 'com.google.firebase:firebase-auth:22.0.0'
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+
 }
 
 apply plugin: 'com.google.gms.google-services'

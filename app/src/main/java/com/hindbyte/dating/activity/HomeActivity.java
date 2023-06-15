@@ -265,7 +265,7 @@ public class HomeActivity extends ActivityBase {
                                     } else {
                                         if (App.getInstance().getState() == ACCOUNT_STATE_BLOCKED) {
                                             App.getInstance().logout();
-                                            toastWindow.makeText(HomeActivity.this, getText(R.string.msg_account_blocked), 2000);
+                                            toastWindow.makeText(getText(R.string.msg_account_blocked), 2000);
                                         } else {
                                             App.getInstance().updateGeoLocation();
                                             Intent intent = new Intent(HomeActivity.this, MainActivity.class);
@@ -282,7 +282,7 @@ public class HomeActivity extends ActivityBase {
                                         i.putExtra("oauth_type", oauth_type);
                                         startActivity(i);
                                     } else {
-                                        toastWindow.makeText(HomeActivity.this, getString(R.string.error_signin), 2000);
+                                        toastWindow.makeText(getString(R.string.error_signin), 2000);
                                     }
                                 }
 
@@ -292,7 +292,7 @@ public class HomeActivity extends ActivityBase {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.e("Google", "signInWithCredential:failure");
-                            toastWindow.makeText(HomeActivity.this, getText(R.string.error_data_loading), 2000);
+                            toastWindow.makeText(getText(R.string.error_data_loading), 2000);
                             loading = false;
                             hidepDialog();
                         }
@@ -408,50 +408,50 @@ public class HomeActivity extends ActivityBase {
         Helper helper = new Helper(this);
 
         if(isEmailTaken) {
-            toastWindow.makeText(this, R.string.error_email_taken, 2000);
+            toastWindow.makeText(R.string.error_email_taken, 2000);
             return false;
         }
 
         if (email.length() == 0) {
-            toastWindow.makeText(this, R.string.error_field_empty, 2000);
+            toastWindow.makeText(R.string.error_field_empty, 2000);
             return false;
         }
 
         if (!helper.isValidEmail(email)) {
-            toastWindow.makeText(this, R.string.error_wrong_format, 2000);
+            toastWindow.makeText(R.string.error_wrong_format, 2000);
             return false;
         }
 
 
         if (username.length() == 0) {
-            toastWindow.makeText(this, R.string.error_field_empty, 2000);
+            toastWindow.makeText(R.string.error_field_empty, 2000);
             return false;
         }
 
         if (username.length() < 5) {
-            toastWindow.makeText(this, R.string.error_small_username, 2000);
+            toastWindow.makeText(R.string.error_small_username, 2000);
             return false;
         }
 
         if (!helper.isValidLogin(username)) {
-            toastWindow.makeText(this, R.string.error_wrong_format, 2000);
+            toastWindow.makeText(R.string.error_wrong_format, 2000);
             return false;
         }
 
 
 
         if (password.length() == 0) {
-            toastWindow.makeText(this, R.string.error_field_empty, 2000);
+            toastWindow.makeText(R.string.error_field_empty, 2000);
             return false;
         }
 
         if (password.length() < 6) {
-            toastWindow.makeText(this, R.string.error_small_password, 2000);
+            toastWindow.makeText(R.string.error_small_password, 2000);
             return false;
         }
 
         if (!helper.isValidPassword(password)) {
-            toastWindow.makeText(this, R.string.error_wrong_format, 2000);
+            toastWindow.makeText(R.string.error_wrong_format, 2000);
             return false;
         }
 

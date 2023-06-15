@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.activity.UpgradeActivity;
-import com.hindbyte.dating.activity.FriendsActivity;
 import com.hindbyte.dating.activity.LikedActivity;
 import com.hindbyte.dating.activity.LikesActivity;
 import com.hindbyte.dating.activity.ProfileActivity;
@@ -33,10 +32,10 @@ public class MenuFragment extends Fragment implements Constants {
 
 
     CircularImageView mProfilePhoto;
-    ImageView mFriendsIcon, mProfileLevelIcon;
+    ImageView mProfileLevelIcon;
     private TextView mNavProfileFullname, mNavProfileSubhead;
 
-    private MaterialRippleLayout mNavProfile, mNavSearch, mNavFriends, mNavLikes, mNavLiked, mNavUpgrades, mNavSettings;
+    private MaterialRippleLayout mNavProfile, mNavSearch, mNavLikes, mNavLiked, mNavUpgrades, mNavSettings;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -44,9 +43,7 @@ public class MenuFragment extends Fragment implements Constants {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         setHasOptionsMenu(true);
-
         super.onCreate(savedInstanceState);
     }
 
@@ -60,17 +57,10 @@ public class MenuFragment extends Fragment implements Constants {
 
         mNavSearch = rootView.findViewById(R.id.nav_search);
 
-        mNavFriends = rootView.findViewById(R.id.nav_friends);
         mNavLikes = rootView.findViewById(R.id.nav_likes);
         mNavLiked = rootView.findViewById(R.id.nav_liked);
         mNavUpgrades = rootView.findViewById(R.id.nav_upgrades);
         mNavSettings = rootView.findViewById(R.id.nav_settings);
-
-        // Counters
-
-        mFriendsIcon = rootView.findViewById(R.id.friendsIcon);
-
-        //
 
         mProfilePhoto = rootView.findViewById(R.id.profilePhoto);
         mProfileLevelIcon = rootView.findViewById(R.id.profileLevelIcon);
@@ -96,16 +86,6 @@ public class MenuFragment extends Fragment implements Constants {
             }
         });
 
-        mNavFriends.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                Intent i = new Intent(requireActivity(), FriendsActivity.class);
-                i.putExtra("profileId", App.getInstance().getId());
-                startActivity(i);
-            }
-        });
 
         mNavLikes.setOnClickListener(new View.OnClickListener() {
 
@@ -156,13 +136,6 @@ public class MenuFragment extends Fragment implements Constants {
     }
 
     public void updateView() {
-        // Counters
-        mFriendsIcon.setVisibility(View.GONE);
-        if (App.getInstance().getNewFriendsCount() != 0) {
-            mFriendsIcon.setVisibility(View.VISIBLE);
-        }
-
-        // Photo
 
         if (App.getInstance().getPhotoUrl() != null && App.getInstance().getPhotoUrl().length() > 0) {
             Picasso.get()

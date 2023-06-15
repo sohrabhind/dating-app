@@ -24,27 +24,29 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="315dp">
+                    android:layout_height="wrap_content">
 
                     <ImageView
                         android:id="@+id/profilePhoto"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="315dp"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@null"
+                        android:focusableInTouchMode="true"
                         android:scaleType="centerCrop"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:gravity="center_horizontal"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
                         android:orientation="vertical"
                         android:padding="@dimen/spacing_large">
 
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_middle"
                             android:gravity="bottom"
                             android:orientation="vertical">
@@ -303,7 +305,7 @@
                             android:layout_width="@dimen/spacing_mlarge"
                             android:layout_height="@dimen/spacing_mlarge"
                             android:layout_margin="@dimen/spacing_middle"
-                            app:srcCompat="@drawable/ic_feature"
+                            app:srcCompat="@drawable/ic_action_done"
                             app:tint="@color/colorIconTint" />
 
                         <TextView
@@ -381,7 +383,7 @@
                             android:layout_width="@dimen/spacing_mlarge"
                             android:layout_height="@dimen/spacing_mlarge"
                             android:layout_margin="@dimen/spacing_middle"
-                            app:srcCompat="@drawable/ic_feature"
+                            app:srcCompat="@drawable/ic_action_done"
                             app:tint="@color/colorIconTint" />
 
                         <TextView
@@ -407,7 +409,7 @@
                             android:layout_width="@dimen/spacing_mlarge"
                             android:layout_height="@dimen/spacing_mlarge"
                             android:layout_margin="@dimen/spacing_middle"
-                            app:srcCompat="@drawable/ic_action_like"
+                            app:srcCompat="@drawable/ic_action_liked"
                             app:tint="@color/colorIconTint" />
 
                         <TextView
@@ -459,16 +461,23 @@
                             android:layout_width="@dimen/spacing_mlarge"
                             android:layout_height="@dimen/spacing_mlarge"
                             android:layout_margin="@dimen/spacing_middle"
-                            app:srcCompat="@drawable/ic_website"
+                            app:srcCompat="@drawable/ic_action_like"
                             app:tint="@color/colorIconTint" />
 
-                        <TextView
-                            android:id="@+id/profileInterests"
+
+                        <com.hindbyte.dating.tagview.TagContainerLayout
+                            android:id="@+id/tagcontainerLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:padding="10dp"
                             android:layout_margin="@dimen/spacing_medium"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/colorSubTitle" />
+                            app:container_enable_drag="false"
+                            app:horizontal_interval="10dp"
+                            app:tag_clickable="true"
+                            app:tag_selectable="true"
+                            app:tag_enable_cross="false"
+                            app:tag_theme="random"
+                            app:vertical_interval="10dp" />
 
                     </LinearLayout>
 

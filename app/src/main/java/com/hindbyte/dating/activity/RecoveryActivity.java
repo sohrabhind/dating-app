@@ -56,13 +56,13 @@ public class RecoveryActivity extends ActivityBase {
             public void onClick(View v) {
                 email = mEmail.getText().toString();
                 if (!App.getInstance().isConnected()) {
-                    toastWindow.makeText(RecoveryActivity.this, R.string.msg_network_error, 2000);
+                    toastWindow.makeText(R.string.msg_network_error, 2000);
                 } else {
                     Helper helper = new Helper(RecoveryActivity.this);
                     if (helper.isValidEmail(email)) {
                         recovery();
                     } else {
-                        toastWindow.makeText(RecoveryActivity.this, getText(R.string.error_email), 2000);
+                        toastWindow.makeText(getText(R.string.error_email), 2000);
                     }
                 }
             }
@@ -111,10 +111,10 @@ public class RecoveryActivity extends ActivityBase {
                 response -> {
                     try {
                         if (!response.getBoolean("error")) {
-                            toastWindow.makeText(RecoveryActivity.this, getText(R.string.msg_password_reset_link_sent), 2000);
+                            toastWindow.makeText(getText(R.string.msg_password_reset_link_sent), 2000);
                             finish();
                         } else {
-                            toastWindow.makeText(RecoveryActivity.this, getText(R.string.msg_no_such_user_in_bd), 2000);
+                            toastWindow.makeText(getText(R.string.msg_no_such_user_in_bd), 2000);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -125,7 +125,7 @@ public class RecoveryActivity extends ActivityBase {
                 }, error -> {
                     loading = false;
                     hidepDialog();
-                    toastWindow.makeText(RecoveryActivity.this, getText(R.string.error_data_loading), 2000);
+                    toastWindow.makeText(getText(R.string.error_data_loading), 2000);
                 }) {
 
             @Override

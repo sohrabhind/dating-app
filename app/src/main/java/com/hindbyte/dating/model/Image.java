@@ -13,11 +13,9 @@ import org.json.JSONObject;
 public class Image extends Application implements Constants, Parcelable {
 
     private long id;
-    private int createAt, likesCount, commentsCount, accessMode;
-    private String timeAgo, date, comment, imgUrl, area, country, city;
+    private int createAt, accessMode;
+    private String timeAgo, date, imgUrl;
     private int itemType;
-    private Double lat = 0.000000, lng = 0.000000;
-    private Boolean iLiked = false;
 
     private int removeAt = 0, moderateAt = 0;
 
@@ -36,20 +34,10 @@ public class Image extends Application implements Constants, Parcelable {
                 this.setId(jsonData.getLong("id"));
                 this.setAccessMode(jsonData.getInt("accessMode"));
                 this.setItemType(jsonData.getInt("itemType"));
-                this.setComment(jsonData.getString("comment"));
                 this.setImgUrl(jsonData.getString("imgUrl"));
-                this.setArea(jsonData.getString("area"));
-                this.setCountry(jsonData.getString("country"));
-                this.setCity(jsonData.getString("city"));
-                this.setCommentsCount(jsonData.getInt("commentsCount"));
-                this.setLikesCount(jsonData.getInt("likesCount"));
-                this.setLat(jsonData.getDouble("lat"));
-                this.setLng(jsonData.getDouble("lng"));
                 this.setCreateAt(jsonData.getInt("createAt"));
                 this.setDate(jsonData.getString("date"));
                 this.setTimeAgo(jsonData.getString("timeAgo"));
-
-                this.setILike(jsonData.getBoolean("iLiked"));
 
                 if (jsonData.has("removeAt")) {
 
@@ -118,23 +106,6 @@ public class Image extends Application implements Constants, Parcelable {
         this.itemType = itemType;
     }
 
-    public int getCommentsCount() {
-
-        return commentsCount;
-    }
-
-    public void setCommentsCount(int commentsCount) {
-        this.commentsCount = commentsCount;
-    }
-
-    public int getLikesCount() {
-
-        return likesCount;
-    }
-
-    public void setLikesCount(int likesCount) {
-        this.likesCount = likesCount;
-    }
 
     public int getCreateAt() {
 
@@ -164,13 +135,6 @@ public class Image extends Application implements Constants, Parcelable {
         this.timeAgo = timeAgo;
     }
 
-    public String getComment() {
-        return this.comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
 
     public String getImgUrl() {
         return imgUrl;
@@ -196,84 +160,11 @@ public class Image extends Application implements Constants, Parcelable {
         this.date = date;
     }
 
-    public String getArea() {
-
-        if (this.area == null) {
-
-            this.area = "";
-        }
-
-        return this.area;
-    }
-
-    public void setArea(String area) {
-
-        this.area = area;
-    }
-
-    public String getCountry() {
-
-        if (this.country == null) {
-
-            this.country = "";
-        }
-
-        return this.country;
-    }
-
-    public void setCountry(String country) {
-
-        this.country = country;
-    }
-
-    public String getCity() {
-
-        if (this.city == null) {
-
-            this.city = "";
-        }
-
-        return this.city;
-    }
-
-    public void setCity(String city) {
-
-        this.city = city;
-    }
-
-    public Double getLat() {
-
-        return this.lat;
-    }
-
-    public void setLat(Double lat) {
-
-        this.lat = lat;
-    }
-
-    public Double getLng() {
-
-        return this.lng;
-    }
-
-    public void setLng(Double lng) {
-
-        this.lng = lng;
-    }
-
     public String getLink() {
 
         return WEB_SITE + this.owner.getUsername() + "/gallery/" + this.getId();
     }
 
-    public Boolean isILike() {
-        return iLiked;
-    }
-
-    public void setILike(Boolean iLiked) {
-
-        this.iLiked = iLiked;
-    }
 
     @Override
     public int describeContents() {
@@ -284,20 +175,11 @@ public class Image extends Application implements Constants, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.id);
         dest.writeInt(this.createAt);
-        dest.writeInt(this.likesCount);
-        dest.writeInt(this.commentsCount);
         dest.writeInt(this.accessMode);
         dest.writeString(this.timeAgo);
         dest.writeString(this.date);
-        dest.writeString(this.comment);
         dest.writeString(this.imgUrl);
-        dest.writeString(this.area);
-        dest.writeString(this.country);
-        dest.writeString(this.city);
         dest.writeInt(this.itemType);
-        dest.writeValue(this.lat);
-        dest.writeValue(this.lng);
-        dest.writeValue(this.iLiked);
         dest.writeInt(this.removeAt);
         dest.writeInt(this.moderateAt);
         dest.writeParcelable(this.owner, flags);
@@ -306,20 +188,10 @@ public class Image extends Application implements Constants, Parcelable {
     protected Image(Parcel in) {
         this.id = in.readLong();
         this.createAt = in.readInt();
-        this.likesCount = in.readInt();
-        this.commentsCount = in.readInt();
         this.accessMode = in.readInt();
         this.timeAgo = in.readString();
         this.date = in.readString();
-        this.comment = in.readString();
-        this.imgUrl = in.readString();
-        this.area = in.readString();
-        this.country = in.readString();
-        this.city = in.readString();
         this.itemType = in.readInt();
-        this.lat = (Double) in.readValue(Double.class.getClassLoader());
-        this.lng = (Double) in.readValue(Double.class.getClassLoader());
-        this.iLiked = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.removeAt = in.readInt();
         this.moderateAt = in.readInt();
         this.owner = (Profile) in.readParcelable(Profile.class.getClassLoader());

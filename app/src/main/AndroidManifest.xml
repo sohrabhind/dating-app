@@ -25,8 +25,7 @@
         android:theme="@style/MyMaterialTheme"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
-        android:usesCleartextTraffic="true"
-        tools:targetApi="m">
+        android:usesCleartextTraffic="true">
 
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
 
@@ -53,8 +52,7 @@
             android:exported="true"
             android:name="com.hindbyte.dating.activity.AppActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity">
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -65,16 +63,18 @@
         <activity
             android:name="com.hindbyte.dating.activity.HomeActivity"
             android:label="@string/title_activity_login"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.hindbyte.dating.activity.LoginActivity"
             android:label="@string/title_activity_login"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_action_push_notification" />
+            android:resource="@drawable/ic_messages" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
@@ -95,114 +95,133 @@
         <activity
             android:name="com.hindbyte.dating.activity.MainActivity"
             android:label="@string/title_activity_feeds"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name="com.hindbyte.dating.activity.RecoveryActivity"
             android:label="@string/title_activity_recovery"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.hindbyte.dating.activity.SettingsActivity"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.hindbyte.dating.activity.WebViewActivity"
-            android:label="@string/title_activity_web_view" />
+            android:label="@string/title_activity_web_view"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.hindbyte.dating.activity.ChangePasswordActivity"
             android:label="@string/title_activity_change_password"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.hindbyte.dating.activity.ServicesActivity"
-            android:label="@string/title_activity_services" />
+            android:label="@string/title_activity_services"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.hindbyte.dating.activity.ProfileActivity"
-            android:label="@string/title_activity_profile" />
+            android:label="@string/title_activity_profile"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.hindbyte.dating.activity.NotificationsActivity"
-            android:label="@string/title_activity_notifications" />
-        <activity
-            android:name="com.hindbyte.dating.activity.PhotoViewActivity"
-            android:label="@string/title_activity_photo_view"
-            android:theme="@style/PhotoViewTheme" />
+            android:label="@string/title_activity_notifications"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.hindbyte.dating.activity.LikesActivity"
-            android:label="@string/title_activity_likes" />
+            android:label="@string/title_activity_likes"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.hindbyte.dating.activity.AccountSettingsActivity"
             android:label="@string/title_activity_account_settings"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.hindbyte.dating.activity.BlackListActivity"
-            android:label="@string/title_activity_black_list" />
+            android:label="@string/title_activity_black_list"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.hindbyte.dating.activity.DialogsActivity"
-            android:label="@string/title_activity_dialogs" />
+            android:label="@string/title_activity_dialogs"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.hindbyte.dating.activity.ChatActivity"
             android:label="@string/title_activity_chat"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.hindbyte.dating.activity.NotificationsSettingsActivity"
-            android:label="@string/title_activity_notifications_settings" />
-        <activity
-            android:name="com.hindbyte.dating.activity.PrivacySettingsActivity"
-            android:label="@string/title_activity_privacy_settings" />
+            android:label="@string/title_activity_notifications_settings"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.hindbyte.dating.activity.SupportActivity"
             android:label="@string/title_activity_support"
-            android:theme="@style/MyMaterialTheme" />
+            android:theme="@style/MyMaterialTheme"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.hindbyte.dating.activity.LocationActivity"
             android:label="@string/title_activity_location"
-            android:theme="@style/MyMaterialTheme" />
+            android:theme="@style/MyMaterialTheme"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.hindbyte.dating.activity.DeactivateActivity"
             android:label="@string/title_activity_deactivate"
-            android:theme="@style/MyMaterialTheme" />
+            android:theme="@style/MyMaterialTheme"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.hindbyte.dating.activity.AddPhotoActivity"
             android:label="@string/title_activity_new_item"
             android:theme="@style/MyMaterialTheme"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name="com.hindbyte.dating.activity.FriendsActivity"
-            android:label="@string/title_activity_friends"
-            android:theme="@style/MyMaterialTheme" />
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.hindbyte.dating.activity.UpgradeActivity"
-            android:label="@string/title_activity_balance"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/MyMaterialTheme">
+            android:label="@string/action_buy_plan"
+            android:theme="@style/MyMaterialTheme"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.hindbyte.dating.activity.PhotoViewActivity"
+            android:theme="@style/PhotoViewTheme"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name="com.hindbyte.dating.activity.ViewImageActivity"
-            android:label="@string/title_activity_view_gallery_item">
+            android:theme="@style/PhotoViewTheme"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name="com.hindbyte.dating.activity.LikersActivity"
-            android:label="@string/title_activity_likers" />
+            android:label="@string/title_activity_likers"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name="com.hindbyte.dating.activity.LikedActivity"
             android:label="@string/title_activity_liked"
-            android:theme="@style/MyMaterialTheme" />
+            android:theme="@style/MyMaterialTheme"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.hindbyte.dating.activity.RegisterActivity"
-            android:label="@string/title_activity_signup"/>
+            android:label="@string/title_activity_signup"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.BalanceHistoryActivity"
             android:label="@string/title_activity_balance_history"
-            android:theme="@style/MyMaterialTheme"/>
+            android:theme="@style/MyMaterialTheme"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.SearchActivity"
             android:label="@string/title_activity_search"
-            android:theme="@style/MyMaterialTheme">
+            android:theme="@style/MyMaterialTheme"
+            android:screenOrientation="portrait">
         </activity>
 
     </application>

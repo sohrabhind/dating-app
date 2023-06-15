@@ -30,12 +30,15 @@
         android:id="@+id/PhotoViewContentScreen"
         android:background="@color/black">
 
-        <ImageView
+        <com.hindbyte.dating.view.TouchImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/photoImageView"
+            android:adjustViewBounds="true"
+            android:contentDescription="@null"
+            android:focusableInTouchMode="true"
             app:srcCompat="@drawable/profile_default_photo"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"/>
 
     </LinearLayout>
 

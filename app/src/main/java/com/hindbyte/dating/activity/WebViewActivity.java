@@ -80,7 +80,7 @@ public class WebViewActivity extends ActivityBase {
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 
                 showErrorScreen();
-                toastWindow.makeText(getApplicationContext(), description, 2000);
+                toastWindow.makeText(description, 2000);
             }
 
         });

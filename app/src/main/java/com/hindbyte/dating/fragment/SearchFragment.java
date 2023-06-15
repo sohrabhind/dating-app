@@ -1,8 +1,10 @@
 package com.hindbyte.dating.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -68,9 +70,7 @@ public class SearchFragment extends Fragment implements Constants, SwipeRefreshL
     private ArrayList<Profile> itemsList;
     private AdvancedPeopleListAdapter itemsAdapter;
 
-    public String queryText = "";
-
-    private int  gender = 3, online = 0, photo = 0, level = 0, age_from = 18, age_to = 105, distance = 1000;
+    private int  gender = 3, online = 0, level = 0, age_from = 18, age_to = 105, distance = 2500;
     private int itemId = 0;
     private int arrayLength = 0;
     private Boolean loadingMore = false;
@@ -107,7 +107,6 @@ setHasOptionsMenu(true);
 
             gender = savedInstanceState.getInt("gender");
             online = savedInstanceState.getInt("online");
-            photo = savedInstanceState.getInt("photo");
             level = savedInstanceState.getInt("level");
             age_from = savedInstanceState.getInt("age_from");
             age_to = savedInstanceState.getInt("age_to");
@@ -120,7 +119,7 @@ setHasOptionsMenu(true);
 
             restore = false;
             itemId = 0;
-            distance = 1000;
+            distance = 2500;
 
             readData();
         }
@@ -222,28 +221,22 @@ setHasOptionsMenu(true);
 
         } else {
 
-            toastWindow.makeText(requireActivity(), getText(R.string.msg_network_error), 2000);
+            toastWindow.makeText(getText(R.string.msg_network_error), 2000);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-
         super.onSaveInstanceState(outState);
-
         outState.putBoolean("viewMore", viewMore);
-        outState.putString("queryText", queryText);
         outState.putBoolean("restore", true);
         outState.putInt("itemId", itemId);
-
         outState.putInt("distance", distance);
         outState.putInt("gender", gender);
         outState.putInt("online", online);
-        outState.putInt("photo", photo);
         outState.putInt("level", level);
         outState.putInt("age_from", age_from);
         outState.putInt("age_to", age_to);
-
         outState.putParcelableArrayList(STATE_LIST, itemsList);
     }
 
@@ -335,36 +328,35 @@ setHasOptionsMenu(true);
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (!isAdded() || requireActivity() == null) {
+                if (!isAdded()) {
 
                     Log.e("ERROR", "SearchFragment Not Added to Activity");
 
                     return;
+                } else {
+                    requireActivity();
                 }
 
                 loadingComplete();
 
-                toastWindow.makeText(requireActivity(), getString(R.string.error_data_loading), 2000);
+                toastWindow.makeText(getString(R.string.error_data_loading), 2000);
             }
         }) {
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("query", queryText);
                 params.put("itemId", String.valueOf(itemId));
                 params.put("gender", String.valueOf(gender));
                 params.put("online", String.valueOf(online));
-                params.put("photo", String.valueOf(photo));
                 params.put("level", String.valueOf(level));
                 params.put("ageFrom", String.valueOf(age_from));
                 params.put("ageTo", String.valueOf(age_to));
                 params.put("distance", String.valueOf(distance));
                 params.put("lat", Double.toString(App.getInstance().getLat()));
                 params.put("lng", Double.toString(App.getInstance().getLng()));
-
                 return params;
             }
         };
@@ -372,6 +364,7 @@ setHasOptionsMenu(true);
         App.getInstance().addToRequestQueue(jsonReq);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void loadingComplete() {
 
         restore = true;
@@ -427,48 +420,38 @@ setHasOptionsMenu(true);
 
         b.setView(view);
 
-        final EditText mSearchBox = view.findViewById(R.id.search_box);
-
         final RadioButton mAnyGenderRadio = view.findViewById(R.id.radio_gender_any);
         final RadioButton mMaleGenderRadio = view.findViewById(R.id.radio_gender_male);
         final RadioButton mFemaleGenderRadio = view.findViewById(R.id.radio_gender_female);
         final RadioButton mOtherGenderRadio = view.findViewById(R.id.radio_gender_other);
 
         final CheckBox mOnlineCheckBox = view.findViewById(R.id.checkbox_online);
-        final CheckBox mPhotoCheckBox = view.findViewById(R.id.checkbox_photo);
         final CheckBox mLevelCheckBox = view.findViewById(R.id.checkbox_level);
 
         final RangeSeekBar<Integer> mAgeSeekBar = view.findViewById(R.id.age_seekbar);
 
         final TextView mDistanceLabel = view.findViewById(R.id.distance_label);
         final AppCompatSeekBar mDistanceSeekBar = view.findViewById(R.id.choice_distance);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mDistanceSeekBar.setMin(25);
+        }
 
-        // Search
-
-        mSearchBox.setText(queryText);
 
         // Gender
 
         switch (gender) {
-
             case 0: {
-
                 mMaleGenderRadio.setChecked(true);
-
                 break;
             }
 
             case 1: {
-
                 mFemaleGenderRadio.setChecked(true);
-
                 break;
             }
 
             case 2: {
-
                 mOtherGenderRadio.setChecked(true);
-
                 break;
             }
 
@@ -482,17 +465,11 @@ setHasOptionsMenu(true);
 
 
         mOnlineCheckBox.setChecked(false);
-        mPhotoCheckBox.setChecked(false);
         mLevelCheckBox.setChecked(false);
 
         if (online > 0) {
 
             mOnlineCheckBox.setChecked(true);
-        }
-
-        if (photo > 0) {
-
-            mPhotoCheckBox.setChecked(true);
         }
 
         if (level > 0) {
@@ -526,10 +503,6 @@ setHasOptionsMenu(true);
         b.setPositiveButton(getText(R.string.action_ok), new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
-
-                // Search text
-
-                queryText = mSearchBox.getText().toString().trim();
 
                 // get distance
 
@@ -573,14 +546,6 @@ setHasOptionsMenu(true);
                     online = 0;
                 }
 
-                if (mPhotoCheckBox.isChecked()) {
-
-                    photo = 1;
-
-                } else {
-
-                    photo = 0;
-                }
 
                 if (mLevelCheckBox.isChecked()) {
 
@@ -624,18 +589,16 @@ setHasOptionsMenu(true);
 
         gender = App.getInstance().getSharedPref().getInt(getString(R.string.settings_search_gender), 3); // 3 = all
         online = App.getInstance().getSharedPref().getInt(getString(R.string.settings_search_online), 0);
-        photo = App.getInstance().getSharedPref().getInt(getString(R.string.settings_search_photo), 0);
         level = App.getInstance().getSharedPref().getInt(getString(R.string.settings_search_pro), 0);
         age_from = App.getInstance().getSharedPref().getInt(getString(R.string.settings_search_age_from), 18);
         age_to = App.getInstance().getSharedPref().getInt(getString(R.string.settings_search_age_to), 105);
-        distance = App.getInstance().getSharedPref().getInt(getString(R.string.settings_search_distance), 1000);
+        distance = App.getInstance().getSharedPref().getInt(getString(R.string.settings_search_distance), 2500);
     }
 
     public void saveData() {
 
         App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_search_gender), gender).apply();
         App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_search_online), online).apply();
-        App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_search_photo), photo).apply();
         App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_search_pro), level).apply();
         App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_search_age_from), age_from).apply();
         App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_search_age_to), age_to).apply();

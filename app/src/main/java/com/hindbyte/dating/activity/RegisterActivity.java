@@ -13,10 +13,12 @@ import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -314,7 +316,7 @@ public class RegisterActivity extends ActivityBase {
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
 
-                        toastWindow.makeText(RegisterActivity.this, getString(R.string.label_grant_camera_permission), 2000);
+                        toastWindow.makeText(getString(R.string.label_grant_camera_permission), 2000);
                     }
 
                 }).show();
@@ -353,7 +355,7 @@ public class RegisterActivity extends ActivityBase {
                     public void onClick(View v) {
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
-                        toastWindow.makeText(RegisterActivity.this, getString(R.string.label_grant_storage_permission), 2000);
+                        toastWindow.makeText(getString(R.string.label_grant_storage_permission), 2000);
                     }
                 }).show();
             }
@@ -400,7 +402,7 @@ public class RegisterActivity extends ActivityBase {
                         if (age > 17) {
                             mViewPager.setCurrentItem(current + 1);
                         } else {
-                            toastWindow.makeText(RegisterActivity.this, getString(R.string.register_screen_3_msg), 2000);
+                            toastWindow.makeText(getString(R.string.register_screen_3_msg), 2000);
                         }
                         break;
                     }
@@ -408,7 +410,7 @@ public class RegisterActivity extends ActivityBase {
                         if (selectedImagePath.length() != 0) {
                             mViewPager.setCurrentItem(current + 1);
                         } else {
-                            toastWindow.makeText(RegisterActivity.this, getString(R.string.register_screen_2_msg), 2000);
+                            toastWindow.makeText(getString(R.string.register_screen_2_msg), 2000);
                             animateIcon(mPhoto);
                         }
                         break;
@@ -730,7 +732,7 @@ public class RegisterActivity extends ActivityBase {
                             cameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                             imgFromCameraActivityResultLauncher.launch(cameraIntent);
                         } catch (Exception e) {
-                            toastWindow.makeText(RegisterActivity.this, "Error occured. Please try again later.", 2000);
+                            toastWindow.makeText("Error occured. Please try again later.", 2000);
                         }
                     } else {
                         requestCameraPermission();
@@ -852,17 +854,17 @@ public class RegisterActivity extends ActivityBase {
     public Boolean check_fullname() {
         fullname = mFullname.getText().toString();
         if (fullname.length() == 0) {
-            toastWindow.makeText(RegisterActivity.this, getString(R.string.error_field_empty), 2000);
+            toastWindow.makeText(getString(R.string.error_field_empty), 2000);
             return false;
         }
 
         if (fullname.length() < 2) {
-            toastWindow.makeText(RegisterActivity.this, getString(R.string.error_small_fullname), 2000);
+            toastWindow.makeText(getString(R.string.error_small_fullname), 2000);
             return false;
         }
 
         if (gender < 0 || gender > 2) {
-            toastWindow.makeText(this, getString(R.string.error_gender), 2000);
+            toastWindow.makeText(getString(R.string.error_gender), 2000);
             return false;
         }
         return  true;
@@ -953,18 +955,18 @@ public class RegisterActivity extends ActivityBase {
 
                             case 300: {
                                 mViewPager.setCurrentItem(0);
-                                toastWindow.makeText(RegisterActivity.this, getString(R.string.error_login_taken), 2000);
+                                toastWindow.makeText(getString(R.string.error_login_taken), 2000);
                                 break;
                             }
 
                             case 301: {
                                 mViewPager.setCurrentItem(0);
-                                toastWindow.makeText(RegisterActivity.this, getString(R.string.error_email_taken), 2000);
+                                toastWindow.makeText(getString(R.string.error_email_taken), 2000);
                                 break;
                             }
 
                             case 500: {
-                                toastWindow.makeText(RegisterActivity.this, getString(R.string.label_multi_account_msg), 2000);
+                                toastWindow.makeText(getString(R.string.label_multi_account_msg), 2000);
                                 break;
                             }
 
@@ -997,6 +999,7 @@ public class RegisterActivity extends ActivityBase {
                 params.put("oauth_type", String.valueOf(oauth_type));
                 params.put("gender", String.valueOf(gender));
                 params.put("age", String.valueOf(age));
+                params.put("country", getCountryZipCode(getDeviceCountryCode(getBaseContext()), getBaseContext()));
                 params.put("appType", String.valueOf(APP_TYPE_ANDROID));
                 params.put("fcm_regId", App.getInstance().getGcmToken());
                 return params;
@@ -1006,6 +1009,47 @@ public class RegisterActivity extends ActivityBase {
         RetryPolicy policy = new DefaultRetryPolicy((int) TimeUnit.SECONDS.toMillis(VOLLEY_REQUEST_SECONDS), DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         jsonReq.setRetryPolicy(policy);
         App.getInstance().addToRequestQueue(jsonReq);
+    }
+
+    public String getCountryZipCode(String CountryID, Context context) {
+        String countryZipCode = "";
+        String[] rl = this.getResources().getStringArray(R.array.CountryCodes);
+        for (int i = 0; i < rl.length; i++) {
+            String[] g = rl[i].split(",");
+            if (g[1].trim().equals(CountryID.trim().toUpperCase())) {
+                countryZipCode = g[0];
+                break;
+            }
+        }
+        return countryZipCode;
+    }
+
+    private static String getDeviceCountryCode(Context context) {
+        String countryCode;
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if(tm != null) {
+            countryCode = tm.getSimCountryIso();
+            if (countryCode != null && countryCode.length() == 2) {
+                return countryCode.toLowerCase();
+            } else {
+                countryCode = tm.getNetworkCountryIso();
+            }
+
+            if (countryCode != null && countryCode.length() == 2) {
+                return countryCode.toLowerCase();
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            countryCode = context.getResources().getConfiguration().getLocales().get(0).getCountry();
+        } else {
+            countryCode = context.getResources().getConfiguration().locale.getCountry();
+        }
+
+        if (countryCode != null && countryCode.length() == 2) {
+            return countryCode.toLowerCase();
+        }
+        return "us";
     }
 
     private boolean checkPermission(String permission) {

@@ -77,13 +77,12 @@ public class AddPhotoFragment extends Fragment implements Constants {
     ToastWindow toastWindow = new ToastWindow();
     private ProgressDialog pDialog;
 
-    private EditText mTextEditor;
     private ImageView mThumbnail, mActionIcon;
     private ProgressBar mProgressView;
     private ImageButton mDeleteButton;
     private TextView mPublishButton;
 
-    String commentText = "", imgUrl = "",  postArea = "", postCountry = "", postCity = "", postLat = "", postLng = "";
+    String imgUrl = "";
 
     private Uri selectedImage;
     private String selectedImagePath = "", newImageFileName = "", newThumbFileName = "";
@@ -186,7 +185,7 @@ initpDialog();
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
 
-                        toastWindow.makeText(requireActivity(), getString(R.string.label_grant_camera_permission), 2000);
+                        toastWindow.makeText(getString(R.string.label_grant_camera_permission), 2000);
                     }
 
                 }).show();
@@ -221,7 +220,7 @@ initpDialog();
                     public void onClick(View v) {
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
-                        toastWindow.makeText(requireActivity(), getString(R.string.label_grant_storage_permission), 2000);
+                        toastWindow.makeText(getString(R.string.label_grant_storage_permission), 2000);
                     }
 
                 }).show();
@@ -233,7 +232,6 @@ initpDialog();
             showpDialog();
         }
 
-        mTextEditor = rootView.findViewById(R.id.text_editor);
         mActionIcon = rootView.findViewById(R.id.action_add);
         mThumbnail = rootView.findViewById(R.id.thumbnail);
 
@@ -318,8 +316,6 @@ initpDialog();
             @Override
             public void onClick(View view) {
                 if (App.getInstance().isConnected()) {
-                    commentText = mTextEditor.getText().toString();
-                    commentText = commentText.trim();
                     if (selectedImagePath != null && selectedImagePath.length() > 0) {
                         loading = true;
                         showpDialog();
@@ -328,43 +324,14 @@ initpDialog();
                             uploadFile(METHOD_GALLERY_UPLOAD_IMG, f);
                         }
                     } else {
-                        toastWindow.makeText(requireActivity(), getText(R.string.msg_enter_photo), 2000);
+                        toastWindow.makeText(getText(R.string.msg_enter_photo), 2000);
                     }
                 } else {
-                    toastWindow.makeText(requireActivity(), getText(R.string.msg_network_error), 2000);
+                    toastWindow.makeText(getText(R.string.msg_network_error), 2000);
                 }
             }
         });
 
-        mTextEditor.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                int cnt = s.length();
-
-                if (cnt == 0) {
-
-                    requireActivity().setTitle(getText(R.string.title_activity_new_photo));
-
-                } else {
-
-                    requireActivity().setTitle(String.valueOf(140 - cnt));
-                }
-            }
-
-        });
 
         updateView();
 
@@ -392,7 +359,6 @@ initpDialog();
             }
 
             if (newThumbFileName.length() != 0) {
-                mActionIcon.setImageResource(R.drawable.ic_play);
                 mActionIcon.setVisibility(View.VISIBLE);
             }
 
@@ -453,7 +419,7 @@ initpDialog();
                             cameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                             imgFromCameraActivityResultLauncher.launch(cameraIntent);
                         } catch (Exception e) {
-                            toastWindow.makeText(requireActivity(), "Error occured. Please try again later.", 2000);
+                            toastWindow.makeText("Error occured. Please try again later.", 2000);
                         }
                     } else {
                         requestCameraPermission();
@@ -502,12 +468,6 @@ initpDialog();
                     .addFormDataPart("accessToken", App.getInstance().getAccessToken())
                     .addFormDataPart("accessMode", String.valueOf(postMode))
                     .addFormDataPart("itemType", String.valueOf(itemType))
-                    .addFormDataPart("comment", commentText)
-                    .addFormDataPart("postArea", postArea)
-                    .addFormDataPart("postCountry", postCountry)
-                    .addFormDataPart("postCity", postCity)
-                    .addFormDataPart("postLat", postLat)
-                    .addFormDataPart("postLng", postLng)
                     .build();
 
             com.squareup.okhttp.Request request = new com.squareup.okhttp.Request.Builder()

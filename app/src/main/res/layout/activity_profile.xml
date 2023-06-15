@@ -45,7 +45,7 @@
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/ic_action_new"
-            android:background="@drawable/app_circular_button"
+            android:background="@drawable/circular_button"
             android:contentDescription="@null" />
 
 

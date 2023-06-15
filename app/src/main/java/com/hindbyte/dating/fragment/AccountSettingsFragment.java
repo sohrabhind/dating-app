@@ -91,11 +91,8 @@ public class AccountSettingsFragment extends Fragment implements Constants {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_account_settings, container, false);
-
         if (loading) {
-
             showpDialog();
         }
 
@@ -627,7 +624,7 @@ public class AccountSettingsFragment extends Fragment implements Constants {
                                     age = response.getInt("age");
                                     height = response.getInt("height");
 
-                                    toastWindow.makeText(requireActivity(), getText(R.string.msg_settings_saved), 2000);
+                                    toastWindow.makeText(getText(R.string.msg_settings_saved), 2000);
 
                                     App.getInstance().setFullname(fullname);
 

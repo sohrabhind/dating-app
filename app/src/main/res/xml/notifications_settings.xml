@@ -14,11 +14,4 @@
         android:title="@string/settings_notifications_messages">
     </CheckBoxPreference>
 
-    <CheckBoxPreference
-        app:iconSpaceReserved="false"
-        android:key="allowCommentsGCM"
-        app:isPreferenceVisible="false"
-        android:title="@string/settings_notifications_comments">
-    </CheckBoxPreference>
-
 </PreferenceScreen>

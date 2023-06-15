@@ -46,10 +46,10 @@ public class App extends Application implements Constants {
 
     private SharedPreferences sharedPref;
 
-    private String username = "", fullname = "", accessToken = "", gcmToken = "", google_id = "", photoUrl= "", area = "", country = "", city = "";
+    private String username = "", fullname = "", accessToken = "", gcmToken = "", google_id = "", photoUrl= "";
     private Double lat = 0.0, lng = 0.0;
     private long id = 0;
-    private int state = 0, balance = 0, level = 0, freeMessagesCount = 0, levelMessagesCount = 0, allowShowMyAge = 0, allowShowOnline = 0, allowShowMyInfo = 0, allowShowMyGallery = 0, allowShowMyFriends = 0, allowShowMyLikes = 0, allowPhotosComments = 0, allowComments = 0, allowMessages = 0, allowLikesGCM = 0, allowCommentsGCM = 0, allowMessagesGCM = 0, allowCommentReplyGCM = 0, errorCode = 0, currentChatId = 0, notificationsCount = 0, messagesCount = 0, newFriendsCount = 0, seenTyping = 1;
+    private int state = 0, balance = 0, level = 0, freeMessagesCount = 0, levelMessagesCount = 0, allowShowOnline = 0, allowMessages = 0, allowLikesGCM = 0, allowMessagesGCM = 0, errorCode = 0, currentChatId = 0, notificationsCount = 0, messagesCount = 0, newFriendsCount = 0, seenTyping = 1;
     
     private Settings settings;
     private int feedMode = 0;
@@ -372,23 +372,12 @@ public class App extends Application implements Constants {
                 this.setUsername(accountObj.getString("username"));
                 this.setFullname(accountObj.getString("fullname"));
                 this.setState(accountObj.getInt("state"));
-                this.setAllowPhotosComments(accountObj.getInt("allowPhotosComments"));
-                this.setAllowComments(accountObj.getInt("allowComments"));
                 this.setAllowMessages(accountObj.getInt("allowMessages"));
 
-                this.setAllowShowMyInfo(accountObj.getInt("allowShowMyInfo"));
-                this.setAllowShowMyGallery(accountObj.getInt("allowShowMyGallery"));
-                this.setAllowShowMyFriends(accountObj.getInt("allowShowMyFriends"));
-                this.setAllowShowMyLikes(accountObj.getInt("allowShowMyLikes"));
 
                 if (accountObj.has("gl_id")) {
 
                     this.setGoogleFirebaseId(accountObj.getString("gl_id"));
-                }
-
-                if (accountObj.has("allowShowMyAge")) {
-
-                    this.setAllowShowMyAge(accountObj.getInt("allowShowMyAge"));
                 }
 
                 if (accountObj.has("allowShowOnline")) {
@@ -571,25 +560,6 @@ public class App extends Application implements Constants {
     }
 
 
-    public void setAllowCommentReplyGCM(int allowCommentReplyGCM) {
-
-        this.allowCommentReplyGCM = allowCommentReplyGCM;
-    }
-
-    public int getAllowCommentReplyGCM() {
-
-        return this.allowCommentReplyGCM;
-    }
-
-    public void setAllowCommentsGCM(int allowCommentsGCM) {
-
-        this.allowCommentsGCM = allowCommentsGCM;
-    }
-
-    public int getAllowCommentsGCM() {
-
-        return this.allowCommentsGCM;
-    }
 
     public void setAllowLikesGCM(int allowLikesGCM) {
 
@@ -611,78 +581,8 @@ public class App extends Application implements Constants {
         return this.allowMessages;
     }
 
-    public void setAllowComments(int allowComments) {
-
-        this.allowComments = allowComments;
-    }
-
-    public int getAllowComments() {
-
-        return this.allowComments;
-    }
-
-    public void setAllowPhotosComments(int allowPhotosComments) {
-
-        this.allowPhotosComments = allowPhotosComments;
-    }
-
-    public int getAllowPhotosComments() {
-
-        return this.allowPhotosComments;
-    }
 
     // Privacy
-
-    public void setAllowShowMyInfo(int allowShowMyInfo) {
-
-        this.allowShowMyInfo = allowShowMyInfo;
-    }
-
-    public int getAllowShowMyInfo() {
-
-        return this.allowShowMyInfo;
-    }
-
-    public void setAllowShowMyGallery(int allowShowMyGallery) {
-
-        this.allowShowMyGallery = allowShowMyGallery;
-    }
-
-    public int getAllowShowMyGallery() {
-
-        return this.allowShowMyGallery;
-    }
-
-    public void setAllowShowMyFriends(int allowShowMyFriends) {
-
-        this.allowShowMyFriends = allowShowMyFriends;
-    }
-
-    public int getAllowShowMyFriends() {
-
-        return this.allowShowMyFriends;
-    }
-
-    public void setAllowShowMyLikes(int allowShowMyLikes) {
-
-        this.allowShowMyLikes = allowShowMyLikes;
-    }
-
-    public int getAllowShowMyLikes() {
-
-        return this.allowShowMyLikes;
-    }
-
-
-    public void setAllowShowMyAge(int allowShowMyAge) {
-
-        this.allowShowMyAge = allowShowMyAge;
-    }
-
-    public int getAllowShowMyAge() {
-
-        return this.allowShowMyAge;
-    }
 
     public void setAllowShowOnline(int allowShowOnline) {
 
@@ -787,31 +687,6 @@ public class App extends Application implements Constants {
         return this.photoUrl;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getCountry() {
-        return this.country;
-    }
-
-    public void setCity(String city) {
-
-        this.city = city;
-    }
-
-    public String getCity() {
-        return this.city;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
-
-    public String getArea() {
-        return this.area;
-    }
-
 
     public void setLat(Double lat) {
         this.lat = lat;
@@ -858,8 +733,6 @@ public class App extends Application implements Constants {
 
         this.setAllowLikesGCM(sharedPref.getInt(getString(R.string.settings_account_allow_likes_gcm), 1));
 
-        this.setAllowComments(sharedPref.getInt(getString(R.string.settings_account_allow_comments_gcm), 1));
-
         if (App.getInstance().getLat() == 0.000000 && App.getInstance().getLng() == 0.000000) {
 
             this.setLat(Double.parseDouble(sharedPref.getString(getString(R.string.settings_account_lat), "0.000000")));
@@ -883,8 +756,6 @@ public class App extends Application implements Constants {
 
         sharedPref.edit().putInt(getString(R.string.settings_account_allow_likes_gcm), this.getAllowLikesGCM()).apply();
 
-        sharedPref.edit().putInt(getString(R.string.settings_account_allow_comments_gcm), this.getAllowCommentsGCM()).apply();
-        
         
         sharedPref.edit().putString(getString(R.string.settings_account_lat), Double.toString(this.getLat())).apply();
         sharedPref.edit().putString(getString(R.string.settings_account_lng), Double.toString(this.getLng())).apply();

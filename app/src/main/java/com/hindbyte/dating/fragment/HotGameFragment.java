@@ -1,16 +1,20 @@
 package com.hindbyte.dating.fragment;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,15 +22,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.EditText;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -40,11 +45,9 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.activity.ChatActivity;
 import com.hindbyte.dating.adapter.HotgameAdapter;
@@ -90,7 +93,8 @@ public class HotGameFragment extends Fragment implements Constants {
     LocationManager locationManager;
 
 
-    private int gender = 3, liked = 0, distance = 1000;
+    private int gender = 3, distance = 2500;
+    String country = "0";
     //Gender 3 = Any
     private int itemId = 0;
     private int arrayLength = 0;
@@ -102,6 +106,47 @@ public class HotGameFragment extends Fragment implements Constants {
         // Required empty public constructor
     }
 
+    public String getCountryZipCode(String CountryID, Context context) {
+        String countryZipCode = "";
+        String[] rl = this.getResources().getStringArray(R.array.CountryCodes);
+        for (int i = 0; i < rl.length; i++) {
+            String[] g = rl[i].split(",");
+            if (g[1].trim().equals(CountryID.trim().toUpperCase())) {
+                countryZipCode = g[0];
+                break;
+            }
+        }
+        return countryZipCode;
+    }
+
+    private static String getDeviceCountryCode(Context context) {
+        String countryCode;
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if(tm != null) {
+            countryCode = tm.getSimCountryIso();
+            if (countryCode != null && countryCode.length() == 2) {
+                return countryCode.toLowerCase();
+            } else {
+                countryCode = tm.getNetworkCountryIso();
+            }
+
+            if (countryCode != null && countryCode.length() == 2) {
+                return countryCode.toLowerCase();
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            countryCode = context.getResources().getConfiguration().getLocales().get(0).getCountry();
+        } else {
+            countryCode = context.getResources().getConfiguration().locale.getCountry();
+        }
+
+        if (countryCode != null && countryCode.length() == 2) {
+            return countryCode.toLowerCase();
+        }
+        return "us";
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,9 +156,12 @@ public class HotGameFragment extends Fragment implements Constants {
         restore = false;
         loading = false;
         itemId = 0;
-        distance = 1000;
+        distance = 2500;
         gender = 3;
-        liked = 0;
+        country = getCountryZipCode(getDeviceCountryCode(requireContext()), requireContext());
+        if (country.trim() == "") {
+            country = "0";
+        }
         readFilterSettings();
     }
 
@@ -157,10 +205,12 @@ public class HotGameFragment extends Fragment implements Constants {
                 super.onPageSelected(position);
                 Profile u = itemsList.get(position);
                 if (u.isILike()) {
-                    mHotGameLike.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.app_circular_button_green));
+                    mHotGameLike.setImageResource(R.drawable.ic_action_liked);
+                    mHotGameLike.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.circular_button_liked));
                 }
                 if (!u.isILike()) {
-                    mHotGameLike.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.app_circular_button));
+                    mHotGameLike.setImageResource(R.drawable.ic_action_like);
+                    mHotGameLike.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.circular_button));
                 }
             }
 
@@ -183,7 +233,7 @@ public class HotGameFragment extends Fragment implements Constants {
         mHotGameProfile.setOnClickListener(v -> {
             Profile profile = itemsList.get(mViewPager2.getCurrentItem());
             if (profile.getAllowMessages() == 0 && !profile.isMyFan()) {
-                toastWindow.makeText(requireActivity(), getString(R.string.error_no_friend), 2000);
+                toastWindow.makeText(getString(R.string.error_no_friend), 2000);
             } else {
                 if (!profile.isInBlackList()) {
                     Intent i = new Intent(requireActivity(), ChatActivity.class);
@@ -196,20 +246,27 @@ public class HotGameFragment extends Fragment implements Constants {
                     i.putExtra("with_user_state", profile.getState());
                     startActivity(i);
                 } else {
-                    toastWindow.makeText(requireActivity(), getString(R.string.error_action), 2000);
+                    toastWindow.makeText(getString(R.string.error_action), 2000);
                 }
             }
         });
 
         mHotGameLike.setOnClickListener(v -> {
+            animateIcon(mHotGameLike);
             Profile p = itemsList.get(mViewPager2.getCurrentItem());
             like(p.getId());
         });
 
 
-        mHotGameNext.setOnClickListener(v -> onCardSwiped("Right"));
+        mHotGameNext.setOnClickListener(v -> {
+            animateIcon(mHotGameNext);
+            onCardSwiped("Right");
+        });
 
-        mHotGameBack.setOnClickListener(v -> onCardSwiped("Left"));
+        mHotGameBack.setOnClickListener(v -> {
+            animateIcon(mHotGameBack);
+            onCardSwiped("Left");
+        });
 
         mShowFiltersButton.setOnClickListener(v -> getHotGameSettings());
 
@@ -244,6 +301,17 @@ public class HotGameFragment extends Fragment implements Constants {
         }
         return rootView;
     }
+
+
+    private void animateIcon(View view) {
+        ScaleAnimation scale = new ScaleAnimation(1.0f, 0.1f, 1.0f, 0.1f,
+                ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
+                ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
+        scale.setDuration(300);
+        scale.setInterpolator(new LinearInterpolator());
+        view.startAnimation(scale);
+    }
+
 
     private void updateView() {
         if (loading) {
@@ -371,11 +439,11 @@ public class HotGameFragment extends Fragment implements Constants {
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("distance", String.valueOf(distance));
+                params.put("country", String.valueOf(country));
                 params.put("lat", Double.toString(App.getInstance().getLat()));
                 params.put("lng", Double.toString(App.getInstance().getLng()));
                 params.put("itemId", Long.toString(itemId));
                 params.put("gender", String.valueOf(gender));
-                params.put("liked", String.valueOf(liked));
                 return params;
             }
         };
@@ -408,8 +476,6 @@ public class HotGameFragment extends Fragment implements Constants {
         LinearLayout view = (LinearLayout) requireActivity().getLayoutInflater().inflate(R.layout.dialog_hotgame_settings, null);
         b.setView(view);
 
-        final CheckBox mLikedCheckBox = view.findViewById(R.id.likedCheckBox);
-
         final RadioButton mAnyGenderRadio = view.findViewById(R.id.radio_gender_any);
         final RadioButton mMaleGenderRadio = view.findViewById(R.id.radio_gender_male);
         final RadioButton mFemaleGenderRadio = view.findViewById(R.id.radio_gender_female);
@@ -418,6 +484,9 @@ public class HotGameFragment extends Fragment implements Constants {
 
         final TextView mDistanceLabel = view.findViewById(R.id.distance_label);
         final AppCompatSeekBar mDistanceSeekBar = view.findViewById(R.id.choice_distance);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mDistanceSeekBar.setMin(25);
+        }
 
         switch (gender) {
             case 0: {
@@ -458,11 +527,6 @@ public class HotGameFragment extends Fragment implements Constants {
             }
         });
 
-        if (liked == 1) {
-            mLikedCheckBox.setChecked(true);
-        } else {
-            mLikedCheckBox.setChecked(false);
-        }
 
         b.setPositiveButton(getText(R.string.action_ok), (dialog, which) -> {
             // get distance
@@ -487,11 +551,6 @@ public class HotGameFragment extends Fragment implements Constants {
                 gender = 2;
             }
 
-            if (mLikedCheckBox.isChecked()) {
-                liked = 1;
-            } else {
-                liked = 0;
-            }
             itemsList.clear();
             itemId = 0;
             loading = true;
@@ -533,10 +592,12 @@ public class HotGameFragment extends Fragment implements Constants {
                             Profile u = itemsList.get(mViewPager2.getCurrentItem());
                             u.setILike(response.getBoolean("iLiked"));
                             if (u.isILike()) {
-                                mHotGameLike.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.app_circular_button_green));
+                                mHotGameLike.setImageResource(R.drawable.ic_action_liked);
+                                mHotGameLike.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.circular_button_liked));
                             }
                             if (!u.isILike()) {
-                                mHotGameLike.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.app_circular_button));
+                                mHotGameLike.setImageResource(R.drawable.ic_action_like);
+                                mHotGameLike.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.circular_button));
                             }
                         }
                     } catch (JSONException e) {
@@ -570,13 +631,11 @@ public class HotGameFragment extends Fragment implements Constants {
 
     private void readFilterSettings() {
         gender = App.getInstance().getSharedPref().getInt(getString(R.string.settings_hotgame_gender), 3); // 3 = all
-        liked = App.getInstance().getSharedPref().getInt(getString(R.string.settings_hotgame_liked), 0);
-        distance = App.getInstance().getSharedPref().getInt(getString(R.string.settings_hotgame_distance), 1000);
+        distance = App.getInstance().getSharedPref().getInt(getString(R.string.settings_hotgame_distance), 2500);
     }
 
     public void saveFilterSettings() {
         App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_hotgame_gender), gender).apply();
-        App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_hotgame_liked), liked).apply();
         App.getInstance().getSharedPref().edit().putInt(getString(R.string.settings_hotgame_distance), distance).apply();
     }
 

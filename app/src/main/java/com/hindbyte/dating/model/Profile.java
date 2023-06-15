@@ -14,13 +14,13 @@ public class Profile extends Application implements Constants, Parcelable {
 
     private long id;
 
-    private int age = 0, height, state, gender = 3, level, itemsCount, likesCount, imagesCount, allowPhotosComments, allowMessages, lastAuthorize;
+    private int age = 0, height, state, gender = 3, level, itemsCount, likesCount, imagesCount, allowMessages, lastAuthorize;
 
     private double distance = 0;
 
     private int religiousView, viewsOnSmoking, viewsOnAlcohol, youLooking, youLike;
 
-    private int allowShowMyInfo, allowShowMyGallery, allowShowMyFriends, allowShowMyLikes, allowShowMyAge, allowShowOnline;
+    private int allowShowOnline;
 
     private String username, fullname, bigPhotoUrl = "", location, interests, bio, lastAuthorizeDate, lastAuthorizeTimeAgo, createDate;
 
@@ -68,13 +68,7 @@ public class Profile extends Application implements Constants, Parcelable {
                 this.setLikesCount(jsonData.getInt("likesCount"));
                 this.setImagesCount(jsonData.getInt("imagesCount"));
 
-                this.setAllowPhotosComments(jsonData.getInt("allowPhotosComments"));
                 this.setAllowMessages(jsonData.getInt("allowMessages"));
-
-                this.setAllowShowMyInfo(jsonData.getInt("allowShowMyInfo"));
-                this.setAllowShowMyGallery(jsonData.getInt("allowShowMyGallery"));
-                this.setAllowShowMyFriends(jsonData.getInt("allowShowMyFriends"));
-                this.setAllowShowMyLikes(jsonData.getInt("allowShowMyLikes"));
 
                 this.setInBlackList(jsonData.getBoolean("inBlackList"));
                 this.setOnline(jsonData.getBoolean("online"));
@@ -108,10 +102,6 @@ public class Profile extends Application implements Constants, Parcelable {
                     this.setHeight(jsonData.getInt("height"));
                 }
 
-                if (jsonData.has("allowShowMyAge")) {
-
-                    this.setAllowShowMyAge(jsonData.getInt("allowShowMyAge"));
-                }
 
                 if (jsonData.has("allowShowOnline")) {
 
@@ -258,7 +248,6 @@ public class Profile extends Application implements Constants, Parcelable {
     }
 
     public void setFullname(String profile_fullname) {
-
         this.fullname = profile_fullname;
     }
 
@@ -349,15 +338,6 @@ public class Profile extends Application implements Constants, Parcelable {
         return this.imagesCount;
     }
 
-    public void setAllowPhotosComments(int allowPhotosComments) {
-
-        this.allowPhotosComments = allowPhotosComments;
-    }
-
-    public int getAllowPhotosComments() {
-
-        return this.allowPhotosComments;
-    }
 
     public void setAllowMessages(int allowMessages) {
 
@@ -473,16 +453,6 @@ public class Profile extends Application implements Constants, Parcelable {
 
     // Privacy
 
-    public void setAllowShowMyAge(int allowShowMyAge) {
-
-        this.allowShowMyAge = allowShowMyAge;
-    }
-
-    public int getAllowShowMyAge() {
-
-        return this.allowShowMyAge;
-    }
-
     public void setAllowShowOnline(int allowShowOnline) {
 
         this.allowShowOnline = allowShowOnline;
@@ -493,45 +463,6 @@ public class Profile extends Application implements Constants, Parcelable {
         return this.allowShowOnline;
     }
 
-    public void setAllowShowMyInfo(int allowShowMyInfo) {
-
-        this.allowShowMyInfo = allowShowMyInfo;
-    }
-
-    public int getAllowShowMyInfo() {
-
-        return this.allowShowMyInfo;
-    }
-
-    public void setAllowShowMyGallery(int allowShowMyGallery) {
-
-        this.allowShowMyGallery = allowShowMyGallery;
-    }
-
-    public int getAllowShowMyGallery() {
-
-        return this.allowShowMyGallery;
-    }
-
-    public void setAllowShowMyFriends(int allowShowMyFriends) {
-
-        this.allowShowMyFriends = allowShowMyFriends;
-    }
-
-    public int getAllowShowMyFriends() {
-
-        return this.allowShowMyFriends;
-    }
-
-    public void setAllowShowMyLikes(int allowShowMyLikes) {
-
-        this.allowShowMyLikes = allowShowMyLikes;
-    }
-
-    public int getAllowShowMyLikes() {
-
-        return this.allowShowMyLikes;
-    }
 
 
     // For guests only
@@ -579,7 +510,6 @@ public class Profile extends Application implements Constants, Parcelable {
         dest.writeInt(this.itemsCount);
         dest.writeInt(this.likesCount);
         dest.writeInt(this.imagesCount);
-        dest.writeInt(this.allowPhotosComments);
         dest.writeInt(this.allowMessages);
         dest.writeInt(this.lastAuthorize);
         dest.writeDouble(this.distance);
@@ -588,11 +518,6 @@ public class Profile extends Application implements Constants, Parcelable {
         dest.writeInt(this.viewsOnAlcohol);
         dest.writeInt(this.youLooking);
         dest.writeInt(this.youLike);
-        dest.writeInt(this.allowShowMyInfo);
-        dest.writeInt(this.allowShowMyGallery);
-        dest.writeInt(this.allowShowMyFriends);
-        dest.writeInt(this.allowShowMyLikes);
-        dest.writeInt(this.allowShowMyAge);
         dest.writeInt(this.allowShowOnline);
         dest.writeString(this.username);
         dest.writeString(this.fullname);
@@ -621,7 +546,6 @@ public class Profile extends Application implements Constants, Parcelable {
         this.itemsCount = in.readInt();
         this.likesCount = in.readInt();
         this.imagesCount = in.readInt();
-        this.allowPhotosComments = in.readInt();
         this.allowMessages = in.readInt();
         this.lastAuthorize = in.readInt();
         this.distance = in.readDouble();
@@ -630,11 +554,6 @@ public class Profile extends Application implements Constants, Parcelable {
         this.viewsOnAlcohol = in.readInt();
         this.youLooking = in.readInt();
         this.youLike = in.readInt();
-        this.allowShowMyInfo = in.readInt();
-        this.allowShowMyGallery = in.readInt();
-        this.allowShowMyFriends = in.readInt();
-        this.allowShowMyLikes = in.readInt();
-        this.allowShowMyAge = in.readInt();
         this.allowShowOnline = in.readInt();
         this.username = in.readString();
         this.fullname = in.readString();

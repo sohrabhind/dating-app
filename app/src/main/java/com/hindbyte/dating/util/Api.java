@@ -25,7 +25,6 @@ public class Api extends Application implements Constants {
     Context context;
 
     public Api (Context context) {
-
         this.context = context;
     }
 
@@ -51,14 +50,14 @@ public class Api extends Application implements Constants {
 
                         } finally {
 
-                            toastWindow.makeText(context, context.getText(R.string.label_profile_reported), 2000);
+                            toastWindow.makeText(context.getText(R.string.label_profile_reported), 2000);
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                toastWindow.makeText(context, context.getText(R.string.label_profile_reported), 2000);
+                toastWindow.makeText(context.getText(R.string.label_profile_reported), 2000);
             }
         }) {
 
@@ -103,8 +102,7 @@ public class Api extends Application implements Constants {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
-                toastWindow.makeText(context, context.getString(R.string.error_data_loading), 2000);
+                toastWindow.makeText(context.getString(R.string.error_data_loading), 2000);
             }
         }) {
 
@@ -142,14 +140,14 @@ public class Api extends Application implements Constants {
 
                         } finally {
 
-                            toastWindow.makeText(context, context.getString(R.string.label_item_reported), 2000);
+                            toastWindow.makeText(context.getString(R.string.label_item_reported), 2000);
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                toastWindow.makeText(context, context.getString(R.string.label_item_reported), 2000);
+                toastWindow.makeText(context.getString(R.string.label_item_reported), 2000);
             }
         }) {
 
@@ -168,44 +166,4 @@ public class Api extends Application implements Constants {
         App.getInstance().addToRequestQueue(jsonReq);
     }
 
-    public void imagesCommentDelete(final long commentId) {
-
-        CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_COMMENTS_REMOVE, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        try {
-
-                            if (!response.getBoolean("error")) {
-
-
-                            }
-
-                        } catch (JSONException e) {
-
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                toastWindow.makeText(context, context.getString(R.string.msg_comment_has_been_removed), 2000);
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("accountId", Long.toString(App.getInstance().getId()));
-                params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("commentId", Long.toString(commentId));
-
-                return params;
-            }
-        };
-
-        App.getInstance().addToRequestQueue(jsonReq);
-    }
 }

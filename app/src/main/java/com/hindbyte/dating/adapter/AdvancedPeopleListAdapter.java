@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
@@ -46,7 +47,7 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 
         public ImageView mSquarePhotoImage;
 
-		public MaterialRippleLayout mParent;
+		public CardView mParent;
 		public ProgressBar mProgressBar;
 
 		public MyViewHolder(View view) {

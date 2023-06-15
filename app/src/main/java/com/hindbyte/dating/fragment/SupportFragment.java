@@ -129,7 +129,7 @@ setHasOptionsMenu(true);
 
             } else {
 
-                toastWindow.makeText(requireActivity(), getString(R.string.error_field_empty), 2000);
+                toastWindow.makeText(getString(R.string.error_field_empty), 2000);
             }
 
             return true;
@@ -169,7 +169,7 @@ setHasOptionsMenu(true);
 
                             hidepDialog();
 
-                            toastWindow.makeText(requireActivity(), getText(R.string.msg_ticket_send_success), 2000);
+                            toastWindow.makeText(getText(R.string.msg_ticket_send_success), 2000);
 
                             requireActivity().finish();
                         }
@@ -182,7 +182,7 @@ setHasOptionsMenu(true);
 
                 hidepDialog();
 
-                toastWindow.makeText(requireActivity(), getText(R.string.error_data_loading), 2000);
+                toastWindow.makeText(getText(R.string.error_data_loading), 2000);
             }
         }) {
 

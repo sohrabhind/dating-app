@@ -64,7 +64,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:padding="@dimen/spacing_large"
                 app:tint="@color/colorIconTint"
-                app:srcCompat="@drawable/ic_image_2" />
+                app:srcCompat="@drawable/ic_action_photo" />
 
             <TextView
                 android:layout_width="match_parent"

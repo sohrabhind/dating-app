@@ -10,36 +10,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hindbyte.dating.R;
+import com.hindbyte.dating.app.App;
 
 public class ToastWindow {
 
-    private final Handler handlerToast = new Handler(Looper.getMainLooper());
-    public PopupWindow pw;
+    public Toast toast;
 
-    public void makeText(Context context, int resId, int duration)  {
-        makeText(context, context.getResources().getText(resId), duration);
+    public void makeText(int resId, int duration)  {
+        makeText(App.getInstance().getResources().getText(resId), duration);
     }
 
-    public void makeText(Context context, CharSequence text, int duration) {
+    public void makeText(CharSequence text, int duration) {
         try {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            assert inflater != null;
-            @SuppressLint("InflateParams") View customMenu = inflater.inflate(R.layout.toast_layout, null);
-            pw = new PopupWindow(context);
+            LayoutInflater inflater = (LayoutInflater) App.getInstance().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View customMenu = inflater.inflate(R.layout.toast_layout, null);
             TextView tv = customMenu.findViewById(R.id.toast_text);
             tv.setText(text);
-            pw.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-            pw.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-            pw.setOutsideTouchable(true);
-            pw.setTouchable(false);
-            pw.setFocusable(false);
-            pw.setContentView(customMenu);
-            pw.showAtLocation(customMenu, Gravity.BOTTOM, 0, context.getResources().getDimensionPixelSize(R.dimen.spacing_xlarge));
-            handlerToast.postDelayed(pw::dismiss, duration);
+            toast = new Toast(App.getInstance());
+            toast.setGravity(Gravity.BOTTOM, 0,  App.getInstance().getResources().getDimensionPixelSize(R.dimen.spacing_xxlarge));
+            toast.setDuration(Toast.LENGTH_SHORT);
+            toast.setView(customMenu);
+            toast.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }

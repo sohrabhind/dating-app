@@ -194,7 +194,7 @@ public class BlackListAdapter extends BaseAdapter implements Constants {
                                         notifyDataSetChanged();
                                     }
                                 }
-                            }, error -> toastWindow.makeText(activity.getApplicationContext(), error.getMessage(), 2000)) {
+                            }, error -> toastWindow.makeText(error.getMessage(), 2000)) {
 
                         @Override
                         protected Map<String, String> getParams() {
@@ -208,7 +208,7 @@ public class BlackListAdapter extends BaseAdapter implements Constants {
 
                     App.getInstance().addToRequestQueue(jsonReq);
                 } else {
-                    toastWindow.makeText(activity.getApplicationContext(), activity.getText(R.string.msg_network_error), 2000);
+                    toastWindow.makeText(activity.getText(R.string.msg_network_error), 2000);
                 }
             }
         });

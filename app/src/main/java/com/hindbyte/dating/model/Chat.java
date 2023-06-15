@@ -16,8 +16,6 @@ public class Chat extends Application implements Constants, Parcelable {
     private String withUserUsername, withUserFullname, withUserPhotoUrl, timeAgo, date, lastMessage, lastMessageAgo;
     private Boolean blocked = false;
 
-    private String android_fcm_regId = "";
-
     public Chat() {
 
     }
@@ -40,9 +38,6 @@ public class Chat extends Application implements Constants, Parcelable {
             this.setTimeAgo(jsonData.getString("timeAgo"));
             if (jsonData.has("withUserBlocked")) {
                 this.setBlocked(jsonData.getBoolean("withUserBlocked"));
-            }
-            if (jsonData.has("with_android_fcm_regId")) {
-                this.set_android_fcm_regId(jsonData.getString("with_android_fcm_regId"));
             }
         } catch (Throwable t) {
             Log.e("Chat", "Could not parse malformed JSON: \"" + jsonData.toString() + "\"");
@@ -111,7 +106,6 @@ public class Chat extends Application implements Constants, Parcelable {
     }
 
     public void setWithUserFullname(String withUserFullname) {
-
         this.withUserFullname = withUserFullname;
     }
 
@@ -200,16 +194,6 @@ public class Chat extends Application implements Constants, Parcelable {
         return this.blocked;
     }
 
-    public void set_android_fcm_regId(String android_fcm_regId) {
-
-        this.android_fcm_regId = android_fcm_regId;
-    }
-
-    public String get_android_fcm_regId() {
-
-        return this.android_fcm_regId;
-    }
-
     public Boolean getBlocked() {
 
         return this.blocked;
@@ -237,7 +221,6 @@ public class Chat extends Application implements Constants, Parcelable {
         dest.writeString(this.lastMessage);
         dest.writeString(this.lastMessageAgo);
         dest.writeValue(this.blocked);
-        dest.writeString(this.android_fcm_regId);
     }
 
     protected Chat(Parcel in) {
@@ -256,7 +239,6 @@ public class Chat extends Application implements Constants, Parcelable {
         this.lastMessage = in.readString();
         this.lastMessageAgo = in.readString();
         this.blocked = (Boolean) in.readValue(Boolean.class.getClassLoader());
-        this.android_fcm_regId = in.readString();
     }
 
     public static final Creator<Chat> CREATOR = new Creator<Chat>() {

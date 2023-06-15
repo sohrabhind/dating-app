@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -29,7 +28,6 @@ import com.hindbyte.dating.activity.BlackListActivity;
 import com.hindbyte.dating.activity.ChangePasswordActivity;
 import com.hindbyte.dating.activity.DeactivateActivity;
 import com.hindbyte.dating.activity.NotificationsSettingsActivity;
-import com.hindbyte.dating.activity.PrivacySettingsActivity;
 import com.hindbyte.dating.activity.ServicesActivity;
 import com.hindbyte.dating.activity.SupportActivity;
 import com.hindbyte.dating.app.App;
@@ -45,17 +43,16 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
-
 public class SettingsFragment extends PreferenceFragmentCompat implements Constants {
 
-    private Preference logoutPreference, itemContactUs, changePassword, itemBalanceHistory, itemServices, itemBlackList, itemNotifications, itemDeactivateAccount, itemPrivacy;
-    private CheckBoxPreference allowMessages, allowPhotosComments;
+    private Preference logoutPreference, itemContactUs, changePassword, itemBalanceHistory, itemServices, itemBlackList, itemNotifications, itemDeactivateAccount;
+    private CheckBoxPreference allowMessages;
     private PreferenceScreen screen;
 
     ToastWindow toastWindow = new ToastWindow();
     private ProgressDialog pDialog;
 
-    int mAllowMessages, mAllowPhotosComments;
+    int mAllowMessages;
 
     LinearLayout aboutDialogContent;
     TextView aboutDialogAppName, aboutDialogAppVersion, aboutDialogAppCopyright;
@@ -83,7 +80,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
         itemBalanceHistory = getPreferenceScreen().findPreference("settings_balance_history");
         itemBlackList = findPreference("settings_blocked_list");
         itemNotifications = findPreference("settings_push_notifications");
-        itemPrivacy = findPreference("settings_privacy");
         itemContactUs = findPreference("settings_contact_us");
 
         if (!GOOGLE_AUTHORIZATION) {
@@ -115,16 +111,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
             }
         });
 
-        itemPrivacy.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-            public boolean onPreferenceClick(@NonNull Preference arg0) {
-
-                Intent i = new Intent(requireActivity(), PrivacySettingsActivity.class);
-                startActivity(i);
-
-                return true;
-            }
-        });
 
         itemNotifications.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
@@ -319,41 +305,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
 
                     } else {
 
-                        toastWindow.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), 2000);
-                    }
-                }
-
-                return true;
-            }
-        });
-
-        allowPhotosComments = (CheckBoxPreference) getPreferenceManager().findPreference("allowPhotosComments");
-
-        allowPhotosComments.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-
-                if (newValue instanceof Boolean) {
-
-                    Boolean value = (Boolean) newValue;
-
-                    if (value) {
-
-                        mAllowPhotosComments = 1;
-
-                    } else {
-
-                        mAllowPhotosComments = 0;
-                    }
-
-                    if (App.getInstance().isConnected()) {
-
-                        setAllowPhotosComments();
-
-                    } else {
-
-                        toastWindow.makeText(requireActivity().getApplicationContext(), getText(R.string.msg_network_error), 2000);
+                        toastWindow.makeText(getText(R.string.msg_network_error), 2000);
                     }
                 }
 
@@ -362,10 +314,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
         });
 
         //
-
-
-
-        checkAllowPhotosComments(App.getInstance().getAllowPhotosComments());
         checkAllowMessages(App.getInstance().getAllowMessages());
     }
 
@@ -403,76 +351,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
         outState.putBoolean("loading", loading);
     }
 
-    public void checkAllowPhotosComments(int value) {
-
-        if (value == 1) {
-
-            allowPhotosComments.setChecked(true);
-            mAllowPhotosComments = 1;
-
-        } else {
-
-            allowPhotosComments.setChecked(false);
-            mAllowPhotosComments = 0;
-        }
-    }
-
-    public void setAllowPhotosComments() {
-
-        loading = true;
-
-        showpDialog();
-
-        CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_ACCOUNT_SET_ALLOW_PHOTOS_COMMENTS, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        try {
-
-                            if (!response.getBoolean("error")) {
-
-                                App.getInstance().setAllowPhotosComments(response.getInt("allowPhotosComments"));
-
-                                checkAllowPhotosComments(App.getInstance().getAllowPhotosComments());
-                            }
-
-                        } catch (JSONException e) {
-
-                            e.printStackTrace();
-
-                        } finally {
-
-                            loading = false;
-
-                            hidepDialog();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                loading = false;
-
-                hidepDialog();
-
-                toastWindow.makeText(requireActivity().getApplicationContext(), getText(R.string.error_data_loading), 2000);
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("accountId", Long.toString(App.getInstance().getId()));
-                params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("allowPhotosComments", String.valueOf(mAllowPhotosComments));
-
-                return params;
-            }
-        };
-
-        App.getInstance().addToRequestQueue(jsonReq);
-    }
 
     public void checkAllowMessages(int value) {
 
@@ -527,7 +405,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Consta
 
                 hidepDialog();
 
-                toastWindow.makeText(requireActivity().getApplicationContext(), getText(R.string.error_data_loading), 2000);
+                toastWindow.makeText(getText(R.string.error_data_loading), 2000);
             }
         }) {
 

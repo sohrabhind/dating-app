@@ -248,7 +248,7 @@ public class ChatFragment extends Fragment implements Constants {
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
 
-                        toastWindow.makeText(requireActivity(), getString(R.string.label_grant_camera_permission), 2000);
+                        toastWindow.makeText(getString(R.string.label_grant_camera_permission), 2000);
                     }
 
                 }).show();
@@ -338,7 +338,7 @@ public class ChatFragment extends Fragment implements Constants {
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
 
-                        toastWindow.makeText(requireActivity(), getString(R.string.label_grant_storage_permission), 2000);
+                        toastWindow.makeText(getString(R.string.label_grant_storage_permission), 2000);
                     }
 
                 }).show();
@@ -654,64 +654,10 @@ public class ChatFragment extends Fragment implements Constants {
         return rootView;
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    public void initiatePopupWindow() {
-
-        AlertDialog.Builder builder3 = new AlertDialog.Builder(requireContext());
-        builder3.setCancelable(true);
-        @SuppressLint("InflateParams") LinearLayout signInLayout2 = (LinearLayout) LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_to_home, null, false);
-
-        TextView silverPackageBtn = signInLayout2.findViewById(R.id.silverPackageBtn);
-        TextView goldPackageBtn = signInLayout2.findViewById(R.id.goldPackageBtn);
-        TextView diamondPackageBtn = signInLayout2.findViewById(R.id.diamondPackageBtn);
-        TextView packageDesc = signInLayout2.findViewById(R.id.packageDesc);
-
-        silverPackageBtn.setBackgroundResource(R.color.greenEndColor);
-        packageDesc.setText("Validity 30 Days\n\n₹ 300\n\n1000 Messages\n\nSilver Profile Badge");
-        Intent intentX = new Intent(requireActivity(), UpgradeActivity.class);
-        intentX.putExtra("package", "silver");
-
-        silverPackageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                silverPackageBtn.setBackgroundResource(R.color.greenEndColor);
-                goldPackageBtn.setBackgroundResource(R.color.white);
-                diamondPackageBtn.setBackgroundResource(R.color.white);
-                packageDesc.setText("Validity 30 Days\n\n₹ 300\n\n1000 Messages\n\nSilver Profile Badge");
-                intentX.putExtra("package", "silver");
-            }
-        });
-
-        goldPackageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                silverPackageBtn.setBackgroundResource(R.color.white);
-                goldPackageBtn.setBackgroundResource(R.color.greenEndColor);
-                diamondPackageBtn.setBackgroundResource(R.color.white);
-                packageDesc.setText("Validity 30 Days\n\n₹ 600\n\n5000 Messages\n\nGold Profile Badge");
-                intentX.putExtra("package", "gold");
-            }
-        });
-
-        diamondPackageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                silverPackageBtn.setBackgroundResource(R.color.white);
-                goldPackageBtn.setBackgroundResource(R.color.white);
-                diamondPackageBtn.setBackgroundResource(R.color.greenEndColor);
-                packageDesc.setText("Validity 30 Days\n\n₹ 900\n\n10000 Messages\n\nDiamond Profile Badge");
-                intentX.putExtra("package", "diamond");
-            }
-        });
-
-
-        builder3.setView(signInLayout2);
-        builder3.setPositiveButton("Continue", (dialog2, which) -> {
-            startActivity(intentX);
-        });
-        builder3.setNegativeButton("Cancel", (dialog2, which) -> dialog2.dismiss());
-        builder3.create().show();
-
+    public void initiatePopupWindow(String popup) {
+        Intent intent = new Intent(requireActivity(), UpgradeActivity.class);
+        intent.putExtra("popup_string", popup);
+        startActivity(intent);
     }
 
     public void typing_start() {
@@ -1171,11 +1117,11 @@ public class ChatFragment extends Fragment implements Constants {
                     loading = true;
                     send();
                 } else {
-                    toastWindow.makeText(requireActivity(), getText(R.string.msg_enter_msg), 2000);
+                    toastWindow.makeText(getText(R.string.msg_enter_msg), 2000);
                 }
             }
         } else {
-            toastWindow.makeText(requireActivity(), getText(R.string.msg_network_error), 2000);
+            toastWindow.makeText(getText(R.string.msg_network_error), 2000);
         }
     }
 
@@ -1196,7 +1142,7 @@ public class ChatFragment extends Fragment implements Constants {
                             }
                         } else {
                             if (response.getInt("error_code") == 402) {
-                                initiatePopupWindow();
+                                initiatePopupWindow("Subscribe to send more messages.");
                             }
                         }
                     } catch (JSONException e) {
@@ -1339,7 +1285,7 @@ public class ChatFragment extends Fragment implements Constants {
                             }
                         } else {
                             if (result.getInt("error_code") == 402) {
-                                initiatePopupWindow();
+                                initiatePopupWindow("Subscribe to send more messages.");
                             }
                         }
                         Log.d("My App", response.toString());
@@ -1397,7 +1343,7 @@ public class ChatFragment extends Fragment implements Constants {
 
                                 requireActivity().finish();
 
-//                                toastWindow.makeText(requireActivity(), getString(R.string.msg_send_msg_error), 2000);
+//                                toastWindow.makeText(getString(R.string.msg_send_msg_error), 2000);
                             }
 
                         } catch (JSONException e) {
@@ -1715,7 +1661,7 @@ public class ChatFragment extends Fragment implements Constants {
 
                         } catch (Exception e) {
 
-                            toastWindow.makeText(requireActivity(), "Error occured. Please try again later.", 2000);
+                            toastWindow.makeText("Error occured. Please try again later.", 2000);
                         }
 
                     } else {

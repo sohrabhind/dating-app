@@ -20,7 +20,6 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.hindbyte.dating.activity.HomeActivity;
 import com.hindbyte.dating.fragment.ChatFragment;
-import com.hindbyte.dating.activity.FriendsActivity;
 import com.hindbyte.dating.activity.MainActivity;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.app.App;
@@ -175,7 +174,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
             case GCM_NOTIFY_SYSTEM: {
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(context, CHANNEL_ID)
-                                .setSmallIcon(R.drawable.ic_action_push_notification)
+                                .setSmallIcon(R.drawable.ic_notification)
                                 .setContentTitle(title)
                                 .setContentText(message);
 
@@ -222,7 +221,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(context, CHANNEL_ID)
-                                    .setSmallIcon(R.drawable.ic_action_push_notification)
+                                    .setSmallIcon(R.drawable.ic_notification)
                                     .setContentTitle(title)
                                     .setContentText(message);
 
@@ -260,7 +259,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(context, CHANNEL_ID)
-                                    .setSmallIcon(R.drawable.ic_action_push_notification)
+                                    .setSmallIcon(R.drawable.ic_notification)
                                     .setContentTitle(title)
                                     .setContentText(message);
 
@@ -341,53 +340,6 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                 break;
             }
 
-
-            case GCM_NOTIFY_COMMENT: {
-
-                if (App.getInstance().getId() != 0 && Long.toString(App.getInstance().getId()).equals(accountId)) {
-
-                    App.getInstance().setNotificationsCount(App.getInstance().getNotificationsCount() + 1);
-
-                    if (App.getInstance().getAllowCommentsGCM() == 1) {
-
-                        message = context.getString(R.string.label_gcm_comment);
-
-                        NotificationCompat.Builder mBuilder =
-                                new NotificationCompat.Builder(context, CHANNEL_ID)
-                                        .setSmallIcon(R.drawable.ic_action_push_notification)
-                                        .setContentTitle(title)
-                                        .setContentText(message);
-
-                        Intent resultIntent = new Intent(context, MainActivity.class);
-                        resultIntent.putExtra("pageId", PAGE_NOTIFICATIONS);
-                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-                        stackBuilder.addParentStack(MainActivity.class);
-                        stackBuilder.addNextIntent(resultIntent);
-                        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, flag);
-                        mBuilder.setContentIntent(resultPendingIntent);
-
-                        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-                            int importance = NotificationManager.IMPORTANCE_HIGH;
-
-                            mChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
-
-                            mNotificationManager.createNotificationChannel(mChannel);
-                        }
-
-                        mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
-                        mBuilder.setAutoCancel(true);
-                        mNotificationManager.notify(0, mBuilder.build());
-                    }
-                }
-
-                break;
-            }
-
             case GCM_NOTIFY_MESSAGE: {
                 if (App.getInstance().getId() != 0 && Long.parseLong(accountId) == App.getInstance().getId()) {
                     if (App.getInstance().getCurrentChatId() == Integer.parseInt(actionId)) {
@@ -454,7 +406,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                             message = context.getString(R.string.label_gcm_message);
                             NotificationCompat.Builder mBuilder =
                                     new NotificationCompat.Builder(context, CHANNEL_ID)
-                                            .setSmallIcon(R.drawable.ic_action_push_notification)
+                                            .setSmallIcon(R.drawable.ic_notification)
                                             .setContentTitle(msgFromUserFullname)
                                             .setContentText(msgMessage);
 
@@ -492,52 +444,6 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                 break;
             }
 
-            case GCM_NOTIFY_COMMENT_REPLY: {
-
-                if (App.getInstance().getId() != 0 && Long.toString(App.getInstance().getId()).equals(accountId)) {
-
-                    App.getInstance().setNotificationsCount(App.getInstance().getNotificationsCount() + 1);
-
-                    if (App.getInstance().getAllowCommentsGCM() == 1) {
-
-                        message = context.getString(R.string.label_gcm_comment_reply);
-
-                        NotificationCompat.Builder mBuilder =
-                                new NotificationCompat.Builder(context, CHANNEL_ID)
-                                        .setSmallIcon(R.drawable.ic_action_push_notification)
-                                        .setContentTitle(title)
-                                        .setContentText(message);
-
-                        Intent resultIntent = new Intent(context, MainActivity.class);
-                        resultIntent.putExtra("pageId", PAGE_NOTIFICATIONS);
-                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-                        stackBuilder.addParentStack(MainActivity.class);
-                        stackBuilder.addNextIntent(resultIntent);
-                        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, flag);
-                        mBuilder.setContentIntent(resultPendingIntent);
-
-                        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-                            int importance = NotificationManager.IMPORTANCE_HIGH;
-
-                            mChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
-
-                            mNotificationManager.createNotificationChannel(mChannel);
-                        }
-
-                        mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
-                        mBuilder.setAutoCancel(true);
-                        mNotificationManager.notify(0, mBuilder.build());
-                    }
-                }
-
-                break;
-            }
-
 
             case GCM_NOTIFY_IMAGE_LIKE: {
 
@@ -551,7 +457,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                         NotificationCompat.Builder mBuilder =
                                 new NotificationCompat.Builder(context, CHANNEL_ID)
-                                        .setSmallIcon(R.drawable.ic_action_push_notification)
+                                        .setSmallIcon(R.drawable.ic_notification)
                                         .setContentTitle(title)
                                         .setContentText(message);
 
@@ -585,96 +491,6 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                 break;
             }
 
-            case GCM_NOTIFY_IMAGE_COMMENT:
-
-                if (App.getInstance().getId() != 0 && Long.toString(App.getInstance().getId()).equals(accountId)) {
-
-                    App.getInstance().setNotificationsCount(App.getInstance().getNotificationsCount() + 1);
-
-                    if (App.getInstance().getAllowCommentsGCM() == 1) {
-
-                        message = context.getString(R.string.label_gcm_comment);
-
-                        NotificationCompat.Builder mBuilder =
-                                new NotificationCompat.Builder(context, CHANNEL_ID)
-                                        .setSmallIcon(R.drawable.ic_action_push_notification)
-                                        .setContentTitle(title)
-                                        .setContentText(message);
-
-                        Intent resultIntent = new Intent(context, MainActivity.class);
-                        resultIntent.putExtra("pageId", PAGE_NOTIFICATIONS);
-                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-                        stackBuilder.addParentStack(MainActivity.class);
-                        stackBuilder.addNextIntent(resultIntent);
-                        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, flag);
-                        mBuilder.setContentIntent(resultPendingIntent);
-
-                        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-                            int importance = NotificationManager.IMPORTANCE_HIGH;
-
-                            mChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
-
-                            mNotificationManager.createNotificationChannel(mChannel);
-                        }
-
-                        mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
-                        mBuilder.setAutoCancel(true);
-                        mNotificationManager.notify(0, mBuilder.build());
-                    }
-                }
-
-                break;
-
-
-            case GCM_NOTIFY_IMAGE_COMMENT_REPLY:
-
-                if (App.getInstance().getId() != 0 && Long.toString(App.getInstance().getId()).equals(accountId)) {
-
-                    App.getInstance().setNotificationsCount(App.getInstance().getNotificationsCount() + 1);
-
-                    if (App.getInstance().getAllowCommentsGCM() == 1) {
-
-                        message = context.getString(R.string.label_gcm_comment_reply);
-
-                        NotificationCompat.Builder mBuilder =
-                                new NotificationCompat.Builder(context, CHANNEL_ID)
-                                        .setSmallIcon(R.drawable.ic_action_push_notification)
-                                        .setContentTitle(title)
-                                        .setContentText(message);
-
-                        Intent resultIntent = new Intent(context, MainActivity.class);
-                        resultIntent.putExtra("pageId", PAGE_NOTIFICATIONS);
-                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-                        stackBuilder.addParentStack(MainActivity.class);
-                        stackBuilder.addNextIntent(resultIntent);
-                        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, flag);
-                        mBuilder.setContentIntent(resultPendingIntent);
-
-                        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-                            int importance = NotificationManager.IMPORTANCE_HIGH;
-
-                            mChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
-
-                            mNotificationManager.createNotificationChannel(mChannel);
-                        }
-
-                        mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
-                        mBuilder.setAutoCancel(true);
-                        mNotificationManager.notify(0, mBuilder.build());
-                    }
-                }
-
-                break;
 
 
             case GCM_NOTIFY_MEDIA_APPROVE: {
@@ -687,7 +503,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(context, CHANNEL_ID)
-                                    .setSmallIcon(R.drawable.ic_action_push_notification)
+                                    .setSmallIcon(R.drawable.ic_notification)
                                     .setContentTitle(title)
                                     .setContentText(message);
 
@@ -730,7 +546,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(context, CHANNEL_ID)
-                                    .setSmallIcon(R.drawable.ic_action_push_notification)
+                                    .setSmallIcon(R.drawable.ic_notification)
                                     .setContentTitle(title)
                                     .setContentText(message);
 
@@ -773,7 +589,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(context, CHANNEL_ID)
-                                    .setSmallIcon(R.drawable.ic_action_push_notification)
+                                    .setSmallIcon(R.drawable.ic_notification)
                                     .setContentTitle(title)
                                     .setContentText(message);
 
@@ -816,7 +632,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(context, CHANNEL_ID)
-                                    .setSmallIcon(R.drawable.ic_action_push_notification)
+                                    .setSmallIcon(R.drawable.ic_notification)
                                     .setContentTitle(title)
                                     .setContentText(message);
 
@@ -857,7 +673,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(context, CHANNEL_ID)
-                                    .setSmallIcon(R.drawable.ic_action_push_notification)
+                                    .setSmallIcon(R.drawable.ic_notification)
                                     .setContentTitle(title)
                                     .setContentText(message);
 
@@ -893,7 +709,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                     message = context.getString(R.string.label_gcm_profile_photo_reject);
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(context, CHANNEL_ID)
-                                    .setSmallIcon(R.drawable.ic_action_push_notification)
+                                    .setSmallIcon(R.drawable.ic_notification)
                                     .setContentTitle(title)
                                     .setContentText(message);
 

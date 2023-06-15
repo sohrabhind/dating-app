@@ -7,12 +7,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
@@ -24,6 +27,9 @@ import com.android.billingclient.api.ProductDetails;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.QueryProductDetailsParams;
+import com.android.billingclient.api.SkuDetails;
+import com.android.billingclient.api.SkuDetailsParams;
+import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.android.volley.Request;
 import com.google.common.collect.ImmutableList;
 import com.hindbyte.dating.R;
@@ -48,19 +54,22 @@ public class UpgradeActivity extends ActivityBase {
     static final String ITEM_PRODUCT_1 = "dating.hindbyte.com.iaps";    // Change to: yourdomain.com.iap1
     static final String ITEM_PRODUCT_2 = "dating.hindbyte.com.iapg";    // Change to: yourdomain.com.iap2
     static final String ITEM_PRODUCT_3 = "dating.hindbyte.com.iapd";    // Change to: yourdomain.com.iap3
+    String productType;
 
-    static final int ITEM_PRODUCT_1_AMOUNT = 300;// in usd cents | 3 usd = 300 cents
-    static final int ITEM_PRODUCT_2_AMOUNT = 600;// in usd cents | 6 usd = 600 cents
-    static final int ITEM_PRODUCT_3_AMOUNT = 900;// in usd cents | 9 usd = 900 cents
+    static String ITEM_PRODUCT_1_AMOUNT = "300";// in usd cents | 3 usd = 300 cents
+    static String ITEM_PRODUCT_2_AMOUNT = "600";// in usd cents | 6 usd = 600 cents
+    static String ITEM_PRODUCT_3_AMOUNT = "900";// in usd cents | 9 usd = 900 cents
 
-    TextView mBuy1Button, mBuy2Button, mBuy3Button;
+    LinearLayout mBuy1Button, mBuy2Button, mBuy3Button;
+    TextView mBuyButton, badgeTitle, totalMessages, totalLikes, profileBoost, iap1_google_price, iap2_google_price, iap3_google_price;
+    ImageView levelIcon;
 
     private Boolean loading = false;
 
     ToastWindow toastWindow = new ToastWindow();
     private BillingClient mBillingClient;
     private final Map<String, ProductDetails> mProductDetailsMap = new HashMap<>();
-    private String packageName;
+    private String packageName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,23 +93,72 @@ public class UpgradeActivity extends ActivityBase {
         mBuy1Button = findViewById(R.id.iap1_google_btn);
         mBuy2Button = findViewById(R.id.iap2_google_btn);
         mBuy3Button = findViewById(R.id.iap3_google_btn);
+        mBuyButton = findViewById(R.id.iap_google_btn);
+        badgeTitle = findViewById(R.id.get_badge_title);
+        levelIcon = findViewById(R.id.level_icon);
+        totalMessages = findViewById(R.id.total_messages);
+        totalLikes = findViewById(R.id.total_likes);
+        profileBoost = findViewById(R.id.profile_boost);
+        iap1_google_price = findViewById(R.id.iap1_google_price);
+        iap2_google_price = findViewById(R.id.iap2_google_price);
+        iap3_google_price = findViewById(R.id.iap3_google_price);
 
-        mBuy1Button.setOnClickListener(v -> launchBilling(ITEM_PRODUCT_1));
+        badgeTitle.setText("Get Gold Badge");
+        totalMessages.setText("1500 Messages");
+        totalLikes.setText("500 Likes");
+        profileBoost.setText("5x Profile Visibility");
+        levelIcon.setImageResource(R.drawable.level_gold);
+        productType = ITEM_PRODUCT_2;
+        mBuy1Button.setBackgroundResource(R.color.overlay_light_90);
+        mBuy2Button.setBackgroundResource(R.color.gray);
+        mBuy3Button.setBackgroundResource(R.color.overlay_light_90);
 
-        mBuy2Button.setOnClickListener(v -> launchBilling(ITEM_PRODUCT_2));
 
-        mBuy3Button.setOnClickListener(v -> launchBilling(ITEM_PRODUCT_3));
+        mBuy1Button.setOnClickListener(v -> {
+            badgeTitle.setText("Get Silver Badge");
+            totalMessages.setText("500 Messages");
+            totalLikes.setText("150 Likes");
+            profileBoost.setText("2x Profile Visibility");
+            levelIcon.setImageResource(R.drawable.level_silver);
+            mBuy1Button.setBackgroundResource(R.color.gray);
+            mBuy2Button.setBackgroundResource(R.color.overlay_light_90);
+            mBuy3Button.setBackgroundResource(R.color.overlay_light_90);
+            productType = ITEM_PRODUCT_1;
+        });
+
+        mBuy2Button.setOnClickListener(v -> {
+            badgeTitle.setText("Get Gold Badge");
+            totalMessages.setText("1500 Messages");
+            totalLikes.setText("500 Likes");
+            profileBoost.setText("5x Profile Visibility");
+            levelIcon.setImageResource(R.drawable.level_gold);
+            mBuy1Button.setBackgroundResource(R.color.overlay_light_90);
+            mBuy2Button.setBackgroundResource(R.color.gray);
+            mBuy3Button.setBackgroundResource(R.color.overlay_light_90);
+            productType = ITEM_PRODUCT_2;
+        });
+
+        mBuy3Button.setOnClickListener(v -> {
+            badgeTitle.setText("Get Diamond Badge");
+            totalMessages.setText("3000 Messages");
+            totalLikes.setText("1000 Likes");
+            profileBoost.setText("10x Profile Visibility");
+            levelIcon.setImageResource(R.drawable.level_diamond);
+            mBuy1Button.setBackgroundResource(R.color.overlay_light_90);
+            mBuy2Button.setBackgroundResource(R.color.overlay_light_90);
+            mBuy3Button.setBackgroundResource(R.color.gray);
+            productType = ITEM_PRODUCT_3;
+        });
+
+        mBuyButton.setOnClickListener(v -> {
+            launchBilling(productType);
+        });
 
         setupBilling();
-
         Intent i = getIntent();
-        packageName = i.getStringExtra("package");
-        if (packageName != null) {
-            if (!loading) {
-                loading = true;
-                showpDialog();
-                launchIntentBilling();
-            }
+        String popupString = i.getStringExtra("popup_string");
+        if (popupString != null) {
+            toastWindow.makeText(popupString, 5000);
         }
     }
 
@@ -131,11 +189,13 @@ public class UpgradeActivity extends ActivityBase {
         super.onResume();
     }
 
+    PurchasesUpdatedListener purchaseUpdateListener;
+
     private void setupBilling() {
-        mBillingClient = BillingClient.newBuilder(this).enablePendingPurchases().setListener(new PurchasesUpdatedListener() {
+        purchaseUpdateListener = new PurchasesUpdatedListener() {
             @Override
-            public void onPurchasesUpdated(@NonNull BillingResult billingResult, @Nullable List<Purchase> purchases) {
-                if (purchases != null) {
+            public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
+                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchases != null) {
                     for (Purchase purchase : purchases) {
                         try {
                             JSONObject obj = new JSONObject(purchase.getOriginalJson());
@@ -145,9 +205,20 @@ public class UpgradeActivity extends ActivityBase {
                             Log.e("Billing", "Could not parse malformed JSON: \"" + purchase.toString() + "\"");
                         }
                     }
+                } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
+                    // Handle user cancellation
+                } else {
+                    // Handle other error scenarios
                 }
             }
-        }).build();
+        };
+
+        mBillingClient = BillingClient.newBuilder(this)
+                .setListener(purchaseUpdateListener)
+                .enablePendingPurchases()
+                .build();
+
+
 
         mBillingClient.startConnection(new BillingClientStateListener() {
             @Override
@@ -162,6 +233,7 @@ public class UpgradeActivity extends ActivityBase {
                 Log.e("onBillingSetupFinished", "NOT WORKS");
             }
         });
+
     }
 
     private void consume(String purchaseToken, String product) {
@@ -195,11 +267,23 @@ public class UpgradeActivity extends ActivityBase {
         productList.add(QueryProductDetailsParams.Product.newBuilder().setProductId(ITEM_PRODUCT_2).setProductType(BillingClient.ProductType.INAPP).build());
         productList.add(QueryProductDetailsParams.Product.newBuilder().setProductId(ITEM_PRODUCT_3).setProductType(BillingClient.ProductType.INAPP).build());
 
+
         QueryProductDetailsParams productDetailsParams = QueryProductDetailsParams.newBuilder().setProductList(productList).build();
         mBillingClient.queryProductDetailsAsync(productDetailsParams, (billingResult, list) -> {
             if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                 for (ProductDetails productDetails : list) {
+                    if (productDetails.getProductId().equals(ITEM_PRODUCT_1)) {
+                        ITEM_PRODUCT_1_AMOUNT = String.valueOf(productDetails.getOneTimePurchaseOfferDetails().getPriceAmountMicros()/1000000);
+                        iap1_google_price.setText(productDetails.getOneTimePurchaseOfferDetails().getFormattedPrice());
+                    } else if (productDetails.getProductId().equals(ITEM_PRODUCT_2)) {
+                        ITEM_PRODUCT_2_AMOUNT = String.valueOf(productDetails.getOneTimePurchaseOfferDetails().getPriceAmountMicros()/1000000);
+                        iap2_google_price.setText(productDetails.getOneTimePurchaseOfferDetails().getFormattedPrice());
+                    } else if (productDetails.getProductId().equals(ITEM_PRODUCT_3)) {
+                        ITEM_PRODUCT_3_AMOUNT = String.valueOf(productDetails.getOneTimePurchaseOfferDetails().getPriceAmountMicros()/1000000);
+                        iap3_google_price.setText(productDetails.getOneTimePurchaseOfferDetails().getFormattedPrice());
+                    }
                     mProductDetailsMap.put(productDetails.getProductId(), productDetails);
+
                 }
             }
         });
@@ -217,7 +301,7 @@ public class UpgradeActivity extends ActivityBase {
     }
 
 
-    public void payment(final int level, final int amount, final int paymentType, final Boolean showSuccess) {
+    public void payment(final int level, final String amount, final int paymentType, final Boolean showSuccess) {
         loading = true;
         showpDialog();
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_PAYMENTS_NEW, null,
@@ -263,7 +347,7 @@ public class UpgradeActivity extends ActivityBase {
     }
 
     public void success() {
-        toastWindow.makeText(UpgradeActivity.this, getString(R.string.msg_success_purchase), 2000);
+        toastWindow.makeText(getString(R.string.msg_success_purchase), 2000);
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.hindbyte.dating.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,112 +10,58 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.balysv.materialripple.MaterialRippleLayout;
 import com.hindbyte.dating.R;
-import com.hindbyte.dating.activity.LikersActivity;
-import com.hindbyte.dating.activity.PhotoViewActivity;
-import com.hindbyte.dating.activity.ProfileActivity;
-import com.hindbyte.dating.adapter.CommentsListAdapter;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
-import com.hindbyte.dating.dialogs.CommentActionDialog;
-import com.hindbyte.dating.dialogs.CommentDeleteDialog;
-import com.hindbyte.dating.dialogs.MixedCommentActionDialog;
-import com.hindbyte.dating.dialogs.MyCommentActionDialog;
 import com.hindbyte.dating.dialogs.MyPhotoActionDialog;
 import com.hindbyte.dating.dialogs.PhotoActionDialog;
 import com.hindbyte.dating.dialogs.PhotoDeleteDialog;
 import com.hindbyte.dating.dialogs.PhotoReportDialog;
-import com.hindbyte.dating.model.Comment;
 import com.hindbyte.dating.model.Image;
 import com.hindbyte.dating.util.Api;
-import com.hindbyte.dating.util.CommentInterface;
 import com.hindbyte.dating.util.CustomRequest;
 import com.hindbyte.dating.util.ToastWindow;
-import com.hindbyte.dating.view.ResizableImageView;
-import com.mikhaellopez.circularimageview.CircularImageView;
+import com.hindbyte.dating.view.TouchImageView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class ViewImageFragment extends Fragment implements Constants, SwipeRefreshLayout.OnRefreshListener, CommentInterface {
+public class ViewImageFragment extends Fragment implements Constants {
 
     private ProgressDialog pDialog;
 
-    private MaterialRippleLayout mLikeButton;
-    private ImageView mLikeIcon;
-
     ToastWindow toastWindow = new ToastWindow();
-    private LinearLayout mCommentsContainer, mLikesContainer;
-    TextView mItemText;
-
-    SwipeRefreshLayout mContentContainer;
-    RelativeLayout mErrorScreen, mLoadingScreen, mEmptyScreen;
-    LinearLayout mCommentFormContainer;
-    CoordinatorLayout mContentScreen;
-
-    EditText mCommentText;
-
-    private RecyclerView mRecyclerView;
-    private NestedScrollView mNestedView;
-
-    TextView mRetryBtn;
-
-    private LinearLayout mSendComment;
-
-    TextView mFullnameTitle, mUsernameTitle, mModeTitle, mItemTimeAgo, mItemLikesCount, mItemCommentsCount;
-    ResizableImageView mItemImg;
-    CircularImageView mPhotoImage, mOnlineIcon;
-
-    ImageView mItemPlay, mProfileLevelIcon;
+    RelativeLayout mLoadingScreen;
 
 
-    private ArrayList<Comment> itemsList;
-    private CommentsListAdapter itemsAdapter;
+    TouchImageView mItemImg;
+
 
     Image item = new Image();
 
     long itemId = 0, replyToUserId = 0;
     int arrayLength = 0;
-    String commentText;
 
     private Boolean loading = false;
     private Boolean restore = false;
@@ -130,44 +75,27 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
-        
         setHasOptionsMenu(true);
-
         initpDialog();
-
         Intent i = requireActivity().getIntent();
-
         itemId = i.getLongExtra("itemId", 0);
-
-        itemsList = new ArrayList<Comment>();
-        itemsAdapter = new CommentsListAdapter(requireActivity(), itemsList);
-
         Log.e("ERROR_TEST", "No Error");
-
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_view_image, container, false);
-
-
         if (savedInstanceState != null) {
             restore = savedInstanceState.getBoolean("restore");
             loading = savedInstanceState.getBoolean("loading");
             preload = savedInstanceState.getBoolean("preload");
-
             replyToUserId = savedInstanceState.getLong("replyToUserId");
-
         } else {
-
             restore = false;
             loading = false;
             preload = false;
-
             replyToUserId = 0;
         }
 
@@ -175,203 +103,30 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
             showpDialog();
         }
 
-
-        mRecyclerView = rootView.findViewById(R.id.recycler_view);
-        mNestedView = rootView.findViewById(R.id.nested_view);
-
         final GridLayoutManager mLayoutManager = new GridLayoutManager(requireActivity(), 1);
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        itemsAdapter.setOnMoreButtonClickListener(new CommentsListAdapter.OnItemMenuButtonClickListener() {
-
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onItemClick(View v, Comment obj, int actionId, int position) {
-
-                if (actionId == R.id.action_report) {
-                    String[] profile_report_categories = new String[]{
-                            requireActivity().getText(R.string.label_profile_report_0).toString(),
-                            requireActivity().getText(R.string.label_profile_report_1).toString(),
-                            requireActivity().getText(R.string.label_profile_report_2).toString(),
-                            requireActivity().getText(R.string.label_profile_report_3).toString(),
-                    };
-
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireActivity());
-                    alertDialog.setTitle(requireActivity().getText(R.string.label_item_report_title));
-
-                    alertDialog.setSingleChoiceItems(profile_report_categories, 0, null);
-                    alertDialog.setCancelable(true);
-
-                    alertDialog.setNegativeButton(requireActivity().getText(R.string.action_cancel), new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            dialog.cancel();
-                        }
-                    });
-
-                    alertDialog.setPositiveButton(requireActivity().getText(R.string.action_ok), new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            AlertDialog alert = (AlertDialog) dialog;
-                            int reason = alert.getListView().getCheckedItemPosition();
-
-                            toastWindow.makeText(requireActivity(), requireActivity().getString(R.string.label_item_report_sent), 2000);
-                        }
-                    });
-
-                    alertDialog.show();
-                } else if (actionId == R.id.action_remove) {
-                    FragmentManager fm = requireActivity().getSupportFragmentManager();
-
-                    CommentDeleteDialog alert = new CommentDeleteDialog();
-
-                    Bundle b = new Bundle();
-                    b.putInt("position", position);
-                    b.putLong("itemId", obj.getId());
-
-                    alert.setArguments(b);
-                    alert.show(fm, "alert_dialog_comment_delete");
-                } else if (actionId == R.id.action_reply) {
-                    if (App.getInstance().getId() != 0) {
-
-                        replyToUserId = obj.getOwner().getId();
-
-                        mCommentText.setText("@" + obj.getOwner().getUsername() + ", ");
-                        mCommentText.setSelection(mCommentText.getText().length());
-
-                        mCommentText.requestFocus();
-
-                    }
-                }
-            }
-        });
-
-        mRecyclerView.setAdapter(itemsAdapter);
-
-        mRecyclerView.setNestedScrollingEnabled(false);
-
-        mLikeButton = rootView.findViewById(R.id.like_button);
-        mLikeIcon = rootView.findViewById(R.id.like_icon);
-
-        mLikeButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                if (item.isILike()) {
-
-                    mLikeIcon.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.colorPrimaryDark), android.graphics.PorterDuff.Mode.SRC_IN);
-
-                    item.setILike(false);
-
-                    item.setLikesCount(item.getLikesCount() - 1);
-
-                } else {
-
-                    mLikeIcon.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.statusBarColor), android.graphics.PorterDuff.Mode.SRC_IN);
-
-                    item.setILike(true);
-
-                    item.setLikesCount(item.getLikesCount() + 1);
-                }
-
-                like();
-            }
-        });
-
-        mLikeButton.setOnTouchListener((v, event) -> {
-
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-                animateIcon(mLikeIcon);
-            }
-
-            return false;
-        });
-
-        mEmptyScreen = rootView.findViewById(R.id.emptyScreen);
-        mErrorScreen = rootView.findViewById(R.id.errorScreen);
-        mLoadingScreen = rootView.findViewById(R.id.loadingScreen);
-        mContentContainer = rootView.findViewById(R.id.refresh_view);
-        mContentContainer.setOnRefreshListener(this);
-
-        mContentScreen = rootView.findViewById(R.id.content_screen);
-        mCommentFormContainer = rootView.findViewById(R.id.commentFormContainer);
-
-        mCommentsContainer = rootView.findViewById(R.id.comments_container);
-        mLikesContainer = rootView.findViewById(R.id.likes_container);
-
-        mCommentText = rootView.findViewById(R.id.commentText);
-        mSendComment = rootView.findViewById(R.id.sendButton);
-
-        mSendComment.setOnClickListener(v -> send());
-
-        mRetryBtn = rootView.findViewById(R.id.retryBtn);
-
-        mRetryBtn.setOnClickListener(v -> {
-
-            if (App.getInstance().isConnected()) {
-
-                showLoadingScreen();
-
-                getItem();
-            }
-        });
-
-
-
-        mFullnameTitle = rootView.findViewById(R.id.fullname_label);
-        mUsernameTitle = rootView.findViewById(R.id.username_label);
-
-        mPhotoImage = rootView.findViewById(R.id.photo_image);
-        mProfileLevelIcon = rootView.findViewById(R.id.profileLevelIcon);
-        mOnlineIcon = rootView.findViewById(R.id.online_icon);
-
-        mModeTitle = rootView.findViewById(R.id.mode_label);
-
-        mItemText = rootView.findViewById(R.id.itemText);
-        mItemTimeAgo = rootView.findViewById(R.id.date_label);
-        mItemLikesCount = rootView.findViewById(R.id.likes_count_label);
-        mItemCommentsCount = rootView.findViewById(R.id.comments_count_label);
+        mLoadingScreen = rootView.findViewById(R.id.PhotoViewLoadingScreen);
 
         mItemImg = rootView.findViewById(R.id.itemImage);
-        mItemPlay = rootView.findViewById(R.id.itemPlay);
-
-
-
+        mItemImg.setMaxZoom(10f);
 
         if (!restore) {
-
             if (App.getInstance().isConnected()) {
-
                 showLoadingScreen();
+                loading = true;
                 getItem();
-
             } else {
-
                 showErrorScreen();
             }
-
         } else {
-
             if (App.getInstance().isConnected()) {
-
                 if (!preload) {
-
                     loadingComplete();
                     updateItem();
-
                 } else {
-
                     showLoadingScreen();
                 }
 
             } else {
-
                 showErrorScreen();
             }
         }
@@ -423,20 +178,6 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public void onRefresh() {
-
-        if (App.getInstance().isConnected()) {
-
-            mContentContainer.setRefreshing(true);
-            getItem();
-
-        } else {
-
-            mContentContainer.setRefreshing(false);
-        }
-    }
-
     public String getItemModeText(int postMode) {
 
         switch (postMode) {
@@ -456,103 +197,6 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
     public void updateItem() {
 
 
-        updateCounters();
-        updateStatus();
-
-        mItemPlay.setVisibility(View.GONE);
-
-        mProfileLevelIcon.setVisibility(View.GONE);
-        mOnlineIcon.setVisibility(View.GONE);
-
-        mFullnameTitle.setText(item.getOwner().getFullname());
-        mUsernameTitle.setText("@" + item.getOwner().getUsername());
-
-        mModeTitle.setText(getItemModeText(item.getAccessMode()));
-
-
-        switch (item.getOwner().getLevelMode()) {
-                case 1:
-                    mProfileLevelIcon.setVisibility(View.VISIBLE);
-                    mProfileLevelIcon.setImageResource(R.drawable.level_silver);
-                    break;
-                case 2:
-                    mProfileLevelIcon.setVisibility(View.VISIBLE);
-                    mProfileLevelIcon.setImageResource(R.drawable.level_gold);
-                    break;
-                case 3:
-                    mProfileLevelIcon.setVisibility(View.VISIBLE);
-                    mProfileLevelIcon.setImageResource(R.drawable.level_diamond);
-                    break;
-                default:
-                    mProfileLevelIcon.setVisibility(View.GONE);
-                    break;
-            }
-
-        if (item.getOwner().getBigPhotoUrl().length() != 0 && (App.getInstance().getSettings().isAllowShowNotModeratedProfilePhotos() || App.getInstance().getId() == item.getId())) {
-            mPhotoImage.setVisibility(View.VISIBLE);
-            Picasso.get()
-                    .load(item.getOwner().getBigPhotoUrl())
-                    .placeholder(R.drawable.profile_default_photo)
-                    .error(R.drawable.profile_default_photo)
-                    .into(mPhotoImage);
-        } else {
-            mPhotoImage.setVisibility(View.VISIBLE);
-            mPhotoImage.setImageResource(R.drawable.profile_default_photo);
-        }
-
-        mPhotoImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(requireActivity(), ProfileActivity.class);
-                intent.putExtra("profileId", item.getOwner().getId());
-                startActivity(intent);
-            }
-        });
-
-        mFullnameTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(requireActivity(), ProfileActivity.class);
-                intent.putExtra("profileId", item.getOwner().getId());
-                startActivity(intent);
-            }
-        });
-
-        mLikesContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(requireActivity(), LikersActivity.class);
-                intent.putExtra("itemId", item.getId());
-                startActivity(intent);
-            }
-        });
-
-        if (item.isILike()) {
-
-            mLikeIcon.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.colorPrimaryDark), android.graphics.PorterDuff.Mode.SRC_IN);
-
-        } else {
-
-            mLikeIcon.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.statusBarColor), android.graphics.PorterDuff.Mode.SRC_IN);
-        }
-
-        mItemTimeAgo.setText(item.getTimeAgo());
-        mItemTimeAgo.setVisibility(View.VISIBLE);
-
-        if (item.getComment().length() > 0) {
-
-            mItemText.setText(item.getComment().replaceAll("<br>", "\n"));
-
-            mItemText.setVisibility(View.VISIBLE);
-
-        } else {
-
-            mItemText.setVisibility(View.GONE);
-        }
-
         if (item.getItemType() == Constants.GALLERY_ITEM_TYPE_IMAGE && item.getImgUrl().length() > 0) {
 
             Picasso.get()
@@ -564,79 +208,8 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
             mItemImg.setVisibility(View.VISIBLE);
         }
 
-        mItemImg.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (item.getItemType() == Constants.GALLERY_ITEM_TYPE_IMAGE) {
-                    Intent i = new Intent(requireActivity(), PhotoViewActivity.class);
-                    i.putExtra("imgUrl", item.getImgUrl());
-                    startActivity(i);
-                }
-            }
-        });
     }
 
-    @SuppressLint("SetTextI18n")
-    private void updateCounters() {
-
-        mItemLikesCount.setText(String.valueOf(item.getLikesCount()));
-
-        if (item.getLikesCount() > 0) {
-
-            mLikesContainer.setVisibility(View.VISIBLE);
-            mItemLikesCount.setVisibility(View.VISIBLE);
-
-        } else {
-
-            mLikesContainer.setVisibility(View.GONE);
-            mItemLikesCount.setVisibility(View.GONE);
-        }
-
-        mItemCommentsCount.setText(String.valueOf(item.getCommentsCount()));
-
-        if (item.getCommentsCount() > 0) {
-            mCommentsContainer.setVisibility(View.GONE);
-            mItemCommentsCount.setVisibility(View.GONE);
-        } else {
-            mCommentsContainer.setVisibility(View.GONE);
-            mItemCommentsCount.setVisibility(View.GONE);
-        }
-    }
-
-    private void updateStatus() {
-        if (item.getOwner().getId() == App.getInstance().getId()) {
-            if (item.getRemoveAt() != 0) {
-
-            }
-        }
-
-        mItemLikesCount.setText(String.valueOf(item.getLikesCount()));
-
-        if (item.getLikesCount() > 0) {
-
-            mLikesContainer.setVisibility(View.VISIBLE);
-            mItemLikesCount.setVisibility(View.VISIBLE);
-
-        } else {
-
-            mLikesContainer.setVisibility(View.GONE);
-            mItemLikesCount.setVisibility(View.GONE);
-        }
-
-        mItemCommentsCount.setText(String.valueOf(item.getCommentsCount()));
-
-        if (item.getCommentsCount() > 0) {
-
-            mCommentsContainer.setVisibility(View.GONE);
-            mItemCommentsCount.setVisibility(View.GONE);
-
-        } else {
-
-            mCommentsContainer.setVisibility(View.GONE);
-            mItemCommentsCount.setVisibility(View.GONE);
-        }
-    }
 
     public void getItem() {
 
@@ -658,8 +231,6 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
                             if (!response.getBoolean("error")) {
 
-                                itemsList.clear();
-
                                 itemId = response.getInt("itemId");
 
                                 if (response.has("items")) {
@@ -677,30 +248,6 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
                                             item = new Image(itemObj);
 
                                             updateItem();
-                                        }
-                                    }
-                                }
-
-                                if (response.has("comments") && item.getOwner().getAllowPhotosComments() == 1) {
-
-                                    JSONObject commentsObj = response.getJSONObject("comments");
-
-                                    if (commentsObj.has("items")) {
-
-                                        JSONArray commentsArray = commentsObj.getJSONArray("items");
-
-                                        arrayLength = commentsArray.length();
-
-                                        if (arrayLength > 0) {
-
-                                            for (int i = commentsArray.length() - 1; i > -1 ; i--) {
-
-                                                JSONObject itemObj = (JSONObject) commentsArray.get(i);
-
-                                                Comment comment = new Comment(itemObj);
-
-                                                itemsList.add(comment);
-                                            }
                                         }
                                     }
                                 }
@@ -747,120 +294,6 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
         App.getInstance().addToRequestQueue(jsonReq);
     }
 
-    public void send() {
-
-        commentText = mCommentText.getText().toString();
-        commentText = commentText.trim();
-
-        if (App.getInstance().isConnected() && App.getInstance().getId() != 0 && commentText.length() > 0) {
-
-            loading = true;
-
-            showpDialog();
-
-            CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_COMMENTS_NEW, null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-
-                            if (!isAdded() || requireActivity() == null) {
-
-                                Log.e("ERROR", "ViewImageFragment Not Added to Activity");
-
-                                return;
-                            }
-
-                            try {
-
-                                if (!response.getBoolean("error")) {
-
-                                    if (response.has("comment")) {
-
-                                        JSONObject commentObj = response.getJSONObject("comment");
-
-                                        Comment comment = new Comment(commentObj);
-
-                                        itemsList.add(comment);
-
-                                        itemsAdapter.notifyDataSetChanged();
-
-                                        mCommentText.setText("");
-                                        replyToUserId = 0;
-
-                                        mNestedView.post(new Runnable() {
-
-                                            @Override
-                                            public void run() {
-                                                // Select the last row so it will scroll into view...
-                                                mNestedView.fullScroll(View.FOCUS_DOWN);
-
-                                                item.setCommentsCount(item.getCommentsCount() + 1);
-
-                                                updateCounters();
-                                            }
-                                        });
-                                    }
-
-                                    toastWindow.makeText(requireActivity(), getString(R.string.msg_comment_has_been_added), 2000);
-
-                                }
-
-                            } catch (JSONException e) {
-
-                                e.printStackTrace();
-
-                            } finally {
-
-                                loading = false;
-
-                                hidepDialog();
-
-
-                                Log.e("ERROR", response.toString());
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                    if (!isAdded() || requireActivity() == null) {
-
-                        Log.e("ERROR", "ViewImageFragment Not Added to Activity");
-
-                        return;
-                    }
-
-                    Log.e("ERROR", error.toString());
-
-                    loading = false;
-
-                    hidepDialog();
-                }
-            }) {
-
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("accountId", Long.toString(App.getInstance().getId()));
-                    params.put("accessToken", App.getInstance().getAccessToken());
-
-                    params.put("itemId", Long.toString(item.getId()));
-                    params.put("commentText", commentText);
-
-                    params.put("replyToUserId", Long.toString(replyToUserId));
-
-                    return params;
-                }
-            };
-
-            int socketTimeout = 0;//0 seconds - change to what you want
-            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-
-            jsonReq.setRetryPolicy(policy);
-
-            App.getInstance().addToRequestQueue(jsonReq);
-        }
-    }
 
     public void onPhotoDelete(final int position) {
 
@@ -881,7 +314,7 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
         } else {
 
-            toastWindow.makeText(requireActivity(), getText(R.string.msg_network_error), 2000);
+            toastWindow.makeText(getText(R.string.msg_network_error), 2000);
         }
     }
 
@@ -959,63 +392,29 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
     }
 
     public void loadingComplete() {
-
-        itemsAdapter.notifyDataSetChanged();
-
         showContentScreen();
-
-        if (mContentContainer.isRefreshing()) {
-
-            mContentContainer.setRefreshing(false);
+        if (loading) {
+            loading = false;
         }
     }
 
     public void showLoadingScreen() {
-
         preload = true;
-
-        mContentScreen.setVisibility(View.GONE);
-        mErrorScreen.setVisibility(View.GONE);
-        mEmptyScreen.setVisibility(View.GONE);
-
         mLoadingScreen.setVisibility(View.VISIBLE);
     }
 
     public void showEmptyScreen() {
-
-        mContentScreen.setVisibility(View.GONE);
         mLoadingScreen.setVisibility(View.GONE);
-        mErrorScreen.setVisibility(View.GONE);
-
-        mEmptyScreen.setVisibility(View.VISIBLE);
     }
 
     public void showErrorScreen() {
-
-        mContentScreen.setVisibility(View.GONE);
         mLoadingScreen.setVisibility(View.GONE);
-        mEmptyScreen.setVisibility(View.GONE);
-
-        mErrorScreen.setVisibility(View.VISIBLE);
     }
 
     public void showContentScreen() {
-
         preload = false;
-
         mLoadingScreen.setVisibility(View.GONE);
-        mErrorScreen.setVisibility(View.GONE);
-        mEmptyScreen.setVisibility(View.GONE);
-
-        mContentScreen.setVisibility(View.VISIBLE);
-
-        if (item.getOwner().getAllowPhotosComments() == COMMENTS_DISABLED) {
-
-            mCommentFormContainer.setVisibility(View.GONE);
-        }
-
         loadingComplete = true;
-
         requireActivity().invalidateOptionsMenu();
     }
 
@@ -1029,131 +428,6 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
         super.onDetach();
     }
 
-    public void commentAction(int position) {
-
-        final Comment comment = itemsList.get(position);
-
-        if (comment.getOwner().getId() == App.getInstance().getId() && item.getOwner().getId() == App.getInstance().getId()) {
-
-            FragmentManager fm = requireActivity().getSupportFragmentManager();
-
-            MyCommentActionDialog alert = new MyCommentActionDialog();
-
-            Bundle b  = new Bundle();
-
-            b.putInt("position", position);
-
-            alert.setArguments(b);
-
-            alert.show(fm, "alert_dialog_my_comment_action");
-
-        } else if (comment.getOwner().getId() != App.getInstance().getId() && item.getOwner().getId() == App.getInstance().getId()) {
-
-            FragmentManager fm = requireActivity().getSupportFragmentManager();
-
-            MixedCommentActionDialog alert = new MixedCommentActionDialog();
-
-            Bundle b = new Bundle();
-
-            b.putInt("position", position);
-
-            alert.setArguments(b);
-
-            alert.show(fm, "alert_dialog_mixed_comment_action");
-
-        } else if (comment.getOwner().getId() == App.getInstance().getId() && item.getOwner().getId() != App.getInstance().getId()) {
-
-            FragmentManager fm = requireActivity().getSupportFragmentManager();
-
-            MyCommentActionDialog alert = new MyCommentActionDialog();
-
-            Bundle b  = new Bundle();
-
-            b.putInt("position", position);
-
-            alert.setArguments(b);
-
-            alert.show(fm, "alert_dialog_my_comment_action");
-
-        } else {
-
-            /** Getting the fragment manager */
-            FragmentManager fm = requireActivity().getSupportFragmentManager();
-
-            /** Instantiating the DialogFragment class */
-            CommentActionDialog alert = new CommentActionDialog();
-
-            /** Creating a bundle object to store the selected item's index */
-            Bundle b  = new Bundle();
-
-            /** Storing the selected item's index in the bundle object */
-            b.putInt("position", position);
-
-            /** Setting the bundle object to the dialog fragment object */
-            alert.setArguments(b);
-
-            /** Creating the dialog fragment object, which will in turn open the alert dialog window */
-
-            alert.show(fm, "alert_dialog_comment_action");
-        }
-    }
-
-    public void onCommentReply(final int position) {
-
-        if (item.getOwner().getAllowPhotosComments() == COMMENTS_ENABLED) {
-
-            final Comment comment = itemsList.get(position);
-
-            replyToUserId = comment.getOwner().getId();
-
-            mCommentText.setText("@" + comment.getOwner().getUsername() + ", ");
-            mCommentText.setSelection(mCommentText.getText().length());
-
-            mCommentText.requestFocus();
-
-        } else {
-
-            toastWindow.makeText(requireActivity(), getString(R.string.msg_comments_disabled), 2000);
-        }
-    }
-
-    public void onCommentRemove(int position) {
-
-        /** Getting the fragment manager */
-        FragmentManager fm = requireActivity().getSupportFragmentManager();
-
-        /** Instantiating the DialogFragment class */
-        CommentDeleteDialog alert = new CommentDeleteDialog();
-
-        /** Creating a bundle object to store the selected item's index */
-        Bundle b  = new Bundle();
-
-        /** Storing the selected item's index in the bundle object */
-        b.putInt("position", position);
-
-        /** Setting the bundle object to the dialog fragment object */
-        alert.setArguments(b);
-
-        /** Creating the dialog fragment object, which will in turn open the alert dialog window */
-
-        alert.show(fm, "alert_dialog_comment_delete");
-    }
-
-    public void onCommentDelete(final int position) {
-
-        final Comment comment = itemsList.get(position);
-
-        itemsList.remove(position);
-        itemsAdapter.notifyDataSetChanged();
-
-        Api api = new Api(requireActivity());
-
-        api.imagesCommentDelete(comment.getId());
-
-        item.setCommentsCount(item.getCommentsCount() - 1);
-
-        updateCounters();
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -1195,15 +469,21 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
-        if (id == R.id.action_delete) {
+        if (id == R.id.action_refresh) {
+            if (App.getInstance().isConnected()) {
+                showLoadingScreen();
+                loading = true;
+                getItem();
+            } else {
+                loading = false;
+            }
+            return true;
+        } else if (id == R.id.action_delete) {
             remove(0);
-
             return true;
         } else if (id == R.id.action_report) {
             report(0);
-
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -1217,76 +497,5 @@ public class ViewImageFragment extends Fragment implements Constants, SwipeRefre
         }
     }
 
-    public void like() {
 
-        CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_GALLERY_LIKE, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        if (!isAdded()) {
-
-                            Log.e("ERROR", "ViewImageFragment Not Added to Activity");
-
-                            return;
-                        } else {
-                            requireActivity();
-                        }
-
-                        try {
-
-                            if (!response.getBoolean("error")) {
-
-                                item.setLikesCount(response.getInt("likesCount"));
-                                item.setILike(response.getBoolean("iLiked"));
-                            }
-
-                        } catch (JSONException e) {
-
-                            e.printStackTrace();
-
-                        } finally {
-
-                            updateCounters();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                if (!isAdded() || requireActivity() == null) {
-
-                    Log.e("ERROR", "ViewImageFragment Not Added to Activity");
-
-                    return;
-                }
-
-                toastWindow.makeText(requireActivity(), error.toString(), 2000);
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("accountId", Long.toString(App.getInstance().getId()));
-                params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("itemId", Long.toString(item.getId()));
-
-                return params;
-            }
-        };
-
-        App.getInstance().addToRequestQueue(jsonReq);
-    }
-
-    private void animateIcon(ImageView icon) {
-
-        ScaleAnimation scale = new ScaleAnimation(1.0f, 0.8f, 1.0f, 0.8f,
-                ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
-                ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
-        scale.setDuration(175);
-        scale.setInterpolator(new LinearInterpolator());
-
-        icon.startAnimation(scale);
-    }
 }

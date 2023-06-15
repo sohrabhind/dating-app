@@ -196,7 +196,7 @@
                 android:singleLine="true" />
 
             <ImageView
-                app:srcCompat="@drawable/ic_seen"
+                app:srcCompat="@drawable/ic_action_done"
                 android:id="@+id/seenIcon"
                 android:layout_marginLeft="8dp"
                 android:layout_width="18dp"

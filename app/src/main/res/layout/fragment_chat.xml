@@ -84,7 +84,7 @@
                         android:layout_height="24dp"
                         android:id="@+id/deleteImg"
                         android:layout_marginStart="-24dp"
-                        android:background="@drawable/ic_action_remove"
+                        android:background="@drawable/ic_rejected"
                         app:tint="@color/colorIconTint" />
 
                 </LinearLayout>

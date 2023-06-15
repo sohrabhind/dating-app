@@ -14,6 +14,7 @@ import com.android.volley.VolleyError;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.common.ActivityBase;
+import com.hindbyte.dating.view.TouchImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -26,7 +27,7 @@ public class PhotoViewActivity extends ActivityBase {
 
     Toolbar toolbar;
 
-    ImageView photoView;
+    TouchImageView photoView;
 
     LinearLayout mContentScreen;
     RelativeLayout mLoadingScreen;
@@ -45,12 +46,13 @@ public class PhotoViewActivity extends ActivityBase {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setElevation(0);
+        getSupportActionBar().setTitle("");
 
         mContentScreen = findViewById(R.id.PhotoViewContentScreen);
         mLoadingScreen = findViewById(R.id.PhotoViewLoadingScreen);
 
         photoView = findViewById(R.id.photoImageView);
-        getSupportActionBar().setTitle("");
+        photoView.setMaxZoom(10f);
 
         showLoadingScreen();
 

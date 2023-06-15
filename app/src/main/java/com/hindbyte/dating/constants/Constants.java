@@ -46,11 +46,7 @@ public interface Constants {
     String METHOD_ACCOUNT_SET_ALLOW_MESSAGES = API_DOMAIN + "api/" + API_VERSION + "/method/account.setAllowMessages" + API_FILE_EXTENSION;
     String METHOD_ACCOUNT_SET_GEO_LOCATION = API_DOMAIN + "api/" + API_VERSION + "/method/account.setGeoLocation" + API_FILE_EXTENSION;
 
-    String METHOD_ACCOUNT_SET_ALLOW_PHOTOS_COMMENTS = API_DOMAIN + "api/" + API_VERSION + "/method/account.setAllowPhotosComments" + API_FILE_EXTENSION;
-
     String METHOD_SUPPORT_SEND_TICKET = API_DOMAIN + "api/" + API_VERSION + "/method/support.sendTicket" + API_FILE_EXTENSION;
-
-    String METHOD_SETTINGS_PRIVACY = API_DOMAIN + "api/" + API_VERSION + "/method/account.privacy" + API_FILE_EXTENSION;
 
     String METHOD_PROFILE_GET = API_DOMAIN + "api/" + API_VERSION + "/method/profile.get" + API_FILE_EXTENSION;
     String METHOD_PROFILE_REPORT = API_DOMAIN + "api/" + API_VERSION + "/method/profile.report" + API_FILE_EXTENSION;
@@ -61,10 +57,6 @@ public interface Constants {
     String METHOD_BLACKLIST_GET = API_DOMAIN + "api/" + API_VERSION + "/method/blacklist.get" + API_FILE_EXTENSION;
     String METHOD_BLACKLIST_ADD = API_DOMAIN + "api/" + API_VERSION + "/method/blacklist.add" + API_FILE_EXTENSION;
     String METHOD_BLACKLIST_REMOVE = API_DOMAIN + "api/" + API_VERSION + "/method/blacklist.remove" + API_FILE_EXTENSION;
-
-    String METHOD_FRIENDS_REQUEST = API_DOMAIN + "api/" + API_VERSION + "/method/friends.sendRequest" + API_FILE_EXTENSION;
-    String METHOD_FRIENDS_GET = API_DOMAIN + "api/" + API_VERSION + "/method/friends.get" + API_FILE_EXTENSION;
-    String METHOD_FRIENDS_REMOVE = API_DOMAIN + "api/" + API_VERSION + "/method/friends.remove" + API_FILE_EXTENSION;
 
     String METHOD_NOTIFICATIONS_GET = API_DOMAIN + "api/" + API_VERSION + "/method/notifications.get" + API_FILE_EXTENSION;
 
@@ -114,9 +106,6 @@ public interface Constants {
 
     String METHOD_GALLERY_UPLOAD_IMG = API_DOMAIN + "api/" + API_VERSION + "/method/gallery.uploadimg" + API_FILE_EXTENSION;
 
-    String METHOD_COMMENTS_NEW = API_DOMAIN + "api/" + API_VERSION + "/method/comments.new" + API_FILE_EXTENSION;
-    String METHOD_COMMENTS_REMOVE = API_DOMAIN + "api/" + API_VERSION + "/method/comments.remove" + API_FILE_EXTENSION;
-
     // for version 5.2
     String METHOD_SEARCH_PEOPLE = API_DOMAIN + "api/" + API_VERSION + "/method/search.people" + API_FILE_EXTENSION;
 
@@ -151,9 +140,6 @@ public interface Constants {
     int GCM_ENABLED = 1;
     int GCM_DISABLED = 0;
 
-    int COMMENTS_ENABLED = 1;
-    int COMMENTS_DISABLED = 0;
-
     int MESSAGES_ENABLED = 1;
     int MESSAGES_DISABLED = 0;
 
@@ -165,11 +151,6 @@ public interface Constants {
 
     int NOTIFY_TYPE_LIKE = 0;
     int NOTIFY_TYPE_MESSAGE = 2;
-    int NOTIFY_TYPE_COMMENT = 3;
-    int NOTIFY_TYPE_COMMENT_REPLY = 4;
-
-    int NOTIFY_TYPE_IMAGE_COMMENT = 7;
-    int NOTIFY_TYPE_IMAGE_COMMENT_REPLY = 8;
     int NOTIFY_TYPE_IMAGE_LIKE = 9;
 
     int NOTIFY_TYPE_MEDIA_APPROVE = 10;
@@ -187,16 +168,12 @@ public interface Constants {
     int GCM_NOTIFY_LIKE = 3;
     int GCM_NOTIFY_ANSWER = 4;
     int GCM_NOTIFY_QUESTION = 5;
-    int GCM_NOTIFY_COMMENT = 6;
     int GCM_NOTIFY_PERSONAL = 8;
     int GCM_NOTIFY_MESSAGE = 9;
-    int GCM_NOTIFY_COMMENT_REPLY = 10;
     int GCM_NOTIFY_SEEN = 15;
     int GCM_NOTIFY_TYPING = 16;
     int GCM_NOTIFY_URL = 17;
 
-    int GCM_NOTIFY_IMAGE_COMMENT_REPLY = 18;
-    int GCM_NOTIFY_IMAGE_COMMENT = 19;
     int GCM_NOTIFY_IMAGE_LIKE = 20;
 
     int GCM_NOTIFY_TYPING_START = 27;

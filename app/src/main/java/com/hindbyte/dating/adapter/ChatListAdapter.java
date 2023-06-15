@@ -13,13 +13,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.hindbyte.dating.activity.PhotoViewActivity;
 import com.hindbyte.dating.util.ToastWindow;
 import com.pkmmte.view.CircularImageView;
-import com.hindbyte.dating.activity.PhotoViewActivity;
 import com.hindbyte.dating.activity.ProfileActivity;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.app.App;
@@ -262,7 +261,7 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
                     ClipData clip = ClipData.newPlainText("msg", chatItem.getMessage().replaceAll("<br>", "\n"));
                     clipboard.setPrimaryClip(clip);
 
-                    toastWindow.makeText(activity, activity.getString(R.string.msg_copied_to_clipboard), 2000);
+                    toastWindow.makeText(activity.getString(R.string.msg_copied_to_clipboard), 2000);
 
                     return false;
                 }
@@ -350,7 +349,7 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
                     ClipData clip = ClipData.newPlainText("msg", chatItem.getMessage().replaceAll("<br>", "\n"));
                     clipboard.setPrimaryClip(clip);
 
-                    toastWindow.makeText(activity, activity.getString(R.string.msg_copied_to_clipboard), 2000);
+                    toastWindow.makeText(activity.getString(R.string.msg_copied_to_clipboard), 2000);
 
                     return false;
                 }
@@ -404,7 +403,7 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
                 androidx.appcompat.app.AlertDialog alert = (androidx.appcompat.app.AlertDialog) dialog;
                 int reason = alert.getListView().getCheckedItemPosition();
 
-                toastWindow.makeText(activity, activity.getString(R.string.label_item_report_sent), 2000);
+                toastWindow.makeText(activity.getString(R.string.label_item_report_sent), 2000);
             }
         });
 

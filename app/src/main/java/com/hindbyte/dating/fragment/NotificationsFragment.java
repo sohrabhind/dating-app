@@ -125,11 +125,7 @@ public class NotificationsFragment extends Fragment implements Constants, SwipeR
                         }
                         break;
                     }
-
-
-                    case NOTIFY_TYPE_IMAGE_COMMENT:
-
-                    case NOTIFY_TYPE_IMAGE_COMMENT_REPLY:
+                    
 
                     case NOTIFY_TYPE_IMAGE_LIKE:
 
