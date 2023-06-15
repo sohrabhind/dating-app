@@ -64,20 +64,14 @@ public class HotgameAdapter extends RecyclerView.Adapter<HotgameAdapter.MyViewHo
 	@SuppressLint("SetTextI18n")
 	@Override
 	public void onBindViewHolder(final MyViewHolder holder, int position) {
-
 		holder.progress.setVisibility(View.GONE);
-
 		Profile profileItem = itemList.get(position);
-		if (profileItem.getId() == App.getInstance().getId()) {
-			holder.title.setText(profileItem.getFullname() + ", " + profileItem.getAge());
-		} else {
-			String fullname = profileItem.getFullname();
-			if(fullname.split("\\w+").length>1){
-				fullname = fullname.substring(0, fullname.lastIndexOf(' '));
-			}
-			holder.title.setText(fullname + ", " + profileItem.getAge());
+		
+		String fullname = profileItem.getFullname();
+		if (profileItem.getId() != App.getInstance().getId() && fullname.split("\\w+").length>1) {
+			fullname = fullname.substring(0, fullname.lastIndexOf(' '));
 		}
-
+		holder.title.setText(fullname + ", " + profileItem.getAge());
 		holder.distance.setVisibility(View.GONE);
 
 		if (profileItem.getDistance() != 0) {

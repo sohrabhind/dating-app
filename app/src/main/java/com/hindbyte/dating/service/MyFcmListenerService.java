@@ -140,6 +140,9 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
             if (data.containsKey("msgFromUserFullname")) {
                 msgFromUserFullname = data.get("msgFromUserFullname").toString();
+                if (msgFromUserFullname.split("\\w+").length>1) {
+			        msgFromUserFullname = msgFromUserFullname.substring(0, msgFromUserFullname.lastIndexOf(' '));
+                }
             }
 
             if (data.containsKey("msgFromUserPhotoUrl")) {

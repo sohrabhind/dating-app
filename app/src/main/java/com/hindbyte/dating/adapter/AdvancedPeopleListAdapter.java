@@ -128,10 +128,16 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 			holder.mSquarePhotoImage.setImageResource(R.drawable.profile_default_photo);
 		}
 
+
+		String fullname = item.getFullname();
+		if (item.getId() != App.getInstance().getId() && fullname.split("\\w+").length>1) {
+			fullname = fullname.substring(0, fullname.lastIndexOf(' '));
+		}
+
 		if (item.getAge() != 0) {
-			holder.mTitle.setText(item.getFullname() + ", " + item.getAge());
+			holder.mTitle.setText(fullname + ", " + item.getAge());
 		} else {
-			holder.mTitle.setText(item.getFullname());
+			holder.mTitle.setText(fullname);
 		}
 
 		switch (item.getGender()) {

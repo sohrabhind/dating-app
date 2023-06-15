@@ -146,7 +146,11 @@ public class BlackListAdapter extends BaseAdapter implements Constants {
         viewHolder.mBlockedUser.setTag(position);
 		
 		final BlacklistItem item = blackList.get(position);
-        viewHolder.mBlockedUserFullname.setText(item.getBlockedUserFullname());
+        String fullname = item.getBlockedUserFullname();
+		    if (item.getId() != App.getInstance().getId() && fullname.split("\\w+").length>1) {
+			    fullname = fullname.substring(0, fullname.lastIndexOf(' '));
+            }
+        viewHolder.mBlockedUserFullname.setText(fullname);
         viewHolder.mBlockedUserFullname.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
 

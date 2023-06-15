@@ -239,9 +239,13 @@ public class HotGameFragment extends Fragment implements Constants {
                     Intent i = new Intent(requireActivity(), ChatActivity.class);
                     i.putExtra("chatId", 0);
                     i.putExtra("profileId", profile.getId());
-                    i.putExtra("withProfile", profile.getFullname());
+                    String fullname = profile.getFullname();
+		            if (profile.getId() != App.getInstance().getId() && fullname.split("\\w+").length>1) {
+			            fullname = fullname.substring(0, fullname.lastIndexOf(' '));
+		            }
+                    i.putExtra("withProfile", fullname);
                     i.putExtra("with_user_username", profile.getUsername());
-                    i.putExtra("with_user_fullname", profile.getFullname());
+                    i.putExtra("with_user_fullname", fullname);
                     i.putExtra("with_user_photo_url", profile.getBigPhotoUrl());
                     i.putExtra("with_user_state", profile.getState());
                     startActivity(i);

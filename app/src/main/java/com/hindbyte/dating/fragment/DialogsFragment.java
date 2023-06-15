@@ -114,16 +114,16 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
                 intent.putExtra("position", position);
                 intent.putExtra("chatId", item.getId());
                 intent.putExtra("profileId", item.getWithUserId());
-                intent.putExtra("withProfile", item.getWithUserFullname());
-
+                String fullname = item.getWithUserFullname();
+		        if (item.getId() != App.getInstance().getId() && fullname.split("\\w+").length>1) {
+			        fullname = fullname.substring(0, fullname.lastIndexOf(' '));
+		        }
+                intent.putExtra("withProfile", fullname);
                 intent.putExtra("with_user_username", item.getWithUserUsername());
-                intent.putExtra("with_user_fullname", item.getWithUserFullname());
+                intent.putExtra("with_user_fullname", fullname);
                 intent.putExtra("with_user_photo_url", item.getWithUserPhotoUrl());
-
                 intent.putExtra("with_user_state", item.getWithUserState());
-
                 intent.putExtra("blocked", item.getBlocked());
-
                 intent.putExtra("fromUserId", item.getFromUserId());
                 intent.putExtra("toUserId", item.getToUserId());
 

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hindbyte.dating.app.App;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.hindbyte.dating.activity.ProfileActivity;
 import com.hindbyte.dating.R;
@@ -132,7 +133,15 @@ public class DialogsListAdapter extends RecyclerView.Adapter<DialogsListAdapter.
             holder.image.setImageResource(R.drawable.profile_default_photo);
         }
 
-        holder.title.setText(item.getWithUserFullname());
+        if (item.getId() == App.getInstance().getId()) {
+            holder.title.setText(item.getWithUserFullname());
+        } else {
+            String fullname = item.getWithUserFullname();
+            if(fullname.split("\\w+").length>1){
+                fullname = fullname.substring(0, fullname.lastIndexOf(' '));
+            }
+            holder.title.setText(fullname);
+        }
         holder.subtitle.setVisibility(View.GONE);
 
         if (item.getLastMessage().length() != 0) {
@@ -177,12 +186,9 @@ public class DialogsListAdapter extends RecyclerView.Adapter<DialogsListAdapter.
         });
 
         holder.image.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-
                 Chat chat = items.get(position);
-
                 Intent intent = new Intent(ctx, ProfileActivity.class);
                 intent.putExtra("profileId", chat.getWithUserId());
                 ctx.startActivity(intent);

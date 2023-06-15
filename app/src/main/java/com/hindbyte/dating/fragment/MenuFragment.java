@@ -168,7 +168,6 @@ public class MenuFragment extends Fragment implements Constants {
         }
 
         // Fullname
-
         mNavProfileFullname.setText(App.getInstance().getFullname());
         mNavProfileSubhead.setText("@" + App.getInstance().getUsername());
     }

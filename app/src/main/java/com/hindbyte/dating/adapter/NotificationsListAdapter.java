@@ -105,19 +105,23 @@ public class NotificationsListAdapter extends RecyclerView.Adapter<Notifications
         } else {
             holder.image.setImageResource(R.drawable.profile_default_photo);
         }
-
+        
+        String fullname = item.getFromUserFullname();
+		if (fullname.split("\\w+").length > 1) {
+            fullname = fullname.substring(0, fullname.lastIndexOf(' '));
+        }
         if (item.getFromUserId() != 0) {
-            holder.title.setText(item.getFromUserFullname());
+            holder.title.setText(fullname);
         } else {
             holder.image.setImageResource(R.drawable.ic_action_liked);
             holder.title.setText(ctx.getString(R.string.app_name));
         }
 
         if (item.getType() == NOTIFY_TYPE_LIKE) {
-            holder.message.setText(item.getFromUserFullname() + " " + ctx.getText(R.string.label_likes_profile));
+            holder.message.setText(fullname + " " + ctx.getText(R.string.label_likes_profile));
             holder.icon.setImageResource(R.drawable.ic_action_liked);
          } else if (item.getType() == NOTIFY_TYPE_IMAGE_LIKE) {
-            holder.message.setText(item.getFromUserFullname() + " " + ctx.getText(R.string.label_likes_item));
+            holder.message.setText(fullname + " " + ctx.getText(R.string.label_likes_item));
             holder.icon.setImageResource(R.drawable.ic_action_liked);
         } else if (item.getType() == NOTIFY_TYPE_MEDIA_APPROVE) {
             holder.message.setText(String.format(Locale.getDefault(), ctx.getString(R.string.label_media_approved), ctx.getString(R.string.app_name)));
@@ -138,7 +142,7 @@ public class NotificationsListAdapter extends RecyclerView.Adapter<Notifications
             holder.message.setText(String.format(Locale.getDefault(), ctx.getString(R.string.label_profile_photo_rejected_new), ctx.getString(R.string.app_name)));
             holder.icon.setImageResource(R.drawable.ic_rejected);
         } else {
-            holder.message.setText(item.getFromUserFullname() + " " + ctx.getText(R.string.label_friend_request_added));
+            holder.message.setText(fullname + " " + ctx.getText(R.string.label_friend_request_added));
             holder.icon.setImageResource(R.drawable.ic_action_done);
         }
 
