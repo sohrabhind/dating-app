@@ -19,7 +19,8 @@
             android:id="@+id/navigator_layout"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimaryDark">
 
             <LinearLayout
                 android:id="@+id/layout_markers"

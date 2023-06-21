@@ -244,13 +244,10 @@ public class ChatFragment extends Fragment implements Constants {
 
                     @Override
                     public void onClick(View v) {
-
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
-
                         toastWindow.makeText(getString(R.string.label_grant_camera_permission), 2000);
                     }
-
                 }).show();
             }
         });
@@ -334,13 +331,10 @@ public class ChatFragment extends Fragment implements Constants {
 
                     @Override
                     public void onClick(View v) {
-
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
-
                         toastWindow.makeText(getString(R.string.label_grant_storage_permission), 2000);
                     }
-
                 }).show();
             }
 
@@ -417,10 +411,8 @@ public class ChatFragment extends Fragment implements Constants {
         br = new BroadcastReceiver() {
 
             public void onReceive(Context context, Intent intent) {
-
                 int task = intent.getIntExtra(PARAM_TASK, 0);
                 int status = intent.getIntExtra(PARAM_STATUS, 0);
-
                 int msgId = intent.getIntExtra("msgId", 0);
                 long msgFromUserId = intent.getLongExtra("msgFromUserId", 0);
                 int msgFromUserState = intent.getIntExtra("msgFromUserState", 0);

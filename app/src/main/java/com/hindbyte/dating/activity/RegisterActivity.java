@@ -19,9 +19,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
-import android.text.Editable;
 import android.text.Html;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -35,7 +33,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -60,6 +57,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.hindbyte.dating.R;
+import com.hindbyte.dating.tagview.TagContainerLayout;
+import com.hindbyte.dating.tagview.TagView;
 import com.hindbyte.dating.util.CustomViewPager;
 import com.hindbyte.dating.util.ToastWindow;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -78,8 +77,10 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -132,7 +133,8 @@ public class RegisterActivity extends ActivityBase {
     private TextView mButtonChooseAge;
 
     // Screen 3
-
+    private TagContainerLayout mTagContainerLayout;
+    StringBuilder tags;
 
 
     // Screen 3, 4 and 5
@@ -180,7 +182,7 @@ public class RegisterActivity extends ActivityBase {
             username = i.getStringExtra("username");
         } else {
             password = generateRandomChars("abcdefghijklmnopqrstuvwxyz1234567890", 14);
-            username = generateRandomChars("abcdefghijklmnopqrstuvwxyz", 32);
+            username = generateRandomChars("abcdefghijklmnopqrstuvwxyz1234567890_", 10);
         }
 
         if (email == null) {
@@ -373,6 +375,7 @@ public class RegisterActivity extends ActivityBase {
         mButtonFinish = findViewById(R.id.button_next);
 
         screens = new int[]{
+                R.layout.register_screen_0,
                 R.layout.register_screen_1,
                 R.layout.register_screen_2,
                 R.layout.register_screen_3,
@@ -415,6 +418,16 @@ public class RegisterActivity extends ActivityBase {
                         }
                         break;
                     }
+                    case 3: {
+                        List<String> selectedPositionsText;
+                        selectedPositionsText = mTagContainerLayout.getSelectedTagViewText();
+                        tags = new StringBuilder();
+                        for (String outer : selectedPositionsText) {
+                            tags.append(outer.trim()).append(", ");
+                        }
+                        mViewPager.setCurrentItem(current + 1);
+                        break;
+                    }
                     default: {
                         next();
                         break;
@@ -422,7 +435,7 @@ public class RegisterActivity extends ActivityBase {
                 }
                 updateView();
             } else {
-                register();
+                register(tags.toString().replaceAll("^[^A-Za-z0-9]*|[^A-Za-z0-9]*$", ""));
             }
         });
     }
@@ -478,7 +491,7 @@ public class RegisterActivity extends ActivityBase {
                 break;
             }
 
-            case 3: {
+            case 4: {
                 if (ContextCompat.checkSelfPermission(RegisterActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(RegisterActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     mButtonGrantLocationPermission.setEnabled(false);
                     mButtonGrantLocationPermission.setText(R.string.action_grant_access_success);
@@ -572,6 +585,7 @@ public class RegisterActivity extends ActivityBase {
                         @Override
                         public void onClick(View v) {
                             gender = 0;
+                            fullname = mFullname.getText().toString();
                             updateView();
                         }
                     });
@@ -580,6 +594,7 @@ public class RegisterActivity extends ActivityBase {
                         @Override
                         public void onClick(View v) {
                             gender = 1;
+                            fullname = mFullname.getText().toString();
                             updateView();
                         }
                     });
@@ -588,6 +603,7 @@ public class RegisterActivity extends ActivityBase {
                         @Override
                         public void onClick(View v) {
                             gender = 2;
+                            fullname = mFullname.getText().toString();
                             updateView();
                         }
                     });
@@ -629,8 +645,79 @@ public class RegisterActivity extends ActivityBase {
                     break;
                 }
 
-
                 case 3: {
+                    List<String> list1 = new ArrayList<>();
+                    list1.add("Music");
+                    list1.add("Dancing");
+                    list1.add("Fashion");
+                    list1.add("Photography");
+                    list1.add("Beauty and makeup");
+                    list1.add("Movies");
+                    list1.add("Pets");
+                    list1.add("TV Shows");
+                    list1.add("Food");
+                    list1.add("Yoga");
+                    list1.add("Cooking");
+                    list1.add("Outdoor activities");
+                    list1.add("Traveling");
+                    list1.add("Gardening");
+                    list1.add("Fitness and exercise");
+                    list1.add("Sports");
+                    list1.add("Reading");
+                    list1.add("Art");
+                    list1.add("Gaming");
+                    list1.add("Technology");
+                    list1.add("Socializing");
+                    list1.add("Writing");
+                    list1.add("Blogging");
+                    list1.add("Biking");
+                    list1.add("Skydiving");
+                    list1.add("Philosophy");
+                    list1.add("Comedy shows");
+                    list1.add("Astronomy");
+                    list1.add("History and art");
+                    list1.add("Food blogging");
+                    list1.add("Fashion blogging");
+                    list1.add("Self defense");
+                    list1.add("Riding");
+                    list1.add("Storytelling");
+                    list1.add("Pottery");
+                    list1.add("Urban exploration");
+                    list1.add("Paragliding");
+
+                    mTagContainerLayout = view.findViewById(R.id.tagcontainerLayout);
+
+                    mTagContainerLayout.setOnTagClickListener(new TagView.OnTagClickListener() {
+                        @Override
+                        public void onTagClick(int position, String text) {
+                            mTagContainerLayout.toggleSelectTagView(position);
+                        }
+
+                        @Override
+                        public void onTagLongClick(final int position, String text) {
+               /*
+               List<Integer> selectedPositions = mTagContainerLayout.getSelectedTagViewPositions();
+                if (selectedPositions.isEmpty() || selectedPositions.contains(position)) {
+                    Toast.makeText(BrowserActivity.this, "click-position:" + position + ", text:" + text, Toast.LENGTH_SHORT).show();
+                }
+                */
+                        }
+
+                        @Override
+                        public void onSelectedTagDrag(int position, String text) {
+                        }
+
+                        @Override
+                        public void onTagCrossClick(int position) {
+                        }
+                    });
+
+                    mTagContainerLayout.setTags(list1);
+                    break;
+                }
+
+
+                case 4: {
                     image_location = view.findViewById(R.id.image_location);
                     mButtonGrantLocationPermission = view.findViewById(R.id.button_grant_location_permission);
 
@@ -641,6 +728,7 @@ public class RegisterActivity extends ActivityBase {
                             grantLocationPermission();
                         }
                     });
+                    break;
                 }
             }
 
@@ -807,7 +895,6 @@ public class RegisterActivity extends ActivityBase {
 
     public Boolean verifyRegForm() {
         Helper helper = new Helper(this);
-
         if (username.length() == 0) {
             return false;
         }
@@ -871,7 +958,7 @@ public class RegisterActivity extends ActivityBase {
     }
 
 
-    public void register() {
+    public void register(String  interests) {
         showpDialog();
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_ACCOUNT_SIGNUP, null, response -> {
             Log.e("Profile", "Malformed JSON: \"" + response.toString() + "\"");
@@ -948,14 +1035,13 @@ public class RegisterActivity extends ActivityBase {
                         }
 
                     } else {
-
                         hidepDialog();
-
                         switch (App.getInstance().getErrorCode()) {
-
                             case 300: {
                                 mViewPager.setCurrentItem(0);
-                                toastWindow.makeText(getString(R.string.error_login_taken), 2000);
+                                username = generateRandomChars("abcdefghijklmnopqrstuvwxyz1234567890_", 10);
+                                register(interests);
+                                //toastWindow.makeText(getString(R.string.error_login_taken), 2000);
                                 break;
                             }
 
@@ -971,7 +1057,6 @@ public class RegisterActivity extends ActivityBase {
                             }
 
                             default: {
-
                                 Log.e("Profile", "Could not parse malformed JSON: \"" + response.toString() + "\"");
                                 break;
                             }
@@ -996,6 +1081,7 @@ public class RegisterActivity extends ActivityBase {
                 params.put("photo", photo_url);
                 params.put("email", email);
                 params.put("uid", uid);
+                params.put("interests", interests);
                 params.put("oauth_type", String.valueOf(oauth_type));
                 params.put("gender", String.valueOf(gender));
                 params.put("age", String.valueOf(age));
