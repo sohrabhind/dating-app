@@ -20,14 +20,12 @@
     <color name="hashTag">#5BCFF2</color>
     <color name="transparent">#00FFFFFF</color>
 
-    <color name="item_list_divider">#d9d9d9</color>
-    <color name="item_row_start_color">#ffffff</color>
-    <color name="item_row_end_color">#ffffff</color>
+
+    <color name="colorPageBackground">#FFFFFF</color>
+
     <color name="item_row_hover_start_color">#ebeef0</color>
     <color name="item_row_hover_end_color">#ebeef0</color>
 
-    <color name="drawer_divider">#1E2531</color>
-    <color name="drawer_bg">#1E2531</color>
     <color name="drawer_item_bg">#1E2531</color>
     <color name="drawer_item_select_bg">#292F3B</color>
     <color name="drawer_item_text">#FFFFFF</color>
@@ -35,8 +33,6 @@
 
     <color name="colorPrimaryLight">#D95C4C</color>
     <color name="colorPrimaryLight2">#B9665B</color>
-    <color name="textColorPrimary">#FFFFFF</color>
-    <color name="windowBackground">#FFFFFF</color>
     <color name="tabLayoutBackground">#EEEEEE</color>
     <color name="listViewDivider">#F0F3F5</color>
     <color name="listViewDivider2">#E1E8ED</color>
@@ -84,8 +80,6 @@
 
     <color name="statusBarColor">#FF8960</color>
 
-
-
     <color name="greenStartColor">#1ebe1b</color>
     <color name="greenEndColor">#108E3A</color>
 
@@ -119,7 +113,6 @@
     <color name="colorTextDisabled">#ECECEC</color>
     <color name="colorBadgeBackground">#C24537</color>
     <color name="colorCounterBackground">#E32F2D</color>
-    <color name="colorCounterText">#ffffff</color>
     //
 
     <color name="colorChatCardBackground">#eeeeee</color>
@@ -128,18 +121,10 @@
 
     <color name="colorTitle">#263238</color>
     <color name="colorSubTitle">#999999</color>
-    <color name="colorPageBackground">#ffffff</color>
     <color name="colorLightBackground">#FAFAFA</color>
     <color name="colorCardBackground">#fefefe</color>
     <color name="colorIconTint">#606770</color>
-    <color name="colorTopBarIconTint">#ffffff</color>
     <color name="colorTopBarBackground">#F7F6FB</color>
     //
-
-    <color name="colorGreyButtonDefault">#E6E6E6</color>
-    <color name="colorGreyButtonPressed">#CFCFCF</color>
-
-    <color name="colorWhiteButtonDefault">#E6E6E6</color>
-    <color name="colorWhiteButtonPressed">#CFCFCF</color>
 
 </resources>

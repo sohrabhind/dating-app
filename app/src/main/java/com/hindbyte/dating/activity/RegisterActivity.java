@@ -108,7 +108,12 @@ public class RegisterActivity extends ActivityBase {
 
     private Uri selectedImage;
 
-    private String selectedImagePath = "", newImageFileName = "";
+    private String selectedProfileImagePath = "", newProfileImageFileName = "";
+    private String selectedImage1Path = "", newImage1FileName = "";
+    private String selectedImage2Path = "", newImage2FileName = "";
+    private String selectedImage3Path = "", newImage3FileName = "";
+    private String selectedImage4Path = "", newImage4FileName = "";
+    private String selectedImage5Path = "", newImage5FileName = "";
 
     // Google
 
@@ -123,27 +128,21 @@ public class RegisterActivity extends ActivityBase {
 
     private TextView mButtonContinue;
 
-    // Screen 1
 
-    private TextView mButtonChoosePhoto;
-    private CircularImageView mPhoto;
+    // Screen 1
+    private TextView mButtonChooseAge;
+    private TextView mTextViewChooseAge;
 
     // Screen 2
-
-    private TextView mButtonChooseAge;
+    private CircularImageView mProfilePhoto;
 
     // Screen 3
     private TagContainerLayout mTagContainerLayout;
     StringBuilder tags;
 
 
-    // Screen 3, 4 and 5
-
-    private TextView mTextViewChooseAge;
-    ImageView image_location;
-
     // Screen 4
-
+    ImageView image_location;
     private TextView mButtonGrantLocationPermission;
 
     //
@@ -205,8 +204,18 @@ public class RegisterActivity extends ActivityBase {
             fullname = savedInstanceState.getString("fullname");
             uid = savedInstanceState.getString("uid");
             oauth_type = savedInstanceState.getInt("oauth_type");
-            selectedImagePath = savedInstanceState.getString("selectedImagePath");
-            newImageFileName = savedInstanceState.getString("newImageFileName");
+            selectedProfileImagePath = savedInstanceState.getString("selectedProfileImagePath");
+            newProfileImageFileName = savedInstanceState.getString("newProfileImageFileName");
+            selectedImage1Path = savedInstanceState.getString("selectedImage1Path");
+            newImage1FileName = savedInstanceState.getString("newImage1FileName");
+            selectedImage2Path = savedInstanceState.getString("selectedImage1Path");
+            newImage2FileName = savedInstanceState.getString("newImage2FileName");
+            selectedImage3Path = savedInstanceState.getString("selectedImage3Path");
+            newImage3FileName = savedInstanceState.getString("newImage3FileName");
+            selectedImage4Path = savedInstanceState.getString("selectedImage4Path");
+            newImage4FileName = savedInstanceState.getString("newImage4FileName");
+            selectedImage5Path = savedInstanceState.getString("selectedImage5Path");
+            newImage5FileName = savedInstanceState.getString("newImage5FileName");
         }
 
         //
@@ -258,7 +267,6 @@ public class RegisterActivity extends ActivityBase {
         });
 
         imgFromGalleryActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-
             if (result.getResultCode() == Activity.RESULT_OK) {
                 if (result.getData() != null) {
                     selectedImage = result.getData().getData();
@@ -266,11 +274,11 @@ public class RegisterActivity extends ActivityBase {
                     Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
                     cursor.moveToFirst();
                     int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    selectedImagePath = cursor.getString(columnIndex);
+                    selectedProfileImagePath = cursor.getString(columnIndex);
                     cursor.close();
 
-                    mPhoto.setImageURI(null);
-                    mPhoto.setImageURI(FileProvider.getUriForFile(App.getInstance().getApplicationContext(), App.getInstance().getPackageName() + ".provider", new File(selectedImagePath)));
+                    mProfilePhoto.setImageURI(null);
+                    mProfilePhoto.setImageURI(FileProvider.getUriForFile(App.getInstance().getApplicationContext(), App.getInstance().getPackageName() + ".provider", new File(selectedProfileImagePath)));
                     updateView();
                 }
             }
@@ -283,10 +291,10 @@ public class RegisterActivity extends ActivityBase {
 
                 if (result.getResultCode() == Activity.RESULT_OK) {
 
-                    selectedImagePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + newImageFileName;
+                    selectedProfileImagePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + newProfileImageFileName;
 
-                    mPhoto.setImageURI(null);
-                    mPhoto.setImageURI(FileProvider.getUriForFile(App.getInstance().getApplicationContext(), getPackageName() + ".provider", new File(selectedImagePath)));
+                    mProfilePhoto.setImageURI(null);
+                    mProfilePhoto.setImageURI(FileProvider.getUriForFile(App.getInstance().getApplicationContext(), getPackageName() + ".provider", new File(selectedProfileImagePath)));
 
                     updateView();
                 }
@@ -410,11 +418,11 @@ public class RegisterActivity extends ActivityBase {
                         break;
                     }
                     case 2: {
-                        if (selectedImagePath.length() != 0) {
+                        if (selectedProfileImagePath.length() != 0) {
                             mViewPager.setCurrentItem(current + 1);
                         } else {
                             toastWindow.makeText(getString(R.string.register_screen_2_msg), 2000);
-                            animateIcon(mPhoto);
+                            animateIcon(mProfilePhoto);
                         }
                         break;
                     }
@@ -452,8 +460,8 @@ public class RegisterActivity extends ActivityBase {
         outState.putString("fullname", fullname);
         outState.putString("uid", uid);
         outState.putInt("oauth_type", oauth_type);
-        outState.putString("selectedImagePath", selectedImagePath);
-        outState.putString("newImageFileName", newImageFileName);
+        outState.putString("selectedProfileImagePath", selectedProfileImagePath);
+        outState.putString("newProfileImageFileName", newProfileImageFileName);
     }
 
     @SuppressLint("SetTextI18n")
@@ -623,25 +631,17 @@ public class RegisterActivity extends ActivityBase {
                 }
 
                 case 2: {
-                    mPhoto = view.findViewById(R.id.photo_image);
-                    if (newImageFileName != null && newImageFileName.length() > 0) {
-                        mPhoto.setImageURI(FileProvider.getUriForFile(App.getInstance().getApplicationContext(), App.getInstance().getPackageName() + ".provider", new File(selectedImagePath)));
+                    mProfilePhoto = view.findViewById(R.id.profile_photo);
+                    if (newProfileImageFileName != null && newProfileImageFileName.length() > 0) {
+                        mProfilePhoto.setImageURI(FileProvider.getUriForFile(App.getInstance().getApplicationContext(), App.getInstance().getPackageName() + ".provider", new File(selectedProfileImagePath)));
                     }
-                    mButtonChoosePhoto = view.findViewById(R.id.button_choose_photo);
-                    mPhoto.setOnClickListener(v -> {
+                    mProfilePhoto.setOnClickListener(v -> {
                         if (!checkPermission(READ_EXTERNAL_STORAGE)) {
                             requestPermission();
                         } else {
                             choiceImage();
                         }
                     } );
-                    mButtonChoosePhoto.setOnClickListener(v -> {
-                        if (!checkPermission(READ_EXTERNAL_STORAGE)) {
-                            requestPermission();
-                        } else {
-                            choiceImage();
-                        }
-                    });
                     break;
                 }
 
@@ -794,9 +794,7 @@ public class RegisterActivity extends ActivityBase {
     }
 
     private void choiceImage() {
-
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
-
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         arrayAdapter.add(getString(R.string.action_gallery));
         arrayAdapter.add(getString(R.string.action_camera));
@@ -812,8 +810,8 @@ public class RegisterActivity extends ActivityBase {
                 } else {
                     if (checkPermission(Manifest.permission.CAMERA)) {
                         try {
-                            newImageFileName = Helper.randomString(6) + ".jpg";
-                            selectedImage = FileProvider.getUriForFile(App.getInstance().getApplicationContext(), App.getInstance().getPackageName() + ".provider", new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), newImageFileName));
+                            newProfileImageFileName = Helper.randomString(6) + ".jpg";
+                            selectedImage = FileProvider.getUriForFile(App.getInstance().getApplicationContext(), App.getInstance().getPackageName() + ".provider", new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), newProfileImageFileName));
                             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, selectedImage);
                             cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -966,14 +964,14 @@ public class RegisterActivity extends ActivityBase {
                 Log.e("Profile", "Malformed JSON: \"" + response + "\"");
 
                 // Upload profile photo
-                        File file = new File(selectedImagePath);
+                        File profileImageFile = new File(selectedProfileImagePath);
                         final OkHttpClient client = new OkHttpClient();
                         client.setProtocols(Arrays.asList(Protocol.HTTP_1_1));
                         
                         try {
                             RequestBody requestBody = new MultipartBuilder()
                                     .type(MultipartBuilder.FORM)
-                                    .addFormDataPart("uploaded_file", file.getName(), RequestBody.create(MediaType.parse("text/csv"), file))
+                                    .addFormDataPart("uploaded_file", profileImageFile.getName(), RequestBody.create(MediaType.parse("text/csv"), profileImageFile))
                                     .addFormDataPart("accountId", Long.toString(App.getInstance().getId()))
                                     .addFormDataPart("accessToken", App.getInstance().getAccessToken())
                                     .addFormDataPart("imgType", String.valueOf(UPLOAD_TYPE_PHOTO))

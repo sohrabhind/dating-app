@@ -144,7 +144,7 @@ public class ChatFragment extends Fragment implements Constants {
     private ChatListAdapter chatAdapter;
 
     String withProfile = "", messageText = "", messageImg = "", stickerImg = "";
-    int chatId = 0, msgId = 0, messagesCount = 0, position = 0;
+    int chatId = 0, lastMessageId = 0, messagesCount = 0, position = 0;
     long profileId = 0, stickerId = 0, lStickerId = 0;
 
     String lMessage = "", lStickerImg = "";
@@ -413,7 +413,7 @@ public class ChatFragment extends Fragment implements Constants {
             public void onReceive(Context context, Intent intent) {
                 int task = intent.getIntExtra(PARAM_TASK, 0);
                 int status = intent.getIntExtra(PARAM_STATUS, 0);
-                int msgId = intent.getIntExtra("msgId", 0);
+                int lastMessageId = intent.getIntExtra("lastMessageId", 0);
                 long msgFromUserId = intent.getLongExtra("msgFromUserId", 0);
                 int msgFromUserState = intent.getIntExtra("msgFromUserState", 0);
                 String msgFromUserUsername = intent.getStringExtra("msgFromUserUsername");
@@ -428,7 +428,7 @@ public class ChatFragment extends Fragment implements Constants {
                 String msgTimeAgo = intent.getStringExtra("msgTimeAgo");
 
                 ChatItem c = new ChatItem();
-                c.setId(msgId);
+                c.setId(lastMessageId);
                 c.setFromUserId(msgFromUserId);
 
                 if (msgFromUserId == App.getInstance().getId()) {
@@ -907,35 +907,24 @@ public class ChatFragment extends Fragment implements Constants {
                     try {
 
                         if (!response.getBoolean("error")) {
-
-                            msgId = response.getInt("msgId");
+                            lastMessageId = response.getInt("lastMessageId");
                             chatId = response.getInt("chatId");
                             messagesCount = response.getInt("messagesCount");
-
                             App.getInstance().setCurrentChatId(chatId);
-
                             fromUserId = response.getLong("chatFromUserId");
                             toUserId = response.getLong("chatToUserId");
 
                             if (messagesCount > 20) {
-
                                 mListViewHeader.setVisibility(View.VISIBLE);
                             }
 
                             if (response.has("messages")) {
-
                                 JSONArray messagesArray = response.getJSONArray("messages");
-
                                 arrayLength = messagesArray.length();
-
                                 if (arrayLength > 0) {
-
                                     for (int i = messagesArray.length() - 1; i > -1; i--) {
-
                                         JSONObject msgObj = (JSONObject) messagesArray.get(i);
-
                                         ChatItem item = new ChatItem(msgObj);
-
                                         chatList.add(item);
                                     }
                                 }
@@ -943,28 +932,18 @@ public class ChatFragment extends Fragment implements Constants {
                         }
 
                     } catch (JSONException e) {
-
                         e.printStackTrace();
-
                     } finally {
-
                         showContentScreen();
-
                         chatAdapter.notifyDataSetChanged();
-
                         scrollListViewToBottom();
-
                         updateChat();
                     }
                 }, error -> {
-
                     if (!isAdded() || requireActivity() == null) {
-
                         Log.e("ERROR", "ChatFragment Not Added to Activity");
-
                         return;
                     }
-
                     preload = false;
                 }) {
 
@@ -973,39 +952,26 @@ public class ChatFragment extends Fragment implements Constants {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-
                 params.put("profileId", Long.toString(profileId));
-
-                params.put("chatId", String.valueOf(chatId));
-                params.put("msgId", String.valueOf(msgId));
-
+                params.put("lastMessageId", String.valueOf(lastMessageId));
                 params.put("chatFromUserId", Long.toString(fromUserId));
                 params.put("chatToUserId", Long.toString(toUserId));
-
                 return params;
             }
         };
 
         RetryPolicy policy = new DefaultRetryPolicy((int) TimeUnit.SECONDS.toMillis(VOLLEY_REQUEST_SECONDS), DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-
         jsonReq.setRetryPolicy(policy);
-
         App.getInstance().addToRequestQueue(jsonReq);
     }
 
     public void getPreviousMessages() {
-
         loading = true;
-
         showpDialog();
-
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_CHAT_GET_PREVIOUS, null,
                 response -> {
-
                     if (!isAdded() || requireActivity() == null) {
-
                         Log.e("ERROR", "ChatFragment Not Added to Activity");
-
                         return;
                     }
 
@@ -1013,7 +979,7 @@ public class ChatFragment extends Fragment implements Constants {
 
                         if (!response.getBoolean("error")) {
 
-                            msgId = response.getInt("msgId");
+                            lastMessageId = response.getInt("lastMessageId");
                             chatId = response.getInt("chatId");
 
                             if (response.has("messages")) {
@@ -1079,15 +1045,11 @@ public class ChatFragment extends Fragment implements Constants {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-
                 params.put("profileId", Long.toString(profileId));
-
                 params.put("chatId", String.valueOf(chatId));
-                params.put("msgId", String.valueOf(msgId));
-
+                params.put("lastMessageId", String.valueOf(lastMessageId));
                 params.put("chatFromUserId", Long.toString(fromUserId));
                 params.put("chatToUserId", Long.toString(toUserId));
-
                 return params;
             }
         };

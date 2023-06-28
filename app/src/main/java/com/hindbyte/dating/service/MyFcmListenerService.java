@@ -28,6 +28,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Random;
 
 public class MyFcmListenerService extends FirebaseMessagingService implements Constants {
 
@@ -106,6 +107,9 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
     private void generateNotification(Context context, Map data, Bitmap bitmap) {
         String CHANNEL_ID = "my_channel_01"; // id for channel.
         CharSequence CHANNEL_NAME = context.getString(R.string.channel_name); // user visible name of channel.
+
+        Random random = new Random();
+        int randomNumber = random.nextInt();
 
         NotificationChannel mChannel;
 
@@ -213,7 +217,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                 mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
                 mBuilder.setAutoCancel(true);
-                mNotificationManager.notify(0, mBuilder.build());
+                mNotificationManager.notify(randomNumber, mBuilder.build());
 
                 break;
             }
@@ -250,7 +254,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                     mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
                     mBuilder.setAutoCancel(true);
-                    mNotificationManager.notify(0, mBuilder.build());
+                    mNotificationManager.notify(randomNumber, mBuilder.build());
                 }
 
                 break;
@@ -288,7 +292,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                     mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
                     mBuilder.setAutoCancel(true);
-                    mNotificationManager.notify(0, mBuilder.build());
+                    mNotificationManager.notify(randomNumber, mBuilder.build());
                 }
 
                 break;
@@ -307,8 +311,6 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                         contentView.setTextViewText(R.id.body, message);
                         if (bitmap != null) {
                             contentView.setImageViewBitmap(R.id.small_picture, bitmap);
-                        } else {
-                            contentView.setViewVisibility(R.id.small_icon, View.GONE);
                         }
 
 
@@ -336,7 +338,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                             mNotificationManager.createNotificationChannel(mChannel);
                         }
 
-                        mNotificationManager.notify(1680682, mBuilder.build());
+                        mNotificationManager.notify(randomNumber, mBuilder.build());
                     }
                 }
 
@@ -349,7 +351,6 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                         Intent i = new Intent(ChatFragment.BROADCAST_ACTION);
                         i.putExtra(ChatFragment.PARAM_TASK, 0);
                         i.putExtra(ChatFragment.PARAM_STATUS, ChatFragment.STATUS_START);
-
                         i.putExtra("msgId", Integer.valueOf(msgId));
                         i.putExtra("msgFromUserId", Long.valueOf(msgFromUserId));
                         i.putExtra("msgFromUserState", Integer.valueOf(msgFromUserState));
@@ -365,7 +366,6 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                         i.putExtra("msgTimeAgo", msgTimeAgo);
 
                         context.sendBroadcast(i);
-
                     } else {
                         if (App.getInstance().getMessagesCount() == 0) App.getInstance().setMessagesCount(App.getInstance().getMessagesCount() + 1);
                         if (App.getInstance().getAllowMessagesGCM() == ENABLED) {
@@ -374,10 +374,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                             contentView.setTextViewText(R.id.body, msgMessage);
                             if (bitmap != null) {
                                 contentView.setImageViewBitmap(R.id.small_picture, bitmap);
-                            } else {
-                                contentView.setViewVisibility(R.id.small_icon, View.GONE);
                             }
-
 
                             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                                     .setSmallIcon(R.mipmap.ic_launcher)
@@ -403,43 +400,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                                 mNotificationManager.createNotificationChannel(mChannel);
                             }
 
-                            mNotificationManager.notify(1680682, mBuilder.build());
-                            /*
-
-                            message = context.getString(R.string.label_gcm_message);
-                            NotificationCompat.Builder mBuilder =
-                                    new NotificationCompat.Builder(context, CHANNEL_ID)
-                                            .setSmallIcon(R.drawable.ic_notification)
-                                            .setContentTitle(msgFromUserFullname)
-                                            .setContentText(msgMessage);
-
-                            Intent resultIntent = new Intent(context, MainActivity.class);
-                            resultIntent.putExtra("pageId", PAGE_MESSAGES);
-                            resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-                            stackBuilder.addParentStack(MainActivity.class);
-                            stackBuilder.addNextIntent(resultIntent);
-                            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, flag);
-                            mBuilder.setContentIntent(resultPendingIntent);
-
-                            NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-                                int importance = NotificationManager.IMPORTANCE_HIGH;
-
-                                mChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
-
-                                mNotificationManager.createNotificationChannel(mChannel);
-                            }
-
-                            mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
-                            mBuilder.setAutoCancel(true);
-                            mNotificationManager.notify(0, mBuilder.build());
-
-
-                             */
+                            mNotificationManager.notify(randomNumber, mBuilder.build());
                         }
                     }
                 }
@@ -487,7 +448,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                         mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
                         mBuilder.setAutoCancel(true);
-                        mNotificationManager.notify(0, mBuilder.build());
+                        mNotificationManager.notify(randomNumber, mBuilder.build());
                     }
                 }
 
@@ -533,7 +494,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                     mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
                     mBuilder.setAutoCancel(true);
-                    mNotificationManager.notify(0, mBuilder.build());
+                    mNotificationManager.notify(randomNumber, mBuilder.build());
                 }
 
                 break;
@@ -576,7 +537,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                     mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
                     mBuilder.setAutoCancel(true);
-                    mNotificationManager.notify(0, mBuilder.build());
+                    mNotificationManager.notify(randomNumber, mBuilder.build());
                 }
 
                 break;
@@ -619,7 +580,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                     mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
                     mBuilder.setAutoCancel(true);
-                    mNotificationManager.notify(0, mBuilder.build());
+                    mNotificationManager.notify(randomNumber, mBuilder.build());
                 }
 
                 break;
@@ -662,7 +623,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                     mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
                     mBuilder.setAutoCancel(true);
-                    mNotificationManager.notify(0, mBuilder.build());
+                    mNotificationManager.notify(randomNumber, mBuilder.build());
                 }
 
                 break;
@@ -699,7 +660,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                     mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
                     mBuilder.setAutoCancel(true);
-                    mNotificationManager.notify(0, mBuilder.build());
+                    mNotificationManager.notify(randomNumber, mBuilder.build());
                 }
 
                 break;
@@ -736,7 +697,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
                     mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
                     mBuilder.setAutoCancel(true);
-                    mNotificationManager.notify(0, mBuilder.build());
+                    mNotificationManager.notify(randomNumber, mBuilder.build());
                 }
 
                 break;

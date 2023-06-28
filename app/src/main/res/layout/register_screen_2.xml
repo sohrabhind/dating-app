@@ -34,18 +34,18 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="50dp">
+            android:layout_marginBottom="@dimen/spacing_middle">
 
             <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/photo_image"
-                android:layout_width="132dp"
-                android:layout_height="132dp"
-                android:layout_marginTop="@dimen/spacing_middle"
+                android:id="@+id/profile_photo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginRight="@dimen/spacing_middle"
                 android:src="@drawable/profile_default_photo"
                 app:civ_border="true"
                 app:civ_border_color="@color/white"
@@ -53,20 +53,80 @@
                 app:civ_shadow="false"
                 app:civ_shadow_radius="0dp" />
 
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/photo_image_1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginRight="@dimen/spacing_middle"
+                android:src="@drawable/profile_default_photo"
+                app:civ_border="true"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="3dp"
+                app:civ_shadow="false"
+                app:civ_shadow_radius="0dp" />
+
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/photo_image_2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/profile_default_photo"
+                app:civ_border="true"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="3dp"
+                app:civ_shadow="false"
+                app:civ_shadow_radius="0dp" />
+
+
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/button_choose_photo"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:text="@string/action_choose_photo"
-            android:background="@drawable/button_radius"
-            android:gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"/>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/spacing_middle"
+            android:layout_marginBottom="50dp">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/photo_image_3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginRight="@dimen/spacing_middle"
+                android:src="@drawable/profile_default_photo"
+                app:civ_border="true"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="3dp"
+                app:civ_shadow="false"
+                app:civ_shadow_radius="0dp" />
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/photo_image_4"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginRight="@dimen/spacing_middle"
+                android:src="@drawable/profile_default_photo"
+                app:civ_border="true"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="3dp"
+                app:civ_shadow="false"
+                app:civ_shadow_radius="0dp" />
+
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/photo_image_5"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/profile_default_photo"
+                app:civ_border="true"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="3dp"
+                app:civ_shadow="false"
+                app:civ_shadow_radius="0dp" />
+
+
+        </LinearLayout>
 
     </LinearLayout>
 

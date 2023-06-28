@@ -63,7 +63,7 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
     private ArrayList<Chat> itemsList;
     private DialogsListAdapter itemsAdapter;
 
-    private int messageCreateAt = 0;
+    private int lastMessageId = 0;
     private int arrayLength = 0;
     private Boolean loadingMore = false;
     private Boolean viewMore = false;
@@ -81,7 +81,7 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
         itemsList = new ArrayList<>();
         itemsAdapter = new DialogsListAdapter(requireActivity(), itemsList);
         restore = false;
-        messageCreateAt = 0;
+        lastMessageId = 0;
     }
 
     @Override
@@ -109,7 +109,6 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onItemClick(View view, Chat item, int position) {
-
                 Intent intent = new Intent(requireActivity(), ChatActivity.class);
                 intent.putExtra("position", position);
                 intent.putExtra("chatId", item.getId());
@@ -126,9 +125,7 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
                 intent.putExtra("blocked", item.getBlocked());
                 intent.putExtra("fromUserId", item.getFromUserId());
                 intent.putExtra("toUserId", item.getToUserId());
-
                 startActivity(intent);
-
                 if (item.getNewMessagesCount() != 0) {
                     item.setNewMessagesCount(0);
                     if (App.getInstance().getMessagesCount() > 0) {
@@ -191,7 +188,7 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
 
     public void onRefresh() {
         if (App.getInstance().isConnected()) {
-            messageCreateAt = 0;
+            lastMessageId = 0;
             getItems(false);
         } else {
             mItemsContainer.setRefreshing(false);
@@ -245,14 +242,12 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
         super.onSaveInstanceState(outState);
 
         outState.putBoolean("restore", true);
-        outState.putInt("messageCreateAt", messageCreateAt);
+        outState.putInt("lastMessageId", lastMessageId);
         outState.putParcelableArrayList(STATE_LIST, itemsList);
     }
 
     public void getItems(boolean refresh) {
-
         mItemsContainer.setRefreshing(refresh);
-
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_DIALOGS_NEW_GET, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -268,7 +263,7 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
                                 itemsList.clear();
                             }
                             if (!response.getBoolean("error")) {
-                                messageCreateAt = response.getInt("messageCreateAt");
+                                lastMessageId = response.getInt("lastMessageId");
                                 if (response.has("chats")) {
                                     JSONArray chatsArray = response.getJSONArray("chats");
                                     arrayLength = chatsArray.length();
@@ -304,7 +299,7 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("messageCreateAt", String.valueOf(messageCreateAt));
+                params.put("lastMessageId", String.valueOf(lastMessageId));
                 return params;
             }
         };

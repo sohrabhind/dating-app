@@ -52,40 +52,44 @@
                 app:srcCompat="@drawable/level_gold"
                 android:layout_marginTop="18dp"
                 android:layout_marginBottom="18dp"
+                android:gravity="center"
                 android:layout_gravity="center"/>
 
 
 
             <TextView
                 android:id="@+id/total_messages"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1500 Messages"
                 android:textColor="@color/overlay_dark_60"
                 android:textSize="16dp"
                 android:layout_marginBottom="10dp"
+                android:gravity="center"
                 android:layout_gravity="center" />
 
 
             <TextView
                 android:id="@+id/total_likes"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="500 Likes"
                 android:textColor="@color/overlay_dark_60"
                 android:textSize="16dp"
                 android:layout_marginBottom="10dp"
+                android:gravity="center"
                 android:layout_gravity="center" />
 
 
             <TextView
                 android:id="@+id/profile_boost"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="5x Profile Visibility"
                 android:textColor="@color/overlay_dark_60"
                 android:textSize="16dp"
                 android:layout_marginBottom="18dp"
+                android:gravity="center"
                 android:layout_gravity="center" />
 
 

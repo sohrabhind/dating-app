@@ -15,8 +15,8 @@ android {
     }
 
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_11
-        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_17
     }
 
     buildTypes {
@@ -60,16 +60,17 @@ dependencies {
     implementation 'com.google.android.gms:play-services-safetynet:18.0.1'
     implementation 'com.google.android.gms:play-services-gcm:17.0.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
-    implementation 'com.android.billingclient:billing:6.0.0'
+    implementation 'com.android.billingclient:billing:6.0.1'
     implementation 'com.google.android.exoplayer:exoplayer:2.18.7'
 
-    implementation platform('com.google.firebase:firebase-bom:32.1.0')
+    implementation platform('com.google.firebase:firebase-bom:32.1.1')
     implementation 'com.google.firebase:firebase-core:21.1.1'
     implementation 'com.google.firebase:firebase-auth:22.0.0'
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-
+    implementation 'androidx.core:core-ktx:+'
 
 }
 
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'org.jetbrains.kotlin.android'

@@ -3,9 +3,8 @@
  * 
  *  @auther Ramesh M Nair
  * */
-package com.hindbyte.dating.util;
+package com.hindbyte.dating.util
 
-public interface TagClick {
-
-	void clickedTag(CharSequence tag);
+interface TagClick {
+    fun clickedTag(tag: CharSequence?)
 }

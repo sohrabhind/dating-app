@@ -21,16 +21,6 @@
                 android:scaleType="fitCenter"
                 android:contentDescription="@null" />
 
-            <ImageView
-                android:id="@+id/small_icon"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:src="@drawable/app_logo"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="4dp"
-                android:scaleType="fitXY"
-                android:contentDescription="@null" />
-
         </RelativeLayout>
 
 
