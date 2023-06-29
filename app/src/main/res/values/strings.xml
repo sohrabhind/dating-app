@@ -390,7 +390,6 @@
     <!-- added for version 3.4 -->
 
     <string name="label_typing">typing...</string>
-    <string name="label_chat_stickers">Stickers</string>
 
     <string name="label_multi_account_msg">You can not create multi-accounts!</string>
 
@@ -543,7 +542,6 @@
     <string name="label_item_delete_msg">Do you want to delete this Item?</string>
     <string name="action_image_from_gallery">Image from gallery</string>
     <string name="action_image_from_camera">Take photo</string>
-    <string name="action_choice_sticker">Stickers</string>
     
     <!--  For version 5.4  -->
 

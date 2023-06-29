@@ -69,11 +69,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.activity.UpgradeActivity;
 import com.hindbyte.dating.adapter.ChatListAdapter;
-import com.hindbyte.dating.adapter.StickerListAdapter;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.model.ChatItem;
-import com.hindbyte.dating.model.Sticker;
 import com.hindbyte.dating.util.CustomRequest;
 import com.hindbyte.dating.util.Helper;
 import com.hindbyte.dating.util.ToastWindow;
@@ -134,20 +132,17 @@ public class ChatFragment extends Fragment implements Constants {
     private BottomSheetDialog mBottomSheetDialog;
     private View mBottomSheet;
 
-    private ArrayList<Sticker> stickersList;
-    private StickerListAdapter stickersAdapter;
-
     BroadcastReceiver br, br_seen, br_typing_start, br_typing_end;
 
     private ArrayList<ChatItem> chatList;
 
     private ChatListAdapter chatAdapter;
 
-    String withProfile = "", messageText = "", messageImg = "", stickerImg = "";
+    String withProfile = "", messageText = "", messageImg = "";
     int chatId = 0, lastMessageId = 0, messagesCount = 0, position = 0;
-    long profileId = 0, stickerId = 0, lStickerId = 0;
+    long profileId = 0;
 
-    String lMessage = "", lStickerImg = "";
+    String lMessage = "";
 
     Boolean blocked = false;
 
@@ -349,13 +344,8 @@ public class ChatFragment extends Fragment implements Constants {
 
             img_container_visible = savedInstanceState.getBoolean("img_container_visible");
 
-            stickersList = savedInstanceState.getParcelableArrayList(STATE_LIST);
-            stickersAdapter = new StickerListAdapter(requireActivity(), stickersList);
 
         } else {
-
-            stickersList = new ArrayList<>();
-            stickersAdapter = new StickerListAdapter(requireActivity(), stickersList);
 
             App.getInstance().setCurrentChatId(chatId);
 
@@ -421,8 +411,6 @@ public class ChatFragment extends Fragment implements Constants {
                 String msgFromUserPhotoUrl = intent.getStringExtra("msgFromUserPhotoUrl");
                 String msgMessage = intent.getStringExtra("msgMessage");
                 String msgImgUrl = intent.getStringExtra("msgImgUrl");
-                String stickerImgUrl = intent.getStringExtra("stickerImgUrl");
-                int stickerId = intent.getIntExtra("stickerId", 0);
                 int msgCreateAt = intent.getIntExtra("msgCreateAt", 0);
                 String msgDate = intent.getStringExtra("msgDate");
                 String msgTimeAgo = intent.getStringExtra("msgTimeAgo");
@@ -448,8 +436,6 @@ public class ChatFragment extends Fragment implements Constants {
 
                 c.setMessage(msgMessage);
                 c.setImgUrl(msgImgUrl);
-                c.setStickerImgUrl(stickerImgUrl);
-                c.setStickerId(stickerId);
                 c.setCreateAt(msgCreateAt);
                 c.setDate(msgDate);
                 c.setTimeAgo(msgTimeAgo);
@@ -810,8 +796,6 @@ public class ChatFragment extends Fragment implements Constants {
         outState.putBoolean("preload", preload);
 
         outState.putBoolean("img_container_visible", img_container_visible);
-
-        outState.putParcelableArrayList(STATE_LIST, stickersList);
     }
 
     private void scrollListViewToBottom() {
@@ -1126,21 +1110,12 @@ public class ChatFragment extends Fragment implements Constants {
                 params.put("listId", String.valueOf(listView.getAdapter().getCount()));
                 params.put("chatFromUserId", Long.toString(fromUserId));
                 params.put("chatToUserId", Long.toString(toUserId));
-                params.put("stickerImgUrl", lStickerImg);
-                params.put("stickerId", Long.toString(lStickerId));
                 return params;
             }
         };
 
 
         lMessage = messageText;
-        lStickerImg = stickerImg;
-        lStickerId = stickerId;
-        if (stickerId != 0) {
-            messageImg = stickerImg;
-            lMessage = "";
-            messageText = "";
-        }
 
         int socketTimeout = 0;//0 seconds - change to what you want
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
@@ -1156,21 +1131,12 @@ public class ChatFragment extends Fragment implements Constants {
         mMessageText.setText("");
         messagesCount++;
 
-        stickerImg = "";
-        stickerId = 0;
         hideImageContainer();
     }
 
 
     public Boolean uploadFile(String serverURL, File file) {
         lMessage = messageText;
-        lStickerImg = stickerImg;
-        lStickerId = stickerId;
-        if (stickerId != 0) {
-            messageImg = stickerImg;
-            lMessage = "";
-            messageText = "";
-        }
 
         outboxTyping = false;
 
@@ -1181,8 +1147,6 @@ public class ChatFragment extends Fragment implements Constants {
         mMessageText.setText("");
         messagesCount++;
 
-        stickerImg = "";
-        stickerId = 0;
         hideImageContainer();
 
         final OkHttpClient client = new OkHttpClient();
@@ -1199,8 +1163,6 @@ public class ChatFragment extends Fragment implements Constants {
                     .addFormDataPart("listId", String.valueOf(listView.getAdapter().getCount()))
                     .addFormDataPart("chatFromUserId", Long.toString(fromUserId))
                     .addFormDataPart("chatToUserId", Long.toString(toUserId))
-                    .addFormDataPart("stickerImgUrl", lStickerImg)
-                    .addFormDataPart("stickerId", Long.toString(lStickerId))
                     .build();
 
             com.squareup.okhttp.Request request = new com.squareup.okhttp.Request.Builder()
@@ -1436,113 +1398,6 @@ public class ChatFragment extends Fragment implements Constants {
     }
 
 
-    public void loadStickers() {
-
-        CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_GET_STICKERS, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        try {
-
-                            if (!isAdded() || requireActivity() == null) {
-
-                                Log.e("ERROR", "ChatFragment Not Added to Activity");
-
-                                return;
-                            }
-
-                            if (!loadingMore) {
-
-                                stickersList.clear();
-                            }
-
-                            arrayLength = 0;
-
-                            if (!response.getBoolean("error")) {
-
-//                                stickerId = response.getInt("itemId");
-
-                                if (response.has("items")) {
-
-                                    JSONArray stickersArray = response.getJSONArray("items");
-
-                                    arrayLength = stickersArray.length();
-
-                                    if (arrayLength > 0) {
-
-                                        for (int i = 0; i < stickersArray.length(); i++) {
-
-                                            JSONObject stickerObj = (JSONObject) stickersArray.get(i);
-
-                                            Sticker u = new Sticker(stickerObj);
-
-                                            stickersList.add(u);
-                                        }
-                                    }
-                                }
-                            }
-
-                        } catch (JSONException e) {
-
-                            e.printStackTrace();
-
-                        } finally {
-
-                            Log.d("SUCCESS", "ChatFragment Success Load Stickers");
-
-                            stickersAdapter.notifyDataSetChanged();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                if (!isAdded() || requireActivity() == null) {
-
-                    Log.e("ERROR", "ChatFragment Not Added to Activity");
-
-                    return;
-                }
-
-                Log.e("ERROR", "ChatFragment Not Load Stickers");
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("accountId", Long.toString(App.getInstance().getId()));
-                params.put("accessToken", App.getInstance().getAccessToken());
-                params.put("itemId", String.valueOf(0));
-
-                return params;
-            }
-        };
-
-        jsonReq.setRetryPolicy(new RetryPolicy() {
-
-            @Override
-            public int getCurrentTimeout() {
-
-                return 50000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-
-                return 50000;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-        });
-
-        App.getInstance().addToRequestQueue(jsonReq);
-    }
-
     private void showMoreDialog() {
 
         if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
@@ -1552,21 +1407,10 @@ public class ChatFragment extends Fragment implements Constants {
 
         final View view = getLayoutInflater().inflate(R.layout.chat_sheet_list, null);
 
-        MaterialRippleLayout mStickersButton = (MaterialRippleLayout) view.findViewById(R.id.stickers_button);
         MaterialRippleLayout mGalleryButton = (MaterialRippleLayout) view.findViewById(R.id.gallery_button);
         MaterialRippleLayout mCameraButton = (MaterialRippleLayout) view.findViewById(R.id.camera_button);
 
-        mStickersButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                mBottomSheetDialog.dismiss();
-
-                choiceStickerDialog();
-            }
-        });
-
+        
         mGalleryButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -1648,175 +1492,6 @@ public class ChatFragment extends Fragment implements Constants {
                 mBottomSheetDialog = null;
             }
         });
-    }
-
-    private void choiceStickerDialog() {
-
-        final Dialog dialog = new Dialog(requireActivity());
-        dialog.setContentView(R.layout.dialog_stickers);
-        dialog.setCancelable(true);
-
-        final ProgressBar mProgressBar = (ProgressBar) dialog.findViewById(R.id.progress_bar);
-        mProgressBar.setVisibility(View.GONE);
-
-        TextView mDlgTitle = (TextView) dialog.findViewById(R.id.title_label);
-        mDlgTitle.setText(R.string.label_chat_stickers);
-
-        AppCompatButton mDlgCancelButton = (AppCompatButton) dialog.findViewById(R.id.cancel_button);
-        mDlgCancelButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                dialog.dismiss();
-            }
-        });
-
-        NestedScrollView mDlgNestedView = (NestedScrollView) dialog.findViewById(R.id.nested_view);
-        final RecyclerView mDlgRecyclerView = (RecyclerView) dialog.findViewById(R.id.recycler_view);
-
-        final LinearLayoutManager mLayoutManager = new GridLayoutManager(requireActivity(), Helper.getStickersGridSpanCount(requireActivity()));
-        mDlgRecyclerView.setLayoutManager(mLayoutManager);
-        mDlgRecyclerView.setHasFixedSize(true);
-        mDlgRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        mDlgRecyclerView.setAdapter(stickersAdapter);
-
-        mDlgRecyclerView.setNestedScrollingEnabled(true);
-
-        stickersAdapter.setOnItemClickListener(new StickerListAdapter.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(View view, Sticker obj, int position) {
-
-                stickerId = obj.getId();
-                stickerImg = obj.getImgUrl();
-
-                send();
-
-                dialog.dismiss();
-            }
-        });
-
-        if (stickersList.size() == 0) {
-
-            mDlgRecyclerView.setVisibility(View.GONE);
-            mProgressBar.setVisibility(View.VISIBLE);
-
-            CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_GET_STICKERS, null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-
-                            try {
-
-                                if (!isAdded() || requireActivity() == null) {
-
-                                    Log.e("ERROR", "ChatFragment Not Added to Activity");
-
-                                    return;
-                                }
-
-                                if (!loadingMore) {
-
-                                    stickersList.clear();
-                                }
-
-                                arrayLength = 0;
-
-                                if (!response.getBoolean("error")) {
-
-//                                stickerId = response.getInt("itemId");
-
-                                    if (response.has("items")) {
-
-                                        JSONArray stickersArray = response.getJSONArray("items");
-
-                                        arrayLength = stickersArray.length();
-
-                                        if (arrayLength > 0) {
-
-                                            for (int i = 0; i < stickersArray.length(); i++) {
-
-                                                JSONObject stickerObj = (JSONObject) stickersArray.get(i);
-
-                                                Sticker u = new Sticker(stickerObj);
-
-                                                stickersList.add(u);
-                                            }
-                                        }
-                                    }
-                                }
-
-                            } catch (JSONException e) {
-
-                                e.printStackTrace();
-
-                            } finally {
-
-                                Log.d("SUCCESS", "ChatFragment Success Load Stickers");
-
-                                stickersAdapter.notifyDataSetChanged();
-
-                                if (stickersAdapter.getItemCount() != 0) {
-
-                                    mDlgRecyclerView.setVisibility(View.VISIBLE);
-                                    mProgressBar.setVisibility(View.GONE);
-                                }
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                    if (!isAdded() || requireActivity() == null) {
-
-                        Log.e("ERROR", "ChatFragment Not Added to Activity");
-
-                        return;
-                    }
-
-                    Log.e("ERROR", "ChatFragment Not Load Stickers");
-                }
-            }) {
-
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("accountId", Long.toString(App.getInstance().getId()));
-                    params.put("accessToken", App.getInstance().getAccessToken());
-                    params.put("itemId", String.valueOf(0));
-
-                    return params;
-                }
-            };
-
-            jsonReq.setRetryPolicy(new RetryPolicy() {
-
-                @Override
-                public int getCurrentTimeout() {
-
-                    return 50000;
-                }
-
-                @Override
-                public int getCurrentRetryCount() {
-
-                    return 50000;
-                }
-
-                @Override
-                public void retry(VolleyError error) throws VolleyError {
-
-                }
-            });
-
-            App.getInstance().addToRequestQueue(jsonReq);
-        }
-
-        dialog.show();
-
-        doKeepDialog(dialog);
     }
 
     // Prevent dialog dismiss when orientation changes

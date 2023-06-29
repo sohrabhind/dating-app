@@ -11,9 +11,9 @@ import com.hindbyte.dating.constants.Constants;
 
 public class ChatItem extends Application implements Constants, Parcelable {
 
-    private long fromUserId, stickerId;
+    private long fromUserId;
     private int id, fromUserState, createAt, listId = 0, seenAt;
-    private String fromUserUsername, fromUserFullname, fromUserPhotoUrl, message, imgUrl, timeAgo, date, stickerImgUrl;
+    private String fromUserUsername, fromUserFullname, fromUserPhotoUrl, message, imgUrl, timeAgo, date;
 
     public ChatItem() {
 
@@ -35,17 +35,6 @@ public class ChatItem extends Application implements Constants, Parcelable {
             this.setSeenAt(jsonData.getInt("seenAt"));
             this.setDate(jsonData.getString("date"));
             this.setTimeAgo(jsonData.getString("timeAgo"));
-
-            if (jsonData.has("stickerId")) {
-
-                this.setStickerId(jsonData.getInt("stickerId"));
-                this.setStickerImgUrl(jsonData.getString("stickerImgUrl"));
-
-            } else {
-
-                this.setStickerId(0);
-                this.setStickerImgUrl("");
-            }
 
         } catch (Throwable t) {
 
@@ -187,26 +176,6 @@ public class ChatItem extends Application implements Constants, Parcelable {
         return this.seenAt;
     }
 
-    public void setStickerId(long stickerId) {
-
-        this.stickerId = stickerId;
-    }
-
-    public long getStickerId() {
-
-        return this.stickerId;
-    }
-
-    public void setStickerImgUrl(String stickerImgUrl) {
-
-        this.stickerImgUrl = stickerImgUrl;
-    }
-
-    public String getStickerImgUrl() {
-
-        return this.stickerImgUrl;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -215,7 +184,6 @@ public class ChatItem extends Application implements Constants, Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.fromUserId);
-        dest.writeLong(this.stickerId);
         dest.writeInt(this.id);
         dest.writeInt(this.fromUserState);
         dest.writeInt(this.createAt);
@@ -228,12 +196,10 @@ public class ChatItem extends Application implements Constants, Parcelable {
         dest.writeString(this.imgUrl);
         dest.writeString(this.timeAgo);
         dest.writeString(this.date);
-        dest.writeString(this.stickerImgUrl);
     }
 
     protected ChatItem(Parcel in) {
         this.fromUserId = in.readLong();
-        this.stickerId = in.readLong();
         this.id = in.readInt();
         this.fromUserState = in.readInt();
         this.createAt = in.readInt();
@@ -246,7 +212,6 @@ public class ChatItem extends Application implements Constants, Parcelable {
         this.imgUrl = in.readString();
         this.timeAgo = in.readString();
         this.date = in.readString();
-        this.stickerImgUrl = in.readString();
     }
 
     public static final Creator<ChatItem> CREATOR = new Creator<ChatItem>() {

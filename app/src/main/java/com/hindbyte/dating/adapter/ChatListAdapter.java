@@ -177,25 +177,7 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
                 viewHolder.mRight_FromUser.setImageResource(R.drawable.profile_default_photo);
             }
 
-            if (chatItem.getStickerId() != 0) {
-
-                viewHolder.mRight_Img.getLayoutParams().width = 256;
-                viewHolder.mRight_Img.requestLayout();
-
-                viewHolder.mRight_Img.setOnClickListener(null);
-
-                                
-            Picasso.get()
-            .load(chatItem.getStickerImgUrl())
-            .placeholder(R.drawable.profile_default_photo)
-            .error(R.drawable.profile_default_photo)
-            .into(viewHolder.mRight_Img);
-
-                viewHolder.mRight_Img.setVisibility(View.VISIBLE);
-
-            } else {
-
-                if (chatItem.getImgUrl().length() != 0) {
+            if (chatItem.getImgUrl().length() != 0) {
 
                     viewHolder.mRight_Img.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
                     viewHolder.mRight_Img.requestLayout();
@@ -226,7 +208,6 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
 
                     viewHolder.mRight_Img.setVisibility(View.GONE);
                 }
-            }
 
             viewHolder.mRight_FromUser.setVisibility(View.GONE);
 
@@ -289,9 +270,7 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
 
             if (chatItem.getImgUrl().length() != 0) {
 
-                if (chatItem.getStickerId() == 0) {
-
-                    viewHolder.mRight_Img.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                viewHolder.mRight_Img.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
                     viewHolder.mRight_Img.requestLayout();
 
                     viewHolder.mLeft_Img.setOnClickListener(new View.OnClickListener() {
@@ -304,14 +283,6 @@ public class ChatListAdapter extends BaseAdapter implements Constants {
                             activity.startActivity(i);
                         }
                     });
-
-                } else {
-
-                    viewHolder.mRight_Img.setOnClickListener(null);
-
-                    viewHolder.mLeft_Img.getLayoutParams().width = 256;
-                    viewHolder.mLeft_Img.requestLayout();
-                }
 
                                                 
             Picasso.get()

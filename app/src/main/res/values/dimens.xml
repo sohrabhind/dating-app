@@ -11,7 +11,6 @@
 
     <dimen name="item_size">192dp</dimen>
     <dimen name="gallery_item_size">120dp</dimen>
-    <dimen name="sticker_item_size">96dp</dimen>
 
 
     <dimen name="button_text_size">14sp</dimen>

@@ -120,8 +120,6 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
         String msgFromUserFullname = "";
         String msgMessage = "";
         String msgImgUrl = "";
-        String stickerImgUrl = "";
-        String stickerId = "0";
         String msgCreateAt = "0";
         String msgDate = "";
         String msgTimeAgo = "";
@@ -159,14 +157,6 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
 
             if (data.containsKey("msgImgUrl")) {
                 msgImgUrl = data.get("msgImgUrl").toString();
-            }
-
-            if (data.containsKey("stickerImgUrl")) {
-                stickerImgUrl = data.get("stickerImgUrl").toString();
-            }
-
-            if (data.containsKey("stickerId")) {
-                stickerId = data.get("stickerId").toString();
             }
 
             msgCreateAt = data.get("msgCreateAt").toString();
@@ -359,8 +349,6 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
                         i.putExtra("msgFromUserPhotoUrl", msgFromUserPhotoUrl);
                         i.putExtra("msgMessage", msgMessage);
                         i.putExtra("msgImgUrl", msgImgUrl);
-                        i.putExtra("stickerImgUrl", stickerImgUrl);
-                        i.putExtra("stickerId", stickerId);
                         i.putExtra("msgCreateAt", Integer.valueOf(msgCreateAt));
                         i.putExtra("msgDate", msgDate);
                         i.putExtra("msgTimeAgo", msgTimeAgo);

@@ -363,15 +363,6 @@ class Helper : Application {
             return Math.round(screenWidth / cellWidth)
         }
 
-        @JvmStatic
-        fun getStickersGridSpanCount(activity: FragmentActivity): Int {
-            val display = activity.windowManager.defaultDisplay
-            val displayMetrics = DisplayMetrics()
-            display.getMetrics(displayMetrics)
-            val screenWidth = displayMetrics.widthPixels.toFloat()
-            val cellWidth = activity.resources.getDimension(R.dimen.sticker_item_size)
-            return Math.round(screenWidth / cellWidth)
-        }
 
         @JvmStatic
         fun randomString(len: Int): String {

@@ -37,7 +37,7 @@ interface Constants {
         // EMOJI_KEYBOARD, WEB_SITE_AVAILABLE, GOOGLE_PAY_TEST_BUTTON, FACEBOOK_AUTHORIZATION,
         // APP_TEMP_FOLDER, API_DOMAIN, WEB_SITE,
         // VERIFIED_BADGE_COST, DISABLE_ADS_COST,
-        // PRO_MODE_COST, HASHTAGS_COLOR
+        // PRO_MODE_COST
         // It is forbidden to change value of constants, which are not indicated above !!!
         const val VOLLEY_REQUEST_SECONDS = 15 //SECONDS TO REQUEST
         const val GOOGLE_AUTHORIZATION =
@@ -115,9 +115,6 @@ interface Constants {
         const val METHOD_MSG_UPLOAD_IMG =
             API_DOMAIN + "api/" + API_VERSION + "/method/msg.uploadimg" + API_FILE_EXTENSION
 
-        // added for version 3.2
-        const val METHOD_GET_STICKERS =
-            API_DOMAIN + "api/" + API_VERSION + "/method/stickers.get" + API_FILE_EXTENSION
 
         // added for version 3.4
         const val METHOD_CHAT_NOTIFY =
@@ -260,6 +257,5 @@ interface Constants {
         const val PAGE_MENU = 18
         const val PAGE_MAIN = 19
         const val TAG = "TAG"
-        const val HASHTAGS_COLOR = "#5BCFF2"
     }
 }
