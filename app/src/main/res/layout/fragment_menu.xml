@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,20 +14,10 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/spacing_large"
-            android:background="@color/transparent" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/colorSeparator" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorCardBackground"
+            android:background="@color/colorPageBackground"
             android:orientation="vertical"
             android:visibility="visible">
 
@@ -110,7 +101,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1px"
+            android:layout_height="2px"
             android:background="@color/colorSeparator" />
 
         <View
@@ -118,24 +109,13 @@
             android:layout_height="@dimen/spacing_large"
             android:background="@color/transparent" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/colorSeparator" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorCardBackground"
+            android:background="@color/colorPageBackground"
             android:minHeight="@dimen/spacing_xlarge"
             android:orientation="vertical">
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginStart="40dp"
-                android:background="@color/colorSeparator" />
 
 
             <com.balysv.materialripple.MaterialRippleLayout
@@ -168,11 +148,11 @@
                 </LinearLayout>
             </com.balysv.materialripple.MaterialRippleLayout>
 
-
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1px"
+                android:layout_height="2px"
                 android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
                 android:background="@color/colorSeparator" />
 
             <com.balysv.materialripple.MaterialRippleLayout
@@ -205,11 +185,11 @@
                 </LinearLayout>
             </com.balysv.materialripple.MaterialRippleLayout>
 
-
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1px"
+                android:layout_height="2px"
                 android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
                 android:background="@color/colorSeparator" />
 
             <com.balysv.materialripple.MaterialRippleLayout
@@ -250,8 +230,9 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginLeft="40dp"
+                android:layout_height="2px"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
                 android:background="@color/colorSeparator" />
 
             <com.balysv.materialripple.MaterialRippleLayout
@@ -286,8 +267,9 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1px"
+                android:layout_height="2px"
                 android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
                 android:background="@color/colorSeparator" />
 
             <com.balysv.materialripple.MaterialRippleLayout
@@ -320,6 +302,14 @@
                 </LinearLayout>
 
             </com.balysv.materialripple.MaterialRippleLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:background="@color/colorSeparator" />
 
         </LinearLayout>
 

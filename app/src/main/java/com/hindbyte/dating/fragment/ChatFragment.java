@@ -1407,8 +1407,8 @@ public class ChatFragment extends Fragment implements Constants {
 
         final View view = getLayoutInflater().inflate(R.layout.chat_sheet_list, null);
 
-        MaterialRippleLayout mGalleryButton = (MaterialRippleLayout) view.findViewById(R.id.gallery_button);
-        MaterialRippleLayout mCameraButton = (MaterialRippleLayout) view.findViewById(R.id.camera_button);
+        MaterialRippleLayout mGalleryButton = view.findViewById(R.id.gallery_button);
+        MaterialRippleLayout mCameraButton = view.findViewById(R.id.camera_button);
 
         
         mGalleryButton.setOnClickListener(new View.OnClickListener() {

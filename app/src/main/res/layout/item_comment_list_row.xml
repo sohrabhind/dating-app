@@ -15,7 +15,7 @@
         app:cardCornerRadius="@dimen/spacing_medium"
         app:cardElevation="@dimen/spacing_xsmall"
         app:cardUseCompatPadding="true"
-        android:background="@color/colorCardBackground" >
+        android:background="@color/colorPageBackground" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,7 +38,7 @@
                     android:src="@drawable/profile_default_photo"
                     app:civ_border="true"
                     app:civ_border_color="@color/gray_bg"
-                    app:civ_border_width="1dp"
+                    app:civ_border_width="2px"
                     app:civ_shadow="false"
                     app:civ_shadow_radius="0dp" />
 

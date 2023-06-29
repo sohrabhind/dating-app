@@ -22,8 +22,8 @@
             android:layout_marginRight="10dp"
             android:src="@drawable/profile_default_photo"
             app:border="true"
-            app:border_color="@color/avatar_border"
-            app:border_width="1dp"
+            app:border_color="@color/grey_5"
+            app:border_width="2px"
             app:shadow="false" />
 
         <LinearLayout

@@ -43,7 +43,7 @@
     </style>
 
     <style name="MyMaterialTheme.WhiteAccent">
-        <item name="colorAccent">@color/light_gray</item> <!-- Whatever color you want-->
+        <item name="colorAccent">@color/grey_5</item> <!-- Whatever color you want-->
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowDisablePreview">true</item>
         <item name="fontFamily">@font/gotham_medium</item>

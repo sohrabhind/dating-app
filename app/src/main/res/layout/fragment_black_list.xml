@@ -23,9 +23,9 @@
                 android:layout_height="match_parent"
                 android:scrollbars="none"
                 android:id="@+id/listView"
-                android:divider="@color/listViewDivider2"
-                android:dividerHeight="1dp"
-                android:background="@color/listViewDivider" />
+                android:divider="@color/colorSeparator"
+                android:dividerHeight="2px"
+                android:background="@color/grey_5" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

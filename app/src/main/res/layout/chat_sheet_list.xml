@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    android:background="@color/colorCardBackground"
+    android:background="@color/colorPageBackground"
     android:orientation="vertical"
     android:paddingBottom="@dimen/spacing_medium"
     android:paddingTop="@dimen/spacing_medium">

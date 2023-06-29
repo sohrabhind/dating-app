@@ -39,8 +39,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/chat_content_border">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -68,7 +67,7 @@
                     android:layout_height="match_parent"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:background="@color/colorDialogFooterBackground"
+                    android:background="@color/grey_5"
                     android:id="@+id/container_img">
 
                     <ImageView
@@ -91,14 +90,14 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="2px"
                     android:background="@color/colorSeparator"/>
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorDialogFooterBackground">
+                    android:background="@color/grey_5">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -123,7 +122,7 @@
                         android:inputType="textMultiLine"
                         android:id="@+id/messageText"
                         android:hint="@string/placeholder_message"
-                        android:background="@color/colorLightBackground"
+                        android:background="@color/colorMessageText"
                         android:layout_weight="1"
                         android:minHeight="50dp"
                         android:padding="10dp"
@@ -149,6 +148,7 @@
                 </LinearLayout>
 
             </LinearLayout>
+
         </LinearLayout>
 
         <RelativeLayout
@@ -165,6 +165,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:gravity="center" />
+
         </RelativeLayout>
 
         <RelativeLayout

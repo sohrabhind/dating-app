@@ -27,9 +27,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 app:cardElevation="5dp"
-                app:cardCornerRadius="1dp"
+                app:cardCornerRadius="2px"
                 app:cardUseCompatPadding="true"
-                android:background="@color/colorCardBackground" >
+                android:background="@color/colorPageBackground" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -104,7 +104,7 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1px"
+                        android:layout_height="2px"
                         android:background="@color/colorSeparator" />
 
                     <LinearLayout

@@ -96,7 +96,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="2px"
                 android:background="@color/colorSeparator"/>
 
 
@@ -119,35 +119,39 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:srcCompat="@drawable/level_silver"
+                    android:gravity="center"
                     android:layout_gravity="center"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/silver_purchase"
                     android:textColor="@color/overlay_dark_80"
                     android:textSize="18dp"
                     android:textStyle="bold"
                     android:layout_marginTop="16dp"
+                    android:gravity="center"
                     android:layout_gravity="center"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="1 Month"
                     android:textColor="@color/overlay_dark_60"
                     android:textSize="16dp"
                     android:layout_marginTop="16dp"
+                    android:gravity="center"
                     android:layout_gravity="center" />
 
                 <TextView
                     android:id="@+id/iap1_google_price"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/action_buy_iap1_google_pay"
                     android:textColor="@color/overlay_dark_60"
                     android:textSize="16dp"
                     android:layout_marginTop="10dp"
+                    android:gravity="center"
                     android:layout_gravity="center" />
 
 
@@ -156,7 +160,7 @@
 
                 <LinearLayout
                     android:orientation="vertical"
-                    android:layout_width="1dp"
+                    android:layout_width="2px"
                     android:layout_height="match_parent"
                     android:background="@color/colorSeparator" />
 
@@ -174,36 +178,40 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:srcCompat="@drawable/level_gold"
+                    android:gravity="center"
                     android:layout_gravity="center"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/gold_purchase"
                     android:textColor="@color/overlay_dark_80"
                     android:textSize="18dp"
                     android:textStyle="bold"
                     android:layout_marginTop="16dp"
+                    android:gravity="center"
                     android:layout_gravity="center"/>
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="1 Month"
                     android:textColor="@color/overlay_dark_60"
                     android:textSize="16dp"
                     android:layout_marginTop="16dp"
+                    android:gravity="center"
                     android:layout_gravity="center" />
 
                 <TextView
                     android:id="@+id/iap2_google_price"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/action_buy_iap2_google_pay"
                     android:textColor="@color/overlay_dark_60"
                     android:textSize="16dp"
                     android:layout_marginTop="10dp"
+                    android:gravity="center"
                     android:layout_gravity="center"/>
 
 
@@ -213,7 +221,7 @@
 
                 <LinearLayout
                     android:orientation="vertical"
-                    android:layout_width="1dp"
+                    android:layout_width="2px"
                     android:layout_height="match_parent"
                     android:background="@color/colorSeparator" />
 
@@ -231,36 +239,40 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:srcCompat="@drawable/level_diamond"
+                    android:gravity="center"
                     android:layout_gravity="center"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/diamond_purchase"
                     android:textColor="@color/overlay_dark_80"
                     android:textSize="18dp"
                     android:textStyle="bold"
                     android:layout_marginTop="16dp"
+                    android:gravity="center"
                     android:layout_gravity="center" />
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="1 Month"
                     android:textColor="@color/overlay_dark_60"
                     android:textSize="16dp"
                     android:layout_marginTop="16dp"
+                    android:gravity="center"
                     android:layout_gravity="center" />
 
                 <TextView
                     android:id="@+id/iap3_google_price"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/action_buy_iap3_google_pay"
                     android:textColor="@color/overlay_dark_60"
                     android:textSize="16dp"
                     android:layout_marginTop="10dp"
+                    android:gravity="center"
                     android:layout_gravity="center" />
 
 
@@ -273,7 +285,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="2px"
                 android:background="@color/colorSeparator" />
 
             <TextView
