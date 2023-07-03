@@ -1,13 +1,18 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/action_report"
         android:orderInCategory="100"
-        android:title="@string/action_report" />
+        android:title="@string/action_report"
+        app:iconTint="@color/md_theme_light_onPrimary"
+        android:iconTint="@color/md_theme_light_onPrimary" />
 
     <item
         android:id="@+id/action_reply"
         android:orderInCategory="101"
-        android:title="@string/action_reply" />
+        android:title="@string/action_reply"
+        app:iconTint="@color/md_theme_light_onPrimary"
+        android:iconTint="@color/md_theme_light_onPrimary" />
 
 </menu>

@@ -5,8 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorPageBackground" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:orientation="vertical"
@@ -77,7 +76,7 @@
                     android:layout_width="96dp"
                     android:layout_height="96dp"
                     app:srcCompat="@drawable/ic_messages"
-                    app:tint="@color/colorIconTint" />
+                    app:tint="@color/md_theme_light_outline" />
 
                 <TextView
                     android:id="@+id/message"
@@ -89,7 +88,7 @@
                     android:paddingRight="50dp"
                     android:text="@string/label_empty_list"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/colorIconTint"
+                    android:textColor="@color/md_theme_light_outline"
                     android:textStyle="bold" />
             </LinearLayout>
 

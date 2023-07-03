@@ -474,17 +474,17 @@ public class RegisterActivity extends ActivityBase {
                 }
                 if (mButtonGenderMale != null && mButtonGenderFemale != null && mButtonGenderOther != null) {
                     if (gender == 0) {
-                        mButtonGenderMale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.gray));
-                        mButtonGenderFemale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.overlay_light_90));
-                        mButtonGenderOther.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.overlay_light_90));
+                        mButtonGenderMale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.md_theme_light_primaryContainer));
+                        mButtonGenderFemale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.md_theme_light_tertiaryContainer));
+                        mButtonGenderOther.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.md_theme_light_tertiaryContainer));
                     } else if (gender == 1) {
-                        mButtonGenderMale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.overlay_light_90));
-                        mButtonGenderFemale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.gray));
-                        mButtonGenderOther.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.overlay_light_90));
+                        mButtonGenderMale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.md_theme_light_tertiaryContainer));
+                        mButtonGenderFemale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.md_theme_light_primaryContainer));
+                        mButtonGenderOther.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.md_theme_light_tertiaryContainer));
                     } else if (gender == 2) {
-                        mButtonGenderMale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.overlay_light_90));
-                        mButtonGenderFemale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.overlay_light_90));
-                        mButtonGenderOther.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.gray));
+                        mButtonGenderMale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.md_theme_light_tertiaryContainer));
+                        mButtonGenderFemale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.md_theme_light_tertiaryContainer));
+                        mButtonGenderOther.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.md_theme_light_primaryContainer));
                     }
                 }
                 break;
@@ -527,20 +527,16 @@ public class RegisterActivity extends ActivityBase {
     private void addMarkers(int currentPage) {
 
         markers = new TextView[screens.length];
-
         mMarkersLayout.removeAllViews();
-
         for (int i = 0; i < markers.length; i++) {
             markers[i] = new TextView(this);
             markers[i].setText(Html.fromHtml("&#8226;"));
             markers[i].setTextSize(35);
-            markers[i].setTextColor(getResources().getColor(R.color.overlay_light_30));
+            markers[i].setTextColor(getResources().getColor(R.color.white));
             mMarkersLayout.addView(markers[i]);
         }
-
         if (markers.length > 0)
-
-            markers[currentPage].setTextColor(getResources().getColor(R.color.white));
+            markers[currentPage].setTextColor(getResources().getColor(R.color.md_theme_light_primary));
     }
 
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {

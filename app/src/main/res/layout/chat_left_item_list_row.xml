@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:padding="10dp">
 
-    <!-- Thumbnail Image -->
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -29,8 +29,8 @@
                 android:minWidth="16dp"
                 android:layout_marginRight="10dp"
                 app:border="true"
-                app:border_color="@color/grey_5"
-                app:border_width="2px"
+                app:border_color="@color/md_theme_light_onBackground"
+                app:border_width="1dp"
                 app:shadow="false" />
 
             <LinearLayout
@@ -58,11 +58,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/spacing_middle"
-                        android:background="@color/colorChatCardBackground"
+                        android:background="@drawable/chat_box_incoming"
                         android:singleLine="false"
                         android:textSize="16dp"
                         android:textStyle="normal"
-                        android:textColor="@color/colorSubTitle"
+                        android:textColor="@color/md_theme_light_surface"
                         android:text="Example message"
                         android:layout_marginTop="3dp" />
 
@@ -89,9 +89,9 @@
                 android:text="4m ago"
                 android:id="@+id/left_timeAgo"
                 android:layout_marginTop="5dp"
-                android:textColor="@color/colorSubTitle"
+                android:textColor="@color/material_on_background_disabled"
                 android:fontFamily="sans-serif-light"
-                android:textSize="14dp"
+                android:textSize="13dp"
                 android:singleLine="true" />
 
             <TextView
@@ -103,7 +103,7 @@
                 android:textAllCaps="false"
                 android:layout_marginTop="5dp"
                 android:textStyle=""
-                android:textColor="@color/gray"
+                android:textColor="@color/material_on_background_disabled"
                 android:fontFamily="sans-serif-light"
                 android:textSize="13dp"
                 android:singleLine="true" />
@@ -154,13 +154,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/spacing_middle"
-                        android:background="@color/colorChatMyCardBackground"
+                        android:background="@drawable/chat_box"
                         android:singleLine="false"
                         android:textSize="16dp"
                         android:textStyle="normal"
-                        android:textColor="@color/colorSubTitle"
+                        android:textColor="@color/md_theme_light_surface"
                         android:text="Example message"
                         android:layout_marginTop="3dp" />
+
                 </LinearLayout>
                 
             </LinearLayout>
@@ -174,16 +175,16 @@
                 android:minWidth="16dp"
                 android:layout_marginLeft="10dp"
                 app:border="true"
-                app:border_color="@color/grey_5"
-                app:border_width="2px"
+                app:border_color="@color/md_theme_light_onBackground"
+                app:border_width="1dp"
                 app:shadow="false" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="right" >
 
             <TextView
@@ -192,25 +193,24 @@
                 android:text="4m ago"
                 android:id="@+id/right_timeAgo"
                 android:layout_marginTop="5dp"
-                android:textColor="@color/colorSubTitle"
+                android:textColor="@color/material_on_background_disabled"
                 android:fontFamily="sans-serif-light"
-                android:textSize="14dp"
+                android:textSize="13dp"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:singleLine="true" />
 
             <ImageView
-                app:srcCompat="@drawable/ic_action_done"
+                app:srcCompat="@drawable/ic_action_seen"
                 android:id="@+id/seenIcon"
                 android:layout_marginLeft="8dp"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                app:tint="@color/colorIconTint" />
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="bottom"
+                app:tint="@color/material_on_background_disabled" />
 
         </LinearLayout>
 
     </LinearLayout>
-
-    <!-- Person Full name -->
-
-    <!-- Status -->
 
 </LinearLayout>

@@ -8,12 +8,16 @@
         android:icon="@drawable/ic_filter_white"
         android:orderInCategory="100"
         android:title="@string/action_show_filters"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        app:iconTint="@color/md_theme_light_onPrimary"
+        android:iconTint="@color/md_theme_light_onPrimary"/>
 
     <item
         android:id="@+id/action_remove_all"
         android:title="@string/action_remove_all"
         android:orderInCategory="100"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        app:iconTint="@color/md_theme_light_onPrimary"
+        android:iconTint="@color/md_theme_light_onPrimary" />
 
 </menu>

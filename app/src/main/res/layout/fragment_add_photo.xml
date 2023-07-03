@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPageBackground"
     android:orientation="vertical" >
 
     <androidx.core.widget.NestedScrollView
@@ -50,7 +49,7 @@
                         android:layout_height="100dp"
                         android:layout_centerInParent="true"
                         android:src="@drawable/ic_action_add_photo"
-                        app:tint="@color/gray" />
+                        app:tint="@color/md_theme_light_onBackground" />
 
                     <ImageButton
                         android:id="@+id/delete_button"
@@ -60,7 +59,7 @@
                         android:layout_alignParentEnd="true"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_rejected"
-                        app:tint="@android:color/white" />
+                        app:tint="@color/md_theme_light_onBackground" />
 
                 </RelativeLayout>
 
@@ -69,8 +68,8 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:background="@color/colorSeparator"
+                android:layout_height="1px"
+                android:background="@color/md_theme_light_outlineVariant"
                 android:visibility="gone"/>
 
         </LinearLayout>
@@ -85,7 +84,7 @@
         android:text="@string/action_create"
         android:background="@drawable/app_profile_button"
         android:layout_margin="10dp"
-        android:textColor="@color/white"
+        android:textColor="@color/md_theme_light_onPrimaryContainer"
         android:gravity="center"
         android:textSize="16sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"

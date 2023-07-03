@@ -206,7 +206,7 @@ setHasOptionsMenu(true);
 
     public Boolean checkCurrentPassword(String password) {
 
-        Helper helper = new Helper(requireActivity());
+        Helper helper = new Helper();
 
         if (password.length() == 0) {
 
@@ -236,7 +236,7 @@ setHasOptionsMenu(true);
 
     public Boolean checkNewPassword(String password) {
 
-        Helper helper = new Helper(requireActivity());
+        Helper helper = new Helper();
 
         if (password.length() == 0) {
 

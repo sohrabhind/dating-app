@@ -16,7 +16,7 @@
             android:layout_height="60dp"
             android:src="@drawable/icon_no_bg"
             android:layout_gravity="center"
-            app:tint="@color/white">
+            app:tint="@color/md_theme_light_onPrimary">
         </ImageView>
 
         <TextView
@@ -26,7 +26,7 @@
             android:text="@string/poppi"
             android:textSize="40sp"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="@color/md_theme_light_onPrimary"
             android:layout_gravity="center">
         </TextView>
 

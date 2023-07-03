@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/RippleStyleBlack"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground">
 
     <LinearLayout
-        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:orientation="horizontal"
         android:paddingBottom="@dimen/spacing_large"
         android:paddingTop="@dimen/spacing_large"
-        android:focusable="true">
+        android:orientation="horizontal">
 
         <View
             android:layout_width="@dimen/spacing_large"
@@ -34,8 +36,8 @@
                     android:layout_height="@dimen/spacing_xxlarge"
                     android:src="@drawable/profile_default_photo"
                     app:civ_border="true"
-                    app:civ_border_color="@color/gray_bg"
-                    app:civ_border_width="2px"
+                    app:civ_border_color="@color/md_theme_light_onBackground"
+                    app:civ_border_width="1dp"
                     app:civ_shadow="false"
                     app:civ_shadow_radius="0dp" />
 
@@ -46,8 +48,8 @@
                     android:layout_marginStart="32dp"
                     android:src="@drawable/ic_online"
                     app:civ_border="true"
-                    app:civ_border_color="@color/gray_bg"
-                    app:civ_border_width="2px"
+                    app:civ_border_color="@color/md_theme_light_onBackground"
+                    app:civ_border_width="1dp"
                     app:civ_shadow="false"
                     app:civ_shadow_radius="0dp" />
 
@@ -58,7 +60,7 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginStart="32dp"
                     android:src="@drawable/level_diamond"
-                    android:background="@android:color/transparent"/>
+                    android:background="@color/transparent"/>
 
             </RelativeLayout>
 
@@ -86,7 +88,7 @@
                     android:singleLine="true"
                     android:text="@string/app_name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorTitle"
+                    android:textColor="@color/md_theme_light_onBackground"
                     android:textStyle="bold" />
 
                 <TextView
@@ -98,7 +100,7 @@
                     android:singleLine="true"
                     android:text="@string/app_name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/colorSubTitle"
+                    android:textColor="@color/material_on_background_disabled"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -113,7 +115,7 @@
                         android:text="@string/app_name"
                         android:id="@+id/message"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="@color/colorSubTitle"
+                        android:textColor="@color/material_on_background_disabled"
                         android:layout_weight="1"
                         android:maxLines="1"
                         android:singleLine="true"
@@ -139,7 +141,7 @@
                 android:layout_alignParentEnd="true"
                 android:text="00:00"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/colorSubTitle"
+                android:textColor="@color/material_on_background_disabled"
                 android:textStyle="normal" />
 
         </RelativeLayout>
@@ -147,6 +149,12 @@
         <View
             android:layout_width="@dimen/spacing_large"
             android:layout_height="0dp" />
+
     </LinearLayout>
 
-</com.balysv.materialripple.MaterialRippleLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/md_theme_light_outlineVariant" />
+
+</LinearLayout>

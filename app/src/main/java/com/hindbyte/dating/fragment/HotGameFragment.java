@@ -6,7 +6,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -22,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -48,6 +51,8 @@ import com.android.volley.Request;
 import com.android.volley.RetryPolicy;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.activity.ChatActivity;
 import com.hindbyte.dating.adapter.HotgameAdapter;
@@ -474,17 +479,40 @@ public class HotGameFragment extends Fragment implements Constants {
         MainMenu = menu;
     }
 
+    private static void doKeepDialog(Dialog dialog){
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        dialog.getWindow().setAttributes(lp);
+    }
+
+    private BottomSheetDialog mBottomSheetDialog;
+
     public void getHotGameSettings() {
-        AlertDialog.Builder b = new AlertDialog.Builder(requireActivity());
-        b.setTitle(getText(R.string.label_hotgame_dialog_title));
         LinearLayout view = (LinearLayout) requireActivity().getLayoutInflater().inflate(R.layout.dialog_hotgame_settings, null);
-        b.setView(view);
+
+        mBottomSheetDialog = new BottomSheetDialog(requireActivity(), R.style.BottomSheetRoundCorner);
+        mBottomSheetDialog.setContentView(view);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
+        mBottomSheetDialog.show();
+        mBottomSheetDialog.setCancelable(true);
+        mBottomSheetDialog.setCanceledOnTouchOutside(true);
+
+        doKeepDialog(mBottomSheetDialog);
+
+
 
         final RadioButton mAnyGenderRadio = view.findViewById(R.id.radio_gender_any);
         final RadioButton mMaleGenderRadio = view.findViewById(R.id.radio_gender_male);
         final RadioButton mFemaleGenderRadio = view.findViewById(R.id.radio_gender_female);
         final RadioButton mOtherGenderRadio = view.findViewById(R.id.radio_gender_other);
-
+        TextView bottomSheetOk = view.findViewById(R.id.bottom_sheet_ok);
 
         final TextView mDistanceLabel = view.findViewById(R.id.distance_label);
         final AppCompatSeekBar mDistanceSeekBar = view.findViewById(R.id.choice_distance);
@@ -511,7 +539,6 @@ public class HotGameFragment extends Fragment implements Constants {
             }
         }
 
-
         mDistanceSeekBar.setProgress(distance);
         mDistanceLabel.setText(String.format(Locale.getDefault(), getString(R.string.label_distance), distance));
         mDistanceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
@@ -531,47 +558,53 @@ public class HotGameFragment extends Fragment implements Constants {
             }
         });
 
+        bottomSheetOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                distance = mDistanceSeekBar.getProgress();
 
-        b.setPositiveButton(getText(R.string.action_ok), (dialog, which) -> {
-            // get distance
+                // Gender
 
-            distance = mDistanceSeekBar.getProgress();
+                if (mAnyGenderRadio.isChecked()) {
+                    gender = 3;
+                }
 
-            // Gender
+                if (mMaleGenderRadio.isChecked()) {
+                    gender = 0;
+                }
 
-            if (mAnyGenderRadio.isChecked()) {
-                gender = 3;
+                if (mFemaleGenderRadio.isChecked()) {
+                    gender = 1;
+                }
+
+                if (mOtherGenderRadio.isChecked()) {
+                    gender = 2;
+                }
+
+                itemsList.clear();
+                itemId = 0;
+                loading = true;
+                saveFilterSettings();
+                updateView();
+                getItems();
+                mBottomSheetDialog.dismiss();
             }
-
-            if (mMaleGenderRadio.isChecked()) {
-                gender = 0;
-            }
-
-            if (mFemaleGenderRadio.isChecked()) {
-                gender = 1;
-            }
-
-            if (mOtherGenderRadio.isChecked()) {
-                gender = 2;
-            }
-
-            itemsList.clear();
-            itemId = 0;
-            loading = true;
-            saveFilterSettings();
-            updateView();
-            getItems();
         });
 
-        b.setNegativeButton(getText(R.string.action_cancel), (dialog, which) -> dialog.cancel());
+        mBottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
 
-        AlertDialog d = b.create();
-        d.setCanceledOnTouchOutside(false);
-        d.setCancelable(false);
-        d.show();
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+
+                mBottomSheetDialog = null;
+
+                // get distance
+
+
+            }
+        });
     }
 
-    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_hotgame_settings) {

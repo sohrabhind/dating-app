@@ -20,6 +20,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_sex"
                 android:layout_marginTop="@dimen/spacing_middle"
+                android:textColor="@color/md_theme_light_onBackground"
                 android:layout_marginStart="6dp" />
 
             <LinearLayout
@@ -38,6 +39,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_medium"
                         android:text="@string/label_gender_any"
+                        android:textColor="@color/md_theme_light_onBackground"
                         android:checked="true"
                         android:layout_weight="1" />
 
@@ -47,6 +49,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_medium"
                         android:text="@string/label_male"
+                        android:textColor="@color/md_theme_light_onBackground"
                         android:layout_weight="1" />
 
                     <RadioButton
@@ -55,6 +58,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_medium"
                         android:text="@string/label_female"
+                        android:textColor="@color/md_theme_light_onBackground"
                         android:layout_weight="1" />
 
                     <RadioButton
@@ -63,6 +67,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_medium"
                         android:text="@string/label_other"
+                        android:textColor="@color/md_theme_light_onBackground"
                         android:layout_weight="1" />
 
                 </RadioGroup>
@@ -86,6 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/label_online"
+                    android:textColor="@color/md_theme_light_onBackground"
                     android:id="@+id/checkbox_online"
                     android:layout_marginStart="@dimen/spacing_medium"
                     android:layout_gravity="center_horizontal" />
@@ -95,6 +101,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_medium"
                     android:text="@string/label_only_with_level_mode"
+                    android:textColor="@color/md_theme_light_onBackground"
                     android:id="@+id/checkbox_level"
                     android:layout_gravity="center_horizontal" />
 
@@ -107,7 +114,7 @@
                 rsb:absoluteMinValue="18"
                 rsb:absoluteMaxValue="115"
                 rsb:valuesAboveThumbs="true"
-                rsb:textAboveThumbsColor="@color/colorPrimary" />
+                rsb:textAboveThumbsColor="@color/md_theme_light_onBackground" />
 
 
             <LinearLayout
@@ -120,6 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_distance"
+                    android:textColor="@color/md_theme_light_onBackground"
                     android:id="@+id/distance_label"
                     android:layout_marginTop="0dp"
                     android:layout_marginBottom="6dp" />

@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/background_login">
+        >
 
         <include
             android:id="@+id/toolbar"
@@ -46,7 +46,8 @@
             android:focusable="true"
             android:src="@drawable/ic_action_new"
             android:background="@drawable/circular_button"
-            android:contentDescription="@null" />
+            android:contentDescription="@null"
+            app:tint="@color/md_theme_light_onPrimaryContainer" />
 
 
     </RelativeLayout>

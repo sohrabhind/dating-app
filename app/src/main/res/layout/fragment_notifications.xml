@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/colorPageBackground">
+    android:orientation="vertical">
 
     <LinearLayout
         android:orientation="vertical"
@@ -73,7 +72,7 @@
                     android:layout_width="96dp"
                     android:layout_height="96dp"
                     app:srcCompat="@drawable/ic_notification"
-                    app:tint="@color/colorIconTint" />
+                    app:tint="@color/material_on_background_disabled" />
 
                 <TextView
                     android:id="@+id/message"
@@ -85,8 +84,9 @@
                     android:paddingRight="50dp"
                     android:text="@string/label_empty_list"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/colorIconTint"
+                    android:textColor="@color/material_on_background_disabled"
                     android:textStyle="bold" />
+
             </LinearLayout>
 
         </RelativeLayout>

@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.balysv.materialripple.MaterialRippleLayout;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.model.Profile;

@@ -62,7 +62,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.balysv.materialripple.MaterialRippleLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
@@ -181,10 +180,8 @@ public class ChatFragment extends Fragment implements Constants {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
         initpDialog();
 
         Intent i = requireActivity().getIntent();
@@ -213,30 +210,16 @@ public class ChatFragment extends Fragment implements Constants {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         rootView = inflater.inflate(R.layout.fragment_chat, container, false);
-
-        //
-
-        //
-
         cameraPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-
             if (isGranted) {
-
                 // Permission is granted
                 Log.e("Permissions", "Permission is granted");
-
                 showMoreDialog();
-
             } else {
-
                 // Permission is denied
-
                 Log.e("Permissions", "denied");
-
                 Snackbar.make(getView(), getString(R.string.label_no_camera_permission) , Snackbar.LENGTH_LONG).setAction(getString(R.string.action_settings), new View.OnClickListener() {
-
                     @Override
                     public void onClick(View v) {
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
@@ -248,22 +231,16 @@ public class ChatFragment extends Fragment implements Constants {
         });
 
         //
-
         imgFromGalleryActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-
             @Override
             public void onActivityResult(ActivityResult result) {
-
                 if (result.getResultCode() == Activity.RESULT_OK) {
-
                     // The document selected by the user won't be returned in the intent.
                     // Instead, a URI to that document will be contained in the return intent
                     // provided to this method as a parameter.  Pull that uri using "resultData.getData()"
 
                     if (result.getData() != null) {
-
                         selectedImage = result.getData().getData();
-
                         String[] filePathColumn = { MediaStore.Images.Media.DATA };
                         Cursor cursor = requireContext().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
                         cursor.moveToFirst();
@@ -273,7 +250,6 @@ public class ChatFragment extends Fragment implements Constants {
 
                         mPreviewImg.setImageURI(null);
                         mPreviewImg.setImageURI(FileProvider.getUriForFile(App.getInstance().getApplicationContext(), App.getInstance().getPackageName() + ".provider", new File(selectedImagePath)));
-
                         showImageContainer();
                     }
                 }
@@ -284,14 +260,10 @@ public class ChatFragment extends Fragment implements Constants {
 
             @Override
             public void onActivityResult(ActivityResult result) {
-
                 if (result.getResultCode() == Activity.RESULT_OK) {
-
                     selectedImagePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + newImageFileName;
-
                     mPreviewImg.setImageURI(null);
                     mPreviewImg.setImageURI(FileProvider.getUriForFile(App.getInstance().getApplicationContext(), App.getInstance().getPackageName() + ".provider", new File(selectedImagePath)));
-
                     showImageContainer();
                 }
             }
@@ -302,28 +274,20 @@ public class ChatFragment extends Fragment implements Constants {
             boolean granted = false;
 
             for (Map.Entry<String, Boolean> x : isGranted.entrySet()) {
-
                 if (x.getKey().equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
                     if (x.getValue()) {
-
                         granted = true;
                     }
                 }
             }
 
             if (granted) {
-
                 Log.e("Permissions", "granted");
-
                 showMoreDialog();
-
             } else {
 
                 Log.e("Permissions", "denied");
-
                 Snackbar.make(getView(), getString(R.string.label_no_storage_permission) , Snackbar.LENGTH_LONG).setAction(getString(R.string.action_settings), new View.OnClickListener() {
-
                     @Override
                     public void onClick(View v) {
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
@@ -337,29 +301,22 @@ public class ChatFragment extends Fragment implements Constants {
 
 
         if (savedInstanceState != null) {
-
             restore = savedInstanceState.getBoolean("restore");
             loading = savedInstanceState.getBoolean("loading");
             preload = savedInstanceState.getBoolean("preload");
-
             img_container_visible = savedInstanceState.getBoolean("img_container_visible");
-
-
         } else {
 
             App.getInstance().setCurrentChatId(chatId);
-
             restore = false;
             loading = false;
             preload = false;
-
             img_container_visible = false;
         }
 
         br_typing_start = new BroadcastReceiver() {
 
             public void onReceive(Context context, Intent intent) {
-
                 int task = intent.getIntExtra(PARAM_TASK, 0);
                 int status = intent.getIntExtra(PARAM_STATUS, 0);
 
@@ -373,10 +330,8 @@ public class ChatFragment extends Fragment implements Constants {
         br_typing_end = new BroadcastReceiver() {
 
             public void onReceive(Context context, Intent intent) {
-
                 int task = intent.getIntExtra(PARAM_TASK, 0);
                 int status = intent.getIntExtra(PARAM_STATUS, 0);
-
                 typing_end();
             }
         };
@@ -387,10 +342,8 @@ public class ChatFragment extends Fragment implements Constants {
         br_seen = new BroadcastReceiver() {
 
             public void onReceive(Context context, Intent intent) {
-
                 int task = intent.getIntExtra(PARAM_TASK, 0);
                 int status = intent.getIntExtra(PARAM_STATUS, 0);
-
                 seen();
             }
         };
@@ -420,14 +373,11 @@ public class ChatFragment extends Fragment implements Constants {
                 c.setFromUserId(msgFromUserId);
 
                 if (msgFromUserId == App.getInstance().getId()) {
-
                     c.setFromUserState(App.getInstance().getState());
                     c.setFromUserUsername(App.getInstance().getUsername());
                     c.setFromUserFullname(App.getInstance().getFullname());
                     c.setFromUserPhotoUrl(App.getInstance().getPhotoUrl());
-
                 } else {
-
                     c.setFromUserState(with_user_state);
                     c.setFromUserUsername(with_user_username);
                     c.setFromUserFullname(with_user_fullname);
@@ -442,14 +392,9 @@ public class ChatFragment extends Fragment implements Constants {
 
                 Log.e(LOG_TAG, "onReceive: task = " + task + ", status = " + status + " " + c.getMessage() + " " + c.getId());
 
-
-
                 final ChatItem lastItem = (ChatItem) listView.getAdapter().getItem(listView.getAdapter().getCount() - 1);
-
                 messagesCount = messagesCount + 1;
-
                 chatList.add(c);
-
                 if (!visible) {
 
                     try {
@@ -513,9 +458,7 @@ public class ChatFragment extends Fragment implements Constants {
         listView.setAdapter(chatAdapter);
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
-
             if (position == 0 && mListViewHeader.getVisibility() == View.VISIBLE) {
-
                 getPreviousMessages();
             }
         });
@@ -538,45 +481,32 @@ public class ChatFragment extends Fragment implements Constants {
         mDeleteImg.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
                 selectedImage = null;
                 selectedImagePath = "";
-
                 hideImageContainer();
             }
         });
 
         mActionContainerImg.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-
                 showMoreDialog();
             }
         });
 
         if (selectedImagePath != null && selectedImagePath.length() > 0) {
-
             mPreviewImg.setImageURI(FileProvider.getUriForFile(App.getInstance().getApplicationContext(), App.getInstance().getPackageName() + ".provider", new File(selectedImagePath)));
-
             showImageContainer();
         }
-
 
         mMessageText.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {
-
                 String txt = mMessageText.getText().toString();
-
                 if (txt.length() == 0 && outboxTyping) {
-
                     outboxTyping = false;
-
                     sendNotify(GCM_NOTIFY_TYPING_END);
-
                 } else {
-
                     if (!outboxTyping && txt.length() > 0) {
                         outboxTyping = true;
                         sendNotify(GCM_NOTIFY_TYPING_START);
@@ -1407,8 +1337,8 @@ public class ChatFragment extends Fragment implements Constants {
 
         final View view = getLayoutInflater().inflate(R.layout.chat_sheet_list, null);
 
-        MaterialRippleLayout mGalleryButton = view.findViewById(R.id.gallery_button);
-        MaterialRippleLayout mCameraButton = view.findViewById(R.id.camera_button);
+        LinearLayout mGalleryButton = view.findViewById(R.id.gallery_button);
+        LinearLayout mCameraButton = view.findViewById(R.id.camera_button);
 
         
         mGalleryButton.setOnClickListener(new View.OnClickListener() {
@@ -1472,11 +1402,9 @@ public class ChatFragment extends Fragment implements Constants {
 
 
         mBottomSheetDialog = new BottomSheetDialog(requireActivity());
-
         mBottomSheetDialog.setContentView(view);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
             mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 

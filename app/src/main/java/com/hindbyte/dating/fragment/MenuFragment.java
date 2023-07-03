@@ -10,11 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.balysv.materialripple.MaterialRippleLayout;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.activity.UpgradeActivity;
 import com.hindbyte.dating.activity.LikedActivity;
@@ -35,7 +35,7 @@ public class MenuFragment extends Fragment implements Constants {
     ImageView mProfileLevelIcon;
     private TextView mNavProfileFullname, mNavProfileSubhead;
 
-    private MaterialRippleLayout mNavProfile, mNavSearch, mNavLikes, mNavLiked, mNavUpgrades, mNavSettings;
+    private LinearLayout mNavProfile, mNavSearch, mNavLikes, mNavLiked, mNavUpgrades, mNavSettings;
 
     public MenuFragment() {
         // Required empty public constructor

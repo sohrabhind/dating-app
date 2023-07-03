@@ -1,35 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    android:background="@color/colorPageBackground"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/spacing_medium"
-    android:paddingTop="@dimen/spacing_medium">
-
-
-    <com.balysv.materialripple.MaterialRippleLayout
-        style="@style/RippleStyleBlack"
-        android:id="@+id/gallery_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/spacing_middle"
-        android:paddingRight="@dimen/spacing_middle">
+    android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/gallery_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="?attr/selectableItemBackground"
+            android:paddingLeft="@dimen/spacing_middle"
+            android:paddingRight="@dimen/spacing_middle">
 
             <ImageView
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
                 android:padding="@dimen/spacing_large"
-                app:tint="@color/colorIconTint"
+                app:tint="@color/md_theme_light_onSurface"
                 app:srcCompat="@drawable/ic_action_photo" />
 
             <TextView
@@ -39,32 +32,27 @@
                 android:layout_marginRight="@dimen/spacing_middle"
                 android:text="@string/action_image_from_gallery"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorTitle" />
+                android:textColor="@color/md_theme_light_onSurface" />
 
         </LinearLayout>
 
-    </com.balysv.materialripple.MaterialRippleLayout>
-
-    <com.balysv.materialripple.MaterialRippleLayout
-        style="@style/RippleStyleBlack"
-        android:id="@+id/camera_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/spacing_middle"
-        android:paddingRight="@dimen/spacing_middle">
 
         <LinearLayout
+            android:id="@+id/camera_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="?attr/selectableItemBackground"
+            android:paddingLeft="@dimen/spacing_middle"
+            android:paddingRight="@dimen/spacing_middle">
 
             <ImageView
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
                 android:padding="@dimen/spacing_large"
-                app:tint="@color/colorIconTint"
+                app:tint="@color/md_theme_light_onSurface"
                 app:srcCompat="@drawable/ic_camera" />
 
             <TextView
@@ -74,10 +62,8 @@
                 android:layout_marginRight="@dimen/spacing_middle"
                 android:text="@string/action_image_from_camera"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorTitle" />
+                android:textColor="@color/md_theme_light_onSurface" />
 
         </LinearLayout>
-
-    </com.balysv.materialripple.MaterialRippleLayout>
 
 </LinearLayout>

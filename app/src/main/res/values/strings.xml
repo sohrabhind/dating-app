@@ -480,7 +480,7 @@
     <string name="register_screen_5_title">Hotgame and Nearby</string>
     <string name="register_screen_5_subtitle">To access some features, the app needs permission to use your location.</string>
 
-    <string name="label_register_terms">By clicking Continue, you agree to our</string>
+    <string name="label_register_terms">By registering, you agree to our</string>
 
     <string name="msg_action_logout">Do you want to log out?</string>
 

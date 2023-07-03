@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.color.DynamicColors;
 import com.google.firebase.FirebaseApp;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.constants.Constants;
@@ -58,6 +59,7 @@ public class App extends Application implements Constants {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+        DynamicColors.applyToActivitiesIfAvailable(this);
         mInstance = this;
         FirebaseApp.initializeApp(this);
         sharedPref = this.getSharedPreferences(getString(R.string.settings_file), Context.MODE_PRIVATE);

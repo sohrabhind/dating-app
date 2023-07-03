@@ -5,16 +5,22 @@
     <item
         android:id="@+id/action_refresh"
         app:showAsAction="never"
-        android:title="@string/action_refresh"/>
+        android:title="@string/action_refresh"
+        app:iconTint="@color/md_theme_light_onPrimary"
+        android:iconTint="@color/md_theme_light_onPrimary"/>
 
     <item
         android:id="@+id/action_report"
         app:showAsAction="never"
-        android:title="@string/action_report"/>
+        android:title="@string/action_report"
+        app:iconTint="@color/md_theme_light_onPrimary"
+        android:iconTint="@color/md_theme_light_onPrimary"/>
 
     <item
         android:id="@+id/action_delete"
         app:showAsAction="never"
-        android:title="@string/action_remove"/>
+        android:title="@string/action_remove"
+        app:iconTint="@color/md_theme_light_onPrimary"
+        android:iconTint="@color/md_theme_light_onPrimary"/>
 
 </menu>

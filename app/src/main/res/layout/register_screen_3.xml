@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/background_login">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Select Interests"
-                android:textColor="@android:color/white"
+                android:textColor="@color/md_theme_light_onBackground"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:background="@color/transparent"
@@ -37,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
-                app:container_background_color="@color/overlay_light_90"
+                app:container_background_color="@color/md_theme_light_onBackground"
                 app:container_enable_drag="false"
                 app:horizontal_interval="10dp"
                 app:tag_clickable="true"

@@ -109,9 +109,9 @@ public class UpgradeActivity extends ActivityBase {
         profileBoost.setText("5x Profile Visibility");
         levelIcon.setImageResource(R.drawable.level_gold);
         productType = ITEM_PRODUCT_2;
-        mBuy1Button.setBackgroundResource(R.color.overlay_light_90);
-        mBuy2Button.setBackgroundResource(R.color.gray);
-        mBuy3Button.setBackgroundResource(R.color.overlay_light_90);
+        mBuy1Button.setBackgroundResource(R.color.md_theme_light_background);
+        mBuy2Button.setBackgroundResource(R.color.md_theme_light_tertiaryContainer);
+        mBuy3Button.setBackgroundResource(R.color.md_theme_light_background);
 
 
         mBuy1Button.setOnClickListener(v -> {
@@ -120,9 +120,9 @@ public class UpgradeActivity extends ActivityBase {
             totalLikes.setText("150 Likes");
             profileBoost.setText("2x Profile Visibility");
             levelIcon.setImageResource(R.drawable.level_silver);
-            mBuy1Button.setBackgroundResource(R.color.gray);
-            mBuy2Button.setBackgroundResource(R.color.overlay_light_90);
-            mBuy3Button.setBackgroundResource(R.color.overlay_light_90);
+            mBuy1Button.setBackgroundResource(R.color.md_theme_light_tertiaryContainer);
+            mBuy2Button.setBackgroundResource(R.color.md_theme_light_background);
+            mBuy3Button.setBackgroundResource(R.color.md_theme_light_background);
             productType = ITEM_PRODUCT_1;
         });
 
@@ -132,9 +132,9 @@ public class UpgradeActivity extends ActivityBase {
             totalLikes.setText("500 Likes");
             profileBoost.setText("5x Profile Visibility");
             levelIcon.setImageResource(R.drawable.level_gold);
-            mBuy1Button.setBackgroundResource(R.color.overlay_light_90);
-            mBuy2Button.setBackgroundResource(R.color.gray);
-            mBuy3Button.setBackgroundResource(R.color.overlay_light_90);
+            mBuy1Button.setBackgroundResource(R.color.md_theme_light_background);
+            mBuy2Button.setBackgroundResource(R.color.md_theme_light_tertiaryContainer);
+            mBuy3Button.setBackgroundResource(R.color.md_theme_light_background);
             productType = ITEM_PRODUCT_2;
         });
 
@@ -144,9 +144,9 @@ public class UpgradeActivity extends ActivityBase {
             totalLikes.setText("1000 Likes");
             profileBoost.setText("10x Profile Visibility");
             levelIcon.setImageResource(R.drawable.level_diamond);
-            mBuy1Button.setBackgroundResource(R.color.overlay_light_90);
-            mBuy2Button.setBackgroundResource(R.color.overlay_light_90);
-            mBuy3Button.setBackgroundResource(R.color.gray);
+            mBuy1Button.setBackgroundResource(R.color.md_theme_light_background);
+            mBuy2Button.setBackgroundResource(R.color.md_theme_light_background);
+            mBuy3Button.setBackgroundResource(R.color.md_theme_light_tertiaryContainer);
             productType = ITEM_PRODUCT_3;
         });
 

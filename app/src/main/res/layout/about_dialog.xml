@@ -10,7 +10,7 @@
         android:text="New Text"
         android:id="@+id/aboutDialogAppName"
         android:gravity="center"
-        android:textColor="@color/colorTitle"
+        android:textColor="@color/md_theme_light_onBackground"
         android:singleLine="true"
         android:textSize="20dp"
         android:textStyle="bold"
@@ -27,7 +27,7 @@
         android:gravity="center"
         android:padding="5dp"
         android:singleLine="true"
-        android:textColor="@color/colorSubTitle"
+        android:textColor="@color/material_on_background_disabled"
         android:textSize="18dp" />
 
     <TextView
@@ -36,10 +36,11 @@
         android:text="New Text"
         android:id="@+id/aboutDialogAppCopyright"
         android:gravity="center"
-        android:textColor="@color/colorSubTitle"
+        android:textColor="@color/material_on_background_disabled"
         android:textSize="14dp"
         android:paddingTop="2dp"
         android:paddingBottom="12dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp" />
+
 </LinearLayout>

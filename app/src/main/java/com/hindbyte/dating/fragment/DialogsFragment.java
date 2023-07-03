@@ -12,9 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -36,7 +34,6 @@ import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.model.Chat;
 import com.hindbyte.dating.util.CustomRequest;
 import com.hindbyte.dating.util.ToastWindow;
-import com.hindbyte.dating.view.LineItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -99,7 +96,6 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
         mRecyclerView = rootView.findViewById(R.id.recycler_view);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        mRecyclerView.addItemDecoration(new LineItemDecoration(requireActivity(), LinearLayout.VERTICAL));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mRecyclerView.setAdapter(itemsAdapter);
@@ -238,12 +234,7 @@ public class DialogsFragment extends Fragment implements Constants, SwipeRefresh
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-
         super.onSaveInstanceState(outState);
-
-        outState.putBoolean("restore", true);
-        outState.putInt("lastMessageId", lastMessageId);
-        outState.putParcelableArrayList(STATE_LIST, itemsList);
     }
 
     public void getItems(boolean refresh) {

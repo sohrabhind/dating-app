@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,7 +34,6 @@ import com.hindbyte.dating.app.App;
 import com.hindbyte.dating.constants.Constants;
 import com.hindbyte.dating.model.BalanceItem;
 import com.hindbyte.dating.util.CustomRequest;
-import com.hindbyte.dating.view.LineItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -132,7 +130,6 @@ public class BalanceHistoryFragment extends Fragment implements Constants, Swipe
         mRecyclerView = rootView.findViewById(R.id.recycler_view);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        mRecyclerView.addItemDecoration(new LineItemDecoration(requireActivity(), LinearLayout.VERTICAL));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mRecyclerView.setAdapter(itemsAdapter);

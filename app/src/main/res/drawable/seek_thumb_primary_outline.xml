@@ -9,7 +9,7 @@
                 android:height="15dp" />
             <stroke
                 android:width="2dp"
-                android:color="@color/colorPrimary" />
+                android:color="@color/md_theme_light_primary" />
         </shape>
     </item>
 

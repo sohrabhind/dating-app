@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white">
+    >
 
     <ProgressBar
         android:id="@+id/hotgame_progressbar"
@@ -32,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/label_hotgame_list_empty"
-                android:textColor="@color/colorTitle"
+                android:textColor="@color/material_on_background_disabled"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textStyle="bold"
@@ -47,15 +48,15 @@
                 android:textSize="16sp"
                 android:background="@drawable/app_profile_button"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="@color/md_theme_light_onPrimaryContainer"
                 android:layout_weight="1"
                 android:layout_margin="16dp" />
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:background="@color/colorSeparator" />
+                android:layout_height="1dp"
+                android:background="@color/md_theme_light_outlineVariant" />
 
         </LinearLayout>
 
@@ -71,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/msg_location_permission_request"
-                android:textColor="@color/colorTitle"
+                android:textColor="@color/material_on_background_disabled"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textStyle="bold"
@@ -86,15 +87,15 @@
                 android:textSize="16sp"
                 android:background="@drawable/app_profile_button"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="@color/md_theme_light_onPrimaryContainer"
                 android:layout_weight="1"
                 android:layout_margin="16dp" />
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:background="@color/colorSeparator" />
+                android:layout_height="1dp"
+                android:background="@color/md_theme_light_outlineVariant" />
 
         </LinearLayout>
 
@@ -137,7 +138,8 @@
                 android:padding="15dp"
                 android:src="@drawable/ic_action_back"
                 android:background="@drawable/circular_button"
-                android:contentDescription="@null"  />
+                android:contentDescription="@null"
+                app:tint="@color/md_theme_light_onPrimaryContainer"  />
 
             <ImageView
                 android:id="@+id/fab_profile_button"
@@ -147,7 +149,8 @@
                 android:padding="15dp"
                 android:src="@drawable/ic_messages"
                 android:background="@drawable/circular_button"
-                android:contentDescription="@null"/>
+                android:contentDescription="@null"
+                app:tint="@color/md_theme_light_onPrimaryContainer"/>
 
             <ImageView
                 android:id="@+id/fab_like_button"
@@ -157,7 +160,8 @@
                 android:padding="15dp"
                 android:src="@drawable/ic_action_like"
                 android:background="@drawable/circular_button"
-                android:contentDescription="@null"   />
+                android:contentDescription="@null"
+                app:tint="@color/md_theme_light_onPrimaryContainer"  />
 
             <ImageView
                 android:id="@+id/fab_next_button"
@@ -166,7 +170,8 @@
                 android:padding="15dp"
                 android:src="@drawable/ic_action_next"
                 android:background="@drawable/circular_button"
-                android:contentDescription="@null"   />
+                android:contentDescription="@null"
+                app:tint="@color/md_theme_light_onPrimaryContainer"  />
 
         </LinearLayout>
 

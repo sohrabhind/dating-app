@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorPageBackground" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:orientation="vertical"
@@ -23,9 +22,8 @@
                 android:layout_height="match_parent"
                 android:scrollbars="none"
                 android:id="@+id/listView"
-                android:divider="@color/colorSeparator"
-                android:dividerHeight="2px"
-                android:background="@color/grey_5" />
+                android:divider="@color/md_theme_light_outlineVariant"
+                android:dividerHeight="1px" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -35,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:textColor="@color/colorIconTint"
+        android:textColor="@color/md_theme_light_outline"
         android:id="@+id/message"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />

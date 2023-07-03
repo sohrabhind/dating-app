@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/background_login">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/register_screen_2_title"
-            android:textColor="@android:color/white"
+            android:textColor="@color/md_theme_light_onBackground"
             android:layout_marginTop="@dimen/spacing_large"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textStyle="bold" />
@@ -30,7 +29,7 @@
             android:paddingRight="40dp"
             android:text="@string/register_screen_2_subtitle"
             android:textAlignment="center"
-            android:textColor="@android:color/white"
+            android:textColor="@color/material_on_background_disabled"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
         <LinearLayout
@@ -48,8 +47,8 @@
                 android:layout_marginRight="@dimen/spacing_middle"
                 android:src="@drawable/profile_default_photo"
                 app:civ_border="true"
-                app:civ_border_color="@color/white"
-                app:civ_border_width="3dp"
+                app:civ_border_color="@color/md_theme_light_onBackground"
+                app:civ_border_width="2dp"
                 app:civ_shadow="false"
                 app:civ_shadow_radius="0dp" />
 
@@ -60,8 +59,8 @@
                 android:layout_marginRight="@dimen/spacing_middle"
                 android:src="@drawable/profile_default_photo"
                 app:civ_border="true"
-                app:civ_border_color="@color/white"
-                app:civ_border_width="3dp"
+                app:civ_border_color="@color/md_theme_light_onBackground"
+                app:civ_border_width="2dp"
                 app:civ_shadow="false"
                 app:civ_shadow_radius="0dp" />
 
@@ -72,8 +71,8 @@
                 android:layout_height="100dp"
                 android:src="@drawable/profile_default_photo"
                 app:civ_border="true"
-                app:civ_border_color="@color/white"
-                app:civ_border_width="3dp"
+                app:civ_border_color="@color/md_theme_light_onBackground"
+                app:civ_border_width="2dp"
                 app:civ_shadow="false"
                 app:civ_shadow_radius="0dp" />
 
@@ -96,8 +95,8 @@
                 android:layout_marginRight="@dimen/spacing_middle"
                 android:src="@drawable/profile_default_photo"
                 app:civ_border="true"
-                app:civ_border_color="@color/white"
-                app:civ_border_width="3dp"
+                app:civ_border_color="@color/md_theme_light_onBackground"
+                app:civ_border_width="2dp"
                 app:civ_shadow="false"
                 app:civ_shadow_radius="0dp" />
 
@@ -108,8 +107,8 @@
                 android:layout_marginRight="@dimen/spacing_middle"
                 android:src="@drawable/profile_default_photo"
                 app:civ_border="true"
-                app:civ_border_color="@color/white"
-                app:civ_border_width="3dp"
+                app:civ_border_color="@color/md_theme_light_onBackground"
+                app:civ_border_width="2dp"
                 app:civ_shadow="false"
                 app:civ_shadow_radius="0dp" />
 
@@ -120,8 +119,8 @@
                 android:layout_height="100dp"
                 android:src="@drawable/profile_default_photo"
                 app:civ_border="true"
-                app:civ_border_color="@color/white"
-                app:civ_border_width="3dp"
+                app:civ_border_color="@color/md_theme_light_onBackground"
+                app:civ_border_width="2dp"
                 app:civ_shadow="false"
                 app:civ_shadow_radius="0dp" />
 

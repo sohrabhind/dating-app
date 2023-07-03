@@ -1,11 +1,15 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activity.MainActivity">
 
     <item
         android:id="@+id/action_hotgame_settings"
-        android:title="@string/label_hotgame_dialog_title"
         android:icon="@drawable/ic_filter_white"
-        android:orderInCategory="100" app:showAsAction="always" />
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        app:iconTint="@color/md_theme_light_onPrimary"
+        android:iconTint="@color/md_theme_light_onPrimary"/>
+
 </menu>

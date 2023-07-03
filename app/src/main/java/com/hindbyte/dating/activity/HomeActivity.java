@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -66,8 +67,8 @@ public class HomeActivity extends ActivityBase {
     protected Location mLastLocation;
 
     ToastWindow toastWindow = new ToastWindow();
-    TextView signupBtn;
-    TextView mGoogleSignInButton;
+    Button signupBtn;
+    Button mGoogleSignInButton;
 
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -189,7 +190,7 @@ public class HomeActivity extends ActivityBase {
             }
         });
 
-        TextView loginBtn = findViewById(R.id.loginBtn);
+        Button loginBtn = findViewById(R.id.loginBtn);
 
 
         loginBtn.setOnClickListener(view -> {

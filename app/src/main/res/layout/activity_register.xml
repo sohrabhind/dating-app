@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/background_login">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -19,8 +18,7 @@
             android:id="@+id/navigator_layout"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentBottom="true"
-            android:background="@color/colorPrimaryDark">
+            android:layout_alignParentBottom="true">
 
             <LinearLayout
                 android:id="@+id/layout_markers"
@@ -34,27 +32,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="2px"
                 android:alpha=".5"
-                android:background="@android:color/white" />
+                android:background="@color/md_theme_light_outlineVariant" />
 
             <Button
                 android:id="@+id/button_next"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
+                android:layout_width="100dp"
+                android:layout_height="55dp"
                 android:layout_alignParentEnd="true"
-                android:background="@null"
-                android:text="@string/action_next"
-                android:textColor="@android:color/white" />
+                android:layout_centerVertical="true"
+                android:textColor="@color/md_theme_light_onPrimaryContainer"
+                android:backgroundTint="@color/md_theme_light_primaryContainer"
+                android:text="@string/action_next" />
 
             <Button
                 android:id="@+id/button_back"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
+                android:layout_width="100dp"
+                android:layout_height="55dp"
+                android:layout_centerVertical="true"
                 android:layout_alignParentStart="true"
-                android:background="@null"
-                android:text="@string/action_back"
-                android:textColor="@android:color/white" />
+                android:textColor="@color/md_theme_light_onPrimaryContainer"
+                android:backgroundTint="@color/md_theme_light_primaryContainer"
+                android:text="@string/action_back" />
 
         </RelativeLayout>
 

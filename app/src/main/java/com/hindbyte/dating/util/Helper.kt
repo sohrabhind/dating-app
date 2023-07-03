@@ -34,7 +34,7 @@ class Helper : Application {
         this.activity = activity
     }
 
-    constructor(activity: FragmentActivity?) {}
+    constructor() {}
 
     @Throws(IOException::class)
     private fun resizeImg(filename: Uri): Bitmap? {

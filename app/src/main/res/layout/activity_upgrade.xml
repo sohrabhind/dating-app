@@ -6,14 +6,12 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/background_login">
+        android:orientation="vertical">
 
         <include
             android:id="@+id/toolbar"
@@ -38,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/diamond_purchase"
-                android:textColor="@color/colorLikeActiveIconTint"
+                android:textColor="@color/red"
                 android:textStyle="bold"
                 android:textSize="25dp"
                 android:layout_marginTop="20dp"
@@ -62,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1500 Messages"
-                android:textColor="@color/overlay_dark_60"
+                android:textColor="@color/md_theme_light_onBackground"
                 android:textSize="16dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
@@ -74,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="500 Likes"
-                android:textColor="@color/overlay_dark_60"
+                android:textColor="@color/md_theme_light_onBackground"
                 android:textSize="16dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
@@ -86,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="5x Profile Visibility"
-                android:textColor="@color/overlay_dark_60"
+                android:textColor="@color/md_theme_light_onBackground"
                 android:textSize="16dp"
                 android:layout_marginBottom="18dp"
                 android:gravity="center"
@@ -96,8 +94,8 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:background="@color/colorSeparator"/>
+                android:layout_height="1dp"
+                android:background="@color/md_theme_light_outlineVariant"/>
 
 
             <LinearLayout
@@ -126,7 +124,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/silver_purchase"
-                    android:textColor="@color/overlay_dark_80"
+                    android:textColor="@color/md_theme_light_onBackground"
                     android:textSize="18dp"
                     android:textStyle="bold"
                     android:layout_marginTop="16dp"
@@ -137,7 +135,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="1 Month"
-                    android:textColor="@color/overlay_dark_60"
+                    android:textColor="@color/material_on_background_disabled"
                     android:textSize="16dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
@@ -148,7 +146,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/action_buy_iap1_google_pay"
-                    android:textColor="@color/overlay_dark_60"
+                    android:textColor="@color/material_on_background_disabled"
                     android:textSize="16dp"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
@@ -160,9 +158,9 @@
 
                 <LinearLayout
                     android:orientation="vertical"
-                    android:layout_width="2px"
+                    android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="@color/colorSeparator" />
+                    android:background="@color/md_theme_light_outlineVariant" />
 
 
             <LinearLayout
@@ -185,7 +183,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/gold_purchase"
-                    android:textColor="@color/overlay_dark_80"
+                    android:textColor="@color/md_theme_light_onBackground"
                     android:textSize="18dp"
                     android:textStyle="bold"
                     android:layout_marginTop="16dp"
@@ -197,7 +195,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="1 Month"
-                    android:textColor="@color/overlay_dark_60"
+                    android:textColor="@color/material_on_background_disabled"
                     android:textSize="16dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
@@ -208,7 +206,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/action_buy_iap2_google_pay"
-                    android:textColor="@color/overlay_dark_60"
+                    android:textColor="@color/material_on_background_disabled"
                     android:textSize="16dp"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
@@ -221,9 +219,9 @@
 
                 <LinearLayout
                     android:orientation="vertical"
-                    android:layout_width="2px"
+                    android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="@color/colorSeparator" />
+                    android:background="@color/md_theme_light_outlineVariant" />
 
 
             <LinearLayout
@@ -246,7 +244,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/diamond_purchase"
-                    android:textColor="@color/overlay_dark_80"
+                    android:textColor="@color/md_theme_light_onBackground"
                     android:textSize="18dp"
                     android:textStyle="bold"
                     android:layout_marginTop="16dp"
@@ -258,7 +256,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="1 Month"
-                    android:textColor="@color/overlay_dark_60"
+                    android:textColor="@color/material_on_background_disabled"
                     android:textSize="16dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
@@ -269,7 +267,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/action_buy_iap3_google_pay"
-                    android:textColor="@color/overlay_dark_60"
+                    android:textColor="@color/material_on_background_disabled"
                     android:textSize="16dp"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
@@ -285,8 +283,8 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:background="@color/colorSeparator" />
+                android:layout_height="1dp"
+                android:background="@color/md_theme_light_outlineVariant" />
 
             <TextView
                 android:layout_width="match_parent"

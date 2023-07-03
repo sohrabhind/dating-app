@@ -8,16 +8,11 @@
     android:foreground="?attr/selectableItemBackground"
     tools:ignore="UnusedAttribute">
 
-    <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/parent"
-        style="@style/MyRippleStyleLight"
-        android:layout_width="@dimen/spotlight_item_size"
-        android:layout_height="@dimen/spotlight_item_size"
-        android:layout_margin="@dimen/spacing_small">
-
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/parent"
+            android:layout_width="@dimen/spotlight_item_size"
+            android:layout_height="@dimen/spotlight_item_size"
+            android:layout_margin="@dimen/spacing_small"
             app:cardCornerRadius="@dimen/spacing_small"
             android:elevation="@dimen/spacing_medium">
 
@@ -29,8 +24,7 @@
                     android:id="@+id/thumbnail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@color/gray_bg" />
+                    android:scaleType="centerCrop"/>
 
                 <ProgressBar
                     android:id="@+id/progressBar"
@@ -67,6 +61,5 @@
 
         </androidx.cardview.widget.CardView>
 
-    </com.balysv.materialripple.MaterialRippleLayout>
 
 </RelativeLayout>

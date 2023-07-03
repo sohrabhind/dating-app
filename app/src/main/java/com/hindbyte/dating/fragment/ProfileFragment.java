@@ -58,7 +58,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.balysv.materialripple.MaterialRippleLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.hindbyte.dating.R;
 import com.hindbyte.dating.activity.AccountSettingsActivity;
@@ -140,7 +139,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
     TextView mProfileLocation, mProfileFullname, mProfileUsername;
     RecyclerView mRecyclerView;
     TextView mProfileItemsCount, mProfileLikesCount;
-    MaterialRippleLayout mProfileItemsBtn, mProfileLikesBtn;
+    LinearLayout mProfileItemsBtn, mProfileLikesBtn;
 
     TextView mProfileMessageBtn, mProfileActionBtn;
 

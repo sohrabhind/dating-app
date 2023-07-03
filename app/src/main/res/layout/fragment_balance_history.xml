@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/colorPageBackground" >
+     >
 
     <LinearLayout
         android:orientation="vertical"
@@ -80,7 +80,7 @@
                 android:paddingRight="50dp"
                 android:text="@string/label_empty_list"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:textColor="@color/colorIconTint"
+                android:textColor="@color/md_theme_light_outline"
                 android:textStyle="bold" />
         </LinearLayout>
 

@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/RippleStyleBlack"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <LinearLayout
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/spacing_large"
-        android:paddingTop="@dimen/spacing_large">
+        android:paddingTop="@dimen/spacing_large"
+    android:background="?attr/selectableItemBackground">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -42,7 +39,7 @@
                     android:singleLine="true"
                     android:text="@string/label_level"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/colorTitle"
+                    android:textColor="@color/md_theme_light_onBackground"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -62,7 +59,7 @@
                         android:singleLine="false"
                         android:text="@string/label_payments_credits_stripe"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="@color/colorSubTitle" />
+                        android:textColor="@color/material_on_background_disabled" />
 
                 </LinearLayout>
 
@@ -76,7 +73,7 @@
                 android:layout_alignParentRight="true"
                 android:text="00:00"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/colorSubTitle"
+                android:textColor="@color/material_on_background_disabled"
                 android:textStyle="normal" />
 
         </RelativeLayout>
@@ -84,6 +81,5 @@
         <View
             android:layout_width="@dimen/spacing_large"
             android:layout_height="0dp" />
-    </LinearLayout>
 
-</com.balysv.materialripple.MaterialRippleLayout>
+    </LinearLayout>
