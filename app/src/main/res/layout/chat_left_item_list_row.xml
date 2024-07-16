@@ -20,22 +20,23 @@
             android:gravity="bottom"
             android:focusableInTouchMode="false" >
 
-            <com.pkmmte.view.CircularImageView
-                android:layout_width="42dp"
-                android:layout_height="42dp"
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:id="@+id/left_fromUser"
                 android:src="@drawable/profile_default_photo"
-                android:minHeight="16dp"
-                android:minWidth="16dp"
-                android:layout_marginRight="10dp"
-                app:border="true"
-                app:border_color="@color/md_theme_light_onBackground"
-                app:border_width="1dp"
-                app:shadow="false" />
+                android:padding="2dp"
+                android:contentDescription="@string/profile_photo"
+                android:layout_marginEnd="10dp"
+                app:civ_border="true"
+                app:civ_border_color="@color/md_theme_balck_1"
+                app:civ_border_width="1dp"
+                app:civ_shadow="false"
+                app:civ_shadow_radius="0dp" />
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
@@ -45,11 +46,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
 
-                    <com.hindbyte.dating.view.ResizableImageView
+                    <com.investokar.poppi.view.ResizableImageView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/left_img"
                         android:src="@drawable/profile_default_photo"
+                        android:contentDescription="@string/profile_photo"
                         android:adjustViewBounds="true"
                         android:maxHeight="480dp" />
 
@@ -60,9 +62,8 @@
                         android:padding="@dimen/spacing_middle"
                         android:background="@drawable/chat_box_incoming"
                         android:singleLine="false"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         android:textStyle="normal"
-                        android:textColor="@color/md_theme_light_surface"
                         android:text="Example message"
                         android:layout_marginTop="3dp" />
 
@@ -89,9 +90,9 @@
                 android:text="4m ago"
                 android:id="@+id/left_timeAgo"
                 android:layout_marginTop="5dp"
-                android:textColor="@color/material_on_background_disabled"
+                android:textColor="@color/md_theme_balck_1"
                 android:fontFamily="sans-serif-light"
-                android:textSize="13dp"
+                android:textSize="13sp"
                 android:singleLine="true" />
 
             <TextView
@@ -103,9 +104,10 @@
                 android:textAllCaps="false"
                 android:layout_marginTop="5dp"
                 android:textStyle=""
-                android:textColor="@color/material_on_background_disabled"
+                android:textColor="@color/md_theme_balck_1"
+                android:contentDescription="@string/action_report"
                 android:fontFamily="sans-serif-light"
-                android:textSize="13dp"
+                android:textSize="13sp"
                 android:singleLine="true" />
 
         </LinearLayout>
@@ -125,7 +127,7 @@
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" >
 
@@ -141,12 +143,13 @@
                     android:layout_weight="1"
                     android:gravity="right" >
 
-                    <com.hindbyte.dating.view.ResizableImageView
+                    <com.investokar.poppi.view.ResizableImageView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/right_img"
                         android:src="@drawable/profile_default_photo"
                         android:adjustViewBounds="true"
+                        android:contentDescription="@string/profile_photo"
                         android:maxHeight="480dp" />
 
                     <TextView
@@ -156,28 +159,28 @@
                         android:padding="@dimen/spacing_middle"
                         android:background="@drawable/chat_box"
                         android:singleLine="false"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         android:textStyle="normal"
-                        android:textColor="@color/md_theme_light_surface"
                         android:text="Example message"
+                        android:contentDescription="@string/profile_photo"
                         android:layout_marginTop="3dp" />
 
                 </LinearLayout>
-                
+
             </LinearLayout>
 
-            <com.pkmmte.view.CircularImageView
-                android:layout_width="42dp"
-                android:layout_height="42dp"
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:id="@+id/right_fromUser"
                 android:src="@drawable/profile_default_photo"
-                android:minHeight="16dp"
-                android:minWidth="16dp"
-                android:layout_marginLeft="10dp"
-                app:border="true"
-                app:border_color="@color/md_theme_light_onBackground"
-                app:border_width="1dp"
-                app:shadow="false" />
+                android:padding="2dp"
+                android:layout_marginStart="10dp"
+                app:civ_border="true"
+                app:civ_border_color="@color/md_theme_balck_1"
+                app:civ_border_width="1dp"
+                app:civ_shadow="false"
+                app:civ_shadow_radius="0dp" />
 
         </LinearLayout>
 
@@ -185,7 +188,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right" >
+            android:gravity="end" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -193,9 +196,9 @@
                 android:text="4m ago"
                 android:id="@+id/right_timeAgo"
                 android:layout_marginTop="5dp"
-                android:textColor="@color/material_on_background_disabled"
+                android:textColor="@color/md_theme_balck_1"
                 android:fontFamily="sans-serif-light"
-                android:textSize="13dp"
+                android:textSize="13sp"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:singleLine="true" />
@@ -203,11 +206,11 @@
             <ImageView
                 app:srcCompat="@drawable/ic_action_seen"
                 android:id="@+id/seenIcon"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_gravity="bottom"
-                app:tint="@color/material_on_background_disabled" />
+                app:tint="@color/md_theme_balck_1" />
 
         </LinearLayout>
 

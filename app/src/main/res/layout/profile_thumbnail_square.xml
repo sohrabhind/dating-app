@@ -54,7 +54,7 @@
                             android:layout_height="@dimen/square_item_icon_size"
                             android:src="@drawable/ic_online"
                             app:civ_border="true"
-                            app:civ_border_color="@color/white"
+                            app:civ_border_color="@color/md_theme_white_3"
                             app:civ_border_width="1dp"
                             app:civ_shadow="false"
                             app:civ_shadow_radius="0dp" />
@@ -66,7 +66,7 @@
                             android:layout_height="@dimen/square_item_icon_size"
                             android:layout_marginStart="4dp"
                             android:src="@drawable/level_gold"
-                            android:background="@android:color/transparent"/>
+                            android:background="@color/transparent"/>
 
 
                         <com.mikhaellopez.circularimageview.CircularImageView
@@ -75,10 +75,11 @@
                             android:layout_height="@dimen/square_item_icon_size"
                             android:layout_marginStart="4dp"
                             android:layout_marginTop="0dp"
-                            app:tint="@color/md_theme_light_onBackground"
+                            android:visibility="gone"
+                            app:tint="@color/md_theme_balck_3"
                             app:srcCompat="@drawable/ic_gender_secret"
                             app:civ_border="true"
-                            app:civ_border_color="@color/md_theme_light_onBackground"
+                            app:civ_border_color="@color/md_theme_balck_1"
                             app:civ_border_width="1dp"
                             app:civ_shadow="false"
                             app:civ_shadow_radius="0dp" />
@@ -98,10 +99,10 @@
                             android:layout_height="wrap_content"
                             android:text="Fullname"
                             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                            android:textColor="@android:color/white"
+                            android:textColor="@color/md_theme_white_3"
                             android:textStyle="bold"
                             android:maxLines="1"
-                            android:shadowColor="@color/black"
+                            android:shadowColor="@color/md_theme_balck_3"
                             android:shadowDx="1"
                             android:shadowDy="1"
                             android:shadowRadius="1"
@@ -123,9 +124,9 @@
                             android:layout_height="wrap_content"
                             android:text="Username"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                            android:textColor="@android:color/white"
+                            android:textColor="@color/md_theme_white_3"
                             android:maxLines="1"
-                            android:shadowColor="@color/black"
+                            android:shadowColor="@color/md_theme_balck_3"
                             android:shadowDx="1"
                             android:shadowDy="1"
                             android:shadowRadius="1"

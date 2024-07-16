@@ -71,7 +71,7 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:textSize="16dp"
-                android:textColor="@color/md_theme_light_onBackground" />
+                android:textColor="@color/md_theme_balck_3" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

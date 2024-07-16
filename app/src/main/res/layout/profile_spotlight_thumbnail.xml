@@ -13,8 +13,7 @@
             android:layout_width="@dimen/spotlight_item_size"
             android:layout_height="@dimen/spotlight_item_size"
             android:layout_margin="@dimen/spacing_small"
-            app:cardCornerRadius="@dimen/spacing_small"
-            android:elevation="@dimen/spacing_medium">
+            app:cardCornerRadius="@dimen/spacing_small">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -24,6 +23,7 @@
                     android:id="@+id/thumbnail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/profile_photo"
                     android:scaleType="centerCrop"/>
 
                 <ProgressBar
@@ -46,13 +46,13 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:shadowColor="@color/black"
+                        android:shadowColor="@color/md_theme_balck_3"
                         android:shadowDx="1"
                         android:shadowDy="1"
                         android:shadowRadius="1"
                         android:text="Profile Fullname"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/md_theme_white_3"
                         android:textStyle="bold" />
 
                 </LinearLayout>

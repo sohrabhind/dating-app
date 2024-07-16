@@ -5,53 +5,60 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:scrollbars="none"
+        android:background="@color/transparent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/register_screen_5_title"
-            android:textColor="@color/md_theme_light_onBackground"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:text="@string/register_screen_5_subtitle"
-            android:textAlignment="center"
-            android:textColor="@color/material_on_background_disabled"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
-
-        <ImageView
-            android:id="@+id/image_location"
-            android:layout_width="172dp"
-            android:layout_height="172dp"
-            android:layout_margin="@dimen/spacing_middle"
-            app:srcCompat="@drawable/ic_location_image"/>
-
-        <TextView
-            android:id="@+id/button_grant_location_permission"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:text="@string/action_grant_access"
-            android:textColor="@color/md_theme_light_onTertiaryContainer"
-            android:background="@drawable/button_radius"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
             android:gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"/>
+            android:orientation="vertical"
+            android:background="@color/transparent">
 
+            <com.investokar.poppi.view.GradientTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Interests"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textStyle="bold" />
 
-    </LinearLayout>
+            <com.investokar.poppi.tagview.TagContainerLayout
+                android:id="@+id/tagcontainerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                app:container_background_color="@color/md_theme_white_3"
+                app:container_enable_drag="false"
+                app:horizontal_interval="10dp"
+                app:tag_clickable="true"
+                app:tag_selectable="true"
+                app:tag_enable_cross="false"
+                app:tag_theme="random"
+                app:vertical_interval="10dp"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:id="@+id/center_next_button"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:text="@string/action_next"
+                android:textColor="@color/md_theme_white_1"
+                android:background="@drawable/app_profile_button"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="70dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
 </RelativeLayout>

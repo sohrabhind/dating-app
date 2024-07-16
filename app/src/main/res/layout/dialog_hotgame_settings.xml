@@ -18,63 +18,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_sex"
-                android:textColor="@color/md_theme_light_onSurface"
-                android:layout_marginStart="6dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:id="@+id/radio_gender_any"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:checked="true"
-                        android:textColor="@color/md_theme_light_onSurface"
-                        android:text="@string/label_gender_any" />
-
-                    <RadioButton
-                        android:id="@+id/radio_gender_male"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@color/md_theme_light_onSurface"
-                        android:text="@string/label_male" />
-
-                    <RadioButton
-                        android:id="@+id/radio_gender_female"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@color/md_theme_light_onSurface"
-                        android:text="@string/label_female" />
-
-                    <RadioButton
-                        android:id="@+id/radio_gender_other"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/label_other"
-                        android:textColor="@color/md_theme_light_onSurface"
-                        android:layout_weight="1" />
-
-                </RadioGroup>
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/label_additional"
                 android:layout_marginTop="16dp"
                 android:layout_marginLeft="6dp"
-                android:textColor="@color/md_theme_light_onSurface"
                 android:visibility="gone"
                 android:layout_marginBottom="6dp" />
 
@@ -84,7 +30,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_distance"
                 android:id="@+id/distance_label"
-                android:textColor="@color/md_theme_light_onSurface"
                 android:layout_marginTop="16dp"
                 android:layout_marginLeft="6dp"
                 android:layout_marginBottom="6dp" />
@@ -117,7 +62,7 @@
                 android:layout_height="40dp"
                 android:background="@drawable/app_profile_button"
                 android:text="Ok"
-                android:textColor="@color/md_theme_light_onPrimaryContainer"
+                android:textColor="@color/md_theme_white_3"
                 android:gravity="center"
                 android:textSize="16sp"
                 android:id="@+id/bottom_sheet_ok"

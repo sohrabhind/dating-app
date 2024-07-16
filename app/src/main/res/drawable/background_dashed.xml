@@ -7,7 +7,7 @@
             android:radius="3dp" />
 
         <stroke
-            android:color="@color/md_theme_light_onBackground"
+            android:color="@color/md_theme_balck_3"
             android:dashWidth="10px"
             android:dashGap="10px"
             android:width="2dp"/>

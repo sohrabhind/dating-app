@@ -8,18 +8,6 @@
         app:title="@string/settings_header_general"
         app:iconSpaceReserved="false">
 
-        <CheckBoxPreference
-            app:iconSpaceReserved="false"
-            app:key="allowMessages"
-            app:title="@string/settings_allow_messages"
-            app:summary="@string/settings_allow_messages_summary">
-        </CheckBoxPreference>
-
-        <Preference
-            app:iconSpaceReserved="false"
-            app:key="settings_push_notifications"
-            app:title="@string/settings_notifications" />
-
         <Preference
             app:iconSpaceReserved="false"
             app:key="settings_change_password"

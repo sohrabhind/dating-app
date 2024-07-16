@@ -34,6 +34,7 @@
                         android:layout_marginEnd="20dp"
                         android:layout_marginBottom="20dp"
                         android:background="@drawable/background_dashed"
+                        android:contentDescription="@string/profile_photo"
                         android:scaleType="centerCrop" />
 
                     <ProgressBar
@@ -49,7 +50,7 @@
                         android:layout_height="100dp"
                         android:layout_centerInParent="true"
                         android:src="@drawable/ic_action_add_photo"
-                        app:tint="@color/md_theme_light_onBackground" />
+                        app:tint="@color/md_theme_balck_3" />
 
                     <ImageButton
                         android:id="@+id/delete_button"
@@ -59,7 +60,7 @@
                         android:layout_alignParentEnd="true"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_rejected"
-                        app:tint="@color/md_theme_light_onBackground" />
+                        app:tint="@color/md_theme_balck_3" />
 
                 </RelativeLayout>
 
@@ -69,7 +70,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/md_theme_light_outlineVariant"
+                android:background="@color/md_theme_balck_2"
                 android:visibility="gone"/>
 
         </LinearLayout>
@@ -84,7 +85,7 @@
         android:text="@string/action_create"
         android:background="@drawable/app_profile_button"
         android:layout_margin="10dp"
-        android:textColor="@color/md_theme_light_onPrimaryContainer"
+        android:textColor="@color/md_theme_white_3"
         android:gravity="center"
         android:textSize="16sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"

@@ -3,29 +3,33 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_CORSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage"/>
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <uses-feature android:name="android.hardware.location.network" android:required="false" />
     <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
+
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <application
-        android:name="com.hindbyte.dating.app.App"
+        android:name="com.investokar.poppi.app.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/MyMaterialTheme"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
-        android:usesCleartextTraffic="true">
+        android:preserveLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="r">
 
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
 
@@ -34,9 +38,11 @@
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
+
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
+
         </provider>
 
         <meta-data
@@ -50,24 +56,27 @@
 
         <activity
             android:exported="true"
-            android:name="com.hindbyte.dating.activity.AppActivity"
+            android:name="com.investokar.poppi.activity.AppActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait">
+            android:screenOrientation="fullSensor"
+            tools:ignore="DiscouragedApi">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <activity
-            android:name="com.hindbyte.dating.activity.HomeActivity"
+            android:name="com.investokar.poppi.activity.HomeActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="DiscouragedApi" />
 
         <activity
-            android:name="com.hindbyte.dating.activity.LoginActivity"
+            android:name="com.investokar.poppi.activity.LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"/>
@@ -78,7 +87,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/white" />
+            android:resource="@color/md_theme_white_3" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
@@ -86,128 +95,134 @@
 
         <service
             android:exported = "false"
-            android:name="com.hindbyte.dating.service.MyFcmListenerService">
+            android:name="com.investokar.poppi.service.MyFcmListenerService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <activity
-            android:name="com.hindbyte.dating.activity.MainActivity"
+            android:name="com.investokar.poppi.activity.MainActivity"
             android:label="@string/title_activity_feeds"
             android:exported="true"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name="com.hindbyte.dating.activity.RecoveryActivity"
+            android:name="com.investokar.poppi.activity.RecoveryActivity"
             android:label="@string/title_activity_recovery"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"/>
+
         <activity
-            android:name="com.hindbyte.dating.activity.SettingsActivity"
+            android:name="com.investokar.poppi.activity.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="portrait" />
+
         <activity
-            android:name="com.hindbyte.dating.activity.WebViewActivity"
+            android:name="com.investokar.poppi.activity.WebActivity"
             android:label="@string/title_activity_web_view"
             android:screenOrientation="portrait"/>
+
         <activity
-            android:name="com.hindbyte.dating.activity.ChangePasswordActivity"
+            android:name="com.investokar.poppi.activity.WebViewActivity"
+            android:label="@string/title_activity_web_view"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name="com.investokar.poppi.activity.ChangePasswordActivity"
             android:label="@string/title_activity_change_password"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"/>
+
         <activity
-            android:name="com.hindbyte.dating.activity.ServicesActivity"
+            android:name="com.investokar.poppi.activity.ServicesActivity"
             android:label="@string/title_activity_services"
             android:screenOrientation="portrait" />
+
         <activity
-            android:name="com.hindbyte.dating.activity.ProfileActivity"
+            android:name="com.investokar.poppi.activity.ProfileActivity"
             android:label="@string/title_activity_profile"
             android:screenOrientation="portrait"/>
+
         <activity
-            android:name="com.hindbyte.dating.activity.NotificationsActivity"
-            android:label="@string/title_activity_notifications"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.hindbyte.dating.activity.LikesActivity"
+            android:name="com.investokar.poppi.activity.LikesActivity"
             android:label="@string/title_activity_likes"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.hindbyte.dating.activity.AccountSettingsActivity"
+            android:name="com.investokar.poppi.activity.AccountSettingsActivity"
             android:label="@string/title_activity_account_settings"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hindbyte.dating.activity.BlackListActivity"
+            android:name="com.investokar.poppi.activity.BlackListActivity"
             android:label="@string/title_activity_black_list"
             android:screenOrientation="portrait"/>
+
         <activity
-            android:name="com.hindbyte.dating.activity.DialogsActivity"
-            android:label="@string/title_activity_dialogs"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name="com.hindbyte.dating.activity.ChatActivity"
+            android:name="com.investokar.poppi.activity.ChatActivity"
             android:label="@string/title_activity_chat"
             android:windowSoftInputMode="stateHidden"
+            android:exported="true"
             android:screenOrientation="portrait"/>
+
         <activity
-            android:name="com.hindbyte.dating.activity.NotificationsSettingsActivity"
-            android:label="@string/title_activity_notifications_settings"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.hindbyte.dating.activity.SupportActivity"
+            android:name="com.investokar.poppi.activity.SupportActivity"
             android:label="@string/title_activity_support"
             android:theme="@style/MyMaterialTheme"
             android:screenOrientation="portrait" />
+
         <activity
-            android:name="com.hindbyte.dating.activity.LocationActivity"
+            android:name="com.investokar.poppi.activity.LocationActivity"
             android:label="@string/title_activity_location"
             android:theme="@style/MyMaterialTheme"
             android:screenOrientation="portrait" />
+
         <activity
-            android:name="com.hindbyte.dating.activity.DeactivateActivity"
+            android:name="com.investokar.poppi.activity.DeactivateActivity"
             android:label="@string/title_activity_deactivate"
             android:theme="@style/MyMaterialTheme"
             android:screenOrientation="portrait" />
+
         <activity
-            android:name="com.hindbyte.dating.activity.AddPhotoActivity"
+            android:name="com.investokar.poppi.activity.AddPhotoActivity"
             android:label="@string/title_activity_new_item"
             android:theme="@style/MyMaterialTheme"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait"/>
+
         <activity
-            android:name="com.hindbyte.dating.activity.UpgradeActivity"
+            android:name="com.investokar.poppi.activity.UpgradeActivity"
             android:label="@string/action_buy_plan"
             android:theme="@style/MyMaterialTheme"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name="com.hindbyte.dating.activity.PhotoViewActivity"
+            android:name="com.investokar.poppi.activity.PhotoViewActivity"
             android:theme="@style/PhotoViewTheme"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name="com.hindbyte.dating.activity.ViewImageActivity"
+            android:name="com.investokar.poppi.activity.ViewImageActivity"
             android:theme="@style/PhotoViewTheme"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name="com.hindbyte.dating.activity.LikersActivity"
+            android:name="com.investokar.poppi.activity.LikersActivity"
             android:label="@string/title_activity_likers"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name="com.hindbyte.dating.activity.LikedActivity"
+            android:name="com.investokar.poppi.activity.LikedActivity"
             android:label="@string/title_activity_liked"
             android:theme="@style/MyMaterialTheme"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.hindbyte.dating.activity.RegisterActivity"
+            android:name="com.investokar.poppi.activity.RegisterActivity"
             android:label="@string/title_activity_signup"
             android:screenOrientation="portrait"/>
 

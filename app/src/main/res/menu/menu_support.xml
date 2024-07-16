@@ -1,14 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
-tools:context="com.hindbyte.dating.NewItemActivity">
+tools:context="com.investokar.poppi.NewItemActivity">
 
     <item
         android:id="@+id/action_send"
         android:icon="@drawable/ic_action_send"
         android:title="@string/action_send"
         app:showAsAction="always"
-        app:iconTint="@color/md_theme_light_onPrimary"
-        android:iconTint="@color/md_theme_light_onPrimary"/>
+        app:iconTint="@color/md_theme_white_3"
+        android:iconTint="@color/md_theme_white_3"/>
 
 </menu>

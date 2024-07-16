@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Name"
-                android:textColor="@color/md_theme_light_onBackground"
+                android:textColor="@color/md_theme_balck_3"
                 android:layout_marginTop="10dp">
             </TextView>
 
@@ -36,8 +36,8 @@
                 android:id="@+id/fullname"
                 android:maxLength="55"
                 android:textSize="16sp"
-                android:textColor="@color/md_theme_light_onBackground"
-                android:textColorHint="@color/material_on_background_disabled"
+                android:textColor="@color/md_theme_balck_3"
+                android:textColorHint="@color/md_theme_balck_1"
                 android:textCursorDrawable="@null"
                 android:background="@drawable/edittext_transparent"
                 android:layout_gravity="center_horizontal"
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/placeholder_location"
                 android:visibility="gone"
-                android:textColor="@color/md_theme_light_onBackground"
+                android:textColor="@color/md_theme_balck_3"
                 android:layout_marginTop="10dp">
             </TextView>
 
@@ -63,8 +63,8 @@
                 android:visibility="gone"
                 android:maxLength="255"
                 android:textSize="16sp"
-                android:textColor="@color/md_theme_light_onBackground"
-                android:textColorHint="@color/material_on_background_disabled"
+                android:textColor="@color/md_theme_balck_3"
+                android:textColorHint="@color/md_theme_balck_1"
                 android:textCursorDrawable="@null"
                 android:background="@drawable/edittext_transparent"
                 android:layout_gravity="center_horizontal"
@@ -76,7 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/placeholder_interests"
-                android:textColor="@color/md_theme_light_onBackground"
+                android:textColor="@color/md_theme_balck_3"
                 android:layout_marginTop="10dp">
             </TextView>
 
@@ -88,8 +88,8 @@
                 android:maxLength="255"
                 android:maxLines="1"
                 android:textSize="16sp"
-                android:textColor="@color/md_theme_light_onBackground"
-                android:textColorHint="@color/material_on_background_disabled"
+                android:textColor="@color/md_theme_balck_3"
+                android:textColorHint="@color/md_theme_balck_1"
                 android:textCursorDrawable="@null"
                 android:background="@drawable/edittext_transparent"
                 android:layout_gravity="center_horizontal"
@@ -102,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/placeholder_bio"
-                android:textColor="@color/md_theme_light_onBackground"
+                android:textColor="@color/md_theme_balck_3"
                 android:layout_marginTop="10dp">
             </TextView>
 
@@ -114,8 +114,8 @@
                 android:inputType="textMultiLine"
                 android:maxLength="255"
                 android:textSize="16sp"
-                android:textColor="@color/md_theme_light_onBackground"
-                android:textColorHint="@color/material_on_background_disabled"
+                android:textColor="@color/md_theme_balck_3"
+                android:textColorHint="@color/md_theme_balck_1"
                 android:textCursorDrawable="@null"
                 android:id="@+id/bio"
                 android:background="@drawable/edittext_transparent"
@@ -127,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/label_age"
-                android:textColor="@color/md_theme_light_onBackground"
+                android:textColor="@color/md_theme_balck_3"
                 android:layout_marginTop="10dp">
             </TextView>
 
@@ -138,8 +138,8 @@
                 android:id="@+id/ageField"
                 android:maxLength="3"
                 android:textSize="16sp"
-                android:textColor="@color/md_theme_light_onBackground"
-                android:textColorHint="@color/material_on_background_disabled"
+                android:textColor="@color/md_theme_balck_3"
+                android:textColorHint="@color/md_theme_balck_1"
                 android:textCursorDrawable="@null"
                 android:inputType="number"
                 android:layout_gravity="center_horizontal"
@@ -153,7 +153,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/label_height"
-                android:textColor="@color/md_theme_light_onBackground"
+                android:textColor="@color/md_theme_balck_3"
                 android:layout_marginTop="10dp">
             </TextView>
 
@@ -164,8 +164,8 @@
                 android:id="@+id/heightField"
                 android:maxLength="3"
                 android:textSize="16sp"
-                android:textColor="@color/md_theme_light_onBackground"
-                android:textColorHint="@color/material_on_background_disabled"
+                android:textColor="@color/md_theme_balck_3"
+                android:textColorHint="@color/md_theme_balck_1"
                 android:textCursorDrawable="@null"
                 android:inputType="number"
                 android:layout_gravity="center_horizontal"
@@ -181,7 +181,7 @@
                 android:layout_height="50dp"
                 android:textSize="16sp"
                 android:text="Gender"
-                android:textColor="@color/md_theme_light_onBackground"
+                android:textColor="@color/md_theme_balck_3"
                 android:background="@drawable/edit_profile_button"
                 android:gravity="center"
                 android:visibility="gone"
@@ -194,7 +194,7 @@
                 android:layout_height="50dp"
                 android:textSize="16sp"
                 android:text="Religious View"
-                android:textColor="@color/md_theme_light_onBackground"
+                android:textColor="@color/md_theme_balck_3"
                 android:background="@drawable/edit_profile_button"
                 android:gravity="center"
                 android:layout_marginTop="10dp" />
@@ -205,7 +205,7 @@
                 android:layout_height="50dp"
                 android:textSize="16sp"
                 android:text="Smoking Views"
-                android:textColor="@color/md_theme_light_onBackground"
+                android:textColor="@color/md_theme_balck_3"
                 android:background="@drawable/edit_profile_button"
                 android:gravity="center"
                 android:layout_marginTop="10dp" />
@@ -217,7 +217,7 @@
                 android:layout_height="50dp"
                 android:textSize="16sp"
                 android:text="Alcohol Views"
-                android:textColor="@color/md_theme_light_onBackground"
+                android:textColor="@color/md_theme_balck_3"
                 android:background="@drawable/edit_profile_button"
                 android:gravity="center"
                 android:layout_marginTop="10dp" />
@@ -229,7 +229,7 @@
                 android:layout_height="50dp"
                 android:textSize="16sp"
                 android:text="You Looking"
-                android:textColor="@color/md_theme_light_onBackground"
+                android:textColor="@color/md_theme_balck_3"
                 android:background="@drawable/edit_profile_button"
                 android:gravity="center"
                 android:layout_marginTop="10dp" />
@@ -242,7 +242,7 @@
                 android:layout_height="50dp"
                 android:textSize="16sp"
                 android:text="You Like"
-                android:textColor="@color/md_theme_light_onBackground"
+                android:textColor="@color/md_theme_balck_3"
                 android:background="@drawable/edit_profile_button"
                 android:gravity="center"
                 android:layout_marginTop="10dp" />

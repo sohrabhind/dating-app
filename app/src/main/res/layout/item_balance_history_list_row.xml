@@ -31,7 +31,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/credits"
+                    android:id="@+id/level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
@@ -39,7 +39,7 @@
                     android:singleLine="true"
                     android:text="@string/label_level"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/md_theme_light_onBackground"
+                    android:textColor="@color/md_theme_balck_3"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -59,7 +59,7 @@
                         android:singleLine="false"
                         android:text="@string/label_payments_credits_stripe"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="@color/material_on_background_disabled" />
+                        android:textColor="@color/md_theme_balck_1" />
 
                 </LinearLayout>
 
@@ -73,7 +73,7 @@
                 android:layout_alignParentRight="true"
                 android:text="00:00"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/material_on_background_disabled"
+                android:textColor="@color/md_theme_balck_1"
                 android:textStyle="normal" />
 
         </RelativeLayout>

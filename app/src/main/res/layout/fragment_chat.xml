@@ -1,7 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -52,7 +53,7 @@
 
                     <TextView
                         android:text="@string/label_typing"
-                        android:textColor="@color/material_on_background_disabled"
+                        android:textColor="@color/md_theme_balck_1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
@@ -79,14 +80,14 @@
                         android:layout_height="24dp"
                         android:id="@+id/deleteImg"
                         android:layout_marginStart="-24dp"
-                        app:tint="@color/md_theme_light_outline" />
+                        app:tint="@color/md_theme_balck_1" />
 
                 </LinearLayout>
 
-                <FrameLayout
+                <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/md_theme_light_outlineVariant"/>
+                    android:background="@drawable/gradation_primary" />
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -100,13 +101,15 @@
 
                         <ImageView
                             android:id="@+id/actionContainerImg"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp "
                             android:layout_gravity="center"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp"
+                            android:padding="4dp"
                             android:src="@drawable/ic_action_new"
-                            app:tint="@color/md_theme_light_outline" />
+                            android:contentDescription="@string/action_detail"
+                            app:tint="@color/md_theme_primary_1" />
 
                     </LinearLayout>
 
@@ -116,9 +119,7 @@
                         android:inputType="textMultiLine"
                         android:id="@+id/messageText"
                         android:background="@color/transparent"
-                        android:textColor="@color/md_theme_light_onSurface"
                         android:hint="@string/placeholder_message"
-                        android:textColorHint="@color/md_theme_light_outline"
                         android:layout_weight="1"
                         android:minHeight="50dp"
                         android:padding="10dp"
@@ -130,15 +131,17 @@
                         android:layout_height="match_parent">
 
                         <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             android:id="@+id/sendMessage"
                             app:srcCompat="@drawable/ic_action_send"
                             android:scaleType="centerCrop"
                             android:layout_gravity="center"
+                            android:padding="4dp"
                             android:layout_marginEnd="6dp"
                             android:layout_marginStart="8dp"
-                            app:tint="@color/md_theme_light_outline" />
+                            android:contentDescription="@string/action_send"
+                            app:tint="@color/md_theme_primary_1" />
                     </LinearLayout>
 
                 </LinearLayout>

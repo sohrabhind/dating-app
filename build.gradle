@@ -3,6 +3,9 @@
 buildscript {
     ext {
         kotlin_version = '1.9.0-RC'
+        agp_version = '8.2.2'
+        agp_version1 = agp_version
+        agp_version = '8.5.1'
     }
     repositories {
         maven {
@@ -13,8 +16,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.0.2'
-        classpath 'com.google.gms:google-services:4.3.15'
+        classpath "com.android.tools.build:gradle:$agp_version"
+        classpath 'com.google.gms:google-services:4.4.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -30,6 +33,6 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }

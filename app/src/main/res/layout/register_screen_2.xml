@@ -4,19 +4,18 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:layout_centerInParent="true"
-        android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
+
+        <com.investokar.poppi.view.GradientTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/register_screen_2_title"
-            android:textColor="@color/md_theme_light_onBackground"
+            android:text="@string/register_screen_3_title"
             android:layout_marginTop="@dimen/spacing_large"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textStyle="bold" />
@@ -25,107 +24,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_large"
-            android:paddingLeft="40dp"
-            android:paddingRight="40dp"
-            android:text="@string/register_screen_2_subtitle"
+            android:text="@string/register_screen_3_subtitle"
             android:textAlignment="center"
-            android:textColor="@color/material_on_background_disabled"
+            android:textColor="@color/md_theme_balck_3"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <TextView
+            android:id="@+id/button_choose_age"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:text="@string/action_choose_age"
+            android:textColor="@color/md_theme_white_3"
+            android:background="@drawable/circular_button"
             android:gravity="center"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="@dimen/spacing_middle">
-
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/profile_photo"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginRight="@dimen/spacing_middle"
-                android:src="@drawable/profile_default_photo"
-                app:civ_border="true"
-                app:civ_border_color="@color/md_theme_light_onBackground"
-                app:civ_border_width="2dp"
-                app:civ_shadow="false"
-                app:civ_shadow_radius="0dp" />
-
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/photo_image_1"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginRight="@dimen/spacing_middle"
-                android:src="@drawable/profile_default_photo"
-                app:civ_border="true"
-                app:civ_border_color="@color/md_theme_light_onBackground"
-                app:civ_border_width="2dp"
-                app:civ_shadow="false"
-                app:civ_shadow_radius="0dp" />
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
 
 
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/photo_image_2"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/profile_default_photo"
-                app:civ_border="true"
-                app:civ_border_color="@color/md_theme_light_onBackground"
-                app:civ_border_width="2dp"
-                app:civ_shadow="false"
-                app:civ_shadow_radius="0dp" />
-
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:orientation="horizontal"
+        <TextView
+            android:id="@+id/center_next_button"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:text="@string/action_next"
+            android:textColor="@color/md_theme_white_3"
+            android:background="@drawable/app_profile_button"
             android:gravity="center"
-            android:layout_marginTop="@dimen/spacing_middle"
-            android:layout_marginBottom="50dp">
-
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/photo_image_3"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginRight="@dimen/spacing_middle"
-                android:src="@drawable/profile_default_photo"
-                app:civ_border="true"
-                app:civ_border_color="@color/md_theme_light_onBackground"
-                app:civ_border_width="2dp"
-                app:civ_shadow="false"
-                app:civ_shadow_radius="0dp" />
-
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/photo_image_4"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginRight="@dimen/spacing_middle"
-                android:src="@drawable/profile_default_photo"
-                app:civ_border="true"
-                app:civ_border_color="@color/md_theme_light_onBackground"
-                app:civ_border_width="2dp"
-                app:civ_shadow="false"
-                app:civ_shadow_radius="0dp" />
-
-
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/photo_image_5"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/profile_default_photo"
-                app:civ_border="true"
-                app:civ_border_color="@color/md_theme_light_onBackground"
-                app:civ_border_width="2dp"
-                app:civ_shadow="false"
-                app:civ_shadow_radius="0dp" />
-
-
-        </LinearLayout>
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
 
     </LinearLayout>
 

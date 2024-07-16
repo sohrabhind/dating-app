@@ -19,7 +19,6 @@
             android:orientation="vertical"
             android:visibility="visible">
 
-
                 <LinearLayout
                     android:id="@+id/nav_profile"
                     android:layout_width="match_parent"
@@ -37,23 +36,24 @@
 
                         <com.mikhaellopez.circularimageview.CircularImageView
                             android:id="@+id/profilePhoto"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:src="@drawable/profile_default_photo"
+                            android:contentDescription="@string/profile_photo"
                             app:civ_border="true"
-                            app:civ_border_color="@color/md_theme_light_onBackground"
-                            app:civ_border_width="2dp"
+                            app:civ_border_color="@color/md_theme_primary_3_t_50"
+                            app:civ_border_width="1dp"
                             app:civ_shadow="false"
                             app:civ_shadow_radius="0dp" />
 
                         <ImageView
                             android:id="@+id/profileLevelIcon"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_marginEnd="-20dp"
-                            android:layout_marginTop="-24dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginEnd="-18dp"
+                            android:layout_marginTop="-22dp"
                             android:src="@drawable/level_gold"
-                            android:background="@android:color/transparent"/>
+                            android:background="@color/transparent"/>
 
                     </LinearLayout>
 
@@ -69,7 +69,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/my_profile"
                             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                            android:textColor="@color/md_theme_light_onBackground" />
+                            android:textColor="@color/md_theme_balck_3" />
 
                         <TextView
                             android:id="@+id/nav_profile_subhead"
@@ -78,7 +78,7 @@
                             android:text="@string/my_profile"
                             android:visibility="gone"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/material_on_background_disabled" />
+                            android:textColor="@color/md_theme_balck_1" />
 
                     </LinearLayout>
 
@@ -90,18 +90,13 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/md_theme_light_outlineVariant" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/spacing_large"
-            android:background="@color/transparent" />
-
+            android:background="@drawable/gradation_primary" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="@dimen/spacing_xlarge"
+            android:layout_marginTop="@dimen/spacing_large"
             android:orientation="vertical">
 
 
@@ -118,15 +113,15 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:padding="9dp"
-                        app:srcCompat="@drawable/ic_action_favorite"
-                        app:tint="@color/md_theme_light_onBackground" />
+                        app:srcCompat="@drawable/ic_action_like"
+                        app:tint="@color/md_theme_primary_1" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/nav_friends"
+                        android:text="@string/nav_liked"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                        android:textColor="@color/md_theme_light_onBackground" />
+                        android:textColor="@color/md_theme_balck_3" />
 
                 </LinearLayout>
 
@@ -145,14 +140,14 @@
                         android:layout_height="40dp"
                         android:padding="@dimen/spacing_middle"
                         app:srcCompat="@drawable/ic_action_like"
-                        app:tint="@color/md_theme_light_onBackground" />
+                        app:tint="@color/md_theme_primary_2" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/nav_likes"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                        android:textColor="@color/md_theme_light_onBackground" />
+                        android:textColor="@color/md_theme_balck_3" />
 
                 </LinearLayout>
                 <LinearLayout
@@ -169,7 +164,7 @@
                         android:layout_height="40dp"
                         android:padding="9dp"
                         app:srcCompat="@drawable/ic_action_search"
-                        app:tint="@color/md_theme_light_onBackground" />
+                        app:tint="@color/md_theme_primary_3" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -181,7 +176,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/nav_search"
                             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                            android:textColor="@color/md_theme_light_onBackground" />
+                            android:textColor="@color/md_theme_balck_3" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -200,14 +195,14 @@
                         android:layout_height="40dp"
                         android:padding="@dimen/spacing_middle"
                         app:srcCompat="@drawable/ic_action_upgrade"
-                        app:tint="@color/md_theme_light_onBackground" />
+                        app:tint="@color/md_theme_primary_4" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/nav_upgrades"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                        android:textColor="@color/md_theme_light_onBackground" />
+                        android:textColor="@color/md_theme_balck_3" />
 
                 </LinearLayout>
 
@@ -225,14 +220,14 @@
                         android:layout_height="40dp"
                         android:padding="@dimen/spacing_middle"
                         app:srcCompat="@drawable/ic_action_settings"
-                        app:tint="@color/md_theme_light_onBackground" />
+                        app:tint="@color/md_theme_primary_5" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/nav_settings"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                        android:textColor="@color/md_theme_light_onBackground" />
+                        android:textColor="@color/md_theme_balck_3" />
 
                 </LinearLayout>
 
@@ -241,8 +236,397 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="1dp"
+            android:background="@drawable/gradation_primary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/spacing_xlarge"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="?attr/selectableItemBackground"
+                android:padding="@dimen/spacing_middle">
+
+                <TextView
+                    android:id="@+id/plan_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/spacing_middle"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/md_theme_balck_3" />
+
+                <ImageView
+                    android:id="@+id/my_level_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:foregroundGravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/level_gold"
+                    android:background="@color/transparent"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="?attr/selectableItemBackground"
+                android:padding="@dimen/spacing_middle">
+
+                <TextView
+                    android:id="@+id/free_message_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/spacing_middle"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/md_theme_balck_3" />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="?attr/selectableItemBackground"
+                android:padding="@dimen/spacing_middle">
+
+                <TextView
+                    android:id="@+id/premium_message_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/spacing_middle"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/md_theme_balck_3" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="?attr/selectableItemBackground"
+                android:padding="@dimen/spacing_middle">
+
+                <TextView
+                    android:id="@+id/like_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/spacing_middle"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/md_theme_balck_3" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacing_large"
             android:background="@color/transparent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/gradation_primary" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <com.investokar.poppi.view.GradientTextView
+                    android:id="@+id/get_badge_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/diamond_purchase"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"/>
+
+
+                <ImageView
+                    android:id="@+id/level_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    app:srcCompat="@drawable/level_gold"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="18dp"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/total_messages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1500 Messages"
+                    android:textColor="@color/md_theme_balck_3"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:layout_gravity="center" />
+
+
+                <TextView
+                    android:id="@+id/total_likes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="500 Likes"
+                    android:textColor="@color/md_theme_balck_3"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:layout_gravity="center" />
+
+
+                <TextView
+                    android:id="@+id/profile_boost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Open 20 Chats Daily"
+                    android:textColor="@color/md_theme_balck_3"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="18dp"
+                    android:gravity="center"
+                    android:layout_gravity="center" />
+
+
+
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/gradation_primary"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <LinearLayout
+                        android:id="@+id/iap1_google_btn"
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingTop="18dp"
+                        android:paddingBottom="18dp">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            app:srcCompat="@drawable/level_silver"
+                            android:gravity="center"
+                            android:layout_gravity="center"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/silver_purchase"
+                            android:textColor="@color/md_theme_balck_3"
+                            android:textSize="18dp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:layout_gravity="center"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="1 Month"
+                            android:textColor="@color/md_theme_balck_3"
+                            android:textSize="16dp"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:layout_gravity="center" />
+
+                        <TextView
+                            android:id="@+id/iap1_google_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/action_buy_iap1_google_pay"
+                            android:textColor="@color/md_theme_balck_3"
+                            android:textSize="16dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:layout_gravity="center" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/gradation_primary" />
+
+
+                    <LinearLayout
+                        android:id="@+id/iap2_google_btn"
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingTop="18dp"
+                        android:paddingBottom="18dp">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            app:srcCompat="@drawable/level_gold"
+                            android:gravity="center"
+                            android:layout_gravity="center"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gold_purchase"
+                            android:textColor="@color/md_theme_balck_3"
+                            android:textSize="18dp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:layout_gravity="center"/>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="1 Month"
+                            android:textColor="@color/md_theme_balck_3"
+                            android:textSize="16dp"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:layout_gravity="center" />
+
+                        <TextView
+                            android:id="@+id/iap2_google_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/action_buy_iap2_google_pay"
+                            android:textColor="@color/md_theme_balck_3"
+                            android:textSize="16dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:layout_gravity="center"/>
+
+
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/gradation_primary" />
+
+
+                    <LinearLayout
+                        android:id="@+id/iap3_google_btn"
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingTop="18dp"
+                        android:paddingBottom="18dp" >
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            app:srcCompat="@drawable/level_diamond"
+                            android:gravity="center"
+                            android:layout_gravity="center"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/diamond_purchase"
+                            android:textColor="@color/md_theme_balck_3"
+                            android:textSize="18dp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:layout_gravity="center" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="1 Month"
+                            android:textColor="@color/md_theme_balck_3"
+                            android:textSize="16dp"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:layout_gravity="center" />
+
+                        <TextView
+                            android:id="@+id/iap3_google_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/action_buy_iap3_google_pay"
+                            android:textColor="@color/md_theme_balck_3"
+                            android:textSize="16dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:layout_gravity="center" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/gradation_primary" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="@string/action_buy_plan"
+                    android:id="@+id/iap_google_btn"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:background="@drawable/app_profile_button"
+                    android:gravity="center"
+                    android:textColor="@color/md_theme_white_3"
+                    android:layout_gravity="center"
+                    android:layout_margin="20dp"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+
 
     </LinearLayout>
 

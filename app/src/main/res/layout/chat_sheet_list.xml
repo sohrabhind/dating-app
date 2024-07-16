@@ -14,15 +14,16 @@
             android:clickable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:background="?attr/selectableItemBackground"
+            android:background="@color/md_theme_white_3"
             android:paddingLeft="@dimen/spacing_middle"
-            android:paddingRight="@dimen/spacing_middle">
+            android:paddingRight="@dimen/spacing_middle"
+            android:focusable="true">
 
             <ImageView
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
                 android:padding="@dimen/spacing_large"
-                app:tint="@color/md_theme_light_onSurface"
+                app:tint="@color/md_theme_balck_3"
                 app:srcCompat="@drawable/ic_action_photo" />
 
             <TextView
@@ -32,7 +33,7 @@
                 android:layout_marginRight="@dimen/spacing_middle"
                 android:text="@string/action_image_from_gallery"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/md_theme_light_onSurface" />
+                android:textColor="@color/md_theme_balck_3" />
 
         </LinearLayout>
 
@@ -44,7 +45,7 @@
             android:clickable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:background="?attr/selectableItemBackground"
+            android:background="@color/md_theme_white_3"
             android:paddingLeft="@dimen/spacing_middle"
             android:paddingRight="@dimen/spacing_middle">
 
@@ -52,7 +53,7 @@
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
                 android:padding="@dimen/spacing_large"
-                app:tint="@color/md_theme_light_onSurface"
+                app:tint="@color/md_theme_balck_3"
                 app:srcCompat="@drawable/ic_camera" />
 
             <TextView
@@ -62,7 +63,7 @@
                 android:layout_marginRight="@dimen/spacing_middle"
                 android:text="@string/action_image_from_camera"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/md_theme_light_onSurface" />
+                android:textColor="@color/md_theme_balck_3" />
 
         </LinearLayout>
 

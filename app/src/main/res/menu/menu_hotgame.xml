@@ -9,7 +9,9 @@
         android:icon="@drawable/ic_filter_white"
         android:orderInCategory="100"
         app:showAsAction="always"
-        app:iconTint="@color/md_theme_light_onPrimary"
-        android:iconTint="@color/md_theme_light_onPrimary"/>
+        app:iconTint="@color/md_theme_white_3"
+        android:iconTint="@color/md_theme_white_3"
+        android:contentDescription="@string/label_hotgame_dialog_title"
+        android:title=""/>
 
 </menu>

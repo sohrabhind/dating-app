@@ -1,14 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.hindbyte.dating.activity.AccountSettingsActivity">
+    tools:context="com.investokar.poppi.activity.AccountSettingsActivity">
 
     <item
         android:id="@+id/action_save"
         android:title="@string/action_save"
         android:icon="@drawable/ic_action_done"
-        app:iconTint="@color/md_theme_light_onPrimary"
-        android:iconTint="@color/md_theme_light_onPrimary"
-        app:showAsAction="always"  />
+        app:iconTint="@color/md_theme_white_3"
+        android:iconTint="@color/md_theme_white_3"
+        app:showAsAction="always"/>
 
 </menu>

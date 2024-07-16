@@ -31,7 +31,7 @@
                         android:layout_height="wrap_content"
                         android:minHeight="315dp"
                         android:adjustViewBounds="true"
-                        android:contentDescription="@null"
+                        android:contentDescription="@string/profile_photo"
                         android:focusableInTouchMode="true"
                         android:scaleType="centerCrop"/>
 
@@ -62,30 +62,31 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:shadowColor="@color/black"
+                                    android:shadowColor="@color/md_theme_balck_3"
+                                    android:textStyle="bold"
                                     android:shadowDx="2"
                                     android:shadowDy="2"
                                     android:shadowRadius="2"
                                     android:text="Fullname"
-                                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                                    android:textColor="@color/white" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                                    android:textColor="@color/md_theme_white_3" />
 
                                 <ImageView
                                     android:id="@+id/profileOnlineIcon"
                                     android:layout_width="15dp"
                                     android:layout_height="15dp"
                                     android:layout_marginStart="8dp"
-                                    app:tint="@color/green"
+                                    app:tint="@color/md_theme_primary_2"
                                     app:srcCompat="@drawable/ic_online" />
 
 
                                 <ImageView
                                     android:id="@+id/profileLevelIcon"
-                                    android:layout_width="15dp"
-                                    android:layout_height="15dp"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
                                     android:layout_marginStart="8dp"
                                     android:src="@drawable/level_gold"
-                                    android:background="@android:color/transparent"/>
+                                    android:background="@color/transparent"/>
 
                             </LinearLayout>
 
@@ -93,14 +94,14 @@
                                 android:id="@+id/profileUsername"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:shadowColor="@color/black"
+                                android:shadowColor="@color/md_theme_balck_3"
                                 android:shadowDx="2"
                                 android:shadowDy="2"
                                 android:shadowRadius="2"
                                 android:visibility="gone"
                                 android:text="username"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/md_theme_white_3" />
 
                             <LinearLayout
                                 android:id="@+id/profileLocationContainer"
@@ -115,19 +116,19 @@
                                     android:layout_width="@dimen/spacing_mlarge"
                                     android:layout_height="@dimen/spacing_mlarge"
                                     app:srcCompat="@drawable/ic_pin"
-                                    app:tint="@color/white" />
+                                    app:tint="@color/md_theme_white_3" />
 
                                 <TextView
                                     android:id="@+id/profileLocation"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:shadowColor="@color/black"
+                                    android:shadowColor="@color/md_theme_balck_3"
                                     android:shadowDx="2"
                                     android:shadowDy="2"
                                     android:shadowRadius="2"
                                     android:text="San Francisco, CA"
                                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                                    android:textColor="@color/white" />
+                                    android:textColor="@color/md_theme_white_3" />
 
                             </LinearLayout>
 
@@ -140,7 +141,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/md_theme_light_outlineVariant" />
+                    android:background="@color/md_theme_balck_2" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -160,7 +161,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:text="@string/action_message"
-                        android:textColor="@color/md_theme_light_onPrimaryContainer"
+                        android:textColor="@color/md_theme_white_3"
                         android:textStyle="bold" />
 
                     <TextView
@@ -175,7 +176,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:text="@string/action_add_to_friends"
-                        android:textColor="@color/md_theme_light_onPrimaryContainer"
+                        android:textColor="@color/md_theme_white_3"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -192,14 +193,15 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:padding="5dp">
+                        android:padding="5dp"
+                        android:visibility="gone">
 
                         <ImageView
                             android:layout_width="@dimen/spacing_mlarge"
                             android:layout_height="@dimen/spacing_mlarge"
                             android:layout_margin="@dimen/spacing_middle"
                             app:srcCompat="@drawable/ic_join_date"
-                            app:tint="@color/md_theme_light_onBackground" />
+                            app:tint="@color/md_theme_balck_3" />
 
                         <TextView
                             android:id="@+id/profileJoinDate"
@@ -208,7 +210,7 @@
                             android:layout_margin="@dimen/spacing_medium"
                             android:text="01.01.2017"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/md_theme_light_onBackground" />
+                            android:textColor="@color/md_theme_balck_3" />
 
                     </LinearLayout>
 
@@ -225,7 +227,7 @@
                             android:layout_height="@dimen/spacing_mlarge"
                             android:layout_margin="@dimen/spacing_middle"
                             app:srcCompat="@drawable/ic_gender"
-                            app:tint="@color/md_theme_light_onBackground" />
+                            app:tint="@color/md_theme_balck_3" />
 
                         <TextView
                             android:id="@+id/profileGender"
@@ -234,7 +236,7 @@
                             android:layout_margin="@dimen/spacing_medium"
                             android:text="Gender"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/md_theme_light_onBackground" />
+                            android:textColor="@color/md_theme_balck_3" />
 
                     </LinearLayout>
 
@@ -245,14 +247,15 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:padding="5dp">
+                        android:padding="5dp"
+                        android:visibility="gone">
 
                         <ImageView
                             android:layout_width="@dimen/spacing_mlarge"
                             android:layout_height="@dimen/spacing_mlarge"
                             android:layout_margin="@dimen/spacing_middle"
                             app:srcCompat="@drawable/ic_age"
-                            app:tint="@color/md_theme_light_onBackground" />
+                            app:tint="@color/md_theme_balck_3" />
 
                         <TextView
                             android:id="@+id/profileAge"
@@ -261,7 +264,7 @@
                             android:layout_margin="@dimen/spacing_medium"
                             android:text="@string/label_age"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/md_theme_light_onBackground" />
+                            android:textColor="@color/md_theme_balck_3" />
 
                     </LinearLayout>
 
@@ -278,7 +281,7 @@
                             android:layout_height="@dimen/spacing_mlarge"
                             android:layout_margin="@dimen/spacing_middle"
                             app:srcCompat="@drawable/ic_height"
-                            app:tint="@color/md_theme_light_onBackground" />
+                            app:tint="@color/md_theme_balck_3" />
 
                         <TextView
                             android:id="@+id/profileHeight"
@@ -287,7 +290,7 @@
                             android:layout_margin="@dimen/spacing_medium"
                             android:text="@string/label_height"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/md_theme_light_onBackground" />
+                            android:textColor="@color/md_theme_balck_3" />
 
                     </LinearLayout>
 
@@ -305,7 +308,7 @@
                             android:layout_height="@dimen/spacing_mlarge"
                             android:layout_margin="@dimen/spacing_middle"
                             app:srcCompat="@drawable/ic_action_relgion"
-                            app:tint="@color/md_theme_light_onBackground" />
+                            app:tint="@color/md_theme_balck_3" />
 
                         <TextView
                             android:id="@+id/profileReligiousView"
@@ -314,7 +317,7 @@
                             android:layout_margin="@dimen/spacing_medium"
                             android:text="ReligiousView"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/md_theme_light_onBackground" />
+                            android:textColor="@color/md_theme_balck_3" />
 
                     </LinearLayout>
 
@@ -331,7 +334,7 @@
                             android:layout_height="@dimen/spacing_mlarge"
                             android:layout_margin="@dimen/spacing_middle"
                             app:srcCompat="@drawable/ic_smoking"
-                            app:tint="@color/md_theme_light_onBackground" />
+                            app:tint="@color/md_theme_balck_3" />
 
                         <TextView
                             android:id="@+id/profileSmokingViews"
@@ -340,7 +343,7 @@
                             android:layout_margin="@dimen/spacing_medium"
                             android:text="SmokingViews"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/md_theme_light_onBackground" />
+                            android:textColor="@color/md_theme_balck_3" />
 
                     </LinearLayout>
 
@@ -357,7 +360,7 @@
                             android:layout_height="@dimen/spacing_mlarge"
                             android:layout_margin="@dimen/spacing_middle"
                             app:srcCompat="@drawable/ic_alcohol"
-                            app:tint="@color/md_theme_light_onBackground" />
+                            app:tint="@color/md_theme_balck_3" />
 
                         <TextView
                             android:id="@+id/profileAlcoholViews"
@@ -366,7 +369,7 @@
                             android:layout_margin="@dimen/spacing_medium"
                             android:text="AlcoholViews"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/md_theme_light_onBackground" />
+                            android:textColor="@color/md_theme_balck_3" />
 
                     </LinearLayout>
 
@@ -383,7 +386,7 @@
                             android:layout_height="@dimen/spacing_mlarge"
                             android:layout_margin="@dimen/spacing_middle"
                             app:srcCompat="@drawable/ic_action_looking"
-                            app:tint="@color/md_theme_light_onBackground" />
+                            app:tint="@color/md_theme_balck_3" />
 
                         <TextView
                             android:id="@+id/profileProfileLooking"
@@ -392,7 +395,7 @@
                             android:layout_margin="@dimen/spacing_medium"
                             android:text="ProfileLooking"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/md_theme_light_onBackground" />
+                            android:textColor="@color/md_theme_balck_3" />
 
                     </LinearLayout>
 
@@ -409,7 +412,7 @@
                             android:layout_height="@dimen/spacing_mlarge"
                             android:layout_margin="@dimen/spacing_middle"
                             app:srcCompat="@drawable/ic_action_like"
-                            app:tint="@color/md_theme_light_onBackground" />
+                            app:tint="@color/md_theme_balck_3" />
 
                         <TextView
                             android:id="@+id/profileGenderLike"
@@ -418,7 +421,7 @@
                             android:layout_margin="@dimen/spacing_medium"
                             android:text="GenderLike"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/md_theme_light_onBackground" />
+                            android:textColor="@color/md_theme_balck_3" />
 
                     </LinearLayout>
 
@@ -435,7 +438,7 @@
                             android:layout_height="@dimen/spacing_mlarge"
                             android:layout_margin="@dimen/spacing_middle"
                             app:srcCompat="@drawable/ic_quote"
-                            app:tint="@color/md_theme_light_onBackground" />
+                            app:tint="@color/md_theme_balck_3" />
 
                         <TextView
                             android:id="@+id/profileStatus"
@@ -444,7 +447,7 @@
                             android:layout_margin="@dimen/spacing_medium"
                             android:text="About me. My Bio"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/md_theme_light_onBackground" />
+                            android:textColor="@color/md_theme_balck_3" />
 
                     </LinearLayout>
 
@@ -461,10 +464,10 @@
                             android:layout_height="@dimen/spacing_mlarge"
                             android:layout_margin="@dimen/spacing_middle"
                             app:srcCompat="@drawable/ic_action_favorite"
-                            app:tint="@color/md_theme_light_onBackground" />
+                            app:tint="@color/md_theme_balck_3" />
 
 
-                        <com.hindbyte.dating.tagview.TagContainerLayout
+                        <com.investokar.poppi.tagview.TagContainerLayout
                             android:id="@+id/tagcontainerLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -485,78 +488,9 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/md_theme_light_outlineVariant" />
-
-                <LinearLayout
-                    android:id="@+id/profileCountersContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:minHeight="70dp"
-                    android:orientation="horizontal"
-                    android:paddingTop="@dimen/spacing_middle"
-                    android:paddingBottom="@dimen/spacing_middle">
-
-
-                        <LinearLayout
-                            android:id="@+id/profileItemsBtn"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/profileItemsCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                                android:textColor="@color/material_on_background_disabled" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/label_photos"
-                                android:textAllCaps="true"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                android:textColor="@color/md_theme_light_onBackground" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/profileLikesBtn"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/profileLikesCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                                android:textColor="@color/material_on_background_disabled" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/label_likes"
-                                android:textAllCaps="true"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                android:textColor="@color/md_theme_light_onBackground" />
-
-                        </LinearLayout>
-
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/md_theme_light_outlineVariant" />
+                    android:background="@drawable/gradation_primary"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
@@ -584,7 +518,7 @@
             android:text="@string/error_data_loading"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:textColor="@color/gray"
+            android:textColor="@color/md_theme_balck_1"
             android:textSize="18dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -613,7 +547,7 @@
                 android:gravity="center"
                 android:textSize="16dp"
                 android:textStyle="bold"
-                android:textColor="@color/red" />
+                android:textColor="@color/md_theme_primary_1" />
         </LinearLayout>
         
     </RelativeLayout>

@@ -5,14 +5,14 @@
         android:id="@+id/action_report"
         android:orderInCategory="100"
         android:title="@string/action_report"
-        app:iconTint="@color/md_theme_light_onPrimary"
-        android:iconTint="@color/md_theme_light_onPrimary" />
+        app:iconTint="@color/md_theme_balck_2"
+        android:iconTint="@color/md_theme_balck_2" />
 
     <item
         android:id="@+id/action_reply"
         android:orderInCategory="101"
         android:title="@string/action_reply"
-        app:iconTint="@color/md_theme_light_onPrimary"
-        android:iconTint="@color/md_theme_light_onPrimary" />
+        app:iconTint="@color/md_theme_balck_2"
+        android:iconTint="@color/md_theme_balck_2" />
 
 </menu>

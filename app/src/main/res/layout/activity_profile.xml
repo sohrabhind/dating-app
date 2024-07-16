@@ -46,8 +46,8 @@
             android:focusable="true"
             android:src="@drawable/ic_action_new"
             android:background="@drawable/circular_button"
-            android:contentDescription="@null"
-            app:tint="@color/md_theme_light_onPrimaryContainer" />
+            android:contentDescription="@string/action_add_photo"
+            app:tint="@color/md_theme_white_3" />
 
 
     </RelativeLayout>

@@ -1,11 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context="com.hindbyte.dating.activity.ChatActivity">
+    xmlns:tools="http://schemas.android.com/tools" tools:context="com.investokar.poppi.activity.ChatActivity">
     <item
         android:id="@+id/action_chat_delete"
         android:title="@string/action_remove_chat"
         android:orderInCategory="100"
         app:showAsAction="never"
-        app:iconTint="@color/md_theme_light_onPrimary"
-        android:iconTint="@color/md_theme_light_onPrimary"/>
+        app:iconTint="@color/md_theme_balck_2"
+        android:iconTint="@color/md_theme_balck_2"/>
 </menu>

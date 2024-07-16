@@ -76,7 +76,7 @@
                     android:layout_width="96dp"
                     android:layout_height="96dp"
                     app:srcCompat="@drawable/ic_messages"
-                    app:tint="@color/md_theme_light_outline" />
+                    app:tint="@color/md_theme_balck_1" />
 
                 <TextView
                     android:id="@+id/message"
@@ -88,7 +88,7 @@
                     android:paddingRight="50dp"
                     android:text="@string/label_empty_list"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/md_theme_light_outline"
+                    android:textColor="@color/md_theme_balck_1"
                     android:textStyle="bold" />
             </LinearLayout>
 
