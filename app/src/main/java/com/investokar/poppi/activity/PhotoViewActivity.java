@@ -52,10 +52,8 @@ public class PhotoViewActivity extends ActivityBase {
 
         showLoadingScreen();
 
-        if (imageUrl == null || imageUrl.isEmpty()) {
-			imageUrl = String.valueOf(R.drawable.profile_default_photo);
-		}
-        Picasso.get()
+        if (imageUrl != null && !imageUrl.trim().isEmpty()) {
+            Picasso.get()
                 .load(imageUrl)
                 .placeholder(R.drawable.profile_default_photo)
                 .error(R.drawable.profile_default_photo)
@@ -70,6 +68,9 @@ public class PhotoViewActivity extends ActivityBase {
 
                     }
                 });
+            } else {
+                photoView.setImageResource(R.drawable.profile_default_photo);
+        }
 
     }
 

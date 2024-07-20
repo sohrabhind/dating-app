@@ -25,9 +25,9 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 
-public class GalleryListAdapter extends RecyclerView.Adapter<GalleryListAdapter.MyViewHolder> {
+public class GalleryListAdapter extends RecyclerView.Adapter < GalleryListAdapter.MyViewHolder > {
 
-    private List<Image> images;
+    private List < Image > images;
     private Context mContext;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -44,7 +44,7 @@ public class GalleryListAdapter extends RecyclerView.Adapter<GalleryListAdapter.
     }
 
 
-    public GalleryListAdapter(Context context, List<Image> images) {
+    public GalleryListAdapter(Context context, List < Image > images) {
         mContext = context;
         this.images = images;
     }
@@ -64,14 +64,12 @@ public class GalleryListAdapter extends RecyclerView.Adapter<GalleryListAdapter.
         progressBar.setVisibility(View.VISIBLE);
         int screenwidth = Resources.getSystem().getDisplayMetrics().widthPixels;
         holder.thumbnail.setMinimumHeight(screenwidth);
-        holder.thumbnail.setMaxHeight((int) (screenwidth*1.3f));
+        holder.thumbnail.setMaxHeight((int)(screenwidth * 1.3f));
 
         if (image.getItemType() == Constants.GALLERY_ITEM_TYPE_IMAGE) {
             String imageUrl = image.getImageUrl();
-            if (imageUrl == null || imageUrl.isEmpty()) {
-                imageUrl = String.valueOf(R.drawable.profile_default_photo);
-            }
-            Picasso.get()
+            if (imageUrl != null && !imageUrl.trim().isEmpty()) {
+                Picasso.get()
                     .load(imageUrl)
                     .placeholder(R.drawable.profile_default_photo)
                     .error(R.drawable.profile_default_photo)
@@ -86,6 +84,9 @@ public class GalleryListAdapter extends RecyclerView.Adapter<GalleryListAdapter.
                             progressBar.setVisibility(View.GONE);
                         }
                     });
+            } else {
+                holder.thumbnail.setImageResource(R.drawable.profile_default_photo);
+            }
         }
 
         holder.recyclerViewItem.setOnClickListener(new View.OnClickListener() {
@@ -98,8 +99,7 @@ public class GalleryListAdapter extends RecyclerView.Adapter<GalleryListAdapter.
         });
 
 
-        if (image.getOwner().getId() == App.getInstance().getId()) {
-        }
+        if (image.getOwner().getId() == App.getInstance().getId()) {}
     }
 
     @Override

@@ -67,13 +67,6 @@ public class ActivityBase extends AppCompatActivity implements Constants {
         return false;
     }
 
-    public boolean checkAgoraPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        return false;
-    }
-
     protected void initpDialog() {
 
         pDialog = new ProgressDialog(this);

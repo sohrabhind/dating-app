@@ -77,10 +77,10 @@ public class NotificationsListAdapter extends RecyclerView.Adapter<Notifications
 
         holder.online.setVisibility(View.GONE);
         holder.mProfileLevelIcon.setVisibility(View.GONE);
-
-        if (item.getFromUserPhotoUrl().length() > 0 && item.getFromUserId() != 0) {
-            final ImageView img = holder.image;
-            try {
+        
+        final ImageView img = holder.image;
+        if (item.getFromUserPhotoUrl() != null && !item.getFromUserPhotoUrl().trim().isEmpty() && item.getFromUserId() != 0) {
+			try {
                 Picasso.get()
                         .load(item.getFromUserPhotoUrl())
                         .placeholder(R.drawable.profile_default_photo)
@@ -101,10 +101,9 @@ public class NotificationsListAdapter extends RecyclerView.Adapter<Notifications
             } catch (Exception e) {
                 Log.e("NotifyListAdapter", e.toString());
             }
-
-        } else {
-            holder.image.setImageResource(R.drawable.profile_default_photo);
-        }
+		} else {
+			img.setImageResource(R.drawable.profile_default_photo);
+		}
         
         String fullname = item.getFromUserFullname();
 		if (fullname.split("\\w+").length > 1) {

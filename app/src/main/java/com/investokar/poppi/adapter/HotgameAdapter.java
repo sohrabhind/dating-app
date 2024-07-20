@@ -23,10 +23,10 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 
-public class HotgameAdapter extends RecyclerView.Adapter<HotgameAdapter.MyViewHolder> {
+public class HotgameAdapter extends RecyclerView.Adapter < HotgameAdapter.MyViewHolder > {
 
 	private final Context mContext;
-	private final List<Profile> itemList;
+	private final List < Profile > itemList;
 
 	public static class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -46,7 +46,7 @@ public class HotgameAdapter extends RecyclerView.Adapter<HotgameAdapter.MyViewHo
 	}
 
 
-	public HotgameAdapter(Context mContext, List<Profile> itemList) {
+	public HotgameAdapter(Context mContext, List < Profile > itemList) {
 		this.mContext = mContext;
 		this.itemList = itemList;
 	}
@@ -64,9 +64,9 @@ public class HotgameAdapter extends RecyclerView.Adapter<HotgameAdapter.MyViewHo
 	public void onBindViewHolder(final MyViewHolder holder, int position) {
 		holder.progress.setVisibility(View.GONE);
 		Profile profileItem = itemList.get(position);
-		
+
 		String fullname = profileItem.getFullname();
-		if (profileItem.getId() != App.getInstance().getId() && fullname.split("\\w+").length>1) {
+		if (profileItem.getId() != App.getInstance().getId() && fullname.split("\\w+").length > 1) {
 			fullname = fullname.substring(0, fullname.lastIndexOf(' '));
 		}
 		holder.title.setText(fullname);
@@ -91,17 +91,16 @@ public class HotgameAdapter extends RecyclerView.Adapter<HotgameAdapter.MyViewHo
 		if (!profileItem.getLocation().isEmpty()) {
 			holder.location.setVisibility(View.VISIBLE);
 			holder.location.setText(profileItem.getLocation());
-		}//
+		} //
 
 		final ImageView imgView = holder.thumbnail;
 		final ProgressBar progressView = holder.progress;
 
 		String imageUrl = profileItem.getBigPhotoUrl();
-		if (imageUrl == null || imageUrl.isEmpty()) {
-			imageUrl = String.valueOf(R.drawable.profile_default_photo);
-		}
 
-		Picasso.get()
+		if (imageUrl != null && !imageUrl.trim().isEmpty()) {
+
+			Picasso.get()
 				.load(imageUrl)
 				.placeholder(R.drawable.profile_default_photo)
 				.error(R.drawable.profile_default_photo)
@@ -118,6 +117,10 @@ public class HotgameAdapter extends RecyclerView.Adapter<HotgameAdapter.MyViewHo
 						imgView.setVisibility(View.VISIBLE);
 					}
 				});
+		} else {
+			imgView.setImageResource(R.drawable.profile_default_photo);
+		}
+
 
 
 		switch (profileItem.getLevelMode()) {

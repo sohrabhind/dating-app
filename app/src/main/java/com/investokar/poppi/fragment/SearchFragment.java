@@ -67,7 +67,7 @@ public class SearchFragment extends Fragment implements Constants, SwipeRefreshL
     private ArrayList<Profile> itemsList;
     private AdvancedPeopleListAdapter itemsAdapter;
 
-    private int  gender = 0, online = 0, level = 0, age_from = 18, age_to = 105, distance = 2500;
+    private int gender = App.getInstance().getGender() == 1 ? 0 : 1, online = 0, level = 0, age_from = 18, age_to = 105, distance = 2500;
     private int itemId = 0;
     private int arrayLength = 0;
     private Boolean loadingMore = false;
@@ -90,12 +90,7 @@ public class SearchFragment extends Fragment implements Constants, SwipeRefreshL
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
-
-        if (App.getInstance().getGender() == 0) {
-            gender = 1;
-        } else {
-            gender = 0;
-        }
+        gender = App.getInstance().getGender() == 1 ? 0 : 1;
 
         if (savedInstanceState != null) {
 
@@ -475,11 +470,7 @@ public class SearchFragment extends Fragment implements Constants, SwipeRefreshL
                 age_to = mAgeSeekBar.getSelectedMaxValue();
 
                 // Gender
-                if (App.getInstance().getGender() == 0) {
-                    gender = 1;
-                } else {
-                    gender = 0;
-                }
+                gender = App.getInstance().getGender() == 1 ? 0 : 1;
                 //
 
                 if (mOnlineCheckBox.isChecked()) {

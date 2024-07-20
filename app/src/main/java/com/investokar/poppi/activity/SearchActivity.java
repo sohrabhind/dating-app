@@ -87,6 +87,7 @@ public class SearchActivity extends ActivityBase {
     public void onBackPressed() {
         // your code.
 
+        super.onBackPressed();
         finish();
     }
 }

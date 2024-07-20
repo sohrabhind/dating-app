@@ -196,16 +196,16 @@ public class ViewImageFragment extends Fragment implements Constants {
 
         if (item.getItemType() == Constants.GALLERY_ITEM_TYPE_IMAGE) {
             String imageUrl = item.getImageUrl();
-            if (imageUrl == null || imageUrl.isEmpty()) {
-                imageUrl = String.valueOf(R.drawable.profile_default_photo);
+            if (imageUrl != null && !imageUrl.trim().isEmpty()) {
+                Picasso.get()
+                    .load(imageUrl)
+                    .placeholder(R.drawable.profile_default_photo)
+                    .error(R.drawable.profile_default_photo)
+                    .into(mItemImg);
+            } else {
+                mItemImg.setImageResource(R.drawable.profile_default_photo);
+                mItemImg.setVisibility(View.VISIBLE);
             }
-            Picasso.get()
-            .load(imageUrl)
-            .placeholder(R.drawable.profile_default_photo)
-            .error(R.drawable.profile_default_photo)
-            .into(mItemImg);
-
-            mItemImg.setVisibility(View.VISIBLE);
         }
 
     }
@@ -214,76 +214,76 @@ public class ViewImageFragment extends Fragment implements Constants {
     public void getItem() {
 
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_GALLERY_GET_ITEM, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
+            new Response.Listener < JSONObject > () {
+                @Override
+                public void onResponse(JSONObject response) {
 
-                        if (!isAdded() || requireActivity() == null) {
+                    if (!isAdded() || requireActivity() == null) {
 
-                            Log.e("ERROR", "ViewImageFragment Not Added to Activity");
+                        Log.e("ERROR", "ViewImageFragment Not Added to Activity");
 
-                            return;
-                        }
+                        return;
+                    }
 
-                        try {
+                    try {
 
-                            arrayLength = 0;
+                        arrayLength = 0;
 
-                            if (!response.getBoolean("error")) {
+                        if (!response.getBoolean("error")) {
 
-                                itemId = response.getInt("itemId");
+                            itemId = response.getInt("itemId");
 
-                                if (response.has("items")) {
+                            if (response.has("items")) {
 
-                                    JSONArray itemsArray = response.getJSONArray("items");
+                                JSONArray itemsArray = response.getJSONArray("items");
 
-                                    arrayLength = itemsArray.length();
+                                arrayLength = itemsArray.length();
 
-                                    if (arrayLength > 0) {
+                                if (arrayLength > 0) {
 
-                                        for (int i = 0; i < itemsArray.length(); i++) {
+                                    for (int i = 0; i < itemsArray.length(); i++) {
 
-                                            JSONObject itemObj = (JSONObject) itemsArray.get(i);
+                                        JSONObject itemObj = (JSONObject) itemsArray.get(i);
 
-                                            item = new Image(itemObj);
+                                        item = new Image(itemObj);
 
-                                            updateItem();
-                                        }
+                                        updateItem();
                                     }
                                 }
-
-                                loadingComplete();
-
-                            } else {
-
-                                showErrorScreen();
                             }
 
-                        } catch (JSONException e) {
+                            loadingComplete();
+
+                        } else {
 
                             showErrorScreen();
-
-                            e.printStackTrace();
                         }
+
+                    } catch (JSONException e) {
+
+                        showErrorScreen();
+
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                if (!isAdded() || requireActivity() == null) {
-
-                    Log.e("ERROR", "ViewImageFragment Not Added to Activity");
-
-                    return;
                 }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
 
-                showErrorScreen();
-            }
-        }) {
+                    if (!isAdded() || requireActivity() == null) {
+
+                        Log.e("ERROR", "ViewImageFragment Not Added to Activity");
+
+                        return;
+                    }
+
+                    showErrorScreen();
+                }
+            }) {
 
             @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+            protected Map < String, String > getParams() {
+                Map < String, String > params = new HashMap < String, String > ();
                 params.put("accountId", Long.toString(App.getInstance().getId()));
                 params.put("accessToken", App.getInstance().getAccessToken());
                 params.put("itemId", Long.toString(itemId));
@@ -337,7 +337,7 @@ public class ViewImageFragment extends Fragment implements Constants {
 
         PhotoReportDialog alert = new PhotoReportDialog();
 
-        Bundle b  = new Bundle();
+        Bundle b = new Bundle();
         b.putInt("position", position);
         b.putInt("reason", 0);
 
@@ -356,7 +356,7 @@ public class ViewImageFragment extends Fragment implements Constants {
             MyPhotoActionDialog alert = new MyPhotoActionDialog();
 
             /** Creating a bundle object to store the selected item's index */
-            Bundle b  = new Bundle();
+            Bundle b = new Bundle();
 
             /** Storing the selected item's index in the bundle object */
             b.putInt("position", position);
@@ -377,7 +377,7 @@ public class ViewImageFragment extends Fragment implements Constants {
             PhotoActionDialog alert = new PhotoActionDialog();
 
             /** Creating a bundle object to store the selected item's index */
-            Bundle b  = new Bundle();
+            Bundle b = new Bundle();
 
             /** Storing the selected item's index in the bundle object */
             b.putInt("position", position);
@@ -438,7 +438,7 @@ public class ViewImageFragment extends Fragment implements Constants {
 
         inflater.inflate(R.menu.menu_view_item, menu);
 
-//        MainMenu = menu;
+        //        MainMenu = menu;
     }
 
     @Override
@@ -491,7 +491,7 @@ public class ViewImageFragment extends Fragment implements Constants {
 
     private void hideMenuItems(Menu menu, boolean visible) {
 
-        for (int i = 0; i < menu.size(); i++){
+        for (int i = 0; i < menu.size(); i++) {
 
             menu.getItem(i).setVisible(visible);
         }

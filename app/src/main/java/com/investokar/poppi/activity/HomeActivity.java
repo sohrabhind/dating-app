@@ -193,7 +193,7 @@ public class HomeActivity extends ActivityBase {
 
         signupBtn.setOnClickListener(view -> {
             hideKeyboard();
-            username = generateRandomChars("abcdefghijklmnopqrstuvwxyz", 32);
+            username = generateRandomChars("abcdefghijklmnopqrstuvwxyz1234567890_", 10);
             mUsername.setText(username);
             if (verifyRegForm()) {
                 Intent i = new Intent(HomeActivity.this, RegisterActivity.class);

@@ -28,7 +28,6 @@
     <string name="action_search">Search</string>
     <string name="action_retry">Retry</string>
     <string name="action_turn_on">Turn on</string>
-    <string name="action_camera">Camera</string>
     <string name="action_gallery">Choose from gallery</string>
     <string name="action_enable">Enable</string>
     <string name="action_accept">Accept</string>
@@ -491,6 +490,7 @@
     <!-- For version 4.4 -->
 
     <string name="label_distance">Distance (%d) KM</string>
+    <string name="label_choose_distance">Chose Distance</string>
     <string name="label_nearby_settings_dialog_title">Nearby Settings</string>
 
     <!-- DO NOT TRANSLATE BLOCK START -->
@@ -542,7 +542,6 @@
 
     <string name="label_item_delete_msg">Do you want to delete this Item?</string>
     <string name="action_image_from_gallery">Image from gallery</string>
-    <string name="action_image_from_camera">Take photo</string>
     
     <!--  For version 5.4  -->
 
@@ -578,8 +577,6 @@
     <!--  For version 5.9  -->
 
     <string name="label_no_notifications_permission">Notifications permission isn\'t granted</string>
-    <string name="label_no_camera_permission">Camera permission isn\'t granted</string>
-    <string name="label_grant_camera_permission">Open Permissions and grant the Camera permission</string>
 
     <!--  For version 6.1  -->
 

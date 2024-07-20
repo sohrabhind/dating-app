@@ -362,7 +362,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/diamond_purchase"
                     android:textStyle="bold"
-                    android:textSize="25dp"
+                    android:textSize="25sp"
                     android:layout_marginTop="20dp"
                     android:gravity="center"/>
 
@@ -383,7 +383,7 @@
                     android:layout_height="wrap_content"
                     android:text="1500 Messages"
                     android:textColor="@color/md_theme_balck_3"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:layout_marginBottom="10dp"
                     android:gravity="center"
                     android:layout_gravity="center" />
@@ -395,7 +395,7 @@
                     android:layout_height="wrap_content"
                     android:text="500 Likes"
                     android:textColor="@color/md_theme_balck_3"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:layout_marginBottom="10dp"
                     android:gravity="center"
                     android:layout_gravity="center" />
@@ -407,7 +407,7 @@
                     android:layout_height="wrap_content"
                     android:text="Open 20 Chats Daily"
                     android:textColor="@color/md_theme_balck_3"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:layout_marginBottom="18dp"
                     android:gravity="center"
                     android:layout_gravity="center" />
@@ -449,7 +449,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/silver_purchase"
                             android:textColor="@color/md_theme_balck_3"
-                            android:textSize="18dp"
+                            android:textSize="18sp"
                             android:textStyle="bold"
                             android:layout_marginTop="16dp"
                             android:gravity="center"
@@ -460,7 +460,7 @@
                             android:layout_height="wrap_content"
                             android:text="1 Month"
                             android:textColor="@color/md_theme_balck_3"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:layout_marginTop="16dp"
                             android:gravity="center"
                             android:layout_gravity="center" />
@@ -471,7 +471,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/action_buy_iap1_google_pay"
                             android:textColor="@color/md_theme_balck_3"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:layout_marginTop="10dp"
                             android:gravity="center"
                             android:layout_gravity="center" />
@@ -508,7 +508,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/gold_purchase"
                             android:textColor="@color/md_theme_balck_3"
-                            android:textSize="18dp"
+                            android:textSize="18sp"
                             android:textStyle="bold"
                             android:layout_marginTop="16dp"
                             android:gravity="center"
@@ -520,7 +520,7 @@
                             android:layout_height="wrap_content"
                             android:text="1 Month"
                             android:textColor="@color/md_theme_balck_3"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:layout_marginTop="16dp"
                             android:gravity="center"
                             android:layout_gravity="center" />
@@ -531,7 +531,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/action_buy_iap2_google_pay"
                             android:textColor="@color/md_theme_balck_3"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:layout_marginTop="10dp"
                             android:gravity="center"
                             android:layout_gravity="center"/>
@@ -569,7 +569,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/diamond_purchase"
                             android:textColor="@color/md_theme_balck_3"
-                            android:textSize="18dp"
+                            android:textSize="18sp"
                             android:textStyle="bold"
                             android:layout_marginTop="16dp"
                             android:gravity="center"
@@ -581,7 +581,7 @@
                             android:layout_height="wrap_content"
                             android:text="1 Month"
                             android:textColor="@color/md_theme_balck_3"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:layout_marginTop="16dp"
                             android:gravity="center"
                             android:layout_gravity="center" />
@@ -592,7 +592,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/action_buy_iap3_google_pay"
                             android:textColor="@color/md_theme_balck_3"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:layout_marginTop="10dp"
                             android:gravity="center"
                             android:layout_gravity="center" />

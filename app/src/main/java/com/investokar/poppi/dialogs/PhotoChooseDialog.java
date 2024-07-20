@@ -20,7 +20,6 @@ public class PhotoChooseDialog extends DialogFragment implements Constants {
     public interface AlertPositiveListener {
 
         void onPhotoFromGallery();
-        void onPhotoFromCamera();
     }
 
     /** This is a callback method executed when this fragment is attached to an activity.
@@ -50,7 +49,6 @@ public class PhotoChooseDialog extends DialogFragment implements Constants {
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
         arrayAdapter.add(getString(R.string.action_gallery));
-        arrayAdapter.add(getString(R.string.action_camera));
 
         builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
 
@@ -68,7 +66,7 @@ public class PhotoChooseDialog extends DialogFragment implements Constants {
 
                     default: {
 
-                        alertPositiveListener.onPhotoFromCamera();
+                        alertPositiveListener.onPhotoFromGallery();
 
                         break;
                     }

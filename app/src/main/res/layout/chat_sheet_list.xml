@@ -38,33 +38,4 @@
         </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/camera_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:background="@color/md_theme_white_3"
-            android:paddingLeft="@dimen/spacing_middle"
-            android:paddingRight="@dimen/spacing_middle">
-
-            <ImageView
-                android:layout_width="?attr/actionBarSize"
-                android:layout_height="?attr/actionBarSize"
-                android:padding="@dimen/spacing_large"
-                app:tint="@color/md_theme_balck_3"
-                app:srcCompat="@drawable/ic_camera" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spacing_middle"
-                android:layout_marginRight="@dimen/spacing_middle"
-                android:text="@string/action_image_from_camera"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/md_theme_balck_3" />
-
-        </LinearLayout>
-
 </LinearLayout>

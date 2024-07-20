@@ -24,10 +24,10 @@ import java.util.List;
 
 
 
-public class DialogsListAdapter extends RecyclerView.Adapter<DialogsListAdapter.ViewHolder> {
+public class DialogsListAdapter extends RecyclerView.Adapter < DialogsListAdapter.ViewHolder > {
 
     private Context ctx;
-    private List<Chat> items;
+    private List < Chat > items;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
@@ -63,7 +63,7 @@ public class DialogsListAdapter extends RecyclerView.Adapter<DialogsListAdapter.
         }
     }
 
-    public DialogsListAdapter(Context mContext, List<Chat> items) {
+    public DialogsListAdapter(Context mContext, List < Chat > items) {
 
         this.ctx = mContext;
         this.items = items;
@@ -103,12 +103,10 @@ public class DialogsListAdapter extends RecyclerView.Adapter<DialogsListAdapter.
         }
 
         String imageUrl = item.getWithUserPhotoUrl();
-        if (imageUrl == null || imageUrl.isEmpty()) {
-            imageUrl = String.valueOf(R.drawable.profile_default_photo);
-        }
-
         final ImageView img = holder.image;
-        Picasso.get()
+
+        if (imageUrl != null && !imageUrl.trim().isEmpty()) {
+            Picasso.get()
                 .load(imageUrl)
                 .placeholder(R.drawable.profile_default_photo)
                 .error(R.drawable.profile_default_photo)
@@ -124,12 +122,15 @@ public class DialogsListAdapter extends RecyclerView.Adapter<DialogsListAdapter.
                         img.setVisibility(View.VISIBLE);
                     }
                 });
+        } else {
+            img.setImageResource(R.drawable.profile_default_photo);
+        }
 
         if (item.getId() == App.getInstance().getId()) {
             holder.title.setText(item.getWithUserFullname());
         } else {
             String fullname = item.getWithUserFullname();
-            if(fullname.split("\\w+").length>1){
+            if (fullname.split("\\w+").length > 1) {
                 fullname = fullname.substring(0, fullname.lastIndexOf(' '));
             }
             holder.title.setText(fullname);

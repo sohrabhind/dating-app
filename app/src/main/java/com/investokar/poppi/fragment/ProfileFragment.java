@@ -665,7 +665,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
             }
         }
 
-        if (profile.getLocation() != null && profile.getLocation().length() != 0) {
+        if (profile.getLocation() != null && !profile.getLocation().isEmpty()) {
 
             mLocationContainer.setVisibility(View.VISIBLE);
 
@@ -675,7 +675,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
         }
 
 
-        if (profile.getInterests() != null && profile.getInterests().length() != 0) {
+        if (profile.getInterests() != null && !profile.getInterests().isEmpty()) {
 
             mProfileSiteContainer.setVisibility(View.VISIBLE);
             //mProfileInterests.setText(profile.getInterests());
@@ -688,7 +688,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
             mProfileSiteContainer.setVisibility(View.GONE);
         }
 
-        if (profile.getBio() != null && profile.getBio().length() != 0) {
+        if (profile.getBio() != null && !profile.getBio().isEmpty()) {
 
             mProfileStatusContainer.setVisibility(View.VISIBLE);
             mProfileStatus.setText(profile.getBio());
@@ -912,7 +912,7 @@ public class ProfileFragment extends Fragment implements Constants, SwipeRefresh
 
 
     public void showPhoto(String photoUrl) {
-        if (photoUrl != null && photoUrl.length() > 0 && (App.getInstance().getSettings().isAllowShowNotModeratedProfilePhotos() || App.getInstance().getId() == profile.getId() || profile.getPhotoModerateAt() != 0)) {
+        if (photoUrl != null && !photoUrl.trim().isEmpty() && (App.getInstance().getSettings().isAllowShowNotModeratedProfilePhotos() || App.getInstance().getId() == profile.getId() || profile.getPhotoModerateAt() != 0)) {
             Picasso.get()
                     .load(photoUrl)
                     .placeholder(R.drawable.profile_default_photo)

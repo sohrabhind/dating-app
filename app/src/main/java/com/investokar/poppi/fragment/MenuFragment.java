@@ -172,7 +172,7 @@ public class MenuFragment extends Fragment implements Constants {
         iap2_google_price = rootView.findViewById(R.id.iap2_google_price);
         iap3_google_price = rootView.findViewById(R.id.iap3_google_price);
 
-        badgeTitle.setText("Become a premium member and unlock exclusive benefits!");
+        badgeTitle.setText("Unlock premium-only benefits today!");
         totalMessages.setText("1500 Messages");
         totalLikes.setText("Unlimted Likes");
         profileBoost.setText("Open 20 Chats Daily");

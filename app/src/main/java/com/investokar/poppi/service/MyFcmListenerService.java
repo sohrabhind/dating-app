@@ -50,8 +50,10 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
         Log.e("Message", "Could not parse malformed JSON: \"" + data.toString() + "\"");
         if (data.containsKey("fromUserPhotoUrl")) {
             fromUserPhotoUrl = data.get("fromUserPhotoUrl");
-            LoadImage loadImage = new LoadImage();
-            loadImage.execute();
+            if (fromUserPhotoUrl != null && !fromUserPhotoUrl.trim().isEmpty()) {
+                LoadImage loadImage = new LoadImage();
+                loadImage.execute();
+            }
         } else {
             generateNotification(getApplicationContext(), data, null);
         }
@@ -99,7 +101,7 @@ public class MyFcmListenerService extends FirebaseMessagingService implements Co
     }
 
     private void sendNotification(String msg) {
-        Log.e("Message", "Could not parse malformed JSON: \"" + msg + "\"");
+        Log.e("Message", msg);
     }
 
     @SuppressLint("SuspiciousIndentation")

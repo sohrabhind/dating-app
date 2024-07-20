@@ -58,6 +58,7 @@ import com.investokar.poppi.R;
 import com.investokar.poppi.activity.UpgradeActivity;
 import com.investokar.poppi.adapter.ChatListAdapter;
 import com.investokar.poppi.app.App;
+import com.investokar.poppi.common.ActivityBase;
 import com.investokar.poppi.constants.Constants;
 import com.investokar.poppi.model.ChatItem;
 import com.investokar.poppi.util.CustomRequest;
@@ -158,10 +159,8 @@ public class ChatFragment extends Fragment implements Constants {
     private String with_user_username = "", with_user_fullname = "", with_user_photo_url = "";
     private int level = 0, with_user_verified = 0;
 
-    private ActivityResultLauncher<String> cameraPermissionLauncher;
     private ActivityResultLauncher<String[]> storagePermissionLauncher;
     private ActivityResultLauncher<Intent> imgFromGalleryActivityResultLauncher;
-    private ActivityResultLauncher<Intent> imgFromCameraActivityResultLauncher;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -200,25 +199,7 @@ public class ChatFragment extends Fragment implements Constants {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_chat, container, false);
-        cameraPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-            if (isGranted) {
-                // Permission is granted
-                Log.e("Permissions", "Permission is granted");
-                showMoreDialog();
-            } else {
-                // Permission is denied
-                Log.e("Permissions", "denied");
-                Snackbar.make(getView(), getString(R.string.label_no_camera_permission) , Snackbar.LENGTH_LONG).setAction(getString(R.string.action_settings), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
-                        startActivity(appSettingsIntent);
-                        toastWindow.makeText(getString(R.string.label_grant_camera_permission), 2000);
-                    }
-                }).show();
-            }
-        });
-
+        
         //
         imgFromGalleryActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
@@ -242,26 +223,22 @@ public class ChatFragment extends Fragment implements Constants {
             }
         });
 
-        imgFromCameraActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    selectedImagePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + newImageFileName;
-                    mPreviewImg.setImageURI(null);
-                    mPreviewImg.setImageURI(FileProvider.getUriForFile(App.getInstance().getApplicationContext(), App.getInstance().getPackageName() + ".provider", new File(selectedImagePath)));
-                    showImageContainer();
-                }
-            }
-        });
-
         storagePermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), (Map<String, Boolean> isGranted) -> {
 
             boolean granted = false;
+            String storage_permission = Manifest.permission.READ_EXTERNAL_STORAGE;
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+
+                storage_permission = Manifest.permission.READ_MEDIA_IMAGES;
+            }
 
             for (Map.Entry<String, Boolean> x : isGranted.entrySet()) {
-                if (x.getKey().equals(READ_EXTERNAL_STORAGE)) {
+
+                if (x.getKey().equals(storage_permission)) {
+
                     if (x.getValue()) {
+
                         granted = true;
                     }
                 }
@@ -269,18 +246,26 @@ public class ChatFragment extends Fragment implements Constants {
 
             if (granted) {
                 Log.e("Permissions", "granted");
-                showMoreDialog();
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                imgFromGalleryActivityResultLauncher.launch(intent);
             } else {
 
                 Log.e("Permissions", "denied");
-                Snackbar.make(getView(), getString(R.string.label_no_storage_permission) , Snackbar.LENGTH_LONG).setAction(getString(R.string.action_settings), new View.OnClickListener() {
+
+
+                Snackbar snackbar = Snackbar.make(requireView(), getString(R.string.label_no_storage_permission), Snackbar.LENGTH_LONG);
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                    snackbar.setText(getString(R.string.label_grant_media_permission));
+                }
+                snackbar.setAction(getString(R.string.action_settings), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + App.getInstance().getPackageName()));
                         startActivity(appSettingsIntent);
-                        toastWindow.makeText(getString(R.string.label_grant_storage_permission), 2000);
                     }
                 }).show();
+
             }
 
         });
@@ -1346,20 +1331,16 @@ public class ChatFragment extends Fragment implements Constants {
         final View view = getLayoutInflater().inflate(R.layout.chat_sheet_list, null);
 
         LinearLayout mGalleryButton = view.findViewById(R.id.gallery_button);
-        LinearLayout mCameraButton = view.findViewById(R.id.camera_button);
 
         
         mGalleryButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-
                 mBottomSheetDialog.dismiss();
-
                 if (!checkPermission(READ_EXTERNAL_STORAGE)) {
-
-                    requestPermission();
-
+                    ActivityBase activity = (ActivityBase) getActivity();
+                    activity.requestStoragePermission(storagePermissionLauncher);
                 } else {
                     Intent intent = new Intent(Intent.ACTION_PICK);
                     intent.setType("image/*");
@@ -1368,53 +1349,11 @@ public class ChatFragment extends Fragment implements Constants {
             }
         });
 
-        mCameraButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                mBottomSheetDialog.dismiss();
-
-                if (!checkPermission(READ_EXTERNAL_STORAGE)) {
-
-                    requestPermission();
-
-                } else {
-
-                    if (checkPermission(Manifest.permission.CAMERA)) {
-
-                        try {
-
-                            newImageFileName = Helper.randomString(6) + ".jpg";
-
-                            selectedImage = FileProvider.getUriForFile(App.getInstance().getApplicationContext(), App.getInstance().getPackageName() + ".provider", new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), newImageFileName));
-
-                            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            cameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, selectedImage);
-                            cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                            cameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                            imgFromCameraActivityResultLauncher.launch(cameraIntent);
-
-                        } catch (Exception e) {
-
-                            toastWindow.makeText("Error occured. Please try again later.", 2000);
-                        }
-
-                    } else {
-
-                        requestCameraPermission();
-                    }
-                }
-            }
-        });
-
 
         mBottomSheetDialog = new BottomSheetDialog(requireActivity());
         mBottomSheetDialog.setContentView(view);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
+        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         mBottomSheetDialog.show();
 
@@ -1470,13 +1409,4 @@ public class ChatFragment extends Fragment implements Constants {
         return false;
     }
 
-    private void requestPermission() {
-
-        storagePermissionLauncher.launch(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE});
-    }
-
-    private void requestCameraPermission() {
-
-        cameraPermissionLauncher.launch(Manifest.permission.CAMERA);
-    }
 }

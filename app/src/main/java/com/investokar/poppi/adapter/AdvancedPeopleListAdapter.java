@@ -27,16 +27,16 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 	private Context mContext;
 	private List<Profile> itemList;
 
-    private OnItemClickListener mOnItemClickListener;
+	private OnItemClickListener mOnItemClickListener;
 
-    public interface OnItemClickListener {
+	public interface OnItemClickListener {
 
-        void onItemClick(View view, Profile obj, int position);
-    }
+		void onItemClick(View view, Profile obj, int position);
+	}
 
-    public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
-        this.mOnItemClickListener = mItemClickListener;
-    }
+	public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
+		this.mOnItemClickListener = mItemClickListener;
+	}
 
 	public static class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -44,7 +44,7 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 		public CircularImageView mOnlineImage, mGenderImage;
 		public ImageView mProfileLevelIcon;
 
-        public ImageView mSquarePhotoImage;
+		public ImageView mSquarePhotoImage;
 
 		public CardView mParent;
 		public ProgressBar mProgressBar;
@@ -71,7 +71,7 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 	@NonNull
 	@Override
 	public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView;
+		View itemView;
 		itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.profile_thumbnail_square, parent, false);
 		return new MyViewHolder(itemView);
 	}
@@ -80,10 +80,10 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 	@Override
 	public void onBindViewHolder(final MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 		final Profile item = itemList.get(position);
-        holder.mSubtitle.setVisibility(View.GONE);
+		holder.mSubtitle.setVisibility(View.GONE);
 
-        holder.mOnlineImage.setVisibility(View.GONE);
-        holder.mProfileLevelIcon.setVisibility(View.GONE);
+		holder.mOnlineImage.setVisibility(View.GONE);
+		holder.mProfileLevelIcon.setVisibility(View.GONE);
 		holder.mGenderImage.setVisibility(View.GONE);
 
 		holder.mProgressBar.setVisibility(View.VISIBLE);
@@ -95,33 +95,34 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 
 			final ProgressBar progressView = holder.mProgressBar;
 
+			String imageUrl = item.getBigPhotoUrl();
 
-		String imageUrl = item.getBigPhotoUrl();
-		if (imageUrl == null || imageUrl.isEmpty()) {
-			imageUrl = String.valueOf(R.drawable.profile_default_photo);
-		}
+			if (imageUrl != null && !imageUrl.trim().isEmpty()) {
+				Picasso.get()
+						.load(imageUrl)
+						.placeholder(R.drawable.profile_default_photo)
+						.error(R.drawable.profile_default_photo)
+						.into(img, new Callback() {
 
-			Picasso.get()
-					.load(imageUrl)
-					.placeholder(R.drawable.profile_default_photo)
-					.error(R.drawable.profile_default_photo)
-					.into(img, new Callback() {
+							@Override
+							public void onSuccess() {
+								progressView.setVisibility(View.GONE);
+								img.setVisibility(View.VISIBLE);
+								holder.mGenderImage.setVisibility(View.VISIBLE);
+							}
 
-						@Override
-						public void onSuccess() {
-							progressView.setVisibility(View.GONE);
-							img.setVisibility(View.VISIBLE);
-							holder.mGenderImage.setVisibility(View.VISIBLE);
-						}
+							@Override
+							public void onError(Exception e) {
+								progressView.setVisibility(View.GONE);
+								img.setImageResource(R.drawable.profile_default_photo);
+								img.setVisibility(View.VISIBLE);
+								holder.mGenderImage.setVisibility(View.VISIBLE);
+							}
+						});
+			} else {
+				img.setImageResource(R.drawable.profile_default_photo);
+			}
 
-						@Override
-						public void onError(Exception e) {
-							progressView.setVisibility(View.GONE);
-							img.setImageResource(R.drawable.profile_default_photo);
-							img.setVisibility(View.VISIBLE);
-							holder.mGenderImage.setVisibility(View.VISIBLE);
-						}
-					});
 
 
 		} else {
@@ -163,13 +164,13 @@ public class AdvancedPeopleListAdapter extends RecyclerView.Adapter<AdvancedPeop
 			holder.mSubtitle.setVisibility(View.VISIBLE);
 			holder.mSubtitle.setText(String.format("%.1f km", item.getDistance()));
 		} else {
-		    // For guests
-		    if (item.getLastVisit().length() > 0) {
-                holder.mSubtitle.setVisibility(View.VISIBLE);
-                holder.mSubtitle.setText(item.getLastVisit());
-            } else {
-                holder.mSubtitle.setVisibility(View.GONE);
-            }
+			// For guests
+			if (item.getLastVisit().length() > 0) {
+				holder.mSubtitle.setVisibility(View.VISIBLE);
+				holder.mSubtitle.setText(item.getLastVisit());
+			} else {
+				holder.mSubtitle.setVisibility(View.GONE);
+			}
 		}
 
 		if (item.isOnline()) {

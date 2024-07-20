@@ -95,7 +95,7 @@ public class HotGameFragment extends Fragment implements Constants, OnLikeListen
     LocationManager locationManager;
 
 
-    private int gender = 0, distance = 2500;
+    private int gender = App.getInstance().getGender() == 1 ? 0 : 1, distance = 10000;
     String country = "0";
     private int itemId = 0;
     private int arrayLength = 0;
@@ -145,12 +145,8 @@ public class HotGameFragment extends Fragment implements Constants, OnLikeListen
         restore = false;
         loading = false;
         itemId = 0;
-        distance = 2500;
-        if (App.getInstance().getGender() == 0) {
-            gender = 1;
-        } else {
-            gender = 0;
-        }
+        distance = 10000;
+        gender = App.getInstance().getGender() == 1 ? 0 : 1;
 
         country = getDeviceCountryCode(requireContext()).trim();
         readFilterSettings();
@@ -291,7 +287,7 @@ public class HotGameFragment extends Fragment implements Constants, OnLikeListen
         ScaleAnimation scale = new ScaleAnimation(1.0f, 0.1f, 1.0f, 0.1f,
                 ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
                 ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
-        scale.setDuration(300);
+        scale.setDuration(125);
         scale.setInterpolator(new LinearInterpolator());
         view.startAnimation(scale);
     }
@@ -314,7 +310,7 @@ public class HotGameFragment extends Fragment implements Constants, OnLikeListen
                     mPermissionPromptContainer.setVisibility(View.VISIBLE);
                 }
             } else {
-                if (itemsList.size() != 0) {
+                if (!itemsList.isEmpty()) {
                     mCardsContainer.setVisibility(View.VISIBLE);
                 } else {
                     mHotgameEmptyContainer.setVisibility(View.VISIBLE);
@@ -389,13 +385,12 @@ public class HotGameFragment extends Fragment implements Constants, OnLikeListen
                                     for (int i = 0; i < usersArray.length(); i++) {
                                         JSONObject userObj = (JSONObject) usersArray.get(i);
                                         Profile profile = new Profile(userObj);
-
                                         if (itemsList.size() == 0) {
-
-                                            Log.e("ERROR", "1");    itemsList.add(profile);
+                                            Log.d("ITEM_ADDED", "1");    
+                                            itemsList.add(profile);
                                             itemsAdapter.notifyDataSetChanged();
                                         } else {
-                                            Log.e("ERROR", "2");
+                                            Log.d("ITEM_ADDED", "2");
                                             itemsList.add(profile);
                                             itemsAdapter.notifyItemRangeInserted(itemsList.size(), 1);
                                         }
@@ -471,10 +466,6 @@ public class HotGameFragment extends Fragment implements Constants, OnLikeListen
         mBottomSheetDialog = new BottomSheetDialog(requireActivity(), R.style.BottomSheetRoundCorner);
         mBottomSheetDialog.setContentView(view);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            //mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-
         mBottomSheetDialog.show();
         mBottomSheetDialog.setCancelable(true);
         mBottomSheetDialog.setCanceledOnTouchOutside(true);
@@ -515,11 +506,8 @@ public class HotGameFragment extends Fragment implements Constants, OnLikeListen
                 distance = mDistanceSeekBar.getProgress();
 
                 // Gender
-                if (App.getInstance().getGender() == 0) {
-                    gender = 1;
-                } else {
-                    gender = 0;
-                }
+
+                gender = App.getInstance().getGender() == 1 ? 0 : 1;
                 itemsList.clear();
                 itemId = 0;
                 loading = true;

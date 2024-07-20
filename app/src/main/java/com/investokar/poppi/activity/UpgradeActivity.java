@@ -16,6 +16,7 @@ import com.investokar.poppi.R;
 import com.investokar.poppi.app.App;
 import com.investokar.poppi.common.ActivityBase;
 import com.investokar.poppi.util.ToastWindow;
+import com.investokar.poppi.view.GradientTextView;
 
 import java.util.Objects;
 
@@ -30,7 +31,8 @@ public class UpgradeActivity extends ActivityBase {
     static String ITEM_PRODUCT_3_AMOUNT = "900";// in usd cents | 9 usd = 900 cents
 
     LinearLayout mBuy1Button, mBuy2Button, mBuy3Button;
-    TextView mBuyButton, badgeTitle, totalMessages, totalLikes, profileBoost, iap1_google_price, iap2_google_price, iap3_google_price;
+    TextView mBuyButton, totalMessages, totalLikes, profileBoost, iap1_google_price, iap2_google_price, iap3_google_price;
+    GradientTextView badgeTitle;
     ImageView levelIcon;
 
     private Boolean loading = false;

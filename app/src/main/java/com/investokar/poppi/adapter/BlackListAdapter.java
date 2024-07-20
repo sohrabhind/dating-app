@@ -32,68 +32,68 @@ import java.util.Map;
 
 public class BlackListAdapter extends BaseAdapter implements Constants {
 
-	private FragmentActivity activity;
-	private LayoutInflater inflater;
-	private List<BlacklistItem> blackList;
+    private FragmentActivity activity;
+    private LayoutInflater inflater;
+    private List < BlacklistItem > blackList;
 
     ToastWindow toastWindow = new ToastWindow();
     private BlacklistItemInterface responder;
 
 
-	public BlackListAdapter(FragmentActivity activity, List<BlacklistItem> blackList, BlacklistItemInterface responder) {
+    public BlackListAdapter(FragmentActivity activity, List < BlacklistItem > blackList, BlacklistItemInterface responder) {
 
-		this.activity = activity;
-		this.blackList = blackList;
+        this.activity = activity;
+        this.blackList = blackList;
         this.responder = responder;
-	}
+    }
 
-	@Override
-	public int getCount() {
+    @Override
+    public int getCount() {
 
-		return blackList.size();
-	}
+        return blackList.size();
+    }
 
-	@Override
-	public Object getItem(int location) {
+    @Override
+    public Object getItem(int location) {
 
-		return blackList.get(location);
-	}
+        return blackList.get(location);
+    }
 
-	@Override
-	public long getItemId(int position) {
+    @Override
+    public long getItemId(int position) {
 
-		return position;
-	}
-	
-	static class ViewHolder {
+        return position;
+    }
+
+    static class ViewHolder {
 
         public TextView mBlockedUserFullname;
         public TextView mBlockedTimeAgo;
         public TextView mBlockedReason;
         public TextView mBlockedAction;
-		public CircularImageView mBlockedUser;
-	        
-	}
+        public CircularImageView mBlockedUser;
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		
-		ViewHolder viewHolder = null;
+    }
 
-		if (inflater == null) {
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        ViewHolder viewHolder = null;
+
+        if (inflater == null) {
 
             inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
-		if (convertView == null) {
-			
-			convertView = inflater.inflate(R.layout.blacklist_row, null);
-			
-			viewHolder = new ViewHolder();
+        if (convertView == null) {
+
+            convertView = inflater.inflate(R.layout.blacklist_row, null);
+
+            viewHolder = new ViewHolder();
 
             viewHolder.mBlockedUser = convertView.findViewById(R.id.blockedUser);
             viewHolder.mBlockedUserFullname = convertView.findViewById(R.id.blockedUserFullname);
-			viewHolder.mBlockedReason = convertView.findViewById(R.id.blockedReason);
+            viewHolder.mBlockedReason = convertView.findViewById(R.id.blockedReason);
             viewHolder.mBlockedTimeAgo = convertView.findViewById(R.id.blockedTimeAgo);
             viewHolder.mBlockedAction = convertView.findViewById(R.id.blockedAction);
 
@@ -129,10 +129,10 @@ public class BlackListAdapter extends BaseAdapter implements Constants {
                 }
             });
 
-		} else {
-			
-			viewHolder = (ViewHolder) convertView.getTag();
-		}
+        } else {
+
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
 
 
         viewHolder.mBlockedTimeAgo.setTag(position);
@@ -141,27 +141,29 @@ public class BlackListAdapter extends BaseAdapter implements Constants {
         viewHolder.mBlockedAction.setTag(position);
         viewHolder.mBlockedUser.setTag(position);
         viewHolder.mBlockedUser.setTag(position);
-		
-		final BlacklistItem item = blackList.get(position);
+
+        final BlacklistItem item = blackList.get(position);
         String fullname = item.getBlockedUserFullname();
-		    if (item.getId() != App.getInstance().getId() && fullname.split("\\w+").length>1) {
-			    fullname = fullname.substring(0, fullname.lastIndexOf(' '));
-            }
+        if (item.getId() != App.getInstance().getId() && fullname.split("\\w+").length > 1) {
+            fullname = fullname.substring(0, fullname.lastIndexOf(' '));
+        }
         viewHolder.mBlockedUserFullname.setText(fullname);
         viewHolder.mBlockedUserFullname.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
 
 
-		String imageUrl = item.getBlockedUserPhotoUrl();
-		if (imageUrl == null || imageUrl.isEmpty()) {
-			imageUrl = String.valueOf(R.drawable.profile_default_photo);
-		}
+        String imageUrl = item.getBlockedUserPhotoUrl();
+        if (imageUrl != null && !imageUrl.trim().isEmpty()) {
 
-              Picasso.get()
-            .load(imageUrl)
-            .placeholder(R.drawable.profile_default_photo)
-            .error(R.drawable.profile_default_photo)
-            .into(viewHolder.mBlockedUser);
+            Picasso.get()
+                .load(imageUrl)
+                .placeholder(R.drawable.profile_default_photo)
+                .error(R.drawable.profile_default_photo)
+                .into(viewHolder.mBlockedUser);
+        } else {
+            viewHolder.mBlockedUser.setImageResource(R.drawable.profile_default_photo);
+        }
+
 
         viewHolder.mBlockedReason.setVisibility(View.GONE);
 
@@ -176,32 +178,32 @@ public class BlackListAdapter extends BaseAdapter implements Constants {
                 if (App.getInstance().isConnected()) {
 
                     CustomRequest jsonReq = new CustomRequest(Request.Method.POST, METHOD_BLACKLIST_REMOVE, null,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
+                        new Response.Listener < JSONObject > () {
+                            @Override
+                            public void onResponse(JSONObject response) {
 
-                                    try {
+                                try {
 
-                                        if (!response.getBoolean("error")) {
+                                    if (!response.getBoolean("error")) {
 
 
-                                        }
-
-                                    } catch (JSONException e) {
-
-                                        e.printStackTrace();
-
-                                    } finally {
-
-                                        responder.remove(getPosition);
-                                        notifyDataSetChanged();
                                     }
+
+                                } catch (JSONException e) {
+
+                                    e.printStackTrace();
+
+                                } finally {
+
+                                    responder.remove(getPosition);
+                                    notifyDataSetChanged();
                                 }
-                            }, error -> toastWindow.makeText(error.getMessage(), 2000)) {
+                            }
+                        }, error -> toastWindow.makeText(error.getMessage(), 2000)) {
 
                         @Override
-                        protected Map<String, String> getParams() {
-                            Map<String, String> params = new HashMap<String, String>();
+                        protected Map < String, String > getParams() {
+                            Map < String, String > params = new HashMap < String, String > ();
                             params.put("accountId", Long.toString(App.getInstance().getId()));
                             params.put("accessToken", App.getInstance().getAccessToken());
                             params.put("profileId", Long.toString(item.getBlockedUserId()));
@@ -216,6 +218,6 @@ public class BlackListAdapter extends BaseAdapter implements Constants {
             }
         });
 
-		return convertView;
-	}
+        return convertView;
+    }
 }

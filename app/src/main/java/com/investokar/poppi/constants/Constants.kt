@@ -35,7 +35,7 @@ interface Constants {
         const val GOOGLE_AUTHORIZATION = true // Allow login, signup with Google and "Services" section in Settings
         const val WEB_SITE_AVAILABLE = true // false = Do not show menu items (Open in browser, Copy profile link) in profile page | true = show menu items (Open in browser, Copy profile link) in profile page
         const val GOOGLE_PAY_TEST_BUTTON = true // false = Do not show google pay test button in section upgrades
-        const val APP_TEMP_FOLDER = "chat" //directory for temporary storage of images from the camera
+        const val APP_TEMP_FOLDER = "chat" //directory for temporary storage of images
         const val METHOD_NOTIFICATIONS_CLEAR = API_DOMAIN + "api/" + API_VERSION + "/method/notifications.clear" + API_FILE_EXTENSION
         const val METHOD_ACCOUNT_GET_SETTINGS = API_DOMAIN + "api/" + API_VERSION + "/method/account.getSettings" + API_FILE_EXTENSION
         const val METHOD_DIALOGS_NEW_GET = API_DOMAIN + "api/" + API_VERSION + "/method/dialogs_new.get" + API_FILE_EXTENSION
